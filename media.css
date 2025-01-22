@@ -1,0 +1,121 @@
+@media all and (min-width: 992px) {
+    .dropdown:hover>.dropdown-toggle::after {
+        content: "\f077";
+    }
+    .top-navbar.dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .navbar-side.dropdown-menu-end {
+        right: 0;
+        left: auto;
+    }
+    .has-megamenu {
+        position: static;
+    }
+
+    .dropdown-menu.megamenu {
+        top: auto;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .dropdown-menu.dropdown-menu-end {
+        top: auto;
+        margin-top: 0;
+    }   
+    .offcanvas.offcanvas-end {
+        display: none;
+    }
+}
+@media all and (max-width: 991.98px) {
+    .dropdown-toggle.show::after {
+        content: "\f077";
+    }
+    .callback,
+    .navbar-phone {
+        display: none;
+        }
+    .navbar-brand {
+       /* margin-right: 10px;*/
+       margin-right: 0;
+    }
+    .navbar-side>ul {
+        gap: 17px;
+    }
+    .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .nav-item {
+        border-bottom: 1px solid var(--stroke-color);
+    }
+    .slider .carousel-text {
+        font-size: 22px;
+        line-height: 34px;
+    }
+    .slider .carousel-text h5 {
+        text-align: center;
+    }
+    .carousel-price strong {
+        font-size: 18px;
+    }
+    .carousel-price del {
+        font-size: 14px;
+    }
+    .slider .carousel .carousel-indicators {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .slider .carousel-control-prev {
+        position: absolute;
+        left: 0;
+    }
+    .slider .carousel-control-next {
+        position: absolute;
+        right: 0;
+    }
+}
+
+@media all and (max-width: 992px) {
+    .callback {
+        display: none;
+        }
+}
+@media all and (max-width: 768px) {
+    .top-line {
+        font-size: 13;
+        line-height: 15px;
+        }
+    .slider .carousel-desc {
+       display: none;
+    }
+    .slider img {
+        margin: auto;
+        display: block;
+    }
+    
+}
+@media all and (min-width: 768px) {
+    .sidebar .collapse-filters {
+        display: block;
+    }
+    .sidebar .collapse-filters-btn {
+        display: none;
+    }
+}
+
+@media all and (max-width: 340px){
+    .product-content-details .nav-tabs .nav-link {
+        padding-left: 8px;
+        padding-top: 8px;
+    }
+}
+
+@media all and (max-width: 340px) {
+    .top-line {
+        font-size: 13;
+        line-height: 15px;
+        }
+}
