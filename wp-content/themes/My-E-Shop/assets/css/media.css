@@ -1,0 +1,684 @@
+@media (max-width: 1024px) {
+    .collections-modal-image {
+        width: 600px;
+        height: 900px;
+    }
+    .fashion-hero-section {
+        max-width: 100%;
+    }
+}
+
+@media all and (min-width: 992px) {
+    .dropdown:hover>.dropdown-toggle::after {
+        content: "\f077";
+    }
+    .top-navbar.dropdown:hover>.dropdown-menu {
+        display: block;
+    }
+
+    .navbar-side.dropdown-menu-end {
+        right: 0;
+        left: auto;
+    }
+    .has-megamenu {
+        position: static;
+    }
+
+    .dropdown-menu.megamenu {
+        top: auto;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .dropdown-menu.dropdown-menu-end {
+        top: auto;
+        margin-top: 0;
+    }   
+    .offcanvas.offcanvas-end {
+        display: none;
+    }
+}
+@media all and (max-width: 991.98px) {
+    .dropdown-toggle.show::after {
+        content: "\f077";
+    }
+    .callback,
+    .navbar-phone {
+        display: none;
+        }
+    .navbar-brand {
+       /* margin-right: 10px;*/
+       margin-right: 0;
+    }
+    .navbar-side>ul {
+        gap: 17px;
+    }
+    .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .nav-item {
+        border-bottom: 1px solid var(--stroke-color);
+    }
+    .slider .carousel-text {
+        font-size: 22px;
+        line-height: 34px;
+    }
+    .slider .carousel-text h5 {
+        text-align: center;
+    }
+    .carousel-price strong {
+        font-size: 18px;
+    }
+    .carousel-price del {
+        font-size: 14px;
+    }
+    .slider .carousel .carousel-indicators {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .slider .carousel-control-prev {
+        position: absolute;
+        left: 0;
+    }
+    .slider .carousel-control-next {
+        position: absolute;
+        right: 0;
+    }
+    .header-transparent .navbar-side .navbar-nav {
+        display: none;
+    }
+    
+    .header-transparent .center-logo {
+        display: none;
+    }
+    
+    .header-transparent .navbar-brand {
+        position: relative;
+        top: auto;
+        left: auto;
+        margin-right: auto;
+        padding-top: 10px;
+    }
+    
+    .header-transparent .navbar-toggler {
+        position: relative;
+        top: auto;
+        right: auto;
+        display: block;
+    }
+    
+    /* Show navigation in offcanvas for mobile */
+    .offcanvas .navbar-nav {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .header-transparent {
+        background-color: rgba(30, 30, 30, 0.7); /* Darker background for mobile */
+    }
+    .video-background {
+        min-height: 70vh;
+    }
+}
+
+@media all and (max-width: 992px) {
+    .callback {
+        display: none;
+        }
+        .offcanvas.offcanvas-end {
+            display: none !important;
+        }
+}
+/* Ensure offcanvas is hidden on desktop */
+
+
+/* Make sure offcanvas displays correctly on mobile */
+@media all and (max-width: 991.98px) {
+    .main-dark-bar {
+        display: none; /* Скрываем нижнюю панель на мобильных */
+    }
+    
+    .top-light-bar .container {
+        justify-content: space-between;
+    }
+    
+    .top-light-bar .navbar-brand {
+        position: relative;
+        left: auto;
+        top: auto;
+        transform: none;
+    }
+
+    .top-light-bar .navbar-toggler {
+        display: block !important;
+    }
+    
+    .top-light-bar .header-icons {
+        margin-left: 0;
+    }
+      .offcanvas.offcanvas-end {
+        display: flex !important;
+    }
+    
+    .mobile-nav-menu {
+        display: block !important;
+    }
+    
+    .mobile-nav-item {
+        display: block !important;
+    }
+    
+    .mobile-nav-item a {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+}
+
+
+@media all and (max-width: 768px) {
+    .top-line {
+        font-size: 13;
+        line-height: 15px;
+        }
+    .slider .carousel-desc {
+       display: none;
+    }
+    .slider img {
+        margin: auto;
+        display: block;
+    }
+    .product-content {
+        padding-left: 25px; /* Reduced spacing for mobile */
+    }
+    .video-background {
+        min-height: 100vh; /* Taller on mobile to accommodate stacked content */
+    }
+    .video-background .container {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .carousel.carousel-dark.slide.carousel-fade {
+        left: -20px !Important;
+    }
+    .bg-white.product-content.p-3.h-100 {
+    padding-left: 27px !important;
+    }
+    .carousel-inner {
+        left: -11px;
+    }
+    .breadcrumbs {
+        padding-top: 30px;
+    }
+    .form-control.input-text.qty.text {
+        min-width: 40px;
+    }
+    .btn {
+        padding: 4px 20px;
+        font-size: 10px;
+    }
+    .xoo-wsc-basket {
+        bottom: 100px;
+    }
+    .carousel-control-next {
+        right: -40px;
+    }
+    .carousel-control-prev {
+        left: 20px;
+    }
+    .row {
+        width: 100%;
+        padding-right: 0 !Important;
+    }
+    .category-products-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin-left: -10px;
+        margin-right: -35px;
+        padding-left: 20px;
+    }
+    
+    /* Ширина карточки товара - 50% для двух в ряд */
+    .category-products-container .col-md-3.col-sm-6.mb-3 {
+        width: 50% !important;
+        flex: 0 0 50% !important;
+        max-width: 50% !important;
+        padding-left: 10px;
+        padding-right: 10px;
+        box-sizing: border-box;
+    }
+    
+    /* Оптимизация отображения карточек товаров */
+    .category-products-container .col-md-3.col-sm-6.mb-3 .card,
+    .category-products-container .col-md-3.col-sm-6.mb-3 .product-item {
+        height: 100%;
+        margin-bottom: 20px;
+    }
+    
+    /* Если у товаров есть изображения, настраиваем их оптимальное отображение */
+    .category-products-container .col-md-3.col-sm-6.mb-3 img {
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+    
+    /* Настройка названия товара для мобильных экранов */
+    .category-products-container .col-md-3.col-sm-6.mb-3 .product-title,
+    .category-products-container .col-md-3.col-sm-6.mb-3 h3 {
+        font-size: 14px;
+        line-height: 1.4;
+        margin-bottom: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    /* Настройка цены товара для мобильных экранов */
+    .category-products-container .col-md-3.col-sm-6.mb-3 .price {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    .product-custom-description {
+        background-color: transparent !important;
+    }
+     .collections-hero-img {
+        height: 250px;
+    }
+    
+    .collections-image-title {
+        font-size: 24px;
+    }
+    
+    /* .collections-slider-section {
+        padding: 20px;
+    }
+    
+    .collections-square-image {
+        height: 320px;
+    } */
+    
+    
+    /* .collections-horizontal-carousel .owl-nav .owl-prev {
+        left: -10px;
+    }
+    
+    .collections-horizontal-carousel .owl-nav .owl-next {
+        right: -10px;
+    } */
+
+   .collections-smooth-track {
+        width: calc(216px * 16); /* 216px = 200px width + 16px margin */
+        animation: infiniteScrollMobile 50s linear infinite;
+    }
+
+    @keyframes infiniteScrollMobile {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-216px * 8));
+        }
+    }
+
+    .collections-square-card {
+        flex: 0 0 200px;
+        height: 240px;
+        margin: 0 8px;
+    }
+
+    .collections-square-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .collections-modal-image {
+        width: 350px;
+        height: 525px;
+    }
+    
+    .collections-modal-close {
+        top: -10px;
+        right: -10px;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .collections-modal-info {
+        bottom: -60px;
+        padding: 15px;
+    }
+    
+    .collections-modal-title {
+        font-size: 18px;
+    }
+    
+    .collections-modal-description {
+        font-size: 14px;
+    }
+
+    .category-hero-section {
+        margin-top: 80px;
+        margin-bottom: 40px;
+    }
+    
+    .hero-banner {
+        height: 300px;
+    }
+    
+    .hero-title {
+        font-size: 32px;
+        margin-bottom: 15px;
+    }
+    
+    .hero-description {
+        font-size: 16px;
+    }
+    
+    .hero-content {
+        padding: 20px 15px;
+    }
+    .recommend-section {
+        margin-top: 20px;
+        padding: 15px;
+    }
+    
+    .recommend-item {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .recommend-item-image {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .recommend-item-title {
+        font-size: 13px;
+    }
+    
+    .recommend-item-description {
+        font-size: 11px;
+    }
+    
+     .woocommerce .sidebar,
+    .woocommerce-page .sidebar {
+        margin-bottom: 2rem;
+    }
+    
+    .woocommerce .filter-block,
+    .woocommerce-page .filter-block {
+        padding: 1rem;
+    }
+    
+    .woocommerce .price-filter-inputs,
+    .woocommerce-page .price-filter-inputs {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .woocommerce .price-filter-inputs input.form-control,
+    .woocommerce-page .price-filter-inputs input.form-control {
+        width: 100%;
+    }
+    
+    .woocommerce .hero-title,
+    .woocommerce-page .hero-title {
+        font-size: 2.5rem;
+        letter-spacing: 1px;
+    }
+    
+    .woocommerce .hero-description p,
+    .woocommerce-page .hero-description p {
+        font-size: 1.1rem;
+    }
+    
+    .woocommerce .hero-banner,
+    .woocommerce-page .hero-banner {
+        padding: 80px 0;
+    }
+    
+    .woocommerce .recommend-item,
+    .woocommerce-page .recommend-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .woocommerce .recommend-item-image,
+    .woocommerce-page .recommend-item-image {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+    }
+    
+    .woocommerce .category-link,
+    .woocommerce-page .category-link {
+        padding: 1rem;
+    }
+    
+    .woocommerce .filter-btn,
+    .woocommerce .clear-filters-btn,
+    .woocommerce-page .filter-btn,
+    .woocommerce-page .clear-filters-btn {
+        padding: 1rem;
+        font-size: 15px;
+    }
+
+    .price-filter-inputs {
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+            
+            .price-filter-inputs input {
+                width: 100%;
+            }
+    
+    .fashion-hero-container {
+        height: 80vh;
+        min-height: 500px;
+    }
+
+    .fashion-images-grid {
+        flex-wrap: wrap;
+    }
+
+    .fashion-image-card {
+        flex-basis: 50%;
+        height: 50%;
+    }
+
+    .fashion-hero-content {
+        padding: 20px;
+    }
+
+    .fashion-hero-btn {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+
+    .woocommerce ul.products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .modern-product-info {
+        padding: 15px 10px 20px 10px;
+    }
+    
+    .modern-product-title a {
+        font-size: 14px;
+    }
+    
+    .modern-product-price {
+        font-size: 16px;
+    }
+}
+
+
+@media all and (min-width: 768px) {
+    .sidebar .collapse-filters {
+        display: block;
+    }
+    .sidebar .collapse-filters-btn {
+        display: none;
+    }
+    .video-background {
+        min-height: 710px;
+    }
+    
+    .video-background .carousel-text h5 {
+        font-size: 32px;
+        line-height: 36px;
+    }
+}
+/* Ensure the video itself isn't taking up too much space */
+@media (max-width: 576px) {
+    .top-light-bar .header-icons {
+        gap: 15px;
+    }
+    
+    .top-light-bar .header-icon {
+        font-size: 18px;
+    }
+
+    #background-video {
+        height: 100%;
+        width: auto; /* Let height drive the sizing on very small screens */
+    }
+    .bg-white.p-3 {
+        padding: 0 !important;
+    }
+    .row {
+        padding-right: 0 !Important;
+    }
+    .category-products-section .card-title,
+    .col-md-3 .card-title,
+    .card-body .card-title,
+    h5.card-title {
+        font-size: 11px !important;
+        line-height: 1.3 !important; /* Улучшает читаемость при маленьком размере шрифта */
+    }
+    .woocommerce.columns-4 {
+        padding-left: 10px;
+    }
+    .collections-square-image {
+        height: 80px;
+    }
+
+    .woocommerce .hero-title,
+    .woocommerce-page .hero-title {
+        font-size: 2rem;
+    }
+    
+    .woocommerce .breadcrumb-list,
+    .woocommerce-page .breadcrumb-list {
+        font-size: 13px;
+    }
+    
+    .woocommerce .filter-block .section-title,
+    .woocommerce-page .filter-block .section-title {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner {
+        height: 250px;
+    }
+    
+    .hero-title {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+    
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .collections-smooth-track {
+        width: calc(176px * 16); /* 176px = 160px width + 16px margin */
+        animation: infiniteScrollSmall 40s linear infinite;
+    }
+
+    @keyframes infiniteScrollSmall {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(calc(-176px * 8));
+        }
+    }
+
+    .collections-square-card {
+        flex: 0 0 160px;
+        height: 200px;
+        margin: 0 8px;
+    }
+
+    .collections-modal-image {
+        width: 280px;
+        height: 420px;
+    }
+    
+    .collections-modal-container {
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+
+    .fashion-hero-container {
+        height: 70vh;
+        min-height: 400px;
+    }
+
+    .fashion-image-card {
+        flex-basis: 100%;
+        height: calc(100% / 7);
+    }
+
+    .fashion-hero-content {
+        padding: 15px;
+    }
+
+    .modern-product-title a {
+        font-size: 13px;
+        line-height: 1.3;
+    }
+    
+    .modern-product-price {
+        font-size: 15px;
+    }
+    
+    .modern-product-info {
+        padding: 12px 8px 15px 8px;
+    }
+}
+
+/* Дополнительные стили для крошечных экранов */
+@media (max-width: 359px) {
+    /* На очень маленьких экранах делаем карточки товаров компактнее */
+    .category-products-container .col-md-3.col-sm-6.mb-3 .product-title,
+    .category-products-container .col-md-3.col-sm-6.mb-3 h3 {
+        font-size: 12px;
+    }
+    
+    .category-products-container .col-md-3.col-sm-6.mb-3 .price {
+        font-size: 12px;
+    }
+    
+}
+
+@media all and (max-width: 340px){
+    .product-content-details .nav-tabs .nav-link {
+        padding-left: 8px;
+        padding-top: 8px;
+    }
+}
+
+@media all and (max-width: 340px) {
+    .top-line {
+        font-size: 13;
+        line-height: 15px;
+        }
+}

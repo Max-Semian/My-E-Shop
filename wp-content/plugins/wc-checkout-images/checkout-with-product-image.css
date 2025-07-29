@@ -1,0 +1,99 @@
+/* Базовая структура */
+.woocommerce-checkout .col2-set {
+    width: 58%;
+    float: left;
+}
+
+#order_review_heading,
+#order_review {
+    width: 40%;
+    float: right;
+}
+
+/* Стили для товара с изображением */
+.checkout-product-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.checkout-product-image {
+    width: 60px;
+    margin-right: 10px;
+}
+
+.checkout-product-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.checkout-product-info {
+    flex: 1;
+}
+
+.checkout-product-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Блок управления товарами */
+.product-quantity-control {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.quantity-btn {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 23px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.quantity-input {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+    margin: 0 5px;
+    border: 1px solid #ddd;
+}
+
+.remove-item {
+    color: #e74c3c;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Фиксим футер */
+footer, .site-footer {
+    clear: both;
+    width: 100%;
+}
+
+/* Clearfix */
+.woocommerce:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .woocommerce-checkout .col2-set,
+    #order_review_heading,
+    #order_review {
+        width: 100%;
+        float: none;
+    }
+}

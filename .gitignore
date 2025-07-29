@@ -1,0 +1,79 @@
+# WordPress core files and directories
+wp-config.php
+wp-content/uploads/
+wp-content/upgrade/
+wp-content/backup*/
+wp-content/cache/
+wp-content/ai1wm-backups/
+wp-content/backup-migration-config.php
+
+# Various IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment specific files
+.env
+.env.*
+
+# Node modules and logs
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# WordPress specific ignores
+wp-content/advanced-cache.php
+wp-content/backup-db/
+wp-content/backups/
+wp-content/blogs.dir/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/uploads/
+wp-content/mu-plugins/
+wp-content/wp-cache-config.php
+wp-content/plugins/hello.php
+
+# htaccess
+/.htaccess
+
+# Any local config files
+*config.php
+
+# But keep these files
+!wp-content/plugins/
+!wp-content/themes/
+!wp-content/themes/My-E-Shop/
