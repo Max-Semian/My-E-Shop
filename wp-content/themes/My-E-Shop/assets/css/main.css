@@ -150,6 +150,7 @@ img {
 
 section {
     padding: 50px 0;
+    background-color: #F4F0EB;
 }
 
 .section-title {
@@ -1219,8 +1220,8 @@ section.widget {
 
  /* OLD Collections Section Specific Styles */
         .collections {
-            padding: 50px 0;
-            background-color: #f8f9fa;
+            padding: 111px 0;
+            background-color: #F4F0EB;
         }
 
         .collections-row {
@@ -3536,8 +3537,8 @@ a {
 /* ==================== Modern Product Card Styles ==================== */
 
 .modern-product-card {
-    background-color: #1a1a1a;
-    border-radius: 0;
+    background-color: #F5F5F5;
+    border-radius: 4px;
     padding: 0;
     margin: 20px; /* Увеличиваем отступы между карточками до 40px (20px с каждой стороны) */
     transition: all 0.3s ease;
@@ -3560,6 +3561,7 @@ a {
     overflow: hidden;
     aspect-ratio: 3/4; /* Поддерживает пропорции как на скрине */
     background-color: #f0f0f0;
+    margin: 19px;
 }
 
 .modern-product-image a {
@@ -3581,18 +3583,19 @@ a {
 
 .modern-product-info {
     background-color: #F5F5F5;
-    padding: 20px 15px 25px 15px;
+    padding: 0;
     text-align: center;
 }
 
 .modern-product-title {
-    margin: 0 0 15px 0;
+    margin-left: 19px;
     padding: 0;
     line-height: 1.4;
+    text-align: left;
 }
 
 .modern-product-title a {
-    color: #2C2C2C;
+    color: #2C2C2C80;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
@@ -3612,7 +3615,9 @@ a {
     font-size: 18px;
     font-weight: 600;
     color: #2C2C2C;
-    margin: 0;
+    margin-left: 19px;
+    margin-bottom: 12px;
+    text-align: left;
 }
 
 .modern-product-price .price {
@@ -3836,4 +3841,128 @@ li.product::marker {
 .product-card {
     border: none !important;
     margin: 0;
+}
+
+.row.products {
+    margin-left: 42px !important;
+}
+
+/* About the brand */
+
+.about-brand {
+    position: relative;
+    min-height: 670px;
+}
+
+.about-brand .container {
+    position: relative;
+    z-index: 2;
+}
+
+.about-content {
+    color: white;
+    max-width: 500px;
+    margin-left: 111px;
+}
+
+.about-section-title {
+    font-size: 56px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: 1.2;
+    color: #F4F0EB;
+    font-family: 'Playfair Display', sans-serif;
+}
+
+.brand-description {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    opacity: 0.9;
+    color: #F4F0EB;
+    font-family: 'Playfair Display', sans-serif;
+}
+
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border: 2px solid white;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+}
+
+.arrow {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.btn-link:hover .arrow {
+    transform: translateX(5px);
+}
+
+/* Why choose Us */
+
+.why-choose-us {
+    background-color: #2a2a2a;
+    color: #ffffff;
+    padding: 80px 0;
+}
+
+.about-section-title {
+    font-family: 'Playfair Display', sans-serif;
+    font-size: 48px;
+    color: #F4F0EB;
+    font-weight: 400;
+    margin-bottom: 80px;
+    letter-spacing: 0.5px;
+}
+
+.features-row {
+    justify-content: center;
+}
+
+.feature-item {
+    padding: 0 20px;
+}
+
+.feature-icon {
+    margin-bottom: 30px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.feature-icon svg {
+    width: 60px;
+    height: 60px;
+}
+
+.feature-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 1.3;
+    color: #ffffff;
+}
+
+.feature-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #cccccc;
+    margin: 0;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
 }

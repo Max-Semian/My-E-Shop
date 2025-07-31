@@ -371,30 +371,56 @@
                     </div>
                 </div>
         </section><!-- Best-sellers-->
+        <section class="about-brand" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/about-brand-bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 670px; display: flex; align-items: center;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="about-content">
+                            <h2 class="about-section-title">
+                                <span>About the brand</span>
+                            </h2>
+                            <p class="brand-description">
+                                We combine love for fashion and individuality. Our prints are manifestos about inner worlds, protest and dreams. Find out how it is born "Geetho"
+                            </p>
+                            <a href="#" class="btn-link">
+                                OUR STORY <span class="arrow">→</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- About the brand-->
+
         <section class="collections">
             <div class="container">
                 <div class="row mb-5">
                     <div class="col-12">
                         <h2 class="section-title">
-                            <span>EXPLORE COLLECTIONS</span>
+                            <span>Gallery of Inspiration</span>
                         </h2>
+                        <p class="section-description">
+                            <span>Create your own archetype lookbook</span>
+                        </p>
                     </div>
                 </div>
                 
                 <!-- First Collection Row -->
                 <div class="collections-row">
                     <!-- Main Hero Image -->
-                    <div class="collections-main-image">
+                    <!-- <div class="collections-main-image">
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/collections-1.jpg" alt="Furniture Collection" class="collections-hero-img">
                         <div class="collections-image-overlay">
                             <div class="collections-image-content">
+                            <h2 class="section-title">
+                                <span>EXPLORE COLLECTIONS</span>
+                            </h2>
                                 <h3 class="collections-image-title">FURNITURE COLLECTION</h3>
                                 <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="collections-image-btn">
                                     <?php _e('DISCOVER ALL', 'My-E-Shop'); ?>
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     
                     <!-- Horizontal Slider -->
                     <!-- <div class="collections-slider-section">
@@ -438,7 +464,7 @@
 
                     <!-- Horizontal Slider -->
                     <div class="collections-slider-section">
-                        <h4 class="collections-slider-title">INTERIOR SOLUTIONS</h4>
+                        <!-- <h4 class="collections-slider-title">INTERIOR SOLUTIONS</h4> -->
                         <div class="collections-horizontal-carousel">
                             <div class="collections-smooth-track">
                                 <!-- Оригинальные карточки -->
@@ -494,66 +520,67 @@
                                 </div>
                             </div>
                         </div>
+                </div>
+            </div>
+        </section><!-- Gallery of Inspiration-->
+
+        <section class="why-choose-us">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="about-section-title text-center">Why choose us</h2>
                     </div>
-                
-                <!-- Second Collection Row -->
-                <div class="collections-row">
-                    <!-- Main Hero Image -->
-                    <div class="collections-main-image">
-                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/collections-2.jpg" alt="Lighting Collection" class="collections-hero-img">
-                        <div class="collections-image-overlay">
-                            <div class="collections-image-content">
-                                <h3 class="collections-image-title">EXPLORE NEW LIGHTING</h3>
-                                <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="collections-image-btn">
-                                    <?php _e('DISCOVER ALL', 'My-E-Shop'); ?>
-                                </a>
+                </div>
+                <div class="row features-row">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="feature-item text-center">
+                            <div class="feature-icon">
+                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/Why-Us-icon-1.png" alt="Runway inspiration, wearable style">
                             </div>
+                            <h3 class="feature-title">Runway inspiration, wearable style</h3>
+                            <p class="feature-description">
+                                Each T-shirt is an art manifesto with
+                                designer method by the street fashion
+                                trends and niche aesthetics. Wear fashion
+                                that speaks for you.
+                            </p>
                         </div>
                     </div>
                     
-                    <!-- Horizontal Slider -->
-                    <div class="collections-slider-section">
-                        <h4 class="collections-slider-title">LIGHTING SOLUTIONS</h4>
-                        <div class="collections-horizontal-carousel owl-carousel owl-theme" id="collections-slider-2">
-                            <!-- Card 1 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-1.jpg" alt="Table Lamp" class="collections-square-image">
-                            </div>                           
-                            <!-- Card 2 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-2.jpg" alt="Wall Light" class="collections-square-image">
-                            </div>  
-                            <!-- Card 3 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-3.jpg" alt="Ceiling Light" class="collections-square-image">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="feature-item text-center">
+                            <div class="feature-icon">
+                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/Why-Us-icon-2.png" alt="Runway inspiration, wearable style">
                             </div>
-                            <!-- Card 4 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-4.jpg" alt="Floor Lamp" class="collections-square-image">
+                            <h3 class="feature-title">Meaningful quality in every detail</h3>
+                            <p class="feature-description">
+                                Soft and breathable cotton, eco-friendly
+                                dyes that carefully crafted prints - because
+                                the quality of your clothes reflects your
+                                values.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="feature-item text-center">
+                            <div class="feature-icon">
+                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/Why-Us-icon-3.png" alt="Runway inspiration, wearable style">
                             </div>
-                            
-                            <!-- Card 5 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-5.jpg" alt="LED Strips" class="collections-square-image">
-                            </div>
-                            
-                            <!-- Card 6 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-6.jpg" alt="Smart Lights" class="collections-square-image">
-                            </div>
-                            <!-- Card 7 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-7.jpg" alt="Smart Lights" class="collections-square-image">
-                            </div>
-                            <!-- Card 8 -->
-                            <div class="collections-square-card">
-                                <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-2-8.jpg" alt="Smart Lights" class="collections-square-image">
-                            </div>
+                            <h3 class="feature-title">Uniqueness without overpaying</h3>
+                            <p class="feature-description">
+                                Our collections are produced in small
+                                editions. Create your unique fashion story
+                                without the markup of luxury brands.
+                                Express yourself, be on trend and save your
+                                budget.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section><!-- Why choose Us-->
+
         <section class="featured-products">
             <div class="container">
                 <div class="row mb-5">

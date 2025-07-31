@@ -574,6 +574,39 @@
     .modern-product-price {
         font-size: 16px;
     }
+
+    .about-brand {
+        min-height: 500px;
+    }
+    
+    .section-title {
+        font-size: 36px;
+    }
+    
+    .brand-description {
+        font-size: 14px;
+    }
+
+    .why-choose-us {
+        padding: 60px 0;
+    }
+    
+    .section-title {
+        font-size: 36px;
+        margin-bottom: 50px;
+    }
+    
+    .feature-item {
+        margin-bottom: 50px;
+    }
+    
+    .feature-title {
+        font-size: 18px;
+    }
+    
+    .feature-description {
+        font-size: 13px;
+    }
 }
 
 
@@ -640,6 +673,15 @@
     .woocommerce .filter-block .section-title,
     .woocommerce-page .filter-block .section-title {
         font-size: 15px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .feature-icon svg {
+        width: 50px;
+        height: 50px;
     }
 }
 
