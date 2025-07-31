@@ -886,3 +886,52 @@ jQuery(document).ready(function($){
     $('.color-field').wpColorPicker();
 });
 */
+
+/**
+ * Настройка размеров изображений WooCommerce
+ */
+function my_e_shop_custom_image_sizes() {
+    // Переопределяем размер thumbnail для WooCommerce
+    update_option('woocommerce_thumbnail_image_width', 202);
+    update_option('woocommerce_thumbnail_image_height', 290);
+    update_option('woocommerce_thumbnail_cropping', 'custom');
+    update_option('woocommerce_thumbnail_cropping_custom_width', 202);
+    update_option('woocommerce_thumbnail_cropping_custom_height', 290);
+    
+    // Добавляем свой кастомный размер изображения
+    add_image_size('product_thumbnail_202x290', 202, 290, true);
+}
+add_action('after_setup_theme', 'my_e_shop_custom_image_sizes');
+
+/**
+ * Временный код для принудительного обновления размеров (удалить через неделю)
+ */
+function force_update_woocommerce_image_sizes() {
+    // Удаляем старые опции
+    delete_option('woocommerce_thumbnail_image_width');
+    delete_option('woocommerce_thumbnail_image_height');
+    delete_option('woocommerce_thumbnail_cropping');
+    delete_option('woocommerce_thumbnail_cropping_custom_width');
+    delete_option('woocommerce_thumbnail_cropping_custom_height');
+    
+    // Принудительно устанавливаем новые
+    update_option('woocommerce_thumbnail_image_width', 202);
+    update_option('woocommerce_thumbnail_image_height', 290);
+    update_option('woocommerce_thumbnail_cropping', 'custom');
+    update_option('woocommerce_thumbnail_cropping_custom_width', 202);
+    update_option('woocommerce_thumbnail_cropping_custom_height', 290);
+}
+// РАСКОММЕНТИРОВАТЬ СТРОКУ НИЖЕ НА 1 ЗАГРУЗКУ СТРАНИЦЫ, ЗАТЕМ ЗАКОММЕНТИРОВАТЬ ОБРАТНО
+// add_action('init', 'force_update_woocommerce_image_sizes');
+
+/**
+ * Фильтр для использования кастомного размера изображений в WooCommerce
+ */
+function my_e_shop_woocommerce_get_image_size_thumbnail($size) {
+    return array(
+        'width'  => 202,
+        'height' => 290,
+        'crop'   => true,
+    );
+}
+add_filter('woocommerce_get_image_size_thumbnail', 'my_e_shop_woocommerce_get_image_size_thumbnail');

@@ -363,7 +363,12 @@
                         </p>
                         </div>
                     </div>
-                    <?php echo do_shortcode( '[my_e_shop_recent_products limit="6"]')?>
+                    <?php echo do_shortcode( '[my_e_shop_recent_products limit="5"]')?>
+                    <div class="all-products-btn">
+                        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn btn-primary">
+                            <?php _e('View All Products', 'My-E-Shop'); ?>
+                        </a>
+                    </div>
                 </div>
         </section><!-- Best-sellers-->
         <section class="collections">

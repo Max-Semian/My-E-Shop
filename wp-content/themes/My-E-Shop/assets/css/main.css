@@ -466,10 +466,16 @@ section {
     border: 1px solid var(--grey-color);
     background-color: #FFF;
     position: relative;
+    width: 240px !important; /* Фиксированная ширина карточки */
+    flex: 0 0 240px !important; /* Фиксированная ширина в flex-контейнере */
+    max-width: 240px !important;
+    margin: 20px; /* Увеличиваем отступы между карточками до 40px (20px с каждой стороны) */
 }
 .product-card:hover {
     box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.75);
 }
+
+/* Убираем адаптивные изменения ширины - карточки остаются 240px на всех экранах */
 .product-card-offer {
     color: #FFF;
     position: absolute;
@@ -494,10 +500,22 @@ section {
 }
 .product-thumb {
     text-align: center;
+    width: 202px !important; /* Фиксированная ширина */
+    height: 290px !important; /* Фиксированная высота */
+    overflow: hidden !important; /* Обрезаем все, что выходит за рамки */
+    position: relative !important;
+    display: block !important;
+    margin-left: 17px;
 }
 
 .product-thumb img {
-    max-height: auto;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Масштабируем изображение с сохранением пропорций */
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-top: 19px;
 }
 .products-details {
     padding: 10px 20px;
@@ -1785,6 +1803,13 @@ section.widget {
         .collections-horizontal-carousel .owl-dot:hover {
             background: var(--main-color);
             transform: scale(1.2);
+        }
+
+        .all-products-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
         }
 
 /* Category Hero Banner Styles */
@@ -3514,12 +3539,15 @@ a {
     background-color: #1a1a1a;
     border-radius: 0;
     padding: 0;
-    margin-bottom: 20px;
+    margin: 20px; /* Увеличиваем отступы между карточками до 40px (20px с каждой стороны) */
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     border: none;
     box-shadow: none;
+    width: 240px !important; /* Фиксированная ширина карточки */
+    flex: 0 0 240px !important; /* Фиксированная ширина в flex-контейнере */
+    max-width: 240px !important;
 }
 
 .modern-product-card:hover {
@@ -3628,25 +3656,122 @@ a {
 }
 
 /* Grid layout adjustments */
-.woocommerce ul.products {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.woocommerce ul.products,
+.woocommerce .owl-stage {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    list-style: none !important;
+    max-width: 1200px !important;
+    width: 100% !important;
+    justify-content: flex-start !important;
+    transform: none !important;
 }
 
-.woocommerce ul.products li.product {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.woocommerce ul.products li.product,
+.woocommerce .owl-stage .owl-item {
+    flex: 0 0 calc((100% - 80px) / 5) !important;
+    width: calc((100% - 80px) / 5) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    list-style: none !important;
+    float: none !important;
+    transform: none !important;
+}
+
+/* Disable carousel features */
+
+.owl-stage-outer {
+    margin-left: -60px;
+}
+
+.owl-stage {
+    transform: none !important;
+    width: 100% !important;
+    display: flex !important;
+}
+
+.owl-item {
+    width: auto !important;
+    flex: 1 !important;
+}
+
+/* Tablet view */
+@media screen and (max-width: 1200px) {
+    .woocommerce ul.products,
+    .woocommerce .owl-stage {
+        max-width: 900px !important;
+    }
+    
+    .woocommerce ul.products li.product,
+    .woocommerce .owl-stage .owl-item {
+        flex: 0 0 calc((100% - 40px) / 3) !important;
+        width: calc((100% - 40px) / 3) !important;
+    }
+}
+
+/* Mobile view */
+@media screen and (max-width: 768px) {
+    .woocommerce ul.products,
+    .woocommerce .owl-stage {
+        max-width: 500px !important;
+    }
+    
+    .woocommerce ul.products li.product,
+    .woocommerce .owl-stage .owl-item {
+        flex: 0 0 calc((100% - 20px) / 2) !important;
+        width: calc((100% - 20px) / 2) !important;
+    }
 }
 
 /* Override any existing product card styles */
 .woocommerce .modern-product-card.product-card {
     background-color: #1a1a1a;
     border: none;
+}
+
+/* Переопределяем WooCommerce стили для фиксированной ширины */
+.woocommerce ul.products:not(.owl-carousel) {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Центрируем карточки */
+    margin: 0 auto !important;
+    padding: 0 !important;
+    list-style: none !important;
+    max-width: 1440px; /* (240px width + 40px margin) * 5 */
+}
+
+.woocommerce ul.products:not(.owl-carousel) li.product {
+    width: 240px !important;
+    flex: 0 0 240px !important;
+    margin: 0 20px 40px 20px !important;
+    box-sizing: border-box !important;
+    float: none !important; /* Отключаем float от WooCommerce */
+    clear: none !important;
+}
+
+/* Оставляем carousel как есть */
+.woocommerce ul.products.owl-carousel {
+    display: block !important;
+}
+
+.woocommerce ul.products li.product {
+    width: 240px !important;
+    flex: 0 0 240px !important;
+    max-width: 240px !important;
+    margin: 20px !important; /* Увеличиваем отступы между карточками до 40px */
+    list-style: none !important;
+}
+
+/* Убираем Bootstrap колонки для товаров на главной странице */
+.woocommerce li.product.col-lg-3,
+.woocommerce li.product.col-md-4,
+.woocommerce li.product.col-sm-6 {
+    width: 240px !important;
+    flex: 0 0 240px !important;
+    max-width: 240px !important;
 }
 
 .woocommerce .modern-product-card .products-details {
@@ -3664,4 +3789,51 @@ a {
 .modern-product-card .custom-add-to-cart,
 .modern-product-card .woostudy-rating-count {
     display: none !important;
+}
+
+section.new-products {
+    background-color: #F4F0EB;
+}
+.carousel-product-card {
+    background-color: #FFF;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    border-radius: 8px;
+    width: 240px !important;
+    flex: 0 0 240px !important;
+    max-width: 240px !important;
+}
+h4.product-title {
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 400;
+    color: #2C2C2C80;    
+}
+
+.product-price {
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #2C2C2C;
+    margin-bottom: 0 !important;
+}
+
+.row.products {
+    flex-wrap: nowrap !important;
+}
+
+.product {
+    flex-shrink: 1;
+}
+
+li.product::marker {
+    content: "";
+}
+.product-card {
+    border: none !important;
+    margin: 0;
 }

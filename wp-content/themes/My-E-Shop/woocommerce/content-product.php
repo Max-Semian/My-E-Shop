@@ -15,15 +15,13 @@ if ( ! is_a( $product, WC_Product::class ) || ! $product->is_visible() ) {
 	return;
 }
 
-$product_classes = is_front_page() ? 'col-lg-3 col-md-4 col-sm-6 mb-3' : 'col-lg-4 col-sm-6 mb-3';
-
 ?>
-
-<div <?php wc_product_class( $product_classes, $product ); ?>>
+<li <?php wc_product_class( '', $product ); ?>>
 	<div class="product-card">
 		<?php
 		/**
 		 * Hook: woocommerce_before_shop_loop_item.
+		 *
 		 * @hooked woocommerce_template_loop_product_link_open - 10
 		 */
 		do_action( 'woocommerce_before_shop_loop_item' );
@@ -34,6 +32,7 @@ $product_classes = is_front_page() ? 'col-lg-3 col-md-4 col-sm-6 mb-3' : 'col-lg
 				<?php
 				/**
 				 * Hook: woocommerce_before_shop_loop_item_title.
+				 *
 				 * @hooked woocommerce_show_product_loop_sale_flash - 10
 				 * @hooked woocommerce_template_loop_product_thumbnail - 10
 				 */
@@ -46,6 +45,7 @@ $product_classes = is_front_page() ? 'col-lg-3 col-md-4 col-sm-6 mb-3' : 'col-lg
 			<?php
 			/**
 			 * Hook: woocommerce_shop_loop_item_title.
+			 *
 			 * @hooked woocommerce_template_loop_product_title - 10
 			 */
 			do_action( 'woocommerce_shop_loop_item_title' );
@@ -81,4 +81,4 @@ $product_classes = is_front_page() ? 'col-lg-3 col-md-4 col-sm-6 mb-3' : 'col-lg
 		</div><!-- .product-bottom-details -->
 		</div><!-- .products-details -->
 	</div><!-- .product-card -->
-</div><!-- col-lg-3 col-md-4 col-sm-6 mb-3 -->
+</li>

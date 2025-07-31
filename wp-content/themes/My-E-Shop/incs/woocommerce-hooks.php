@@ -2,6 +2,12 @@
 
 add_filter('woocommerce_enqueue_styles', '__return_false');
 
+// Подключаем кастомные стили для карусели
+function my_e_shop_enqueue_carousel_styles() {
+    wp_enqueue_style('my-e-shop-carousel-custom', get_template_directory_uri() . '/assets/css/carousel-custom.css', array(), '1.0.0');
+}
+add_action('wp_enqueue_scripts', 'my_e_shop_enqueue_carousel_styles');
+
 // product cart
 
 remove_action('woocommerce_before_shop_loop_item', 'woocommerce_template_loop_product_link_open', 10);
@@ -27,117 +33,55 @@ add_filter('woocommerce_product_get_rating_html', function( $html, $rating, $cou
 add_shortcode( 'my_e_shop_recent_products', 'my_e_shop_recent_products' );
 
 function my_e_shop_recent_products( $atts ) {
-    global $woocommerce_loop;
+	global $woocommerce_loop;
 
-    // Set default attributes
-    $atts = shortcode_atts( array(
-        'limit'      => 8,                 // Number of products to display
-        'order'      => 'DESC',            // Sort order
-        'categories' => '',                // Product categories (comma-separated slugs)
-        'tags'       => '',                // Product tags (comma-separated slugs)
-    ), $atts, 'my_e_shop_recent_products' );
+	$atts = shortcode_atts(
+		array(
+			'limit'      => 8,
+			'columns'    => 5, // Устанавливаем 5 колонок по умолчанию
+			'orderby'    => 'date',
+			'order'      => 'DESC',
+			'categories' => '',
+			'tags'       => '',
+		),
+		$atts,
+		'my_e_shop_recent_products'
+	);
 
-    $limit = intval( $atts['limit'] ); // Sanitize and cast limit to an integer
+	$query_args = array(
+		'post_type'           => 'product',
+		'post_status'         => 'publish',
+		'ignore_sticky_posts' => 1,
+		'posts_per_page'      => $atts['limit'],
+		'orderby'             => $atts['orderby'],
+		'order'               => $atts['order'],
+	);
 
-    // Build the taxonomy query (for categories and tags)
-    $tax_query = array();
+	$products = new WP_Query( $query_args );
 
-    if ( ! empty( $atts['categories'] ) ) {
-        $tax_query[] = array(
-            'taxonomy' => 'product_cat',
-            'field'    => 'slug',
-            'terms'    => explode( ',', $atts['categories'] ), // Convert comma-separated categories to an array
-            'operator' => 'IN',
-        );
-    }
+	if ( ! $products->have_posts() ) {
+		return '';
+	}
 
-    if ( ! empty( $atts['tags'] ) ) {
-        $tax_query[] = array(
-            'taxonomy' => 'product_tag',
-            'field'    => 'slug',
-            'terms'    => explode( ',', $atts['tags'] ), // Convert comma-separated tags to an array
-            'operator' => 'IN',
-        );
-    }
+	// Устанавливаем количество колонок для WooCommerce
+	$woocommerce_loop['columns'] = $atts['columns'];
 
-    // Query for best-selling products with sales > 10
-    $args = array(
-        'post_status'    => 'publish',
-        'post_type'      => 'product',
-        'posts_per_page' => $limit,
-        'meta_key'       => 'total_sales',
-        'orderby'        => 'meta_value_num',
-        'order'          => sanitize_text_field( $atts['order'] ), // Sanitize the order parameter
-        'meta_query'     => array(
-            array(
-                'key'     => 'total_sales',
-                'value'   => 10,
-                'compare' => '>',
-                'type'    => 'NUMERIC',
-            ),
-        ),
-        'tax_query'      => $tax_query,
-    );
+	ob_start();
 
-    // Execute the query for best-sellers
-    $products = new WP_Query( $args );
+	// Начинаем стандартный цикл WooCommerce
+	woocommerce_product_loop_start();
 
-    // If fewer than the limit products are found, add featured products to fill the limit
-    $found_posts = $products->found_posts;
-    if ( $found_posts < $limit ) {
-        $remaining_limit = $limit - $found_posts;
+	while ( $products->have_posts() ) {
+		$products->the_post();
+		wc_get_template_part( 'content', 'product' );
+	}
 
-        // Get IDs of already fetched products to avoid duplicates
-        $existing_ids = wp_list_pluck( $products->posts, 'ID' );
+	// Заканчиваем стандартный цикл WooCommerce
+	woocommerce_product_loop_end();
 
-        $featured_args = array(
-            'post_status'    => 'publish',
-            'post_type'      => 'product',
-            'posts_per_page' => $remaining_limit, // Limit the number of featured products
-            'post__not_in'   => $existing_ids, // Exclude already fetched products
-            'tax_query'      => array(
-                array(
-                    'taxonomy' => 'product_visibility',
-                    'field'    => 'name',
-                    'terms'    => 'featured', // Fetch products marked as "featured"
-                ),
-            ),
-        );
+	wp_reset_postdata();
 
-        // Query for featured products
-        $featured_products = new WP_Query( $featured_args );
-
-        if ( $featured_products->have_posts() ) {
-            // Combine the posts while avoiding duplicate entries
-            $products->posts = array_merge( $products->posts, $featured_products->posts );
-            $products->post_count = count( $products->posts );
-        }
-    }
-
-    // Ensure we never exceed the limit
-    if ( count( $products->posts ) > $limit ) {
-        $products->posts = array_slice( $products->posts, 0, $limit );
-    }
-
-    // Start output buffering
-    ob_start();
-
-    if ( $products->have_posts() ) : ?>
-        <div class="woocommerce">
-            <div class="owl-carousel owl-theme owl-carousel-full">
-                <?php while ( $products->have_posts() ) : $products->the_post(); ?>
-                    <?php wc_get_template_part( 'content', 'product-test' ); ?>
-                <?php endwhile; ?>
-            </div>
-        </div>
-    <?php else : ?>
-        <p><?php _e( 'No best-selling products found.', 'My-E-Shop' ); ?></p>
-    <?php endif;
-
-    wp_reset_postdata();
-
-    // Return the buffered output
-    return ob_get_clean();
+	return '<div class="woocommerce columns-' . esc_attr( $atts['columns'] ) . '">' . ob_get_clean() . '</div>';
 }
 
 
