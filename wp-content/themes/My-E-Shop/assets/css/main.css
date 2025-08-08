@@ -610,9 +610,9 @@ section {
   /* ====================FOOTER==================== */
 
 .footer {
-    background-color: var(--grey-color);
+    background-color: #2C2C2C;
     padding: 50px;
-    color: #FFF;
+    color: #F4F0EB;
 }
 .footer-icons {
     list-style: none;
@@ -3493,24 +3493,64 @@ section.widget {
 
 .category-grid {
   display: flex;
-  align-items: center;    /* Центрирование по вертикали */
-  justify-content: center;  /* Центрирование по горизонтали */
+  align-items: center;
+  justify-content: center;
   gap: 30px;
+  flex-wrap: wrap;
+  padding: 20px 0;
+}
+
+.category-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.category-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.category-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
 }
 
 .category-thumb {
     width: 320px;
     height: 528px;
-    opacity: 1;
-    margin-bottom: -46px;
+    overflow: hidden;
+    border-radius: 12px;
+    position: relative;
+}
+
+.category-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-thumb img {
+    transform: scale(1.05);
+}
+
+.category-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
 }
 
 /* Стили для "кнопки" названия категории */
 .category-title {
-  display: block; /* Изменяем на block, чтобы можно было применить margin: 0 auto; */
-  width: 320px; /* ФИКСИРОВАННАЯ ШИРИНА ФОНА ТАЙТЛА */
-  margin: 0 auto; /* Центрируем блок .category-title по горизонтали внутри .category-info */
-  background-color: #2C2C2C; /* ФИКСИРОВАННЫЙ ТЕМНО-СЕРЫЙ ФОН КНОПКИ */
+  display: inline-block;
+  background-color: #2C2C2C;
   padding: 12px 24px;
   font-size: 16px;
   font-weight: bold;
@@ -3518,9 +3558,17 @@ section.widget {
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  margin-top: 9px;
-  white-space: nowrap; /* Чтобы текст и иконка не переносились */
-  text-align: center; /* Центрируем текст и иконку внутри самой кнопки */
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 8px;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.category-title:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
 /* Добавляем иконку перед текстом */
@@ -3965,4 +4013,223 @@ li.product::marker {
     max-width: 280px;
     margin-left: auto;
     margin-right: auto;
+}
+
+
+/* blog on front page */
+.blog-posts-shortcode {
+    margin: 20px 0;
+}
+
+.blog-post-item {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.blog-post-item h3 {
+    margin: 0 0 10px 0;
+}
+
+.blog-post-item h3 a {
+    text-decoration: none;
+    color: #333;
+}
+
+.post-date, .post-author {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.post-excerpt {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.read-more, .read-more-btn {
+    display: inline-block;
+    background: #0073aa;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+/* Для сетки */
+.blog-posts-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.blog-posts-grid.columns-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.blog-posts-grid.columns-3 {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.blog-post-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.post-content {
+    padding: 15px;
+}
+.post-thumbnail a img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+}
+
+.trends-btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.trends-btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #2C2C2C;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    padding: 12px 25px;
+    transition: all 0.3s ease;
+}
+
+.trends-btn-link:hover {
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+}
+
+.read-more-btn {
+    display: none;
+}
+
+
+.newsletter-subscription {
+            padding: 60px 20px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        .newsletter-content {
+            max-width: 620px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-title {
+            font-size: 32px;
+            font-weight: 600;
+            color: #2c2c2c;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            font-family: "Playfair Display", serif;
+        }
+        
+        .newsletter-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .newsletter-form {
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            display: flex;
+            max-width: 616px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 0;
+            overflow: hidden;
+            background: white;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            font-size: 13px;
+            outline: none;
+            background: transparent;
+            color: #666;
+        }
+        
+        .newsletter-input::placeholder {
+            color: #aaa;
+            font-style: italic;
+        }
+        
+        .newsletter-button {
+            padding: 12px 20px;
+            border: none;
+            background-color: #8B4F9F;
+            color: white;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .newsletter-button:hover {
+            background-color: #7a4488;
+        }
+        
+        .newsletter-privacy {
+            font-size: 11px;
+            color: #888;
+            max-width: 616px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 300;
+            text-align: left;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            display: none;
+        }
+.footer-logo {
+    margin: 0 auto;
+    max-width: 250px;
+    height: auto;
+}
+.col-md-3 {
+    width: 20% !important;
+}
+.footer-logo p {
+    font-size: 16px;
+    color: #F4F0EB;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-family: 'Montserrat', sans-serif;
 }

@@ -2,6 +2,16 @@
     <div class="container">
         <div class="row">
             <div class="col-md-3 col-6">
+                <div class="footer-logo">
+                    <a href="/">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/footer-logo.svg" alt="Crethos">
+                    </a>
+                </div>
+                <p>
+                    Your individuality, trending now
+                </p>
+            </div>
+            <div class="col-md-3 col-6">
                 <h4>Information</h4>
                 <ul class="list-unstyled">
                     <li><a href="index.html">HOME</a></li>

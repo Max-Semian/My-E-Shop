@@ -364,11 +364,9 @@
                         </div>
                     </div>
                     <?php echo do_shortcode( '[my_e_shop_recent_products limit="5"]')?>
-                    <div class="all-products-btn">
-                        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="btn btn-primary">
-                            <?php _e('View All Products', 'My-E-Shop'); ?>
-                        </a>
-                    </div>
+                        <div class="trends-btn-container">
+                            <a href="/shop/" class="trends-btn-link">All Products<span class="arrow">→</span></a>
+                        </div>
                 </div>
         </section><!-- Best-sellers-->
         <section class="about-brand" style="background-image: url('<?php echo get_template_directory_uri(); ?>/assets/img/about-brand-bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; height: 670px; display: flex; align-items: center;">
@@ -580,66 +578,66 @@
                 </div>
             </div>
         </section><!-- Why choose Us-->
-
-        <section class="featured-products">
-            <div class="container">
-                <div class="row mb-5">
-                    <div class="col-12">
-                    <h2 class="section-title">
-                        <span><?php _e('Featured products', 'My-E-Shop' )?></span>
-                    </h2>
+        
+        <section class="trends">
+                <div class="container">
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="section-title">
+                                <span><?php _e('Trends', 'My-E-Shop')?></span>
+                            </h2>
+                            <p class="section-description">
+                                Ride the wave of the future
+                            </p>
+                        </div>
+                    </div>
+                    <?php echo do_shortcode('[blog_grid posts="2" show_excerpt="true" columns="2"]'); ?>
+                    <div class="trends-btn-container">
+                        <a href="/blog/" class="trends-btn-link">SEE MORE<span class="arrow">→</span></a>
                     </div>
                 </div>
-
-                <?php echo do_shortcode('[featured_products]')?> 
-                   <!-- <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                        <div class="product-card">
-                            <div class="product-card-offer">
-                                <div class="offer-hit">Hit</div>
-                                <div class="offer-new">New</div>
-                            </div>
-                            <div class="product-thumb">
-                                <a href="product.html"><img src="<?php echo get_template_directory_uri() ?>/assets/img/Mens-Winter-Boots-Tactical-Military-Shoes-ORTOREX-khaki-jpg.webp" alt=""></a>
-                            </div>
-                            <div class="products-details">
-                                <h4>
-                                    <a href="products.html">Product 1 some text some title</a>
-                                </h4>
-                                <p class="product-exerpt">
-                                    some text some text description
-                                </p>
-                                <div class="product-bottom-details d-flex justify-content-between">
-                                    <div class="product-price">
-                                        <small>$70</small>
-                                        $65
-                                    </div>
-                                    <div class="product-links">
-                                        <a href="#" class="btn btn-outline-secondary add-to-cart"><i class="fas fa-shopping-cart"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            </div>-->
-        </section><!-- Featured products-->
-
-        <section class="about-us">
+        </section>
+        <section class="newsletter-subscription" style="background-color: #F4F0EB;">
             <div class="container">
-                <div class="row mb-5">
-                    <div class="col-12">
-                    <h2 class="section-title">
-                        <span>About Us</span>
+                <div class="newsletter-content">
+                    <h2 class="newsletter-title">
+                        Join our world and get 5% off your first order
                     </h2>
-                    <div class="row">
-                        <div class="col-12">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus sed sit repellat a. Vel pariatur recusandae nobis necessitatibus laudantium quasi, ipsa sapiente impedit nulla, omnis architecto alias fugit porro eligendi.</p>
-                            <p>Quo fugiat exercitationem repellendus expedita quam consectetur a temporibus voluptatibus voluptatum odit reiciendis nesciunt, autem quas perferendis. Sunt quia maxime asperiores sapiente enim, impedit consequatur recusandae nemo saepe debitis. Voluptatum!</p>
-                            <p>Reprehenderit amet corporis ut hic accusantium dolorem fugiat repellat nisi, omnis error sunt, nam dolores animi magni est fuga facere dicta debitis quibusdam distinctio veritatis reiciendis maiores dolorum at. Blanditiis?</p>
+                    <p class="newsletter-subtitle">
+                        Stay updated with new drops, visual stories & rare finds before anyone else
+                    </p>
+                    
+                    <div class="success-message" id="success-message">
+                        Thank you for subscribing! Check your email for the discount code.
+                    </div>
+                    
+                    <div class="error-message" id="error-message">
+                        Please enter a valid email address.
+                    </div>
+                    
+                    <form class="newsletter-form" onsubmit="handleSubmit(event)">
+                        <div class="form-group">
+                            <input 
+                                type="email" 
+                                id="newsletter-email"
+                                class="newsletter-input" 
+                                placeholder="Enter your email here" 
+                                required
+                            >
+                            <button 
+                                type="submit" 
+                                class="newsletter-button"
+                            >
+                                JOIN NOW
+                            </button>
                         </div>
-                    </div>
-                    </div>
+                    </form>
+                    
+                    <p>
+                        We only send thoughtful emails - no spam, just style. By subscribing, you agree to receive inspiration and exclusive privileges. Your data is safe with us.
+                    </p>
                 </div>
             </div>
-        </section><!-- About Us-->
+        </section>
     </main>
 <?php get_footer() ?>

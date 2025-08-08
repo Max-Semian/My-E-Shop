@@ -935,3 +935,184 @@ function my_e_shop_woocommerce_get_image_size_thumbnail($size) {
     );
 }
 add_filter('woocommerce_get_image_size_thumbnail', 'my_e_shop_woocommerce_get_image_size_thumbnail');
+
+function advanced_blog_posts_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'posts' => 5,
+        'category' => '',
+        'show_image' => 'true',
+        'image_size' => 'medium',
+        'show_excerpt' => 'true',
+        'excerpt_length' => 20,
+        'columns' => 1
+    ), $atts);
+
+    $args = array(
+        'post_type' => 'post',
+        'posts_per_page' => intval($atts['posts']),
+        'post_status' => 'publish'
+    );
+
+    if (!empty($atts['category'])) {
+        $args['category_name'] = $atts['category'];
+    }
+
+    $posts = get_posts($args);
+    $columns_class = 'columns-' . intval($atts['columns']);
+    $output = '<div class="blog-posts-grid ' . $columns_class . '">';
+
+    foreach ($posts as $post) {
+        setup_postdata($post);
+        
+        $output .= '<div class="blog-post-card">';
+        
+        if ($atts['show_image'] === 'true' && has_post_thumbnail($post->ID)) {
+            $output .= '<div class="post-thumbnail">';
+            $output .= '<a href="' . get_permalink($post->ID) . '">';
+            $output .= get_the_post_thumbnail($post->ID, $atts['image_size']);
+            $output .= '</a></div>';
+        }
+        
+        $output .= '<div class="post-content">';
+        $output .= '<h3><a href="' . get_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></h3>';
+        $output .= '<div class="post-meta">' . get_the_date('', $post->ID) . '</div>';
+        
+        if ($atts['show_excerpt'] === 'true') {
+            $excerpt = wp_trim_words(get_the_excerpt($post->ID), intval($atts['excerpt_length']));
+            $output .= '<div class="post-excerpt">' . $excerpt . '</div>';
+        }
+        
+        $output .= '<a href="' . get_permalink($post->ID) . '" class="read-more-btn">Подробнее →</a>';
+        $output .= '</div></div>';
+    }
+
+    $output .= '</div>';
+    wp_reset_postdata();
+    
+    return $output;
+}
+add_shortcode('blog_grid', 'advanced_blog_posts_shortcode');
+
+// 1. Шорткод для блока подписки
+function newsletter_subscription_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'title' => 'Join our world and get 5% off your first order',
+        'subtitle' => 'Stay updated with new drops, visual stories & rare finds before anyone else',
+        'placeholder' => 'Enter your email here',
+        'button_text' => 'JOIN NOW',
+        'privacy_text' => 'We only send thoughtful emails - no spam, just style. By subscribing, you agree to receive inspiration and exclusive privileges. Your data is safe with us.',
+        'background_color' => '#f5f5f5',
+        'text_color' => '#333',
+        'button_color' => '#000'
+    ), $atts);
+
+    ob_start();
+    ?>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('newsletter_block', 'newsletter_subscription_shortcode');
+
+// 2. Обработка формы подписки
+function handle_newsletter_subscription() {
+    if (isset($_POST['newsletter_submit']) && wp_verify_nonce($_POST['newsletter_nonce'], 'newsletter_subscription')) {
+        $email = sanitize_email($_POST['newsletter_email']);
+        
+        if (is_email($email)) {
+            // Сохраняем email в базу данных
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'newsletter_subscribers';
+            
+            $existing = $wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $table_name WHERE email = %s",
+                $email
+            ));
+            
+            if ($existing == 0) {
+                $wpdb->insert(
+                    $table_name,
+                    array(
+                        'email' => $email,
+                        'subscribe_date' => current_time('mysql'),
+                        'status' => 'active'
+                    )
+                );
+                
+                // Отправляем welcome email (опционально)
+                wp_mail(
+                    $email,
+                    'Welcome to our newsletter!',
+                    'Thank you for subscribing! Here\'s your 5% discount code: WELCOME5'
+                );
+                
+                echo '<script>alert("Thank you for subscribing!");</script>';
+            } else {
+                echo '<script>alert("You are already subscribed!");</script>';
+            }
+        }
+    }
+}
+add_action('wp_loaded', 'handle_newsletter_subscription');
+
+// 3. Создание таблицы для подписчиков
+function create_newsletter_table() {
+    global $wpdb;
+    
+    $table_name = $wpdb->prefix . 'newsletter_subscribers';
+    
+    $charset_collate = $wpdb->get_charset_collate();
+    
+    $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        email varchar(100) NOT NULL,
+        subscribe_date datetime DEFAULT CURRENT_TIMESTAMP,
+        status varchar(20) DEFAULT 'active',
+        PRIMARY KEY (id),
+        UNIQUE KEY email (email)
+    ) $charset_collate;";
+    
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
+}
+register_activation_hook(__FILE__, 'create_newsletter_table');
+
+
+// 4. Админ страница для просмотра подписчиков
+function newsletter_admin_menu() {
+    add_menu_page(
+        'Newsletter Subscribers',
+        'Newsletter',
+        'manage_options',
+        'newsletter-subscribers',
+        'newsletter_admin_page',
+        'dashicons-email-alt',
+        30
+    );
+}
+add_action('admin_menu', 'newsletter_admin_menu');
+
+function newsletter_admin_page()
+{
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'newsletter_subscribers';
+    $subscribers = $wpdb->get_results("SELECT * FROM $table_name ORDER BY subscribe_date DESC");
+
+    echo '<div class="wrap">';
+    echo '<h1>Newsletter Subscribers</h1>';
+    echo '<table class="wp-list-table widefat fixed striped">';
+    echo '<thead><tr><th>Email</th><th>Subscribe Date</th><th>Status</th></tr></thead>';
+    echo '<tbody>';
+
+    foreach ($subscribers as $subscriber) {
+        echo '<tr>';
+        echo '<td>' . esc_html($subscriber->email) . '</td>';
+        echo '<td>' . esc_html($subscriber->subscribe_date) . '</td>';
+        echo '<td>' . esc_html($subscriber->status) . '</td>';
+        echo '</tr>';
+    }
+
+    echo '</tbody></table>';
+    echo '</div>';
+}
+add_action('admin_page', 'newsletter_admin_page');
+
