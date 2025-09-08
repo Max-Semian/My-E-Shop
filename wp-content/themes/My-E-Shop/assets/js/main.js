@@ -630,3 +630,89 @@ $(document).ready(function() {
     console.log('Offcanvas найден:', $offcanvas.length > 0);
 });
 
+(function() {
+            'use strict';
+            
+            function initTextAnimation() {
+                const textBlock = document.querySelector('.animated-text-section #textBlock');
+                const textContent = document.querySelector('.animated-text-section #textContent');
+                
+                if (!textBlock || !textContent) {
+                    console.log('Элементы анимации не найдены');
+                    return;
+                }
+                
+                console.log('Анимация текста инициализирована');
+                
+                // Разбиваем текст на слова
+                function splitTextIntoWords() {
+                    const text = textContent.textContent;
+                    const words = text.split(' ');
+                    textContent.innerHTML = '';
+                    
+                    words.forEach((word, index) => {
+                        const span = document.createElement('span');
+                        span.className = 'word';
+                        span.textContent = word;
+                        span.style.transitionDelay = `${index * 0.1}s`;
+                        textContent.appendChild(span);
+                        
+                        // Добавляем пробел после каждого слова (кроме последнего)
+                        if (index < words.length - 1) {
+                            textContent.appendChild(document.createTextNode(' '));
+                        }
+                    });
+                }
+                
+                // Проверяем видимость элемента
+                function isElementVisible(element) {
+                    const rect = element.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    return rect.top < windowHeight * 0.75 && rect.bottom > 0;
+                }
+                
+                // Главная функция анимации
+                function handleScroll() {
+                    if (isElementVisible(textBlock)) {
+                        console.log('Блок стал видимым, запуск анимации');
+                        
+                        // Показываем блок
+                        textBlock.classList.add('visible');
+                        
+                        // Через небольшую задержку анимируем слова
+                        setTimeout(() => {
+                            const words = textContent.querySelectorAll('.word');
+                            words.forEach(word => {
+                                word.classList.add('animate');
+                            });
+                        }, 400);
+                        
+                        // Убираем обработчик после первой анимации
+                        window.removeEventListener('scroll', handleScroll);
+                    }
+                }
+                
+                // Инициализация
+                splitTextIntoWords();
+                
+                // Проверяем сразу при загрузке
+                setTimeout(handleScroll, 100);
+                
+                // Добавляем обработчик прокрутки
+                window.addEventListener('scroll', handleScroll);
+            }
+            
+            // Инициализация когда DOM готов
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initTextAnimation);
+            } else {
+                initTextAnimation();
+            }
+            
+            // Дополнительная проверка через jQuery если доступен
+            if (typeof jQuery !== 'undefined') {
+                jQuery(document).ready(function($) {
+                    setTimeout(initTextAnimation, 500);
+                });
+            }
+        })();

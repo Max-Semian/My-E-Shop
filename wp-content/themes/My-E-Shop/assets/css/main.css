@@ -4233,3 +4233,85 @@ li.product::marker {
     line-height: 1.6;
     font-family: 'Montserrat', sans-serif;
 }
+        .animated-text-section {
+            padding: 50px 0;
+        }
+
+        .animated-text-section .text-block {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 50px 40px;
+            /* background: linear-gradient(135deg, #F4F0EB 0%, #FFFFFF 100%); */
+            /* border: 3px solid #D85AFF; */
+            /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); */
+            position: relative;
+            overflow: hidden;
+            
+            /* Начальное состояние - скрыто */
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Анимированная граница */
+        .animated-text-section .text-block::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            /* background: linear-gradient(45deg, #D85AFF, #a855f7, #D85AFF, #a855f7); */
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: borderPulse 4s ease infinite;
+        }
+
+        @keyframes borderPulse {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Состояние когда блок становится видимым */
+        .animated-text-section .text-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Текст */
+        .animated-text-section .text-content {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2C2C2C;
+            line-height: 1.5;
+            text-align: center;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Слова изначально скрыты */
+        .animated-text-section .word {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            margin-right: 0.3em;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Анимация появления слов */
+        .animated-text-section .word.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hover эффект */
+        .animated-text-section .text-block:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .animated-text-section .text-block.visible:hover {
+            transform: translateY(-5px);
+        }

@@ -908,3 +908,36 @@
         padding: 10px 5px;
     }
 }
+
+/* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .animated-text-section {
+                padding: 30px 0;
+            }
+            
+            .animated-text-section .text-block {
+                margin: 0 20px;
+                padding: 30px 25px;
+            }
+            
+            .animated-text-section .text-content {
+                font-size: 20px;
+                line-height: 1.4;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .animated-text-section {
+                padding: 20px 0;
+            }
+            
+            .animated-text-section .text-block {
+                margin: 0 15px;
+                padding: 25px 20px;
+            }
+            
+            .animated-text-section .text-content {
+                font-size: 18px;
+                line-height: 1.3;
+            }
+        }
