@@ -1,0 +1,230 @@
+/* Why Choose Us Block Styles */
+.why-choose-us-block {
+    padding: 60px 0;
+}
+
+.why-choose-us-block .about-section-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.why-choose-us-block .accordion-container {
+    max-width: 100%;
+}
+
+.why-choose-us-block .accordion-item {
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease;
+}
+
+.why-choose-us-block .accordion-item:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.why-choose-us-block .accordion-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    gap: 15px;
+}
+
+.why-choose-us-block .accordion-header:hover {
+    transform: translateY(-1px);
+}
+
+.why-choose-us-block .accordion-header.active {
+    border-radius: 12px 12px 0 0;
+}
+
+.why-choose-us-block .accordion-icon {
+    font-size: var(--why-icon-size, 24px);
+    line-height: 1;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(var(--why-icon-size, 24px) + 10px);
+    height: calc(var(--why-icon-size, 24px) + 10px);
+}
+
+.why-choose-us-block .accordion-icon-image {
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-choose-us-block .accordion-header:hover .accordion-icon-image {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.why-choose-us-block .accordion-question {
+    flex: 1;
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.why-choose-us-block .accordion-toggle {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.why-choose-us-block .accordion-plus {
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+.why-choose-us-block .accordion-header.active .accordion-plus {
+    transform: rotate(45deg);
+}
+
+.why-choose-us-block .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+    border-radius: 0 0 12px 12px;
+}
+
+.why-choose-us-block .accordion-content.active {
+    max-height: 500px;
+}
+
+.why-choose-us-block .accordion-answer {
+    padding: 25px;
+    font-size: 1rem;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.why-choose-us-block .accordion-content.active .accordion-answer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.why-choose-us-block .accordion-answer p {
+    margin: 0 0 15px 0;
+}
+
+.why-choose-us-block .accordion-answer p:last-child {
+    margin-bottom: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .why-choose-us-block {
+        padding: 40px 0;
+    }
+    
+    .why-choose-us-block .about-section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .why-choose-us-block .accordion-header {
+        padding: 15px 20px;
+        gap: 12px;
+    }
+    
+    .why-choose-us-block .accordion-question {
+        font-size: 1.1rem;
+    }
+    
+    .why-choose-us-block .accordion-answer {
+        padding: 20px;
+        font-size: 0.95rem;
+    }
+    
+    .why-choose-us-block .accordion-icon {
+        width: calc(var(--why-icon-size, 24px) + 5px);
+        height: calc(var(--why-icon-size, 24px) + 5px);
+    }
+    
+    .why-choose-us-block .accordion-icon-image {
+        border-radius: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .why-choose-us-block .about-section-title {
+        font-size: 1.75rem;
+    }
+    
+    .why-choose-us-block .accordion-header {
+        padding: 12px 15px;
+        gap: 10px;
+    }
+    
+    .why-choose-us-block .accordion-question {
+        font-size: 1rem;
+    }
+    
+    .why-choose-us-block .accordion-answer {
+        padding: 15px;
+        font-size: 0.9rem;
+    }
+    
+    .why-choose-us-block .accordion-toggle {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .why-choose-us-block .accordion-plus {
+        font-size: 16px;
+    }
+}
+
+/* Accessibility improvements */
+.why-choose-us-block .accordion-header:focus {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+.why-choose-us-block .accordion-header:focus-visible {
+    outline: 2px solid #0073aa;
+    outline-offset: 2px;
+}
+
+/* Анимация появления блока */
+.why-choose-us-block {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Улучшенная производительность */
+.why-choose-us-block .accordion-content {
+    will-change: max-height;
+}
+
+.why-choose-us-block .accordion-plus {
+    will-change: transform;
+}

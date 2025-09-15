@@ -1123,37 +1123,6 @@ add_action('admin_page', 'newsletter_admin_page');
  */
 
 /**
- * Register and enqueue block assets
- */
-function my_e_shop_register_block_assets() {
-    // Register block editor script
-    wp_register_script(
-        'my-e-shop-blocks-editor',
-        get_template_directory_uri() . '/assets/js/blocks-editor.js',
-        array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n'),
-        wp_get_theme()->get('Version'),
-        true
-    );
-
-    // Register block editor styles
-    wp_register_style(
-        'my-e-shop-blocks-editor',
-        get_template_directory_uri() . '/assets/css/blocks-editor.css',
-        array('wp-edit-blocks'),
-        wp_get_theme()->get('Version')
-    );
-
-    // Register frontend block styles
-    wp_register_style(
-        'my-e-shop-blocks',
-        get_template_directory_uri() . '/assets/css/blocks.css',
-        array(),
-        wp_get_theme()->get('Version')
-    );
-}
-add_action('init', 'my_e_shop_register_block_assets');
-
-/**
  * Register category-cards block
  */
 function my_e_shop_register_blocks() {
@@ -1263,6 +1232,22 @@ function my_e_shop_register_blocks() {
             array(),
             '1.0.0'
         );
+
+        // Why Choose Us Block
+        wp_enqueue_script(
+            'my-e-shop-why-choose-us-editor',
+            get_template_directory_uri() . '/blocks/why-choose-us/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-why-choose-us-editor-style',
+            get_template_directory_uri() . '/blocks/why-choose-us/editor.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Enqueue frontend assets
@@ -1346,6 +1331,22 @@ function my_e_shop_register_blocks() {
             '1.0.0',
             true
         );
+
+        // Why Choose Us Block
+        wp_enqueue_style(
+            'my-e-shop-why-choose-us-style',
+            get_template_directory_uri() . '/blocks/why-choose-us/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-why-choose-us-script',
+            get_template_directory_uri() . '/blocks/why-choose-us/script.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
     });
 
     // Register blocks using block.json
@@ -1355,6 +1356,7 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
     register_block_type(get_template_directory() . '/blocks/about-section/block.json');
     register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');
+    register_block_type(get_template_directory() . '/blocks/why-choose-us/block.json');
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
 

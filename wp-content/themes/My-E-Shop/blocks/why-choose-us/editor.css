@@ -1,0 +1,190 @@
+/* Why Choose Us Block Editor Styles */
+.why-choose-us-block-editor {
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    position: relative;
+}
+
+.why-choose-us-block-editor .section-title {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.why-choose-us-block-editor .accordion-container {
+    max-width: 100%;
+}
+
+.why-choose-us-block-editor .accordion-item-editor {
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.why-choose-us-block-editor .accordion-header-editor {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.why-choose-us-block-editor .accordion-header-editor:hover {
+    opacity: 0.9;
+}
+
+.why-choose-us-block-editor .accordion-content-editor {
+    border-top: 1px solid #e0e0e0;
+}
+
+.why-choose-us-block-editor .components-text-control__input {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+}
+
+.why-choose-us-block-editor .components-text-control__input:focus {
+    box-shadow: 0 0 0 1px #0073aa !important;
+    border-radius: 4px !important;
+}
+
+.why-choose-us-block-editor .components-textarea-control__input {
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 10px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+}
+
+.why-choose-us-block-editor .components-textarea-control__input:focus {
+    border-color: #0073aa !important;
+    box-shadow: 0 0 0 1px #0073aa !important;
+}
+
+.why-choose-us-block-editor .button-link-delete {
+    background: none !important;
+    border: none !important;
+    color: #d63638 !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    padding: 5px !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: 1 !important;
+}
+
+.why-choose-us-block-editor .button-link-delete:hover {
+    color: #fff !important;
+    background: #d63638 !important;
+    border-radius: 50% !important;
+}
+
+/* Стили для панели настроек */
+.components-panel__body .components-base-control__label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.components-color-picker {
+    margin-top: 8px;
+}
+
+.components-range-control__wrapper {
+    margin-bottom: 16px;
+}
+
+/* Анимация в редакторе */
+.why-choose-us-block-editor .accordion-header-editor span:last-child {
+    transition: transform 0.2s ease;
+}
+
+/* Стили для кнопки добавления */
+.why-choose-us-block-editor .button-primary {
+    background: #0073aa !important;
+    border-color: #0073aa !important;
+    color: white !important;
+    border-radius: 6px !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+}
+
+.why-choose-us-block-editor .button-primary:hover {
+    background: #005a87 !important;
+    border-color: #005a87 !important;
+}
+
+/* Подсказки */
+.why-choose-us-block-editor .accordion-content-editor > div:first-child {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Улучшенная видимость полей */
+.why-choose-us-block-editor .components-text-control__input[value=""] {
+    border: 1px dashed #ccc !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+.why-choose-us-block-editor .components-textarea-control__input[value=""] {
+    border: 1px dashed #ccc !important;
+    background: rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Стили для MediaUpload компонентов */
+.why-choose-us-block-editor .components-button.button-primary {
+    background: #0073aa !important;
+    border-color: #0073aa !important;
+    color: white !important;
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    margin-right: 8px !important;
+}
+
+.why-choose-us-block-editor .components-button.button {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+    border: 1px solid #ddd !important;
+    background: white !important;
+    color: #333 !important;
+}
+
+.why-choose-us-block-editor .components-button.button:hover {
+    border-color: #999 !important;
+    background: #f6f7f7 !important;
+}
+
+/* Стили для SelectControl */
+.why-choose-us-block-editor .components-select-control__input {
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+    background: white !important;
+}
+
+.why-choose-us-block-editor .components-select-control__input:focus {
+    border-color: #0073aa !important;
+    box-shadow: 0 0 0 1px #0073aa !important;
+}
+
+/* Стили для превью изображений */
+.why-choose-us-block-editor .accordion-icon-preview {
+    display: inline-block;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f9f9f9;
+}
+
+.why-choose-us-block-editor .accordion-icon-preview img {
+    display: block;
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}

@@ -1,0 +1,73 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/why-choose-us",
+	"version": "1.0.0",
+	"title": "Why Choose Us",
+	"category": "my-e-shop",
+	"icon": "editor-help",
+	"description": "FAQ блок-аккордеон с вопросами и ответами",
+	"keywords": [
+		"faq",
+		"accordion",
+		"why choose us",
+		"questions"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Why choose us"
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"id": 1,
+					"question": "Runway inspiration, wearable style",
+					"answer": "Each T-shirt is an art manifesto with designer method by the street fashion trends and niche aesthetics. Wear fashion that speaks for you.",
+					"icon": "👕",
+					"iconImage": "",
+					"iconImageId": 0,
+					"iconType": "text",
+					"isOpen": false
+				},
+				{
+					"id": 2,
+					"question": "Meaningful quality in every detail",
+					"answer": "Soft and breathable cotton, eco-friendly dyes that carefully crafted prints - because the quality of your clothes reflects your values.",
+					"icon": "✨",
+					"iconImage": "",
+					"iconImageId": 0,
+					"iconType": "text",
+					"isOpen": false
+				},
+				{
+					"id": 3,
+					"question": "Uniqueness without overpaying",
+					"answer": "Our collections are produced in small editions. Create your unique fashion story without the markup of luxury brands. Express yourself, be on trend and save your budget.",
+					"icon": "💎",
+					"iconImage": "",
+					"iconImageId": 0,
+					"iconType": "text",
+					"isOpen": false
+				}
+			]
+		},
+		"iconSize": {
+			"type": "number",
+			"default": 24
+		}
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}
