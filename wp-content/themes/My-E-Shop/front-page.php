@@ -1,9 +1,8 @@
 <?php get_header() ?>
 <main class="main">
         <!-- Fashion Hero Section -->
-        <section class="fashion-hero-section">
+        <!-- <section class="fashion-hero-section">
             <div class="fashion-hero-container">
-                <!-- Background Images Grid -->
                 <div class="fashion-images-grid">
                     <div class="fashion-image-card">
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fashion-1.jpg" alt="Fashion Model 1">
@@ -27,11 +26,9 @@
                         <img src="<?php echo get_template_directory_uri() ?>/assets/img/fashion-7.jpg" alt="Fashion Model 7">
                     </div>
                 </div>
-
-                <!-- Dark Overlay -->
                 <div class="fashion-hero-overlay"></div>
 
-                <!-- Content -->
+        
                 <div class="fashion-hero-content">
                     <h1 class="fashion-hero-title"><?php _e('Fashioned for Your Energy', 'My-E-Shop'); ?></h1>
                     <p class="fashion-hero-subtitle"><?php _e('Designer T-shirts inspired by the catwalk and made for self-expression', 'My-E-Shop'); ?></p>
@@ -40,15 +37,17 @@
                     </a>
                 </div>
             </div>
-        </section>
+        </section> -->
 
-        <section class="animated-text-section">
+        <!-- Эта секция заменена на Gutenberg блок "Animated Text Block" -->
+        <!-- Теперь вы можете добавить блок через редактор WordPress -->
+        <!-- <section class="animated-text-section">
             <div class="text-block" id="textBlock">
                 <div class="text-content" id="textContent">
                     T-shirts that combine runway aesthetics with individuality. These are clothes for those who want to be on trend, express themselves and belong to a niche community - without overpaying for a brand.
                 </div>
             </div>
-        </section>
+        </section> -->
 
 
         <!-- New WooCommerce Category Products Section -->

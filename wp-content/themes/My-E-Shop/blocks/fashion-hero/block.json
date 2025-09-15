@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/fashion-hero",
+    "version": "1.0.0",
+    "title": "Fashion Hero Section",
+    "category": "my-e-shop",
+    "icon": "cover-image",
+    "description": "Hero section with background images grid and centered content",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "Fashioned for Your Energy"
+        },
+        "subtitle": {
+            "type": "string",
+            "default": "Designer T-shirts inspired by the catwalk and made for self-expression"
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Shop Now"
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": "#"
+        },
+        "images": {
+            "type": "object",
+            "default": {
+                "image1": null,
+                "image2": null,
+                "image3": null,
+                "image4": null,
+                "image5": null,
+                "image6": null,
+                "image7": null
+            }
+        }
+    },
+    "textdomain": "My-E-Shop",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

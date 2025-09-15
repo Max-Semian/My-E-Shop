@@ -1,0 +1,115 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/category-cards",
+    "version": "1.0.0",
+    "title": "Category Cards Block",
+    "description": "Отображение карточек категорий в сетке",
+    "category": "my-e-shop",
+    "icon": "grid-view",
+    "keywords": ["category", "cards", "shop", "categories", "grid"],
+    "textdomain": "my-e-shop",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "anchor": true,
+        "customClassName": true,
+        "reusable": true,
+        "multiple": true,
+        "inserter": true,
+        "lock": false,
+        "color": {
+            "background": true
+        },
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "attributes": {
+        "backgroundColor": {
+            "type": "string",
+            "default": "#f8f9fa"
+        },
+        "blockTitle": {
+            "type": "string",
+            "default": "Collection"
+        },
+        "blockSubtitle": {
+            "type": "string",
+            "default": "Wear your mark. Feel your power"
+        },
+        "categories": {
+            "type": "array",
+            "default": [
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "STEP EXECUTING",
+                    "subtitle": "START EXECUTING",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "def new ();",
+                    "subtitle": "DATA REUSE",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "find naughty unity",
+                    "subtitle": "TENDER THOUGHTS",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "WITCH CODE",
+                    "subtitle": "",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                }
+            ]
+        }
+    },
+    "example": {
+        "attributes": {
+            "categories": [
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "STEP EXECUTING",
+                    "subtitle": "START EXECUTING",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "iconUrl": "",
+                    "iconId": 0,
+                    "title": "def new ();",
+                    "subtitle": "DATA REUSE",
+                    "titleColor": "#ffffff",
+                    "url": "#"
+                }
+            ]
+        }
+    }
+}

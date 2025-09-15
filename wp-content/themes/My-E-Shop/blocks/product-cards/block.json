@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/product-cards",
+	"version": "2.1.0",
+	"title": "Product Cards",
+	"category": "my-e-shop",
+	"icon": "products",
+	"description": "Блок с карточками товаров",
+	"keywords": [
+		"product",
+		"cards",
+		"shop",
+		"товар"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"blockTitle": {
+			"type": "string",
+			"default": "Best Sellers"
+		},
+		"blockSubtitle": {
+			"type": "string",
+			"default": "Your aura in cotton"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#f8f9fa"
+		},
+		"viewAllLink": {
+			"type": "string",
+			"default": "#"
+		},
+		"columns": {
+			"type": "number",
+			"default": 4
+		},
+		"cardStyle": {
+			"type": "string",
+			"default": "classic"
+		},
+		"customImages": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

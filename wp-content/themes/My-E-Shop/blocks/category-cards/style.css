@@ -1,0 +1,256 @@
+/* Category Cards Block Frontend Styles */
+.category-cards-block {
+    background-color: var(--category-cards-bg-color, #f8f9fa);
+    padding: 60px 20px;
+    margin: 0;
+}
+
+.category-cards-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.category-cards-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.category-cards-title {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: #333;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.category-cards-subtitle {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.category-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    align-items: stretch;
+}
+
+.category-card-item {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.category-card-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.category-card-link {
+    display: block;
+    width: 100%;
+    height: 500px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+
+.category-card-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #e9ecef;
+}
+
+.category-card-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background: #e9ecef;
+}
+
+.category-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.category-card-placeholder,
+.category-card-image-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 1;
+    color: white;
+}
+
+.category-card-placeholder span,
+.category-card-image-placeholder span {
+    font-size: 32px;
+    margin-bottom: 8px;
+}
+
+.category-card-placeholder-text,
+.category-card-image-placeholder small {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.category-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
+    z-index: 2;
+    transition: opacity 0.3s ease;
+}
+
+.category-card-item:hover .category-card-overlay {
+    opacity: 0.8;
+}
+
+.category-card-content {
+    position: relative;
+    z-index: 3;
+    text-align: center;
+    width: 100%;
+    background-color: #2C2C2C;
+}
+
+.category-card-subtitle {
+    font-size: 12px;
+    font-weight: 500;
+    margin: 0 0 6px 0;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.category-card-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.category-cards-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+}
+
+.category-cards-empty p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+    .category-cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+    
+    .category-cards-title {
+        font-size: 32px;
+    }
+    
+    .category-card-content {
+        padding: 16px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .category-cards-block {
+        padding: 40px 16px;
+    }
+    
+    .category-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    
+    .category-cards-title {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    .category-cards-subtitle {
+        font-size: 14px;
+    }
+    
+    .category-cards-header {
+        margin-bottom: 30px;
+    }
+    
+    .category-card-image-wrapper {
+        padding: 16px;
+    }
+    
+    .category-card-title {
+        font-size: 16px;
+    }
+    
+    .category-card-icon {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .category-card-subtitle {
+        font-size: 11px;
+    }
+    
+    .category-card-icon {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .category-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+}

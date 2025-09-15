@@ -1,0 +1,104 @@
+/* Editor Styles for Animated Text Block */
+.wp-block-my-e-shop-animated-text {
+    border: 2px dashed #ddd;
+    margin: 20px 0;
+    position: relative;
+}
+
+.wp-block-my-e-shop-animated-text .animated-text-section {
+    padding: 40px 20px;
+    min-height: 150px;
+}
+
+.wp-block-my-e-shop-animated-text .text-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.wp-block-my-e-shop-animated-text .text-content.preview-mode {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.9);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Превью размеров шрифта в редакторе */
+.wp-block-my-e-shop-animated-text.font-small .text-content {
+    font-size: 14px;
+}
+
+.wp-block-my-e-shop-animated-text.font-normal .text-content {
+    font-size: 16px;
+}
+
+.wp-block-my-e-shop-animated-text.font-large .text-content {
+    font-size: 18px;
+}
+
+.wp-block-my-e-shop-animated-text.font-extra-large .text-content {
+    font-size: 22px;
+}
+
+/* Выравнивание в редакторе */
+.wp-block-my-e-shop-animated-text.align-left .text-content {
+    text-align: left;
+}
+
+.wp-block-my-e-shop-animated-text.align-center .text-content {
+    text-align: center;
+}
+
+.wp-block-my-e-shop-animated-text.align-right .text-content {
+    text-align: right;
+}
+
+/* Стили для панели инструментов */
+.components-toolbar-group .components-button.is-active {
+    background-color: #007cba;
+    color: white;
+}
+
+/* Стили для боковой панели */
+.components-panel__body .components-color-picker {
+    margin-top: 10px;
+}
+
+.components-base-control__field {
+    margin-bottom: 15px;
+}
+
+/* Индикатор настроек */
+.wp-block-my-e-shop-animated-text .settings-preview {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.wp-block-my-e-shop-animated-text .settings-preview strong {
+    color: #333;
+}
+
+/* Стили для RichText в редакторе */
+.wp-block-my-e-shop-animated-text .text-content [data-rich-text-placeholder]:after {
+    color: #999;
+    font-style: italic;
+}
+
+/* Hover эффекты в редакторе */
+.wp-block-my-e-shop-animated-text:hover {
+    border-color: #007cba;
+}
+
+/* Выделенное состояние */
+.wp-block-my-e-shop-animated-text.is-selected {
+    border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+}

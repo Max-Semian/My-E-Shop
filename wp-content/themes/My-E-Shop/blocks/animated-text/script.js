@@ -1,0 +1,191 @@
+// Animated Text Block Frontend JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Находим все блоки анимированного текста
+    const animatedTextBlocks = document.querySelectorAll('.animated-text-section');
+    
+    // Функция для очистки HTML тегов и получения чистого текста
+    function getCleanText(element) {
+        let text = element.getAttribute('data-text');
+        if (!text) {
+            // Если нет data-text, получаем из innerHTML и очищаем
+            text = element.innerHTML;
+            // Убираем все HTML теги кроме содержимого
+            text = text.replace(/<[^>]*>/g, '');
+            // Убираем лишние пробелы
+            text = text.replace(/\s+/g, ' ').trim();
+            // Сохраняем очищенный текст в data-атрибут
+            element.setAttribute('data-text', text);
+        }
+        return text;
+    }
+    
+    // Функция для анимации печатной машинки
+    function typewriterAnimation(element, speed = 50) {
+        const cleanText = getCleanText(element);
+        
+        element.textContent = '';
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+        element.classList.add('typewriter');
+        
+        let i = 0;
+        const timer = setInterval(function() {
+            if (i < cleanText.length) {
+                element.textContent += cleanText.charAt(i);
+                i++;
+            } else {
+                clearInterval(timer);
+                // Убираем курсор через 2 секунды
+                setTimeout(() => {
+                    element.style.borderRight = 'none';
+                }, 2000);
+            }
+        }, speed);
+    }
+    
+    // Функция для анимации появления слов
+    function fadeInWordsAnimation(element, speed = 100) {
+        const cleanText = getCleanText(element);
+        const words = cleanText.split(' ').filter(word => word.trim() !== '');
+        
+        element.innerHTML = '';
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+        element.classList.add('fadeInWords');
+        
+        words.forEach((word, index) => {
+            const span = document.createElement('span');
+            span.className = 'word';
+            span.textContent = word + ' ';
+            span.style.animationDelay = (index * 0.1) + 's';
+            span.style.opacity = '0';
+            span.style.transform = 'translateY(20px)';
+            span.style.display = 'inline-block';
+            span.style.animation = 'fadeInWord 0.6s ease forwards';
+            element.appendChild(span);
+        });
+    }
+    
+    // Функция для плавного появления
+    function fadeInAnimation(element) {
+        element.classList.add('fadeIn');
+    }
+    
+    // Функция для скольжения снизу
+    function slideUpAnimation(element) {
+        element.classList.add('slideUp');
+    }
+    
+    // Intersection Observer для запуска анимаций при появлении в поле зрения
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                const section = entry.target;
+                const textContent = section.querySelector('.text-content');
+                
+                if (textContent && !textContent.classList.contains('loaded')) {
+                    const animationType = section.getAttribute('data-animation') || 'fadeIn';
+                    const speed = parseInt(section.getAttribute('data-speed')) || 50;
+                    
+                    // Запускаем анимацию в зависимости от типа
+                    switch (animationType) {
+                        case 'typewriter':
+                            typewriterAnimation(textContent, speed);
+                            break;
+                        case 'fadeInWords':
+                            fadeInWordsAnimation(textContent, speed);
+                            break;
+                        case 'slideUp':
+                            slideUpAnimation(textContent);
+                            break;
+                        default:
+                            fadeInAnimation(textContent);
+                    }
+                    
+                    textContent.classList.add('loaded');
+                    observer.unobserve(section);
+                }
+            }
+        });
+    }, { 
+        threshold: 0.3,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Наблюдаем за всеми блоками анимированного текста
+    animatedTextBlocks.forEach(function(block) {
+        // Инициализируем очистку текста для каждого блока
+        const textContent = block.querySelector('.text-content');
+        if (textContent) {
+            getCleanText(textContent);
+        }
+        observer.observe(block);
+    });
+    
+    // Функция для повторного запуска анимации (для разработки)
+    function restartAnimations() {
+        animatedTextBlocks.forEach(function(block) {
+            const textContent = block.querySelector('.text-content');
+            if (textContent) {
+                textContent.classList.remove('loaded', 'typewriter', 'fadeInWords', 'fadeIn', 'slideUp');
+                textContent.style.opacity = '0';
+                textContent.style.transform = 'translateY(30px)';
+                textContent.style.borderRight = '';
+                
+                // Восстанавливаем оригинальный текст
+                const originalText = textContent.getAttribute('data-text');
+                if (originalText) {
+                    textContent.innerHTML = originalText;
+                } else {
+                    // Очищаем spans от предыдущей анимации fadeInWords
+                    const words = textContent.querySelectorAll('.word');
+                    if (words.length > 0) {
+                        const originalText = Array.from(words).map(word => word.textContent).join('');
+                        textContent.innerHTML = originalText;
+                        textContent.setAttribute('data-text', originalText);
+                    }
+                }
+                
+                observer.observe(block);
+            }
+        });
+    }
+    
+    // Добавляем функцию в глобальную область видимости для отладки
+    window.restartTextAnimations = restartAnimations;
+    
+    // Добавляем функцию для отладки текста
+    window.debugTextContent = function() {
+        animatedTextBlocks.forEach(function(block, index) {
+            const textContent = block.querySelector('.text-content');
+            if (textContent) {
+                console.log(`Block ${index + 1}:`);
+                console.log('innerHTML:', textContent.innerHTML);
+                console.log('textContent:', textContent.textContent);
+                console.log('data-text:', textContent.getAttribute('data-text'));
+                console.log('animation:', block.getAttribute('data-animation'));
+                console.log('---');
+            }
+        });
+    };
+    
+    // Обработчик изменения размера окна для адаптивности
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+            // Проверяем, нужно ли перезапустить анимации на мобильных устройствах
+            if (window.innerWidth <= 768) {
+                animatedTextBlocks.forEach(function(block) {
+                    const textContent = block.querySelector('.text-content');
+                    if (textContent && textContent.classList.contains('typewriter')) {
+                        textContent.classList.remove('typewriter');
+                        textContent.style.borderRight = 'none';
+                        textContent.style.whiteSpace = 'normal';
+                        fadeInAnimation(textContent);
+                    }
+                });
+            }
+        }, 250);
+    });
+});

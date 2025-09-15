@@ -1,0 +1,162 @@
+/* Editor Styles for Product Cards Block */
+.wp-block-my-e-shop-product-cards {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.wp-block-my-e-shop-product-cards .product-cards-container {
+    background-color: var(--product-cards-bg-color, #f8f9fa);
+    padding: 40px 20px;
+    border-radius: 8px;
+}
+
+.wp-block-my-e-shop-product-cards .product-cards-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.wp-block-my-e-shop-product-cards .block-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.wp-block-my-e-shop-product-cards .block-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.wp-block-my-e-shop-product-cards .products-grid {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(var(--product-cards-columns, 4), 1fr);
+}
+
+.wp-block-my-e-shop-product-cards .product-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.wp-block-my-e-shop-product-cards .product-card:hover {
+    transform: translateY(-2px);
+}
+
+.wp-block-my-e-shop-product-cards .product-image-container {
+    position: relative;
+    height: 150px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+}
+
+.wp-block-my-e-shop-product-cards .product-content {
+    padding: 15px;
+}
+
+.wp-block-my-e-shop-product-cards .product-title-display {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.wp-block-my-e-shop-product-cards .product-price-display {
+    font-size: 16px;
+    font-weight: bold;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+
+.wp-block-my-e-shop-product-cards .product-link-display {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #007cba;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.wp-block-my-e-shop-product-cards .loading {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 40px 20px;
+    text-align: center;
+    color: #666;
+    border-radius: 4px;
+}
+
+.wp-block-my-e-shop-product-cards .no-products {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    color: #856404;
+    padding: 40px 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+/* Editor specific grid overrides for preview */
+.wp-block-my-e-shop-product-cards.columns-4 .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.wp-block-my-e-shop-product-cards.columns-5 .products-grid,
+.wp-block-my-e-shop-product-cards.columns-6 .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Inspector Controls Styling */
+.components-panel__body .components-base-control__field {
+    margin-bottom: 15px;
+}
+
+.components-toggle-control__label {
+    font-weight: 500;
+}
+
+.components-range-control__wrapper {
+    margin-bottom: 20px;
+}
+
+/* Product card preview in editor */
+.wp-block-my-e-shop-product-cards .product-card {
+    position: relative;
+    cursor: default;
+}
+
+.wp-block-my-e-shop-product-cards .add-to-cart-btn {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.wp-block-my-e-shop-product-cards .product-title {
+    font-size: 1rem;
+}
+
+.wp-block-my-e-shop-product-cards .product-price {
+    font-size: 1rem;
+}
+
+/* Responsive editor styles */
+@media (max-width: 768px) {
+    .wp-block-my-e-shop-product-cards.columns-2 .products-grid,
+    .wp-block-my-e-shop-product-cards.columns-3 .products-grid,
+    .wp-block-my-e-shop-product-cards.columns-4 .products-grid,
+    .wp-block-my-e-shop-product-cards.columns-5 .products-grid,
+    .wp-block-my-e-shop-product-cards.columns-6 .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .wp-block-my-e-shop-product-cards .product-image {
+        height: 150px;
+    }
+}

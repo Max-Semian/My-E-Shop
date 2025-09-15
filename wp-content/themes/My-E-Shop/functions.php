@@ -1116,3 +1116,187 @@ function newsletter_admin_page()
 }
 add_action('admin_page', 'newsletter_admin_page');
 
+/**
+ * ===================================================================
+ * GUTENBERG BLOCKS СИСТЕМА
+ * ===================================================================
+ */
+
+/**
+ * Register and enqueue block assets
+ */
+function my_e_shop_register_block_assets() {
+    // Register block editor script
+    wp_register_script(
+        'my-e-shop-blocks-editor',
+        get_template_directory_uri() . '/assets/js/blocks-editor.js',
+        array('wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wp-i18n'),
+        wp_get_theme()->get('Version'),
+        true
+    );
+
+    // Register block editor styles
+    wp_register_style(
+        'my-e-shop-blocks-editor',
+        get_template_directory_uri() . '/assets/css/blocks-editor.css',
+        array('wp-edit-blocks'),
+        wp_get_theme()->get('Version')
+    );
+
+    // Register frontend block styles
+    wp_register_style(
+        'my-e-shop-blocks',
+        get_template_directory_uri() . '/assets/css/blocks.css',
+        array(),
+        wp_get_theme()->get('Version')
+    );
+}
+add_action('init', 'my_e_shop_register_block_assets');
+
+/**
+ * Register category-cards block
+ */
+function my_e_shop_register_blocks() {
+    // Create design category for blocks
+    add_filter('block_categories_all', function($categories) {
+        array_unshift($categories, array(
+            'slug' => 'my-e-shop',
+            'title' => __('My E-Shop', 'my-e-shop')
+        ));
+        return $categories;
+    });
+
+    // Enqueue block editor scripts and styles
+    add_action('enqueue_block_editor_assets', function() {
+        // Category Cards Block
+        wp_enqueue_script(
+            'my-e-shop-category-cards-editor',
+            get_template_directory_uri() . '/blocks/category-cards/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-category-cards-editor-style',
+            get_template_directory_uri() . '/blocks/category-cards/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Fashion Hero Block
+        wp_enqueue_script(
+            'my-e-shop-fashion-hero-editor',
+            get_template_directory_uri() . '/blocks/fashion-hero/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-fashion-hero-editor-style',
+            get_template_directory_uri() . '/blocks/fashion-hero/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Animated Text Block
+        wp_enqueue_script(
+            'my-e-shop-animated-text-editor',
+            get_template_directory_uri() . '/blocks/animated-text/block.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-animated-text-editor-style',
+            get_template_directory_uri() . '/blocks/animated-text/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Product Cards Block
+        wp_enqueue_script(
+            'my-e-shop-product-cards-editor',
+            get_template_directory_uri() . '/blocks/product-cards/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components', 'wp-api-fetch', 'wp-data', 'wp-editor'),
+            '2.0.2',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-product-cards-editor-style',
+            get_template_directory_uri() . '/blocks/product-cards/editor.css',
+            array(),
+            '2.0.0'
+        );
+    });
+
+    // Enqueue frontend assets
+    add_action('wp_enqueue_scripts', function() {
+        // Category Cards Block
+        wp_enqueue_style(
+            'my-e-shop-category-cards-style',
+            get_template_directory_uri() . '/blocks/category-cards/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-category-cards-script',
+            get_template_directory_uri() . '/blocks/category-cards/script.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+
+        // Fashion Hero Block
+        wp_enqueue_style(
+            'my-e-shop-fashion-hero-style',
+            get_template_directory_uri() . '/blocks/fashion-hero/style.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Animated Text Block
+        wp_enqueue_style(
+            'my-e-shop-animated-text-style',
+            get_template_directory_uri() . '/blocks/animated-text/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-animated-text-script',
+            get_template_directory_uri() . '/blocks/animated-text/script.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+
+        // Product Cards Block
+        wp_enqueue_style(
+            'my-e-shop-product-cards-style',
+            get_template_directory_uri() . '/blocks/product-cards/style.css',
+            array(),
+            '2.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-product-cards-script',
+            get_template_directory_uri() . '/blocks/product-cards/script.js',
+            array('jquery'),
+            '2.0.0',
+            true
+        );
+    });
+
+    // Register blocks using block.json
+    register_block_type(get_template_directory() . '/blocks/category-cards/block.json');
+    register_block_type(get_template_directory() . '/blocks/fashion-hero/block.json');
+    register_block_type(get_template_directory() . '/blocks/animated-text/block.json');
+    register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
+}
+add_action('init', 'my_e_shop_register_blocks', 5);
+

@@ -1,0 +1,187 @@
+/* Animated Text Block Styles */
+.animated-text-section {
+    padding: 60px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+.text-block {
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+}
+
+.text-content {
+    font-size: 1.8rem;
+    line-height: 1.6;
+    color: #333;
+    font-weight: 400;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Размеры шрифта */
+.font-small .text-content {
+    font-size: 1.2rem;
+}
+
+.font-normal .text-content {
+    font-size: 1.5rem;
+}
+
+.font-large .text-content {
+    font-size: 1.8rem;
+}
+
+.font-extra-large .text-content {
+    font-size: 2.5rem;
+}
+
+/* Выравнивание текста */
+.align-left .text-content {
+    text-align: left;
+}
+
+.align-center .text-content {
+    text-align: center;
+}
+
+.align-right .text-content {
+    text-align: right;
+}
+
+/* Анимация печатной машинки */
+.text-content.typewriter {
+    opacity: 1;
+    transform: translateY(0);
+    overflow: hidden;
+    border-right: 2px solid #333;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3s steps(100, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: #333; }
+}
+
+/* Анимация появления слов */
+.text-content.fadeInWords {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.text-content.fadeInWords .word {
+    opacity: 0;
+    transform: translateY(20px);
+    display: inline-block;
+    animation: fadeInWord 0.6s ease forwards;
+}
+
+@keyframes fadeInWord {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Плавное появление */
+.text-content.fadeIn {
+    animation: fadeInText 2s ease forwards;
+}
+
+@keyframes fadeInText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Скольжение снизу */
+.text-content.slideUp {
+    animation: slideUpText 1.5s ease forwards;
+}
+
+@keyframes slideUpText {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Эффект свечения для текста */
+.text-content.glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                 0 0 20px rgba(255, 255, 255, 0.3),
+                 0 0 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .animated-text-section {
+        padding: 40px 15px;
+        min-height: 150px;
+    }
+    
+    .font-small .text-content {
+        font-size: 1rem;
+    }
+
+    .font-normal .text-content {
+        font-size: 1.2rem;
+    }
+
+    .font-large .text-content {
+        font-size: 1.4rem;
+    }
+
+    .font-extra-large .text-content {
+        font-size: 1.8rem;
+    }
+    
+    .text-content.typewriter {
+        white-space: normal;
+        border-right: none;
+        animation: fadeInText 2s ease forwards;
+    }
+}
+
+@media (max-width: 480px) {
+    .animated-text-section {
+        padding: 30px 10px;
+    }
+    
+    .font-small .text-content {
+        font-size: 0.9rem;
+    }
+
+    .font-normal .text-content {
+        font-size: 1.1rem;
+    }
+
+    .font-large .text-content {
+        font-size: 1.3rem;
+    }
+
+    .font-extra-large .text-content {
+        font-size: 1.6rem;
+    }
+}
+
+/* Состояние загружен */
+.text-content.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}

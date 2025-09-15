@@ -1,0 +1,62 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/animated-text",
+	"version": "1.0.0",
+	"title": "Animated Text Block",
+	"category": "my-e-shop",
+	"icon": "format-quote",
+	"description": "Блок с анимированным текстом для создания эффектных заголовков и описаний",
+	"keywords": [
+		"text",
+		"animated",
+		"quote",
+		"hero"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true
+		}
+	},
+	"attributes": {
+		"content": {
+			"type": "string",
+			"default": "T-shirts that combine runway aesthetics with individuality. These are clothes for those who want to be on trend, express themselves and belong to a niche community - without overpaying for a brand."
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "center"
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "large"
+		},
+		"animationType": {
+			"type": "string",
+			"default": "typewriter"
+		},
+		"animationSpeed": {
+			"type": "number",
+			"default": 50
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": ""
+		},
+		"textColor": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./block.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}
