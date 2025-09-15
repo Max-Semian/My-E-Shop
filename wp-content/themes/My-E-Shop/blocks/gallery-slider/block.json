@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/gallery-slider",
+	"version": "1.0.0",
+	"title": "Gallery Slider",
+	"category": "my-e-shop",
+	"icon": "images-alt2",
+	"description": "Галерея изображений с бесконечной прокруткой",
+	"keywords": [
+		"gallery",
+		"slider",
+		"carousel",
+		"images"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Gallery of Inspiration"
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "Create your own archetype lookbook"
+		},
+		"images": {
+			"type": "array",
+			"default": []
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"subtitleColor": {
+			"type": "string",
+			"default": "#666666"
+		},
+		"animationSpeed": {
+			"type": "number",
+			"default": 50
+		},
+		"cardWidth": {
+			"type": "number",
+			"default": 280
+		},
+		"cardHeight": {
+			"type": "number",
+			"default": 492
+		}
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}

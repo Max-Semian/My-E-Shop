@@ -1,0 +1,105 @@
+/* Gallery Slider Block Editor Styles */
+.gallery-slider-block-editor {
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    position: relative;
+}
+
+.gallery-slider-block-editor .section-title {
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.gallery-slider-block-editor .section-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.gallery-slider-block-editor .collections-slider-section {
+    position: relative;
+}
+
+.gallery-slider-block-editor .collections-horizontal-carousel {
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.gallery-slider-block-editor .collections-smooth-track {
+    display: flex;
+    gap: 15px;
+    width: fit-content;
+    min-width: 100%;
+}
+
+.gallery-slider-block-editor .collections-square-card {
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-slider-block-editor .collections-square-image {
+    display: block;
+    border-radius: 8px;
+}
+
+.gallery-slider-block-editor .button-link-delete {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #d63638 !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.gallery-slider-block-editor .button-link-delete:hover {
+    background: rgba(214, 54, 56, 0.9) !important;
+    color: white !important;
+    transform: scale(1.1) !important;
+}
+
+/* Стили для панели настроек */
+.components-panel__body .components-base-control__label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.components-color-picker {
+    margin-top: 8px;
+}
+
+/* Анимация в редакторе отключена для производительности */
+.gallery-slider-block-editor .collections-smooth-track {
+    animation: none !important;
+}
+
+/* Скроллбар для горизонтальной прокрутки */
+.gallery-slider-block-editor .collections-horizontal-carousel::-webkit-scrollbar {
+    height: 6px;
+}
+
+.gallery-slider-block-editor .collections-horizontal-carousel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.gallery-slider-block-editor .collections-horizontal-carousel::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.gallery-slider-block-editor .collections-horizontal-carousel::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}

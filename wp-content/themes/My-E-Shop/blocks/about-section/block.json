@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/about-section",
+	"version": "1.0.0",
+	"title": "About Section",
+	"category": "my-e-shop",
+	"icon": "format-quote",
+	"description": "Блок с фоном, заголовком, текстом и кнопкой",
+	"keywords": [
+		"about",
+		"section",
+		"banner",
+		"hero"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "About the brand"
+		},
+		"description": {
+			"type": "string",
+			"default": "So familiar love for fashion, yet handmade. All of our pieces are handcrafted, down to our smallest components of dreams. Find out how it is made from us."
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "Learn more"
+		},
+		"buttonLink": {
+			"type": "string",
+			"default": "#"
+		},
+		"backgroundImage": {
+			"type": "string",
+			"default": ""
+		},
+		"backgroundImageId": {
+			"type": "number",
+			"default": 0
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#2c2c2c"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"overlay": {
+			"type": "number",
+			"default": 0.5
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

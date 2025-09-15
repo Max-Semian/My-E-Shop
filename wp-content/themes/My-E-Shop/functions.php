@@ -1231,6 +1231,38 @@ function my_e_shop_register_blocks() {
             array(),
             '2.0.0'
         );
+
+        // About Section Block
+        wp_enqueue_script(
+            'my-e-shop-about-section-editor',
+            get_template_directory_uri() . '/blocks/about-section/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-about-section-editor-style',
+            get_template_directory_uri() . '/blocks/about-section/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Gallery Slider Block
+        wp_enqueue_script(
+            'my-e-shop-gallery-slider-editor',
+            get_template_directory_uri() . '/blocks/gallery-slider/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-gallery-slider-editor-style',
+            get_template_directory_uri() . '/blocks/gallery-slider/editor.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Enqueue frontend assets
@@ -1290,6 +1322,30 @@ function my_e_shop_register_blocks() {
             '2.0.0',
             true
         );
+
+        // About Section Block
+        wp_enqueue_style(
+            'my-e-shop-about-section-style',
+            get_template_directory_uri() . '/blocks/about-section/style.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Gallery Slider Block
+        wp_enqueue_style(
+            'my-e-shop-gallery-slider-style',
+            get_template_directory_uri() . '/blocks/gallery-slider/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-gallery-slider-script',
+            get_template_directory_uri() . '/blocks/gallery-slider/script.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
     });
 
     // Register blocks using block.json
@@ -1297,6 +1353,8 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/fashion-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/animated-text/block.json');
     register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
+    register_block_type(get_template_directory() . '/blocks/about-section/block.json');
+    register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
 

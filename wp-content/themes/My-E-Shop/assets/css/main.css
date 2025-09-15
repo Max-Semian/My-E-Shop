@@ -1448,7 +1448,6 @@ section.widget {
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             margin: 0 4px;
             cursor: pointer;
-            border-radius: 8px;
             position: relative;
         }
 
@@ -1464,7 +1463,6 @@ section.widget {
             height: 100%;
             object-fit: cover;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            border-radius: 8px;
             position: relative;
             z-index: 1; /* Изображение выше псевдо-элементов */
         }

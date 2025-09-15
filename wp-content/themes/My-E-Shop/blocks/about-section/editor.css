@@ -1,0 +1,56 @@
+/* Editor Styles for About Section Block */
+.wp-block-my-e-shop-about-section {
+    border: 2px dashed #ccc;
+    margin: 20px 0;
+}
+
+.wp-block-my-e-shop-about-section .about-section-container {
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.wp-block-my-e-shop-about-section .about-section-content {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.wp-block-my-e-shop-about-section .about-section-inner {
+    max-width: 600px;
+}
+
+.wp-block-my-e-shop-about-section .about-section-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    line-height: 1.2;
+}
+
+.wp-block-my-e-shop-about-section .about-section-description {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    opacity: 0.9;
+}
+
+.wp-block-my-e-shop-about-section .about-section-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    border: 2px solid currentColor;
+    border-radius: 4px;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
