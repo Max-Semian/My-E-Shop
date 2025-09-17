@@ -14,79 +14,81 @@
     <?php wp_body_open();?>
     
     <header class="header header-transparent">
-        <!-- Top Light Bar -->
-        <div class="top-light-bar">
+        <!-- Single Header Bar -->
+        <div class="main-header-bar">
             <div class="container">
-                <!-- Логотип в центре -->
-                <a class="navbar-brand" href="<?php echo home_url('/')?>">
-                    <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo-Cretho.png" alt="logo">
-                </a>
-                
-                <!-- Правые иконки -->
-                <div class="header-icons">
-                    <a href="<?php echo home_url('/search'); ?>" class="header-icon">
-                        <i class="fas fa-search"></i>
-                    </a>
-                    <a href="<?php echo home_url('/account'); ?>" class="header-icon">
-                        <i class="fas fa-user"></i>
+                <div class="header-content">
+                    <!-- Логотип слева -->
+                    <a class="navbar-brand" href="<?php echo home_url('/')?>">
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo-Cretho.png" alt="logo">
                     </a>
                     
-                    <!-- Mobile toggle button -->
-                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Main Dark Bar -->
-        <div class="main-dark-bar">
-            <div class="container">
-                <!-- ИСПРАВЛЕНО: используем правильную структуру для горизонтальной навигации -->
-                <nav class="navbar-nav d-none d-lg-flex">
-                    <div class="nav-item dropdown">
-                        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="nav-link dropdown-toggle">
-                            Shop
+                    <!-- Навигация по центру -->
+                    <nav class="navbar-nav d-none d-lg-flex">
+                        <div class="nav-item dropdown">
+                            <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="nav-link dropdown-toggle">
+                                SHOP
+                            </a>
+                            <ul class="dropdown-menu shop-dropdown">
+                                <li class="dropdown-item-wrapper">
+                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/witch-teaser/'); ?>">
+                                    <div class="dropdown-icon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Star.png" alt="Star" />
+                                    </div>
+                                        <span class="dropdown-text">Witch Core</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown-item-wrapper">
+                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/tender-thoughts'); ?>">
+                                        <div class="dropdown-icon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Heart.png" alt="Heart" />
+                                        </div>
+                                        <span class="dropdown-text">Tender Thoughts</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown-item-wrapper">
+                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/data-muse'); ?>">
+                                        <div class="dropdown-icon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Internet.png" alt="Internet" />
+                                        </div>
+                                        <span class="dropdown-text">Data Muse</span>
+                                    </a>
+                                </li>
+                                <li class="dropdown-item-wrapper">
+                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/identity-in-action'); ?>">
+                                        <div class="dropdown-icon">
+                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Punch.png" alt="Punch" />
+                                        </div>
+                                        <span class="dropdown-text">Identity In Action</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <a href="<?php echo home_url('/blog'); ?>" class="nav-link">BLOG</a>
+                        <a href="<?php echo home_url('/about'); ?>" class="nav-link">ABOUT US</a>
+                    </nav>
+                    
+                    <!-- Иконки справа -->
+                    <div class="header-icons">
+                        <a href="<?php echo home_url('/search'); ?>" class="header-icon">
+                            <i class="fas fa-search"></i>
                         </a>
-                        <ul class="dropdown-menu shop-dropdown">
-                            <li class="dropdown-item-wrapper">
-                                <a class="dropdown-item" href="<?php echo home_url('/product-category/witch-teaser/'); ?>">
-                                <div class="dropdown-icon">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Star.png" alt="Star" />
-                                </div>
-                                    <span class="dropdown-text">Witch Core</span>
-                                </a>
-                            </li>
-                            <li class="dropdown-item-wrapper">
-                                <a class="dropdown-item" href="<?php echo home_url('/product-category/tender-thoughts'); ?>">
-                                    <div class="dropdown-icon">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Heart.png" alt="Heart" />
-                                    </div>
-                                    <span class="dropdown-text">Tender Thoughts</span>
-                                </a>
-                            </li>
-                            <li class="dropdown-item-wrapper">
-                                <a class="dropdown-item" href="<?php echo home_url('/product-category/data-muse'); ?>">
-                                    <div class="dropdown-icon">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Internet.png" alt="Internet" />
-                                    </div>
-                                    <span class="dropdown-text">Data Muse</span>
-                                </a>
-                            </li>
-                            <li class="dropdown-item-wrapper">
-                                <a class="dropdown-item" href="<?php echo home_url('/product-category/identity-in-action'); ?>">
-                                    <div class="dropdown-icon">
-                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Punch.png" alt="Punch" />
-                                    </div>
-                                    <span class="dropdown-text">Identity In Action</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <a href="<?php echo home_url('/account'); ?>" class="header-icon">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        <a href="<?php echo home_url('/wishlist'); ?>" class="header-icon">
+                            <i class="fas fa-heart"></i>
+                        </a>
+                        <a href="<?php echo get_permalink(wc_get_page_id('cart')); ?>" class="header-icon">
+                            <i class="fas fa-shopping-bag"></i>
+                        </a>
+                        
+                        <!-- Mobile toggle button -->
+                        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <i class="fas fa-bars"></i>
+                        </button>
                     </div>
-                    <a href="<?php echo home_url('/blog'); ?>" class="nav-link">Blog</a>
-                    <a href="<?php echo home_url('/about'); ?>" class="nav-link">About Us</a>
-                    <a href="<?php echo get_permalink(wc_get_page_id('cart')); ?>" class="nav-link">Cart</a>
-                </nav>
+                </div>
             </div>
         </div>
         

@@ -219,93 +219,120 @@ section {
     display: none;
 }
 
-/* ========== TOP LIGHT BAR ========== */
-.top-light-bar {
-    background-color: #F5F5F5;
+/* ========== MAIN HEADER BAR ========== */
+.main-header-bar {
+    background-color: #2C2C2C;
     padding: 15px 0;
-    border-bottom: 1px solid #E0E0E0;
+    border-bottom: 1px solid #3C3C3C;
+    overflow: visible;
 }
 
-.top-light-bar .container {
+.main-header-bar .container {
+    overflow: visible;
+}
+
+.main-header-bar .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
 }
 
-/* Логотип в центре */
-.top-light-bar .navbar-brand {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
+/* Логотип слева */
+.main-header-bar .navbar-brand {
+    flex-shrink: 0;
 }
 
-.top-light-bar .navbar-brand img {
+.main-header-bar .navbar-brand img {
     height: 45px;
     width: auto;
 }
 
-/* Правые иконки */
-.top-light-bar .header-icons {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-left: auto;
-}
-
-.top-light-bar .header-icon {
-    color: #333333;
-    font-size: 20px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.top-light-bar .header-icon:hover {
-    color: #D85AFF;
-}
-
-/* Mobile toggle */
-.top-light-bar .navbar-toggler {
-    border: none;
-    background: transparent;
-    color: #333333;
-    font-size: 18px;
-}
-
-/* ========== MAIN DARK BAR ========== */
-.main-dark-bar {
-    background-color: #2C2C2C;
-    padding: 10px 0;
-    border-bottom: 1px solid #3C3C3C;
-    overflow: visible;
-}
-
-.main-dark-bar .container {
-    overflow: visible;
-}
-
-.main-dark-bar .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* ИСПРАВЛЯЕМ: навигация должна быть горизонтальной */
-.main-dark-bar .navbar-nav {
+/* Навигация по центру */
+.main-header-bar .navbar-nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
     display: flex !important;
     flex-direction: row !important;
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 30px;
     align-items: center;
-    justify-content: center;
+    gap: 40px;
+}
+
+.main-header-bar .nav-link {
+    color: #FFFFFF !important;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    position: relative;
+}
+
+.main-header-bar .nav-link:hover {
+    color: #D85AFF !important;
+}
+
+/* Иконки справа */
+.main-header-bar .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.main-header-bar .header-icon {
+    color: #FFFFFF;
+    font-size: 18px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px;
+}
+
+.main-header-bar .header-icon:hover {
+    color: #D85AFF;
+}
+
+/* Mobile toggle */
+.main-header-bar .navbar-toggler {
+    border: none;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 18px;
+    margin-left: 15px;
+}
+
+/* Dropdown Styles */
+.main-header-bar .dropdown {
+    position: relative;
+}
+
+.main-header-bar .dropdown-toggle::after {
+    content: '';
+    border: none;
+    margin-left: 8px;
+}
+
+.main-header-bar .dropdown-toggle {
+    position: relative;
+}
+
+.main-header-bar .dropdown-toggle::after {
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-left: 8px;
+    font-size: 12px;
 }
 
 /* ИСПРАВЛЯЕМ: убираем вертикальное отображение */
-.main-dark-bar .navbar-nav li {
+.main-header-bar .navbar-nav li {
     display: inline-block !important;
     margin: 0 !important;
 }

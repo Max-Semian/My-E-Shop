@@ -39,7 +39,11 @@ $wrapper_attributes = get_block_wrapper_attributes();
         <!-- Background Images Grid -->
         <div class="fashion-images-grid">
             <?php foreach ($images as $index => $image) : ?>
-                <div class="fashion-image-card">
+                <?php 
+                // На мобильных устройствах показываем только первые 6 изображений
+                $mobile_class = ($index >= 6) ? 'fashion-mobile-hidden' : '';
+                ?>
+                <div class="fashion-image-card fashion-image-<?php echo ($index + 1); ?> <?php echo $mobile_class; ?>">
                     <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt'] ?: 'Fashion Model ' . ($index + 1)); ?>">
                 </div>
             <?php endforeach; ?>
