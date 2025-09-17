@@ -1,4 +1,5 @@
 /* ==================== Fashion Hero Block ==================== */
+
 .fashion-hero-section {
     width: 100%;
     max-width: auto;
@@ -15,6 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: -60px;
 }
 
 /* Background Images Grid */

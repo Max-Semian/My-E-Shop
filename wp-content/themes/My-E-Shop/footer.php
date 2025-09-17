@@ -4,7 +4,7 @@
             <div class="col-md-3 col-6">
                 <div class="footer-logo">
                     <a href="/">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/footer-logo.svg" alt="Crethos">
+                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/footer-logo.png" alt="Crethos">
                     </a>
                 </div>
                 <p>

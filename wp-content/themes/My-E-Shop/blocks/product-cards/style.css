@@ -26,10 +26,11 @@
 
 .product-cards-titles {
     flex: 1;
+    margin-left: 111px;
 }
 
 .product-cards-title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Playfair Display', sans-serif;
     font-weight: 700;
     font-size: 36px;
     color: #333;

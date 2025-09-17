@@ -1248,6 +1248,22 @@ function my_e_shop_register_blocks() {
             array(),
             '1.0.0'
         );
+
+        // Newsletter Section Block
+        wp_enqueue_script(
+            'my-e-shop-newsletter-section-editor',
+            get_template_directory_uri() . '/blocks/newsletter-section/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-newsletter-section-editor-style',
+            get_template_directory_uri() . '/blocks/newsletter-section/editor.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Enqueue frontend assets
@@ -1347,6 +1363,14 @@ function my_e_shop_register_blocks() {
             '1.0.0',
             true
         );
+
+        // Newsletter Section Block
+        wp_enqueue_style(
+            'my-e-shop-newsletter-section-style',
+            get_template_directory_uri() . '/blocks/newsletter-section/style.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Register blocks using block.json
@@ -1357,6 +1381,97 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/about-section/block.json');
     register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');
     register_block_type(get_template_directory() . '/blocks/why-choose-us/block.json');
+    register_block_type(get_template_directory() . '/blocks/newsletter-section/block.json');
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
+
+// Шорткод для вывода двух постов блога
+function blog_trends_shortcode($atts) {
+    $atts = shortcode_atts(array(
+        'title' => 'Trends',
+        'subtitle' => 'Ride the wave of the future',
+        'posts_count' => 2
+    ), $atts);
+
+    // Получаем последние посты
+    $posts = get_posts(array(
+        'post_type' => 'post',
+        'posts_per_page' => intval($atts['posts_count']),
+        'post_status' => 'publish',
+        'orderby' => 'date',
+        'order' => 'DESC'
+    ));
+
+    if (empty($posts)) {
+        return '<p>No blog posts found.</p>';
+    }
+
+    ob_start();
+    ?>
+    <section class="blog-trends-section">
+        <div class="container">
+            <div class="blog-trends-header">
+                <h2 class="blog-trends-title"><?php echo esc_html($atts['title']); ?></h2>
+                <p class="blog-trends-subtitle"><?php echo esc_html($atts['subtitle']); ?></p>
+            </div>
+            
+            <div class="blog-trends-grid">
+                <?php foreach ($posts as $post) : ?>
+                    <div class="blog-trend-card">
+                        <div class="blog-trend-image">
+                            <?php if (has_post_thumbnail($post->ID)) : ?>
+                                <a href="<?php echo get_permalink($post->ID); ?>">
+                                    <?php echo get_the_post_thumbnail($post->ID, 'large', array('alt' => get_the_title($post->ID))); ?>
+                                </a>
+                            <?php else : ?>
+                                <a href="<?php echo get_permalink($post->ID); ?>">
+                                    <img src="<?php echo get_template_directory_uri(); ?>/assets/img/default-blog.jpg" alt="<?php echo esc_attr(get_the_title($post->ID)); ?>">
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        
+                        <div class="blog-trend-content">
+                            <h3 class="blog-trend-title">
+                                <a href="<?php echo get_permalink($post->ID); ?>">
+                                    <?php echo get_the_title($post->ID); ?>
+                                </a>
+                            </h3>
+                            
+                            <div class="blog-trend-meta">
+                                <span class="blog-trend-date">
+                                    <?php echo get_the_date('F j, Y', $post->ID); ?>
+                                </span>
+                            </div>
+                            
+                            <div class="blog-trend-excerpt">
+                                <?php 
+                                $excerpt = get_the_excerpt($post->ID);
+                                if (empty($excerpt)) {
+                                    $excerpt = wp_trim_words(get_the_content(null, false, $post->ID), 20, '...');
+                                }
+                                echo wp_strip_all_tags($excerpt); 
+                                ?>
+                            </div>
+                            
+                            <a href="<?php echo get_permalink($post->ID); ?>" class="blog-trend-read-more">
+                                read more
+                            </a>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </section>
+    <?php
+    return ob_get_clean();
+}
+add_shortcode('blog_trends', 'blog_trends_shortcode');
+
+// Скрыть заголовки на всех страницах
+add_filter('the_title', function($title, $id) {
+    if (is_page() && in_the_loop()) {
+        return '';
+    }
+    return $title;
+}, 10, 2);
 

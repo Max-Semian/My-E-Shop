@@ -1,0 +1,27 @@
+/* Newsletter Section Editor Styles */
+.newsletter-section-preview {
+    border: 2px dashed #cccccc;
+    border-radius: 8px;
+    margin: 10px 0;
+}
+
+.newsletter-section-preview .newsletter-title {
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.newsletter-section-preview .newsletter-subtitle {
+    margin-bottom: 30px;
+    opacity: 0.9;
+}
+
+.newsletter-section-preview input,
+.newsletter-section-preview button {
+    pointer-events: none;
+}
+
+.newsletter-section-preview input:focus,
+.newsletter-section-preview button:focus {
+    outline: none;
+    box-shadow: none;
+}

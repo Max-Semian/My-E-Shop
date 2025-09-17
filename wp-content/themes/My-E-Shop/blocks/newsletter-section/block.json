@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/newsletter-section",
+	"version": "1.0.0",
+	"title": "Newsletter Section",
+	"category": "my-e-shop",
+	"icon": "email-alt",
+	"description": "Блок с формой подписки на рассылку",
+	"keywords": [
+		"newsletter",
+		"subscription",
+		"email",
+		"signup"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Join our world and get 5% off your first order"
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "Stay up to date with our news and get exclusive promotional content"
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "SUBSCRIBE"
+		},
+		"placeholderText": {
+			"type": "string",
+			"default": "Enter your email here..."
+		},
+		"backgroundImage": {
+			"type": "string",
+			"default": ""
+		},
+		"backgroundImageId": {
+			"type": "number",
+			"default": 0
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#2c2c2c"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"overlay": {
+			"type": "number",
+			"default": 0.7
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

@@ -20,7 +20,7 @@
                 <div class="header-content">
                     <!-- Логотип слева -->
                     <a class="navbar-brand" href="<?php echo home_url('/')?>">
-                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo-Cretho.png" alt="logo">
+                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo.png" alt="logo">
                     </a>
                     
                     <!-- Навигация по центру -->

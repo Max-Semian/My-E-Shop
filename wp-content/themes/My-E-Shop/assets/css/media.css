@@ -1103,3 +1103,90 @@
         font-size: 18px;
     }
 }
+
+/* ========== BLOG TRENDS RESPONSIVE ========== */
+
+/* Tablet styles */
+@media (max-width: 768px) {
+    .blog-trends-section {
+        padding: 60px 0;
+    }
+    
+    .blog-trends-header {
+        margin-bottom: 40px;
+    }
+    
+    .blog-trends-title {
+        font-size: 2.5rem;
+    }
+    
+    .blog-trends-subtitle {
+        font-size: 1rem;
+    }
+    
+    .blog-trends-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 20px;
+    }
+    
+    .blog-trend-image {
+        height: 250px;
+    }
+    
+    .blog-trend-content {
+        padding: 25px;
+    }
+    
+    .blog-trend-title {
+        font-size: 1.3rem;
+    }
+}
+
+/* Mobile styles */
+@media (max-width: 480px) {
+    .blog-trends-section {
+        padding: 40px 0;
+    }
+    
+    .blog-trends-header {
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+    
+    .blog-trends-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .blog-trends-subtitle {
+        font-size: 0.95rem;
+    }
+    
+    .blog-trends-grid {
+        gap: 25px;
+        padding: 0 15px;
+    }
+    
+    .blog-trend-image {
+        height: 200px;
+    }
+    
+    .blog-trend-content {
+        padding: 20px;
+    }
+    
+    .blog-trend-title {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+    
+    .blog-trend-excerpt {
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .blog-trend-read-more {
+        font-size: 0.85rem;
+    }
+}
