@@ -1,41 +1,106 @@
-/* Why Choose Us Block Styles */
-.why-choose-us-block {
+/* Why Choose Us Block Styles - 3 Column Layout */
+.why-choose-us {
     padding: 60px 0;
+    background-color: #2a2a2a;
+    color: #ffffff;
 }
 
-.why-choose-us-block .about-section-title {
+.why-choose-us .about-section-title {
     font-size: 2.5rem;
     font-weight: 300;
     margin-bottom: 3rem;
     text-align: center;
+    color: #F4F0EB;
 }
 
-.why-choose-us-block .accordion-container {
-    max-width: 100%;
+.why-choose-us .features-row {
+    margin-top: 40px;
 }
 
-.why-choose-us-block .accordion-item {
-    margin-bottom: 15px;
+.why-choose-us .feature-item {
+    text-align: center;
+    padding: 30px 20px;
+    background-color: #333333;
     border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    transition: box-shadow 0.3s ease;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.why-choose-us-block .accordion-item:hover {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+.why-choose-us .feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.why-choose-us-block .accordion-header {
+.why-choose-us .feature-icon {
+    margin-bottom: 25px;
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 20px 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 12px 12px 0 0;
-    position: relative;
-    gap: 15px;
+    min-height: 80px;
 }
+
+.why-choose-us .feature-icon img {
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.why-choose-us .feature-icon span {
+    font-size: 60px;
+    line-height: 1;
+    display: block;
+}
+
+.why-choose-us .feature-item:hover .feature-icon img,
+.why-choose-us .feature-item:hover .feature-icon span {
+    transform: scale(1.1);
+}
+
+.why-choose-us .feature-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #ffffff;
+    line-height: 1.3;
+}
+
+.why-choose-us .feature-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #cccccc;
+    margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+    .why-choose-us .feature-item {
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .why-choose-us {
+        padding: 40px 0;
+    }
+    
+    .why-choose-us .about-section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .why-choose-us .feature-icon span {
+        font-size: 50px;
+    }
+    
+    .why-choose-us .feature-title {
+        font-size: 18px;
+    }
+    
+    .why-choose-us .feature-description {
+        font-size: 14px;
+    }
+}
+
 
 .why-choose-us-block .accordion-header:hover {
     transform: translateY(-1px);
