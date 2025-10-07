@@ -62,14 +62,33 @@
     transform: translateY(0);
     overflow: hidden;
     border-right: 2px solid #333;
-    white-space: nowrap;
+    white-space: pre-wrap; /* Позволяем перенос строк */
     margin: 0 auto;
     animation: typing 3s steps(100, end), blink-caret 0.75s step-end infinite;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    line-height: 1.6;
+}
+
+/* Улучшенная поддержка переносов строк */
+@media (max-width: 1200px) {
+    .text-content.typewriter {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
 }
 
 @keyframes typing {
-    from { width: 0; }
-    to { width: 100%; }
+    from { 
+        width: 0;
+        max-height: 0;
+    }
+    to { 
+        width: 100%;
+        max-height: none;
+    }
 }
 
 @keyframes blink-caret {
@@ -135,6 +154,13 @@
         min-height: 150px;
     }
     
+    .text-content {
+        white-space: pre-line; /* Сохраняем переносы строк */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-height: 1.7; /* Увеличиваем межстрочный интервал */
+    }
+    
     .font-small .text-content {
         font-size: 1rem;
     }
@@ -152,15 +178,24 @@
     }
     
     .text-content.typewriter {
-        white-space: normal;
+        white-space: pre-wrap; /* Переносы строк с сохранением пробелов */
         border-right: none;
         animation: fadeInText 2s ease forwards;
+        word-break: break-word;
+        overflow-wrap: anywhere;
     }
 }
 
 @media (max-width: 480px) {
     .animated-text-section {
         padding: 30px 10px;
+    }
+    
+    .text-content {
+        line-height: 1.8; /* Еще больше межстрочный интервал для очень маленьких экранов */
+        white-space: pre-line;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
     }
     
     .font-small .text-content {

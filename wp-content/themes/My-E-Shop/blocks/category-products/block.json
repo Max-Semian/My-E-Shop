@@ -1,0 +1,87 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/category-products",
+	"version": "1.0.0",
+	"title": "Category Products",
+	"category": "my-e-shop",
+	"icon": "category",
+	"description": "Блок товаров категории с хлебными крошками, поиском и слайдером",
+	"keywords": [
+		"category",
+		"products",
+		"breadcrumbs",
+		"search",
+		"slider",
+		"категория",
+		"товары"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"categoryId": {
+			"type": "number",
+			"default": 0
+		},
+		"categorySlug": {
+			"type": "string",
+			"default": ""
+		},
+		"showBreadcrumbs": {
+			"type": "boolean",
+			"default": true
+		},
+		"showSearch": {
+			"type": "boolean",
+			"default": true
+		},
+		"productsPerSlide": {
+			"type": "number",
+			"default": 4
+		},
+		"showNavigation": {
+			"type": "boolean",
+			"default": true
+		},
+		"showPagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"autoplay": {
+			"type": "boolean",
+			"default": false
+		},
+		"autoplaySpeed": {
+			"type": "number",
+			"default": 3000
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#ffffff"
+		},
+		"titleColor": {
+			"type": "string",
+			"default": "#333333"
+		},
+		"priceColor": {
+			"type": "string",
+			"default": "#e74c3c"
+		},
+		"productInfoBackgroundColor": {
+			"type": "string",
+			"default": "#f8f9fa"
+		}
+	},
+	"textdomain": "my-e-shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php",
+	"script": "file:./script.js"
+}

@@ -1,0 +1,100 @@
+/* Стили для редактора блока Category Hero */
+
+.category-hero-block .category-hero-container {
+    position: relative;
+    width: 100%;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 2px dashed #ccc;
+}
+
+/* В редакторе показываем полную ширину для понимания как будет выглядеть */
+.editor-styles-wrapper .category-hero-block .category-hero-container {
+    margin: 0 -20px; /* Имитируем полноэкранный вид в редакторе */
+}
+
+.category-hero-block .category-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.category-hero-block .category-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.category-hero-block .category-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+.category-hero-block .category-hero-title {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 600 !important;
+    font-size: 60px !important;
+    line-height: 70px !important;
+    letter-spacing: 2px !important;
+    color: #F4F0EB !important;
+    margin: 0 !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.category-hero-block .category-hero-title:focus {
+    outline: 2px solid #007cba;
+    outline-offset: 2px;
+}
+
+/* Медиа-запросы для адаптивности в редакторе */
+@media (max-width: 768px) {
+    .category-hero-block .category-hero-container {
+        height: 500px;
+    }
+    
+    .category-hero-block .category-hero-title {
+        font-size: 40px !important;
+        line-height: 50px !important;
+        letter-spacing: 1px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .category-hero-block .category-hero-container {
+        height: 400px;
+    }
+    
+    .category-hero-block .category-hero-title {
+        font-size: 32px !important;
+        line-height: 40px !important;
+        letter-spacing: 1px !important;
+    }
+    
+    .category-hero-block .category-hero-content {
+        padding: 1rem;
+    }
+}
+
+/* Стили для панели настроек */
+.media-upload-container {
+    margin-bottom: 20px;
+}
+
+.media-upload-container img {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}

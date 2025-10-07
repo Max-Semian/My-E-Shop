@@ -1,4 +1,236 @@
 <?php
+/**
+ * Пользовательская функция для обработки WooCommerce шорткодов
+ */
+function force_woocommerce_shortcodes_init() {
+    if (!class_exists('WooCommerce')) {
+        return;
+    }
+    
+    // Инициализируем WooCommerce если еще не инициализирован
+    if (function_exists('WC') && WC()) {
+        // Подключаем все необходимые файлы WooCommerce
+        WC()->frontend_includes();
+        
+        // Подключаем дополнительные файлы если они не подключены
+        $wc_path = WP_PLUGIN_DIR . '/woocommerce/';
+        
+        if (!function_exists('wc_get_default_products_per_row')) {
+            $template_functions = $wc_path . 'includes/wc-template-functions.php';
+            if (file_exists($template_functions)) {
+                require_once $template_functions;
+            }
+        }
+        
+        if (!function_exists('woocommerce_output_related_products')) {
+            $template_hooks = $wc_path . 'includes/wc-template-hooks.php';
+            if (file_exists($template_hooks)) {
+                require_once $template_hooks;
+            }
+        }
+        
+        if (!function_exists('wc_get_products')) {
+            $product_functions = $wc_path . 'includes/wc-product-functions.php';
+            if (file_exists($product_functions)) {
+                require_once $product_functions;
+            }
+        }
+        
+        // Инициализируем необходимые компоненты
+        if (!WC()->query) {
+            WC()->query = new WC_Query();
+        }
+        if (!WC()->customer) {
+            WC()->customer = new WC_Customer();
+        }
+        
+        // Убеждаемся что основные хуки WooCommerce активированы
+        if (!did_action('woocommerce_init')) {
+            do_action('woocommerce_init');
+        }
+    }
+    
+    // Принудительно подключаем файл шорткодов
+    if (!class_exists('WC_Shortcodes')) {
+        $shortcodes_file = WP_PLUGIN_DIR . '/woocommerce/includes/class-wc-shortcodes.php';
+        if (file_exists($shortcodes_file)) {
+            include_once $shortcodes_file;
+        }
+    }
+    
+    // Инициализируем шорткоды
+    if (class_exists('WC_Shortcodes')) {
+        WC_Shortcodes::init();
+    }
+    
+    // Принудительно регистрируем все основные шорткоды WooCommerce
+    if (class_exists('WC_Shortcodes')) {
+        $shortcodes_to_register = array(
+            'woocommerce_products' => 'products',
+            'products' => 'products',
+            'woocommerce_product' => 'product',
+            'product' => 'product',
+            'woocommerce_product_page' => 'product_page',
+            'product_page' => 'product_page',
+            'woocommerce_product_category' => 'product_category',
+            'product_category' => 'product_category',
+            'woocommerce_product_categories' => 'product_categories',
+            'product_categories' => 'product_categories',
+            'woocommerce_add_to_cart' => 'product_add_to_cart',
+            'add_to_cart' => 'product_add_to_cart',
+            'woocommerce_add_to_cart_url' => 'product_add_to_cart_url',
+            'add_to_cart_url' => 'product_add_to_cart_url',
+            'recent_products' => 'recent_products',
+            'sale_products' => 'sale_products',
+            'best_selling_products' => 'best_selling_products',
+            'top_rated_products' => 'top_rated_products',
+            'featured_products' => 'featured_products'
+        );
+        
+        foreach ($shortcodes_to_register as $shortcode => $method) {
+            if (!shortcode_exists($shortcode) && method_exists('WC_Shortcodes', $method)) {
+                add_shortcode($shortcode, array('WC_Shortcodes', $method));
+            }
+        }
+    }
+    
+    // Если все равно не работает, регистрируем собственную функцию
+    if (!shortcode_exists('woocommerce_products')) {
+        add_shortcode('woocommerce_products', 'custom_woocommerce_products_shortcode');
+    }
+    if (!shortcode_exists('products')) {
+        add_shortcode('products', 'custom_woocommerce_products_shortcode');
+    }
+}
+
+/**
+ * Пользовательская функция-обработчик для шорткода товаров
+ */
+function custom_woocommerce_products_shortcode($atts) {
+    if (!class_exists('WooCommerce')) {
+        return '<p>WooCommerce не активен</p>';
+    }
+    
+    // Если стандартный метод существует, используем его
+    if (class_exists('WC_Shortcodes') && method_exists('WC_Shortcodes', 'products')) {
+        return WC_Shortcodes::products($atts);
+    }
+    
+    // Иначе создаем простую замену
+    $atts = shortcode_atts(array(
+        'category' => '',
+        'columns' => 4,
+        'limit' => 12,
+        'orderby' => 'menu_order title',
+        'order' => 'ASC',
+        'ids' => '',
+        'skus' => '',
+        'visibility' => 'visible'
+    ), $atts);
+    
+    $args = array(
+        'post_type' => 'product',
+        'posts_per_page' => intval($atts['limit']),
+        'orderby' => $atts['orderby'],
+        'order' => $atts['order'],
+        'post_status' => 'publish',
+        'meta_query' => WC()->query->get_meta_query()
+    );
+    
+    // Добавляем фильтр по видимости товаров
+    $args['tax_query'] = WC()->query->get_tax_query();
+    
+    if (!empty($atts['category'])) {
+        $args['tax_query'][] = array(
+            'taxonomy' => 'product_cat',
+            'field' => 'slug',
+            'terms' => explode(',', $atts['category'])
+        );
+    }
+    
+    if (!empty($atts['ids'])) {
+        $args['post__in'] = array_map('trim', explode(',', $atts['ids']));
+    }
+    
+    // Убираем товары не в наличии если нужно
+    if ($atts['visibility'] === 'visible') {
+        $args['meta_query'][] = array(
+            'key' => '_visibility',
+            'value' => array('catalog', 'visible'),
+            'compare' => 'IN'
+        );
+    }
+    
+    $products = new WP_Query($args);
+    
+    if (!$products->have_posts()) {
+        return '<div class="woocommerce"><p class="woocommerce-info">Товары не найдены.</p></div>';
+    }
+    
+    ob_start();
+    
+    // Добавляем классы WooCommerce для правильного отображения
+    echo '<div class="woocommerce">';
+    echo '<div class="woocommerce-products-shortcode">';
+    echo '<ul class="products columns-' . esc_attr($atts['columns']) . '">';
+    
+    // Устанавливаем глобальную переменную для колонок
+    global $woocommerce_loop;
+    $woocommerce_loop['columns'] = intval($atts['columns']);
+    
+    while ($products->have_posts()) {
+        $products->the_post();
+        wc_get_template_part('content', 'product');
+    }
+    
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
+    
+    wp_reset_postdata();
+    
+    return ob_get_clean();
+}
+
+// Запускаем инициализацию на хуке template_redirect для категорий товаров
+add_action('template_redirect', function() {
+    if (is_product_category()) {
+        force_woocommerce_shortcodes_init();
+    }
+});
+
+// Также запускаем инициализацию на хуке wp_loaded для всех страниц
+add_action('wp_loaded', function() {
+    if (class_exists('WooCommerce')) {
+        force_woocommerce_shortcodes_init();
+    }
+});
+
+// И еще один хук на случай если нужно для админки
+add_action('init', function() {
+    if (class_exists('WooCommerce')) {
+        force_woocommerce_shortcodes_init();
+    }
+}, 20);
+
+// Фильтр для выбора правильного шаблона категории
+add_filter('template_include', function($template) {
+    if (is_product_category()) {
+        $current_category = get_queried_object();
+        if ($current_category) {
+            $selected_template = get_term_meta($current_category->term_id, '_category_template', true);
+            
+            if ($selected_template === 'dark') {
+                $dark_template = locate_template('woocommerce/taxonomy-product-cat-dark.php');
+                if ($dark_template) {
+                    return $dark_template;
+                }
+            }
+        }
+    }
+    return $template;
+});
+
 function mytheme_add_woocommerce_support() {
     load_theme_textdomain( 'My-E-Shop', get_template_directory() . '/languages' );
     add_theme_support( 'woocommerce' );
@@ -29,6 +261,9 @@ add_action('after_setup_theme', 'mytheme_add_woocommerce_support');
 
 
 add_action('wp_enqueue_scripts', function () {
+    // Подключаем Google Fonts
+    wp_enqueue_style('google-fonts-playfair', 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap', array(), null);
+    
     wp_enqueue_style('My-E-Shop-bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css');
     wp_enqueue_style('My-E-Shop-fontawesome', get_template_directory_uri() . '/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css');
     wp_enqueue_style('My-E-Shop-owlcarousel', get_template_directory_uri() . '/assets/owlcarousel2/owl.carousel.min.css');
@@ -36,6 +271,11 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('My-E-Shop-fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
     wp_enqueue_style('My-E-Shop-main', get_template_directory_uri() .'/assets/css/main.css');
     wp_enqueue_style('My-E-Shop-media', get_template_directory_uri() .'/assets/css/media.css');
+    
+    // Подключаем стили для страниц категорий на соответствующих страницах
+    if (is_product_category() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
+        wp_enqueue_style('My-E-Shop-category-pages', get_template_directory_uri() . '/assets/css/category-pages.css');
+    }
 
     // Подключаем jQuery первым
     wp_deregister_script('jquery');
@@ -823,6 +1063,14 @@ add_action( 'product_cat_edit_form_fields', 'edit_category_custom_fields', 10, 2
 
 function add_category_custom_fields() {
     ?>
+    <div class="form-field term-template-wrap">
+        <label for="category_template"><?php esc_html_e( 'Шаблон категории', 'my-shop' ); ?></label>
+        <select name="category_template" id="category_template">
+            <option value="default"><?php esc_html_e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
+            <option value="dark"><?php esc_html_e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+        </select>
+        <p class="description"><?php esc_html_e( 'Выберите шаблон для отображения страницы категории.', 'my-shop' ); ?></p>
+    </div>
     <div class="form-field term-color-wrap">
         <label for="category_button_color"><?php esc_html_e( 'Цвет кнопки категории', 'my-shop' ); ?></label>
         <input type="text" name="category_button_color" id="category_button_color" value="" class="color-field" data-default-color="#4a4a4a" />
@@ -837,9 +1085,20 @@ function add_category_custom_fields() {
 }
 
 function edit_category_custom_fields( $term ) {
+    $template = get_term_meta( $term->term_id, '_category_template', true );
     $color = get_term_meta( $term->term_id, 'category_button_color', true );
     $icon = get_term_meta( $term->term_id, 'category_button_icon', true );
     ?>
+    <tr class="form-field term-template-wrap">
+        <th scope="row"><label for="category_template"><?php esc_html_e( 'Шаблон категории', 'my-shop' ); ?></label></th>
+        <td>
+            <select name="category_template" id="category_template">
+                <option value="default" <?php selected($template, 'default'); ?>><?php esc_html_e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
+                <option value="dark" <?php selected($template, 'dark'); ?>><?php esc_html_e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+            </select>
+            <p class="description"><?php esc_html_e( 'Выберите шаблон для отображения страницы категории.', 'my-shop' ); ?></p>
+        </td>
+    </tr>
     <tr class="form-field term-color-wrap">
         <th scope="row"><label for="category_button_color"><?php esc_html_e( 'Цвет кнопки категории', 'my-shop' ); ?></label></th>
         <td>
@@ -862,6 +1121,9 @@ add_action( 'create_product_cat', 'save_category_custom_fields', 10, 2 );
 add_action( 'edited_product_cat', 'save_category_custom_fields', 10, 2 );
 
 function save_category_custom_fields( $term_id ) {
+    if ( isset( $_POST['category_template'] ) ) {
+        update_term_meta( $term_id, '_category_template', sanitize_text_field( $_POST['category_template'] ) );
+    }
     if ( isset( $_POST['category_button_color'] ) ) {
         update_term_meta( $term_id, 'category_button_color', sanitize_hex_color( $_POST['category_button_color'] ) );
     }
@@ -1264,6 +1526,54 @@ function my_e_shop_register_blocks() {
             array(),
             '1.0.0'
         );
+
+        // Category Hero Block
+        wp_enqueue_script(
+            'my-e-shop-category-hero-editor',
+            get_template_directory_uri() . '/blocks/category-hero/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-category-hero-editor-style',
+            get_template_directory_uri() . '/blocks/category-hero/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Category Products Block
+        wp_enqueue_script(
+            'my-e-shop-category-products-editor',
+            get_template_directory_uri() . '/blocks/category-products/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components', 'wp-api-fetch', 'wp-data'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-category-products-editor-style',
+            get_template_directory_uri() . '/blocks/category-products/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Newsletter Subscription Block
+        wp_enqueue_script(
+            'my-e-shop-newsletter-subscription-editor',
+            get_template_directory_uri() . '/blocks/newsletter-subscription/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-newsletter-subscription-editor-style',
+            get_template_directory_uri() . '/blocks/newsletter-subscription/editor.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Enqueue frontend assets
@@ -1371,6 +1681,48 @@ function my_e_shop_register_blocks() {
             array(),
             '1.0.0'
         );
+
+        // Category Hero Block
+        wp_enqueue_style(
+            'my-e-shop-category-hero-style',
+            get_template_directory_uri() . '/blocks/category-hero/style.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Category Products Block
+        wp_enqueue_style(
+            'my-e-shop-category-products-style',
+            get_template_directory_uri() . '/blocks/category-products/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-category-products-script',
+            get_template_directory_uri() . '/blocks/category-products/script.js',
+            array('jquery'),
+            '1.0.0',
+            true
+        );
+        
+        // Передать AJAX URL для блока category-products
+        wp_localize_script(
+            'my-e-shop-category-products-script',
+            'categoryProductsAjax',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+                'nonce' => wp_create_nonce('category_products_nonce')
+            )
+        );
+
+        // Newsletter Subscription Block
+        wp_enqueue_style(
+            'my-e-shop-newsletter-subscription-style',
+            get_template_directory_uri() . '/blocks/newsletter-subscription/style.css',
+            array(),
+            '1.0.0'
+        );
     });
 
     // Register blocks using block.json
@@ -1382,6 +1734,9 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');
     register_block_type(get_template_directory() . '/blocks/why-choose-us/block.json');
     register_block_type(get_template_directory() . '/blocks/newsletter-section/block.json');
+    register_block_type(get_template_directory() . '/blocks/category-hero/block.json');
+    register_block_type(get_template_directory() . '/blocks/category-products/block.json');
+    register_block_type(get_template_directory() . '/blocks/newsletter-subscription/block.json');
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
 
@@ -1474,4 +1829,135 @@ add_filter('the_title', function($title, $id) {
     }
     return $title;
 }, 10, 2);
+
+// Подключаем функционал кастомных страниц категорий
+require_once get_template_directory() . '/includes/category-pages.php';
+
+// AJAX обработчик для добавления товара в корзину
+function handle_ajax_add_to_cart() {
+    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'wc_add_to_cart_nonce') && !current_user_can('edit_posts')) {
+        // Разрешаем без nonce для совместимости
+    }
+
+    if (!class_exists('WooCommerce')) {
+        wp_die('WooCommerce not active');
+    }
+
+    $product_id = absint($_POST['product_id'] ?? 0);
+    $quantity = absint($_POST['quantity'] ?? 1);
+    $variation_id = absint($_POST['variation_id'] ?? 0);
+    $variation = array();
+
+    if (empty($product_id)) {
+        wp_send_json_error('Invalid product ID');
+        return;
+    }
+
+    // Получаем продукт
+    $product = wc_get_product($product_id);
+    if (!$product) {
+        wp_send_json_error('Product not found');
+        return;
+    }
+
+    // Добавляем товар в корзину
+    $result = WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variation);
+    
+    if ($result) {
+        wp_send_json_success(array(
+            'message' => 'Product added to cart',
+            'cart_count' => WC()->cart->get_cart_contents_count(),
+            'cart_total' => WC()->cart->get_cart_total()
+        ));
+    } else {
+        wp_send_json_error('Failed to add product to cart');
+    }
+}
+add_action('wp_ajax_woocommerce_add_to_cart', 'handle_ajax_add_to_cart');
+add_action('wp_ajax_nopriv_woocommerce_add_to_cart', 'handle_ajax_add_to_cart');
+
+// AJAX обработчик для загрузки товаров категории
+function load_category_products_ajax() {
+    // Проверка безопасности
+    if (!wp_verify_nonce($_POST['nonce'], 'category_products_nonce')) {
+        wp_send_json_error('Invalid nonce');
+    }
+    
+    $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
+    $per_page = isset($_POST['per_page']) ? intval($_POST['per_page']) : 4;
+    $search = isset($_POST['search']) ? sanitize_text_field($_POST['search']) : '';
+    
+    if (!$category_id) {
+        wp_send_json_error('Category ID required');
+    }
+    
+    $args = array(
+        'post_type' => 'product',
+        'post_status' => 'publish',
+        'posts_per_page' => $per_page,
+        'paged' => $page,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'product_cat',
+                'field' => 'term_id',
+                'terms' => $category_id,
+            ),
+        ),
+    );
+    
+    // Добавляем поиск если указан
+    if (!empty($search)) {
+        $args['s'] = $search;
+    }
+    
+    $products = new WP_Query($args);
+    
+    ob_start();
+    if ($products->have_posts()) {
+        while ($products->have_posts()) {
+            $products->the_post();
+            global $product;
+            
+            echo '<div class="product-slide">';
+            echo '<div class="product-card">';
+            echo '<div class="product-image">';
+            echo '<a href="' . get_permalink() . '">';
+            if (has_post_thumbnail()) {
+                the_post_thumbnail('woocommerce_thumbnail');
+            } else {
+                echo '<img src="' . wc_placeholder_img_src() . '" alt="No Image">';
+            }
+            echo '</a>';
+            echo '</div>';
+            
+            echo '<div class="product-info">';
+            echo '<h3 class="product-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
+            echo '<div class="product-price">' . $product->get_price_html() . '</div>';
+            
+            // Кнопка добавления в корзину
+            if ($product->is_purchasable() && $product->is_in_stock()) {
+                echo '<button class="add-to-cart-btn" data-product-id="' . get_the_ID() . '">Add to Cart</button>';
+            }
+            
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+    } else {
+        echo '<div class="no-products">No products found</div>';
+    }
+    
+    $content = ob_get_clean();
+    wp_reset_postdata();
+    
+    wp_send_json_success(array(
+        'content' => $content,
+        'total_pages' => $products->max_num_pages,
+        'current_page' => $page,
+        'total_products' => $products->found_posts
+    ));
+}
+add_action('wp_ajax_load_category_products', 'load_category_products_ajax');
+add_action('wp_ajax_nopriv_load_category_products', 'load_category_products_ajax');
 

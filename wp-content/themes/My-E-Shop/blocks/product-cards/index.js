@@ -17,6 +17,7 @@
         var SelectControl = wp.components.SelectControl;
         var Button = wp.components.Button;
         var ColorPicker = wp.components.ColorPicker;
+        var ToggleControl = wp.components.ToggleControl;
         var MediaUpload = wp.blockEditor.MediaUpload;
         var MediaUploadCheck = wp.blockEditor.MediaUploadCheck;
 
@@ -35,6 +36,7 @@
                                 imageId: 0,
                                 title: 'Товар 1',
                                 price: '$30.00',
+                                originalPrice: '',
                                 link: '#'
                             }
                         ]
@@ -61,6 +63,7 @@
                         imageId: 0,
                         title: 'Новый товар',
                         price: '$30.00',
+                        originalPrice: '',
                         link: '#'
                     });
                     setAttributes({ customImages: newProducts });
@@ -159,6 +162,42 @@
                         ]),
                         
                         createElement(PanelBody, {
+                            key: 'cart-button-panel',
+                            title: __('Настройки кнопки корзины', 'my-e-shop'),
+                            initialOpen: false
+                        }, [
+                            createElement(ToggleControl, {
+                                key: 'show-cart-button-toggle',
+                                label: __('Показывать кнопку корзины', 'my-e-shop'),
+                                checked: attributes.showCartButton !== false,
+                                onChange: function(value) {
+                                    setAttributes({ showCartButton: value });
+                                }
+                            }),
+                            
+                            attributes.showCartButton !== false && createElement(TextControl, {
+                                key: 'cart-button-text-control',
+                                label: __('Текст кнопки', 'my-e-shop'),
+                                value: attributes.cartButtonText || 'Add to Cart',
+                                onChange: function(value) {
+                                    setAttributes({ cartButtonText: value });
+                                },
+                                style: { marginTop: '10px' }
+                            }),
+                            
+                            attributes.showCartButton !== false && createElement(TextControl, {
+                                key: 'cart-button-link-control',
+                                label: __('Ссылка кнопки корзины', 'my-e-shop'),
+                                value: attributes.cartButtonLink || '#',
+                                onChange: function(value) {
+                                    setAttributes({ cartButtonLink: value });
+                                },
+                                style: { marginTop: '10px' },
+                                placeholder: 'https://example.com/cart'
+                            })
+                        ]),
+                        
+                        createElement(PanelBody, {
                             key: 'products-panel',
                             title: __('Карточки товаров', 'my-e-shop'),
                             initialOpen: true
@@ -235,11 +274,21 @@
                                     
                                     createElement(TextControl, {
                                         key: 'product-price-input-' + index,
-                                        label: __('Цена', 'my-e-shop'),
+                                        label: __('Цена со скидкой', 'my-e-shop'),
                                         value: product.price,
                                         onChange: function(value) {
                                             updateProductCard(index, 'price', value);
                                         }
+                                    }),
+                                    
+                                    createElement(TextControl, {
+                                        key: 'product-original-price-input-' + index,
+                                        label: __('Оригинальная цена (без скидки)', 'my-e-shop'),
+                                        value: product.originalPrice || '',
+                                        onChange: function(value) {
+                                            updateProductCard(index, 'originalPrice', value);
+                                        },
+                                        help: __('Оставьте пустым, если скидки нет', 'my-e-shop')
                                     }),
                                     
                                     createElement(TextControl, {

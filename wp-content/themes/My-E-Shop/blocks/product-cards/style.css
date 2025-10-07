@@ -96,6 +96,83 @@
     overflow: hidden;
     transition: all 0.3s ease;
     border: 2px solid transparent;
+    background-color: #fff;
+}
+
+/* Брейкер */
+.product-card-breaker {
+    width: 100%;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 10px 0;
+}
+
+/* Нижняя часть карточки */
+.product-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+}
+
+/* Ценовая секция */
+.product-card-price-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.product-card-original-price {
+    font-size: 14px;
+    color: #888;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+.product-card-sale-price {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+.product-card-price {
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Иконка корзины */
+.product-card-actions {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+.product-cart-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: #b83dba;
+    color: white;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.product-cart-button:hover {
+    background-color: #9a2c9d;
+    color: white;
+    text-decoration: none;
+    transform: scale(1.1);
+}
+
+.product-cart-button::before {
+    content: "🛒";
+    font-size: 16px;
 }
 
 .product-card-item:hover {

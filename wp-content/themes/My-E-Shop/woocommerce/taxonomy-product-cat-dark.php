@@ -43,9 +43,7 @@ if (!$category_page) {
     <p>[woocommerce_products category="' . $current_category->slug . '" columns="4" limit="12"]</p>
     <!-- /wp:paragraph -->
 </div>
-<!-- /wp:group -->';
-
-    $page_id = wp_insert_post([
+<!-- /wp:group -->';    $page_id = wp_insert_post([
         'post_title'   => 'Категория: ' . $current_category->name,
         'post_name'    => $category_page_slug,
         'post_status'  => 'publish',
@@ -88,12 +86,14 @@ get_header( 'shop' ); ?>
         
         // Выводим кастомный контент страницы с обработкой шорткодов
         
+
+        
         // Принудительно обрабатываем шорткоды
         $content = do_shortcode($content);
         
         // Отладочная информация после обработки
         if (current_user_can('manage_options')) {
-            echo '<!-- DEBUG: Content after do_shortcode: ' . esc_html(substr($content, 0, 200)) . '... -->';
+            echo '<!-- DEBUG DARK: Content after do_shortcode: ' . esc_html(substr($content, 0, 200)) . '... -->';
         }
         
         // Затем применяем остальные фильтры контента  
@@ -112,32 +112,5 @@ get_header( 'shop' ); ?>
         <?php wc_get_template( 'archive-product.php' ); ?>
     <?php endif; ?>
 </div>
-
-<style>
-.category-custom-content {
-    margin-bottom: 2rem;
-}
-
-.category-edit-link {
-    text-align: center;
-    margin: 1rem 0;
-    padding: 1rem;
-    background: #f9f9f9;
-    border-radius: 5px;
-}
-
-.category-edit-link .button {
-    background: #0073aa;
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    border-radius: 3px;
-    display: inline-block;
-}
-
-.category-edit-link .button:hover {
-    background: #005a87;
-}
-</style>
 
 <?php get_footer( 'shop' );

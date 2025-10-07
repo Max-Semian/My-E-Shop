@@ -25,13 +25,18 @@
             animationType, 
             animationSpeed,
             backgroundColor,
-            textColor 
+            textColor,
+            templateTheme 
         } = attributes;
+        
+        // Автоматически устанавливаем цвет текста для тёмного шаблона
+        const effectiveTextColor = templateTheme === 'dark' ? '#F4F0EB' : textColor;
+        
         const blockProps = useBlockProps({
-            className: `animated-text-block align-${textAlign} font-${fontSize}`,
+            className: `animated-text-block align-${textAlign} font-${fontSize} theme-${templateTheme}`,
             style: {
                 backgroundColor: backgroundColor || undefined,
-                color: textColor || undefined
+                color: effectiveTextColor || undefined
             }
         });
 
@@ -47,8 +52,29 @@
 
             el(InspectorControls, {},
                 el(PanelBody, { 
-                    title: __('Настройки текста', 'My-E-Shop'), 
+                    title: __('Шаблон и тема', 'My-E-Shop'), 
                     initialOpen: true 
+                },
+                    el(SelectControl, {
+                        label: __('Тема шаблона', 'My-E-Shop'),
+                        value: templateTheme,
+                        options: [
+                            { label: __('Светлый шаблон', 'My-E-Shop'), value: 'light' },
+                            { label: __('Тёмный шаблон', 'My-E-Shop'), value: 'dark' }
+                        ],
+                        onChange: function(value) { 
+                            setAttributes({ templateTheme: value });
+                            // При выборе тёмного шаблона автоматически устанавливаем светлый цвет текста
+                            if (value === 'dark') {
+                                setAttributes({ textColor: '#F4F0EB' });
+                            }
+                        }
+                    })
+                ),
+
+                el(PanelBody, { 
+                    title: __('Настройки текста', 'My-E-Shop'), 
+                    initialOpen: false 
                 },
                     el(SelectControl, {
                         label: __('Размер шрифта', 'My-E-Shop'),
@@ -93,12 +119,29 @@
                     title: __('Цвета', 'My-E-Shop'), 
                     initialOpen: false 
                 },
+                    templateTheme === 'dark' && el('div', { 
+                        style: { 
+                            padding: '10px', 
+                            backgroundColor: '#f0f0f0', 
+                            borderRadius: '4px', 
+                            marginBottom: '15px',
+                            fontSize: '12px' 
+                        } 
+                    },
+                        __('ℹ️ Для тёмного шаблона автоматически установлен светлый цвет текста #F4F0EB', 'My-E-Shop')
+                    ),
+
                     el('div', { style: { marginBottom: '15px' } },
                         el('label', {}, __('Цвет текста', 'My-E-Shop')),
                         el(ColorPicker, {
-                            color: textColor,
-                            onChange: function(value) { setAttributes({ textColor: value }); },
-                            enableAlpha: true
+                            color: templateTheme === 'dark' ? '#F4F0EB' : textColor,
+                            onChange: function(value) { 
+                                if (templateTheme !== 'dark') {
+                                    setAttributes({ textColor: value }); 
+                                }
+                            },
+                            enableAlpha: true,
+                            disabled: templateTheme === 'dark'
                         })
                     ),
 
@@ -125,7 +168,7 @@
                     el('div', { 
                         className: 'text-content preview-mode',
                         style: {
-                            color: textColor || undefined,
+                            color: effectiveTextColor + ' !important',
                             fontSize: fontSize === 'small' ? '14px' : 
                                      fontSize === 'normal' ? '16px' :
                                      fontSize === 'large' ? '18px' : '22px'
@@ -153,6 +196,7 @@
             },
                 el('strong', {}, __('Предпросмотр настроек:', 'My-E-Shop')),
                 el('br'),
+                __('Тема:', 'My-E-Shop') + ' ' + (templateTheme === 'dark' ? __('Тёмная', 'My-E-Shop') : __('Светлая', 'My-E-Shop')) + ', ',
                 __('Анимация:', 'My-E-Shop') + ' ' + animationType + ', ',
                 __('Скорость:', 'My-E-Shop') + ' ' + animationSpeed + 'мс, ',
                 __('Размер:', 'My-E-Shop') + ' ' + fontSize
@@ -169,11 +213,15 @@
             animationType, 
             animationSpeed,
             backgroundColor,
-            textColor 
+            textColor,
+            templateTheme 
         } = attributes;
         
+        // Автоматически устанавливаем цвет текста для тёмного шаблона
+        const effectiveTextColor = templateTheme === 'dark' ? '#F4F0EB' : textColor;
+        
         const blockProps = useBlockProps.save({
-            className: `animated-text-block align-${textAlign} font-${fontSize}`
+            className: `animated-text-block align-${textAlign} font-${fontSize} theme-${templateTheme}`
         });
 
         return el('div', blockProps,
@@ -181,7 +229,7 @@
                 className: 'animated-text-section',
                 style: {
                     backgroundColor: backgroundColor || undefined,
-                    color: textColor || undefined
+                    color: effectiveTextColor || undefined
                 },
                 'data-animation': animationType,
                 'data-speed': animationSpeed
@@ -194,7 +242,8 @@
                             textAlign: textAlign,
                             fontSize: fontSize === 'small' ? '14px' : 
                                      fontSize === 'normal' ? '16px' :
-                                     fontSize === 'large' ? '18px' : '22px'
+                                     fontSize === 'large' ? '18px' : '22px',
+                            color: effectiveTextColor + ' !important'
                         },
                         // Сохраняем чистый текст без HTML тегов для корректной работы анимаций
                         'data-text': content ? content.replace(/<[^>]*>/g, '') : ''
@@ -254,6 +303,10 @@
             textColor: {
                 type: 'string',
                 default: ''
+            },
+            templateTheme: {
+                type: 'string',
+                default: 'light'
             }
         },
         edit: Edit,

@@ -1,0 +1,41 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/category-hero",
+    "version": "1.0.0",
+    "title": "Category Hero",
+    "category": "my-e-shop",
+    "icon": "cover-image",
+    "description": "Полноэкранный заголовок категории с фоновым изображением",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "categoryTitle": {
+            "type": "string",
+            "default": "Название категории"
+        },
+        "backgroundImage": {
+            "type": "object",
+            "default": {
+                "id": 0,
+                "url": "",
+                "alt": ""
+            }
+        },
+        "textColor": {
+            "type": "string",
+            "default": "#F4F0EB"
+        },
+        "overlayOpacity": {
+            "type": "number",
+            "default": 0.5
+        }
+    },
+    "textdomain": "My-E-Shop",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

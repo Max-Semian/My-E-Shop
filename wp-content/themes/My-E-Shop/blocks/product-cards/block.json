@@ -49,6 +49,18 @@
 		"customImages": {
 			"type": "array",
 			"default": []
+		},
+		"showCartButton": {
+			"type": "boolean",
+			"default": true
+		},
+		"cartButtonText": {
+			"type": "string",
+			"default": "Add to Cart"
+		},
+		"cartButtonLink": {
+			"type": "string",
+			"default": "#"
 		}
 	},
 	"textdomain": "My-E-Shop",

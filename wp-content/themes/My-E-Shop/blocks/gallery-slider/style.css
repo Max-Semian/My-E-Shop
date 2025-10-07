@@ -36,6 +36,9 @@
     overflow: hidden;
     width: 100%;
     position: relative;
+    /* Переопределяем маску с правильным цветом фона - минимальная ширина оверлея */
+    mask: linear-gradient(90deg, transparent, var(--gallery-bg-color, #ffffff) 3%, var(--gallery-bg-color, #ffffff) 97%, transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, var(--gallery-bg-color, #ffffff) 3%, var(--gallery-bg-color, #ffffff) 97%, transparent);
 }
 
 .gallery-slider-block .collections-smooth-track {

@@ -47,6 +47,73 @@
     transform: translateY(-2px);
 }
 
+/* Брейкер в редакторе */
+.wp-block-my-e-shop-product-cards .product-card-breaker {
+    width: 100%;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 8px 0;
+}
+
+/* Нижняя часть карточки в редакторе */
+.wp-block-my-e-shop-product-cards .product-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0;
+}
+
+/* Ценовая секция в редакторе */
+.wp-block-my-e-shop-product-cards .product-card-price-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+}
+
+.wp-block-my-e-shop-product-cards .product-card-original-price {
+    font-size: 12px;
+    color: #888;
+    text-decoration: line-through;
+    font-weight: 400;
+}
+
+.wp-block-my-e-shop-product-cards .product-card-sale-price {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+.wp-block-my-e-shop-product-cards .product-card-price {
+    font-size: 14px;
+    color: #333;
+    font-weight: 600;
+}
+
+/* Иконка корзины в редакторе */
+.wp-block-my-e-shop-product-cards .product-card-actions {
+    flex-shrink: 0;
+    margin-left: 6px;
+}
+
+.wp-block-my-e-shop-product-cards .product-cart-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #b83dba;
+    color: white;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.wp-block-my-e-shop-product-cards .product-cart-button::before {
+    content: "🛒";
+    font-size: 14px;
+}
+
 .wp-block-my-e-shop-product-cards .product-image-container {
     position: relative;
     height: 150px;

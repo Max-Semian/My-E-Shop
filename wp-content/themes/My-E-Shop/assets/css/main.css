@@ -4171,11 +4171,11 @@ li.product::marker {
             transform: translateY(0);
         }
 
-        /* Текст */
-        .animated-text-section .text-content {
+        /* Текст - базовый стиль с низкой специфичностью */
+        .text-content {
             font-size: 24px;
             font-weight: 600;
-            color: #2C2C2C;
+            color: #2C2C2C; /* Базовый цвет как fallback, перезаписывается inline стилями */
             line-height: 1.5;
             text-align: center;
             letter-spacing: 0.5px;
@@ -4183,6 +4183,14 @@ li.product::marker {
             position: relative;
             z-index: 1;
         }
+
+        /* Inline стили из блока имеют более высокий приоритет */
+
+        /* Фон секции управляется через inline стили блока */
+        /* Цвета текста управляются через inline стили:
+           - Светлая тема: пользовательский выбор цвета
+           - Тёмная тема: автоматически #F4F0EB 
+        */
 
         /* Слова изначально скрыты */
         .animated-text-section .word {
@@ -4346,11 +4354,11 @@ li.product::marker {
 .blog-trend-read-more:hover::after {
     width: 100%;
 }
-.row .col-md-3 .col-6 h4 {
-    font-size: 18px;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 15px;
+/* Footer h4 styles */
+.footer h4 {
+    font-size: 28.8px;
+    font-weight: 400;
     color: #B539DB;
     font-family: 'Montserrat', sans-serif;
+    margin-bottom: 15px;
 }

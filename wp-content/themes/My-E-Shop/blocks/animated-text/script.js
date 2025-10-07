@@ -9,10 +9,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!text) {
             // Если нет data-text, получаем из innerHTML и очищаем
             text = element.innerHTML;
+            // Сохраняем переносы строк, заменяя <br> на \n
+            text = text.replace(/<br\s*\/?>/gi, '\n');
             // Убираем все HTML теги кроме содержимого
             text = text.replace(/<[^>]*>/g, '');
-            // Убираем лишние пробелы
-            text = text.replace(/\s+/g, ' ').trim();
+            // Декодируем HTML сущности
+            text = text.replace(/&nbsp;/g, ' ')
+                      .replace(/&amp;/g, '&')
+                      .replace(/&lt;/g, '<')
+                      .replace(/&gt;/g, '>')
+                      .replace(/&quot;/g, '"')
+                      .replace(/&#39;/g, "'");
+            // Убираем лишние пробелы, но сохраняем переносы строк
+            text = text.replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
             // Сохраняем очищенный текст в data-атрибут
             element.setAttribute('data-text', text);
         }
@@ -23,15 +32,37 @@ document.addEventListener('DOMContentLoaded', function() {
     function typewriterAnimation(element, speed = 50) {
         const cleanText = getCleanText(element);
         
-        element.textContent = '';
+        element.innerHTML = ''; // Используем innerHTML вместо textContent
         element.style.opacity = '1';
         element.style.transform = 'translateY(0)';
         element.classList.add('typewriter');
         
+        // Проверяем размер экрана для адаптивности
+        const isMobile = window.innerWidth <= 768;
+        
+        if (isMobile) {
+            // На мобильных устройствах разрешаем перенос текста
+            element.style.whiteSpace = 'pre-wrap';
+            element.style.borderRight = 'none';
+            // Используем более быструю анимацию для мобильных
+            element.innerHTML = cleanText.replace(/\n/g, '<br>');
+            fadeInAnimation(element);
+            return;
+        } else {
+            // На десктопе тоже разрешаем переносы для корректного отображения
+            element.style.whiteSpace = 'pre-wrap';
+        }
+        
         let i = 0;
         const timer = setInterval(function() {
             if (i < cleanText.length) {
-                element.textContent += cleanText.charAt(i);
+                // Проверяем переносы строк в тексте
+                const currentChar = cleanText.charAt(i);
+                if (currentChar === '\n') {
+                    element.innerHTML += '<br>';
+                } else {
+                    element.innerHTML += currentChar; // Используем innerHTML для корректного отображения
+                }
                 i++;
             } else {
                 clearInterval(timer);

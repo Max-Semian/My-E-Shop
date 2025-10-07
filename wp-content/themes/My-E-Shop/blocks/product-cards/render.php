@@ -10,6 +10,9 @@ $block_subtitle = isset($attributes['blockSubtitle']) ? $attributes['blockSubtit
 $columns = isset($attributes['columns']) ? $attributes['columns'] : 4;
 $card_style = isset($attributes['cardStyle']) ? $attributes['cardStyle'] : 'classic';
 $custom_images = isset($attributes['customImages']) ? $attributes['customImages'] : array();
+$show_cart_button = isset($attributes['showCartButton']) ? $attributes['showCartButton'] : true;
+$cart_button_text = isset($attributes['cartButtonText']) ? $attributes['cartButtonText'] : 'Add to Cart';
+$cart_button_link = isset($attributes['cartButtonLink']) ? $attributes['cartButtonLink'] : '#';
 
 // Debug output (remove in production)
 // echo '<!-- DEBUG: Products data: ' . json_encode($custom_images) . ' -->';
@@ -100,11 +103,32 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                                     </h3>
                                 <?php endif; ?>
                                 
-                                <?php if (!empty($product['price'])) : ?>
-                                    <div class="product-card-price">
-                                        <?php echo esc_html($product['price']); ?>
-                                    </div>
-                                <?php endif; ?>
+                                <!-- Брейкер между названием и ценой -->
+                                <div class="product-card-breaker"></div>
+                                
+                                <div class="product-card-bottom">
+                                    <?php if (!empty($product['price'])) : ?>
+                                        <div class="product-card-price-section">
+                                            <?php if (!empty($product['originalPrice']) && $product['originalPrice'] !== $product['price']) : ?>
+                                                <span class="product-card-original-price"><?php echo esc_html($product['originalPrice']); ?></span>
+                                                <span class="product-card-sale-price"><?php echo esc_html($product['price']); ?></span>
+                                            <?php else : ?>
+                                                <span class="product-card-price"><?php echo esc_html($product['price']); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
+                                    
+                                    <?php if ($show_cart_button) : ?>
+                                        <div class="product-card-actions">
+                                            <a href="<?php echo esc_url($cart_button_link); ?>" 
+                                               class="product-cart-button"
+                                               target="_blank"
+                                               rel="noopener noreferrer"
+                                               title="<?php echo esc_attr($cart_button_text); ?>">
+                                            </a>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </a>
                     </div>

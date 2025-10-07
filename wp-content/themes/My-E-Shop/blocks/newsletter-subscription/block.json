@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/newsletter-subscription",
+	"version": "1.0.0",
+	"title": "Newsletter Subscription",
+	"category": "my-e-shop",
+	"icon": "email",
+	"description": "Блок формы подписки на рассылку с возможностью получения скидки",
+	"keywords": [
+		"newsletter",
+		"subscription",
+		"email",
+		"discount"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"backgroundImage": {
+			"type": "string",
+			"default": ""
+		},
+		"backgroundImageId": {
+			"type": "number",
+			"default": 0
+		},
+		"mainTitle": {
+			"type": "string",
+			"default": "Data-Driven Self-Expression"
+		},
+		"offerTitle": {
+			"type": "string",
+			"default": "Join our world and get 5% off your first order"
+		},
+		"description": {
+			"type": "string",
+			"default": "We send back only good vibes. Just a mix of what's hot and rare finds."
+		},
+		"placeholderText": {
+			"type": "string",
+			"default": "Enter your email here"
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "JOIN NOW"
+		},
+		"buttonColor": {
+			"type": "string",
+			"default": "#AA2DD0"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#000000"
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

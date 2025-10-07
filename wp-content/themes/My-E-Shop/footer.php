@@ -12,37 +12,44 @@
                 </p>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Information</h4>
+                <h4>About Us</h4>
                 <ul class="list-unstyled">
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="#">Payment</a></li>
-                    <li><a href="#">Delivery</a></li>
-                    <li><a href="#">Contacts</a></li>
+                    <li><a href="index.html">Our Story</a></li>
+                    <li><a href="#">Trends</a></li>
+                    <li><a href="#">HOME</a></li>
                 </ul>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Working Hours</h4>
+                <h4>Support</h4>
                 <ul class="list-unstyled">
-                    <li>Danang Manang street G16</li>
-                    <li>mon-fr: 10:00am - 6:00pm</li>
+                    <li>FAQ</li>
+                    <li>Shipping & Payment</li>
+                    <li>Returns & Exchanges</li>
+                    <li>Contact Us</li>
                 </ul>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Contacts</h4>
+                <h4>Legal</h4>
                 <ul class="list-unstyled">
-                    <li><a href="tel:+12345678900">+123-456-789-00</a></li>
-                    <li><a href="mailto:e-shop@danang.com">e-shop@danang.com</a></li>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
                 </ul>
             </div>
             <div class="col-md-3 col-6">
                 <h4>Follow Us</h4>
-                <ul class="footer-icons">
-                    <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
-                    <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                <ul class="list-unstyled">
+                    <li>Instagram</li>
+                    <li>Pinterest</li>
+                    <li>TikTok</li>
                 </ul>
             </div>
         </div>
+        <div class="footer-bottom" style="border-top: 1px solid #ddd; padding-top: 40px;">
+            <img class="footer-social-icon" src="<?php echo get_template_directory_uri(); ?>/assets/img/Social-media.png" alt="Crethos" style="height: 24px; margin-top: 10px;">
+            <img class="footer-social-icon" src="<?php echo get_template_directory_uri(); ?>/assets/img/Social-media1.png" alt="Crethos" style="height: 24px; margin-top: 10px;">
+            <img class="footer-social-icon" src="<?php echo get_template_directory_uri(); ?>/assets/img/Social-media2.png" alt="Crethos" style="height: 24px; margin-top: 10px;">    
+            <img class="footer-social-icon" src="<?php echo get_template_directory_uri(); ?>/assets/img/Social-media3.png" alt="Crethos" style="height: 24px; margin-top: 10px;">
+            <p class="footer-copy" style="padding-top: 20px;">&copy; 2024 My E-Shop. All rights reserved.</p>
     </div>
 </footer>
 <script>

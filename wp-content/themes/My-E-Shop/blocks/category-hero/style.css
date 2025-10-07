@@ -1,0 +1,143 @@
+/* Стили для фронтенда блока Category Hero */
+
+.wp-block-my-e-shop-category-hero {
+    position: relative;
+    width: 100vw;
+    height: 700px;
+    margin-left: calc(-50vw + 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wp-block-my-e-shop-category-hero .category-hero-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-block-my-e-shop-category-hero .category-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.wp-block-my-e-shop-category-hero .category-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.wp-block-my-e-shop-category-hero .category-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 1200px;
+    padding: 2rem;
+}
+
+.wp-block-my-e-shop-category-hero .category-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 100px;
+    line-height: 120px;
+    letter-spacing: 2px;
+    color: #F4F0EB;
+    margin: 0;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    animation: fadeInUp 1s ease-out;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивные стили */
+@media (max-width: 1200px) {
+    .wp-block-my-e-shop-category-hero .category-hero-title {
+        font-size: 80px;
+        line-height: 100px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wp-block-my-e-shop-category-hero {
+        height: 500px;
+        width: calc(100vw - 40px);
+        margin-left: calc(-50vw + 50% + 20px);
+    }
+    
+    .wp-block-my-e-shop-category-hero .category-hero-title {
+        font-size: 60px;
+        line-height: 75px;
+        letter-spacing: 1.5px;
+    }
+    
+    .wp-block-my-e-shop-category-hero .category-hero-content {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .wp-block-my-e-shop-category-hero {
+        height: 400px;
+        width: calc(100vw - 40px);
+        margin-left: calc(-50vw + 50% + 20px);
+    }
+    
+    .wp-block-my-e-shop-category-hero .category-hero-title {
+        font-size: 42px;
+        line-height: 55px;
+        letter-spacing: 1px;
+    }
+    
+    .wp-block-my-e-shop-category-hero .category-hero-content {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Поддержка для темных тем */
+@media (prefers-color-scheme: dark) {
+    .wp-block-my-e-shop-category-hero .category-hero-overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+}
+
+/* Улучшенная читаемость текста */
+.wp-block-my-e-shop-category-hero .category-hero-title::selection {
+    background-color: rgba(244, 240, 235, 0.3);
+    color: #F4F0EB;
+}
+
+/* Стандартное поведение для всех экранов */
+@media (min-width: 1024px) {
+    .wp-block-my-e-shop-category-hero {
+        height: 700px;
+        margin-top: -10px;
+    }
+}
+
+/* Плавный переход при изменении размеров */
+.wp-block-my-e-shop-category-hero .category-hero-title {
+    transition: font-size 0.3s ease, line-height 0.3s ease, letter-spacing 0.3s ease;
+}
