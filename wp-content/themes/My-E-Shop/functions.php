@@ -1150,6 +1150,133 @@ jQuery(document).ready(function($){
 */
 
 /**
+ * Добавляем выбор шаблона для товаров (аналогично категориям)
+ */
+
+// Добавляем мета-бокс для выбора шаблона товара
+add_action( 'add_meta_boxes', 'add_product_template_meta_box' );
+
+function add_product_template_meta_box() {
+    add_meta_box(
+        'product_template_selection',
+        __( 'Настройки шаблона товара', 'my-shop' ),
+        'product_template_meta_box_callback',
+        'product',
+        'side',
+        'default'
+    );
+}
+
+function product_template_meta_box_callback( $post ) {
+    // Добавляем nonce для безопасности
+    wp_nonce_field( 'product_template_meta_box', 'product_template_meta_box_nonce' );
+    
+    // Получаем текущее значение
+    $template = get_post_meta( $post->ID, '_product_template', true );
+    
+    ?>
+    <table class="form-table">
+        <tr>
+            <th scope="row">
+                <label for="product_template"><?php _e( 'Шаблон товара', 'my-shop' ); ?></label>
+            </th>
+            <td>
+                <select name="product_template" id="product_template" style="width: 100%;">
+                    <option value="default" <?php selected( $template, 'default' ); ?>><?php _e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
+                    <option value="dark" <?php selected( $template, 'dark' ); ?>><?php _e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+                </select>
+                <p class="description"><?php _e( 'Выберите шаблон для отображения страницы товара.', 'my-shop' ); ?></p>
+            </td>
+        </tr>
+    </table>
+    <?php
+}
+
+// Сохраняем значение мета-поля
+add_action( 'save_post', 'save_product_template_meta_box' );
+
+function save_product_template_meta_box( $post_id ) {
+    // Проверяем nonce
+    if ( ! isset( $_POST['product_template_meta_box_nonce'] ) ) {
+        return;
+    }
+    
+    if ( ! wp_verify_nonce( $_POST['product_template_meta_box_nonce'], 'product_template_meta_box' ) ) {
+        return;
+    }
+    
+    // Проверяем автосохранение
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+    
+    // Проверяем права пользователя
+    if ( isset( $_POST['post_type'] ) && 'product' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_product', $post_id ) ) {
+            return;
+        }
+    }
+    
+    // Сохраняем данные
+    if ( isset( $_POST['product_template'] ) ) {
+        update_post_meta( $post_id, '_product_template', sanitize_text_field( $_POST['product_template'] ) );
+    }
+}
+
+/**
+ * Функция для получения hex цвета по названию
+ */
+function get_color_hex_by_name($color_name) {
+    $color_map = array(
+        'red' => '#FF0000',
+        'blue' => '#0000FF',
+        'green' => '#008000',
+        'yellow' => '#FFFF00',
+        'black' => '#000000',
+        'white' => '#FFFFFF',
+        'purple' => '#800080',
+        'pink' => '#FFC0CB',
+        'orange' => '#FFA500',
+        'brown' => '#A52A2A',
+        'gray' => '#808080',
+        'grey' => '#808080',
+        'navy' => '#000080',
+        'lime' => '#00FF00',
+        'cyan' => '#00FFFF',
+        'magenta' => '#FF00FF',
+        'maroon' => '#800000',
+        'olive' => '#808000',
+        'silver' => '#C0C0C0',
+        'gold' => '#FFD700',
+        'beige' => '#F5F5DC',
+        'coral' => '#FF7F50',
+        'crimson' => '#DC143C',
+        'indigo' => '#4B0082',
+        'khaki' => '#F0E68C',
+        'lavender' => '#E6E6FA',
+        'salmon' => '#FA8072',
+        'tan' => '#D2B48C',
+        'turquoise' => '#40E0D0',
+        'violet' => '#EE82EE'
+    );
+    
+    $color_name_lower = strtolower(trim($color_name));
+    
+    // Если цвет найден в карте
+    if (isset($color_map[$color_name_lower])) {
+        return $color_map[$color_name_lower];
+    }
+    
+    // Если цвет уже в hex формате
+    if (preg_match('/^#[a-f0-9]{6}$/i', $color_name)) {
+        return $color_name;
+    }
+    
+    // По умолчанию возвращаем серый
+    return '#808080';
+}
+
+/**
  * Настройка размеров изображений WooCommerce
  */
 function my_e_shop_custom_image_sizes() {

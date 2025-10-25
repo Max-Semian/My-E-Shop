@@ -7,18 +7,37 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header(); ?>
 
 	<?php
+		// Проверяем выбранный шаблон для товара
+		$product_template = get_post_meta( get_the_ID(), '_product_template', true );
+		
+		if ( $product_template === 'dark' ) {
+			// Для темного шаблона отключаем стандартные breadcrumbs
+			remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+		}
+		
 		/**
 		 * woocommerce_before_main_content hook.
 		 *
 		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
-		 * @hooked woocommerce_breadcrumb - 20
+		 * @hooked woocommerce_breadcrumb - 20 (отключаются для темного шаблона)
 		 */
 		do_action( 'woocommerce_before_main_content' );
 	?> 
 		<?php while ( have_posts() ) : ?>
 			<?php the_post(); ?>
-					
-			<?php wc_get_template_part( 'content', 'single-product' ); ?>
+			
+			<?php
+			// Проверяем выбранный шаблон для товара
+			$product_template = get_post_meta( get_the_ID(), '_product_template', true );
+			
+			if ( $product_template === 'dark' ) {
+				// Используем темный шаблон
+				wc_get_template_part( 'content', 'single-product-dark' );
+			} else {
+				// Используем обычный шаблон
+				wc_get_template_part( 'content', 'single-product' );
+			}
+			?>
 			
 		<?php endwhile; // end of the loop. ?>
 	<?php

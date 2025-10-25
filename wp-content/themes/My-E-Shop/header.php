@@ -71,16 +71,16 @@
                     <!-- Иконки справа -->
                     <div class="header-icons">
                         <a href="<?php echo home_url('/search'); ?>" class="header-icon">
-                            <i class="fas fa-search"></i>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Search.svg" alt="Search" />
                         </a>
                         <a href="<?php echo home_url('/account'); ?>" class="header-icon">
-                            <i class="fas fa-user"></i>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Account.svg" alt="Account" />
                         </a>
                         <a href="<?php echo home_url('/wishlist'); ?>" class="header-icon">
-                            <i class="fas fa-heart"></i>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/favourite.svg" alt="Wishlist" />
                         </a>
                         <a href="<?php echo get_permalink(wc_get_page_id('cart')); ?>" class="header-icon">
-                            <i class="fas fa-shopping-bag"></i>
+                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Cart.svg" alt="Cart" />
                         </a>
                         
                         <!-- Mobile toggle button -->
