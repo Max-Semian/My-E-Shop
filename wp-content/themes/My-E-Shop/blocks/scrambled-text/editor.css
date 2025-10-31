@@ -1,0 +1,13 @@
+/* Scrambled Text Block - Editor Styles */
+
+.scrambled-text-block .text-block-preview {
+    min-height: 50px;
+}
+
+.scrambled-text-block .components-base-control {
+    margin-bottom: 16px;
+}
+
+.scrambled-text-block .components-color-picker {
+    margin-top: 8px;
+}

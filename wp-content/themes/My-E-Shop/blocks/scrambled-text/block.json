@@ -1,0 +1,72 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/scrambled-text",
+	"version": "1.0.0",
+	"title": "Scrambled Text (GSAP)",
+	"category": "my-e-shop",
+	"icon": "text",
+	"description": "Интерактивный текстовый блок с эффектом зашифровки при наведении курсора (GSAP ScrambleTextPlugin)",
+	"keywords": [
+		"text",
+		"gsap",
+		"scrambled",
+		"animation",
+		"interactive"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true
+		}
+	},
+	"attributes": {
+		"content": {
+			"type": "string",
+			"default": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique pariatur dignissimos porro eius quam doloremque et enim velit nobis maxime."
+		},
+		"radius": {
+			"type": "number",
+			"default": 100
+		},
+		"duration": {
+			"type": "number",
+			"default": 1.2
+		},
+		"speed": {
+			"type": "number",
+			"default": 0.5
+		},
+		"scrambleChars": {
+			"type": "string",
+			"default": ".:"
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": ""
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "medium"
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "left"
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"viewScript": "file:./script.js"
+}

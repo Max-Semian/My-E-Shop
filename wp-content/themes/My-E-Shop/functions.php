@@ -281,6 +281,10 @@ add_action('wp_enqueue_scripts', function () {
     wp_deregister_script('jquery');
     wp_enqueue_script('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js', array(), '3.7.1', false);
     
+    // Подключаем GSAP библиотеки для анимаций (загружаем в head для доступности)
+    wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', false);
+    wp_enqueue_script('gsap-scramble-text', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrambleTextPlugin.min.js', array('gsap'), '3.12.5', false);
+    
     // Затем основные скрипты
     wp_enqueue_script('My-E-Shop-owlcarousel',get_template_directory_uri() . '/assets/owlcarousel2/owl.carousel.min.js', array('jquery'), false, true);
     wp_enqueue_script('My-E-Shop-bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js', array('jquery'), false, true);
@@ -1574,6 +1578,22 @@ function my_e_shop_register_blocks() {
             '1.0.0'
         );
 
+        // Scrambled Text Block (GSAP)
+        wp_enqueue_script(
+            'my-e-shop-scrambled-text-editor',
+            get_template_directory_uri() . '/blocks/scrambled-text/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-scrambled-text-editor-style',
+            get_template_directory_uri() . '/blocks/scrambled-text/editor.css',
+            array(),
+            '1.0.0'
+        );
+
         // Product Cards Block
         wp_enqueue_script(
             'my-e-shop-product-cards-editor',
@@ -1745,6 +1765,22 @@ function my_e_shop_register_blocks() {
             true
         );
 
+        // Scrambled Text Block (GSAP)
+        wp_enqueue_style(
+            'my-e-shop-scrambled-text-style',
+            get_template_directory_uri() . '/blocks/scrambled-text/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-scrambled-text-script',
+            get_template_directory_uri() . '/blocks/scrambled-text/script.js',
+            array('gsap', 'gsap-scramble-text'),
+            '1.0.0',
+            true
+        );
+
         // Product Cards Block
         wp_enqueue_style(
             'my-e-shop-product-cards-style',
@@ -1856,6 +1892,7 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/category-cards/block.json');
     register_block_type(get_template_directory() . '/blocks/fashion-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/animated-text/block.json');
+    register_block_type(get_template_directory() . '/blocks/scrambled-text/block.json');
     register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
     register_block_type(get_template_directory() . '/blocks/about-section/block.json');
     register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');

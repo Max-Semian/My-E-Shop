@@ -1,0 +1,139 @@
+/* Scrambled Text Block Styles */
+
+.scrambled-text-wrapper {
+    padding: 60px 20px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.scrambled-text-block.align-left .scrambled-text-wrapper {
+    justify-content: flex-start;
+}
+
+.scrambled-text-block.align-center .scrambled-text-wrapper {
+    justify-content: center;
+}
+
+.scrambled-text-block.align-right .scrambled-text-wrapper {
+    justify-content: flex-end;
+}
+
+.text-block {
+    margin: 7vw auto;
+    max-width: 800px;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    position: relative;
+}
+
+.text-block p {
+    margin: 0;
+}
+
+/* Размеры шрифта */
+.scrambled-text-block.font-small .text-block {
+    font-size: 14px;
+}
+
+.scrambled-text-block.font-medium .text-block {
+    font-size: clamp(14px, 4vw, 32px);
+}
+
+.scrambled-text-block.font-large .text-block {
+    font-size: clamp(24px, 5vw, 48px);
+}
+
+/* Символы */
+.char {
+    will-change: transform, opacity;
+    display: inline-block;
+    transition: opacity 0.1s ease, transform 0.1s ease;
+}
+
+/* Cursor на интерактивной области */
+.scrambled-text-wrapper {
+    cursor: default;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .scrambled-text-wrapper {
+        padding: 40px 15px;
+    }
+    
+    .text-block {
+        margin: 5vw auto;
+        max-width: 100%;
+    }
+    
+    .scrambled-text-block.font-small .text-block {
+        font-size: 12px;
+    }
+    
+    .scrambled-text-block.font-medium .text-block {
+        font-size: clamp(12px, 3vw, 24px);
+    }
+    
+    .scrambled-text-block.font-large .text-block {
+        font-size: clamp(18px, 4vw, 36px);
+    }
+}
+
+@media (max-width: 480px) {
+    .scrambled-text-wrapper {
+        padding: 30px 10px;
+    }
+    
+    .text-block {
+        margin: 3vw auto;
+    }
+}
+
+/* Touch устройства - визуальная подсказка */
+@media (hover: none) and (pointer: coarse) {
+    .scrambled-text-wrapper::after {
+        content: '👆 Коснитесь и проведите пальцем по тексту';
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        font-family: sans-serif;
+        text-align: center;
+        padding: 5px 10px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 4px;
+        pointer-events: none;
+        animation: fadeInOut 3s ease-in-out infinite;
+    }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* Загрузка */
+.text-block.loading {
+    opacity: 0.5;
+}
+
+/* Анимация появления */
+.text-block {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
