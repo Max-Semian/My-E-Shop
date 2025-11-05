@@ -4234,8 +4234,8 @@ li.product::marker {
     width: 100%;
 }
 /* Footer h4 styles */
-.footer h4 {
-    font-size: 28.8px;
+.footer-menu {
+    font-size: 24px;
     font-weight: 400;
     color: #B539DB;
     font-family: 'Montserrat', sans-serif;
@@ -5632,8 +5632,8 @@ li.product::marker {
 }
 
 .woocommerce-checkout .wc_payment_method {
-    margin-bottom: 15px;
-    padding: 15px;
+    margin-bottom: 10px;
+    padding: 0;
     border: 2px solid #e0e0e0;
     border-radius: 6px;
     transition: all 0.3s ease;

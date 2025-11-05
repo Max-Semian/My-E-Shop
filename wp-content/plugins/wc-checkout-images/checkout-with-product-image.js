@@ -383,5 +383,147 @@ jQuery(document).ready(function($) {
         setTimeout(initializePlugin, 100);
     });
     
+    /**
+     * ОБРАБОТКА КНОПОК CONTINUE ДЛЯ MULTI-STEP CHECKOUT
+     */
+    function handleContinueButtons() {
+        $('.btn-next').off('click').on('click', function(e) {
+            e.preventDefault();
+            
+            const currentStep = $(this).data('step');
+            const $form = $(this).closest('form');
+            const $button = $(this);
+            let isValid = true;
+            
+            // Валидация обязательных полей
+            $form.find('input[required], select[required]').each(function() {
+                if (!$(this).val() || !$(this).val().trim()) {
+                    isValid = false;
+                    $(this).addClass('error');
+                } else {
+                    $(this).removeClass('error');
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields');
+                $form.find('.error').first().focus();
+                return;
+            }
+            
+            // Блокируем кнопку
+            $button.prop('disabled', true).css('opacity', '0.6');
+            
+            // Определяем следующий шаг
+            let nextStep = '';
+            if (currentStep === 'information') {
+                nextStep = 'shipping';
+            } else if (currentStep === 'shipping') {
+                nextStep = 'payment';
+            }
+            
+            // Собираем данные формы для отправки в WooCommerce
+            const formData = {};
+            $form.find('input, select, textarea').each(function() {
+                const name = $(this).attr('name');
+                if (name) {
+                    formData[name] = $(this).val();
+                    
+                    // Заполняем скрытые поля в основной форме WooCommerce (если она есть)
+                    const $mainFormField = $('form.checkout').find('[name="' + name + '"]');
+                    if ($mainFormField.length) {
+                        $mainFormField.val($(this).val());
+                    }
+                }
+            });
+            
+            // Сохраняем в sessionStorage для восстановления
+            sessionStorage.setItem('checkout_' + currentStep, JSON.stringify(formData));
+            
+            // Сохраняем все собранные данные из всех шагов
+            const allStepsData = {};
+            ['information', 'shipping'].forEach(function(step) {
+                const stepData = sessionStorage.getItem('checkout_' + step);
+                if (stepData) {
+                    Object.assign(allStepsData, JSON.parse(stepData));
+                }
+            });
+            sessionStorage.setItem('checkout_all_data', JSON.stringify(allStepsData));
+            
+            // Переход на следующий шаг
+            window.location.href = checkoutImages.checkout_url + '?step=' + nextStep;
+        });
+        
+        // Восстановление данных формы при загрузке страницы
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentStep = urlParams.get('step') || 'information';
+        
+        // Восстанавливаем данные текущего шага
+        const savedData = sessionStorage.getItem('checkout_' + currentStep);
+        if (savedData) {
+            try {
+                const formData = JSON.parse(savedData);
+                $.each(formData, function(name, value) {
+                    $('[name="' + name + '"]').val(value);
+                });
+            } catch(e) {
+                console.error('Error restoring form data:', e);
+            }
+        }
+        
+        // НА ШАГЕ PAYMENT: Восстанавливаем ВСЕ данные из предыдущих шагов
+        if (currentStep === 'payment') {
+            // Проверяем флаг - восстанавливаем только 1 раз
+            if (!window.checkoutDataRestored) {
+                const allData = sessionStorage.getItem('checkout_all_data');
+                
+                if (allData) {
+                    try {
+                        const formData = JSON.parse(allData);
+                        
+                        $.each(formData, function(name, value) {
+                            const $field = $('form.checkout').find('[name="' + name + '"]');
+                            if ($field.length) {
+                                $field.val(value);
+                            } else {
+                                // Создаем скрытое поле если его нет
+                                $('form.checkout').append(
+                                    $('<input>').attr({
+                                        type: 'hidden',
+                                        name: name,
+                                        value: value
+                                    })
+                                );
+                            }
+                        });
+                        
+                        // Устанавливаем флаг что данные восстановлены
+                        window.checkoutDataRestored = true;
+                        
+                        // Триггерим update_checkout ОДИН РАЗ для пересчета
+                        setTimeout(function() {
+                            $(document.body).trigger('update_checkout');
+                        }, 100);
+                    } catch(e) {
+                        console.error('Error restoring all data:', e);
+                    }
+                }
+            }
+        }
+        
+        // Убираем класс error при вводе
+        $('input, select, textarea').on('input change', function() {
+            $(this).removeClass('error');
+        });
+    }
+    
+    // Инициализируем обработчики кнопок
+    handleContinueButtons();
+    
+    // Переинициализация после обновления DOM
+    $(document.body).on('updated_checkout', function() {
+        handleContinueButtons();
+    });
+    
     console.log('Checkout Images Plugin: Initialization complete');
 });

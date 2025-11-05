@@ -98,7 +98,9 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
                 </div>
                 
                 <div class="step-actions">
-                    <div></div> <!-- Empty div for alignment -->
+                    <a href="<?php echo wc_get_cart_url(); ?>" class="btn-step btn-back">
+                        <i class="fas fa-arrow-left"></i> Return to Cart
+                    </a>
                     <button type="button" class="btn-step btn-next" data-step="information">
                         Continue <i class="fas fa-arrow-right"></i>
                     </button>
@@ -122,10 +124,18 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
                     </select>
                 </div>
                 
-                <div class="form-row">
-                    <label for="billing_city">City <span style="color: var(--red-color);">*</span></label>
-                    <input type="text" id="billing_city" name="billing_city" 
-                           value="<?php echo esc_attr($checkout->get_value('billing_city')); ?>" required>
+                <div class="form-row-half">
+                    <div class="form-row">
+                        <label for="billing_city">City <span style="color: var(--red-color);">*</span></label>
+                        <input type="text" id="billing_city" name="billing_city" 
+                               value="<?php echo esc_attr($checkout->get_value('billing_city')); ?>" required>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label for="billing_postcode">Postal Code <span style="color: var(--red-color);">*</span></label>
+                        <input type="text" id="billing_postcode" name="billing_postcode" 
+                               value="<?php echo esc_attr($checkout->get_value('billing_postcode')); ?>" required>
+                    </div>
                 </div>
                 
                 <div class="form-row">
@@ -133,12 +143,6 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
                     <input type="text" id="billing_address_1" name="billing_address_1" 
                            value="<?php echo esc_attr($checkout->get_value('billing_address_1')); ?>" 
                            placeholder="Street, house, apartment" required>
-                </div>
-                
-                <div class="form-row">
-                    <label for="billing_postcode">Postal Code <span style="color: var(--red-color);">*</span></label>
-                    <input type="text" id="billing_postcode" name="billing_postcode" 
-                           value="<?php echo esc_attr($checkout->get_value('billing_postcode')); ?>" required>
                 </div>
                 
                 <div class="step-actions">
@@ -226,7 +230,7 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
                 <?php if (WC()->cart->needs_shipping() && WC()->cart->show_shipping()) : ?>
                 <div class="shipping-methods-section">
                     <h3>Shipping Method</h3>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                    <div style="background: #f8f9fa; border-radius: 8px; margin-bottom: 10px;">
                         <?php wc_cart_totals_shipping_html(); ?>
                     </div>
                 </div>
@@ -319,25 +323,53 @@ jQuery(document).ready(function($) {
         }, 5000);
     });
     
-    // Payment method styling
-    $('.wc_payment_methods .wc_payment_method').each(function() {
-        var $method = $(this);
-        var $radio = $method.find('input[type="radio"]');
-        var $label = $method.find('label');
-        
-        $label.on('click', function() {
-            $('.wc_payment_methods .wc_payment_method').removeClass('selected');
-            $method.addClass('selected');
+    // Payment method styling and radio button handling
+    function initPaymentMethods() {
+        $('.wc_payment_methods .wc_payment_method').each(function() {
+            var $method = $(this);
+            var $radio = $method.find('input[type="radio"]');
+            
+            // Клик по всему блоку метода оплаты
+            $method.on('click', function(e) {
+                // Если клик не был напрямую по радио-кнопке
+                if (!$(e.target).is('input[type="radio"]')) {
+                    $radio.prop('checked', true).trigger('click');
+                }
+            });
+            
+            // Обработка изменения радио-кнопки
+            $radio.on('change click', function() {
+                $('.wc_payment_methods .wc_payment_method').removeClass('selected');
+                if ($(this).is(':checked')) {
+                    $method.addClass('selected');
+                }
+            });
+            
+            // Проверяем выбранный метод при загрузке
+            if ($radio.is(':checked')) {
+                $method.addClass('selected');
+            }
         });
-        
-        if ($radio.is(':checked')) {
-            $method.addClass('selected');
-        }
+    }
+    
+    // Инициализируем при загрузке
+    initPaymentMethods();
+    
+    // Переинициализируем после обновления checkout
+    $(document.body).on('updated_checkout payment_method_selected', function() {
+        initPaymentMethods();
     });
 });
 </script>
 
 <style>
+/* Input error styling */
+input.error,
+select.error {
+    border-color: var(--red-color) !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
 /* Additional styles for payment methods */
 .wc_payment_methods {
     list-style: none;
@@ -368,7 +400,7 @@ jQuery(document).ready(function($) {
 
 .wc_payment_method label {
     display: block;
-    padding: 18px 50px 18px 20px;
+    padding: 5px 10px;
     cursor: pointer;
     font-weight: 500;
     margin: 0;
@@ -419,7 +451,7 @@ jQuery(document).ready(function($) {
 }
 
 .wc_payment_method .payment_box {
-    padding: 20px;
+    padding: 5px 10px;
     background: #f8f9fa;
     border-top: 1px solid #e9ecef;
     display: none;
@@ -465,7 +497,7 @@ jQuery(document).ready(function($) {
 /* Terms and conditions styling */
 .woocommerce-terms-and-conditions-wrapper {
     margin: 20px 0;
-    padding: 20px;
+    padding: 5px 10px;
     background: #f8f9fa;
     border-radius: 6px;
     border: 1px solid #e9ecef;
@@ -486,7 +518,8 @@ jQuery(document).ready(function($) {
 .shipping-methods-section h3 {
     color: var(--black-color);
     font-weight: 600;
-    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
 }
 
 .woocommerce-shipping-methods {

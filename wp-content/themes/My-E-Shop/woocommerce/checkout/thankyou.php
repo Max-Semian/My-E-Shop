@@ -24,7 +24,6 @@ body.woocommerce-order-received {
 .woocommerce-order-received .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 40px 20px;
 }
 
 /* Success Message */

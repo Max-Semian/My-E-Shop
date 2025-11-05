@@ -597,7 +597,7 @@ $(document).ready(function() {
     // Закрытие по клику вне меню
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.custom-dropdown').length) {
-            $dropdown.addClass('show');
+            $('.shop-dropdown').removeClass('show');
         }
     });
 });

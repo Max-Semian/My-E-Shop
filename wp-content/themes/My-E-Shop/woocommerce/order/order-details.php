@@ -42,10 +42,9 @@ body.woocommerce-order-received {
     font-family: 'SF Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.woocommerce-order-received .container {
+.woocommerce-order-received .woocommerce {
     max-width: 900px;
     margin: 0 auto;
-    padding: 40px 20px;
 }
 
 /* Order Summary Cards */

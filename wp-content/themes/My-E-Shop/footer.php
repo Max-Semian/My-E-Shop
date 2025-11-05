@@ -12,7 +12,7 @@
                 </p>
             </div>
             <div class="col-md-3 col-6">
-                <h4>About Us</h4>
+                <div class="footer-menu">About Us</div>
                 <ul class="list-unstyled">
                     <li><a href="index.html">Our Story</a></li>
                     <li><a href="#">Trends</a></li>
@@ -20,7 +20,7 @@
                 </ul>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Support</h4>
+                <div class="footer-menu">Support</div>
                 <ul class="list-unstyled">
                     <li>FAQ</li>
                     <li>Shipping & Payment</li>
@@ -29,14 +29,14 @@
                 </ul>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Legal</h4>
+                <div class="footer-menu">Legal</div>
                 <ul class="list-unstyled">
                     <li>Privacy Policy</li>
                     <li>Terms of Service</li>
                 </ul>
             </div>
             <div class="col-md-3 col-6">
-                <h4>Follow Us</h4>
+                <div class="footer-menu">Follow Us</div>
                 <ul class="list-unstyled">
                     <li>Instagram</li>
                     <li>Pinterest</li>
