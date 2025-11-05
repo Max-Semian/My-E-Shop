@@ -54,8 +54,6 @@
 </footer>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Script loaded');
-    
     // Ищем все возможные варианты
     const shopButton1 = document.querySelector('.nav-link.dropdown-toggle');
     const shopButton2 = document.querySelector('a[href*="shop"]');
@@ -67,25 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     const dropdownParent = document.querySelector('.nav-item.dropdown');
     
-    console.log('Shop button 1:', shopButton1);
-    console.log('Shop button 2:', shopButton2);
-    console.log('Shop button 3:', shopButton3);
-    console.log('Dropdown 1:', dropdown1);
-    console.log('Dropdown 2:', dropdown2);
-    console.log('Dropdown 3:', dropdown3);
-    console.log('Dropdown parent:', dropdownParent);
-    
-    // Выведем HTML структуру dropdown parent
-    if (dropdownParent) {
-        console.log('Dropdown parent HTML:', dropdownParent.innerHTML);
-    }
-    
     const shopButton = shopButton1 || shopButton2 || shopButton3;
     const dropdown = dropdown1 || dropdown2 || dropdown3;
     
          if (shopButton && dropdown && dropdownParent) {
-         console.log('All elements found, adding events');
-         
          let hideTimeout;
          
          dropdownParent.addEventListener('mouseenter', function() {
@@ -94,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
                  clearTimeout(hideTimeout);
                  hideTimeout = null;
              }
-             console.log('Mouse entered dropdown parent');
              const rect = shopButton.getBoundingClientRect();
              
              // Восстанавливаем нужные классы для стилизации внутренних элементов
@@ -191,14 +173,9 @@ document.addEventListener('DOMContentLoaded', function() {
                      color: #333333 !important;
                  `;
              });
-             
-             console.log('Dropdown positioned at:', rect.bottom + 5, rect.left);
-             console.log('Dropdown element:', dropdown);
-             console.log('Dropdown computed styles:', window.getComputedStyle(dropdown));
          });
         
                  dropdownParent.addEventListener('mouseleave', function(e) {
-             console.log('Mouse left dropdown parent');
              // Устанавливаем задержку перед скрытием
              hideTimeout = setTimeout(function() {
                  dropdown.style.display = 'none';
@@ -207,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
          
          // Добавляем события для самого dropdown
          dropdown.addEventListener('mouseenter', function() {
-             console.log('Mouse entered dropdown');
              // Отменяем скрытие если курсор на dropdown
              if (hideTimeout) {
                  clearTimeout(hideTimeout);
@@ -216,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
          });
          
          dropdown.addEventListener('mouseleave', function() {
-             console.log('Mouse left dropdown');
              // Небольшая задержка для плавности
              hideTimeout = setTimeout(function() {
                  dropdown.style.display = 'none';
@@ -225,14 +200,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Также добавим события для самого dropdown
         dropdown.addEventListener('mouseenter', function() {
-            console.log('Mouse entered dropdown');
             dropdown.style.display = 'block';
             dropdown.style.opacity = '1';
             dropdown.style.visibility = 'visible';
             dropdown.style.transform = 'translateY(0)';
         });
-    } else {
-        console.log('Some elements not found');
     }
 });
 </script>

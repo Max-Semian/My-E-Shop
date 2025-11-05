@@ -25,11 +25,11 @@
                     
                     <!-- Навигация по центру -->
                     <nav class="navbar-nav d-none d-lg-flex">
-                        <div class="nav-item dropdown">
-                            <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="nav-link dropdown-toggle">
+                        <div class="nav-item custom-dropdown">
+                            <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="nav-link">
                                 SHOP
                             </a>
-                            <ul class="dropdown-menu shop-dropdown">
+                            <ul class="shop-dropdown">
                                 <li class="dropdown-item-wrapper">
                                     <a class="dropdown-item" href="<?php echo home_url('/product-category/witch-teaser/'); ?>">
                                     <div class="dropdown-icon">

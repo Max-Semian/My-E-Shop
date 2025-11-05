@@ -225,6 +225,8 @@ section {
     padding: 23px 0;
     border-bottom: 1px solid #3C3C3C;
     overflow: visible;
+    position: relative;
+    z-index: 10000;
 }
 
 .main-header-bar .container {
@@ -384,7 +386,8 @@ section {
 
 /* Убираем glassmorphism из dropdown */
 .dropdown-menu {
-    background-color: #fff !important;
+    position: absolute !important;
+    background-color: #F4F0EB !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     border: 1px solid #eaeaea !important;
@@ -392,6 +395,10 @@ section {
     border-radius: 8px !important;
     padding: 10px !important;
     margin-top: 10px !important;
+    transform: none !important;
+    inset: auto !important;
+    top: 100% !important;
+    left: 0 !important;
 }
 
 .dropdown-menu .dropdown-item,
@@ -1142,7 +1149,7 @@ section.widget {
     font-size: 16px;
     font-weight: 500;
     transition: background-color 0.2s;
-    background-color: #fff;
+    background-color: #2c2c2c;
     opacity: 1 !important;
     visibility: visible !important;
     position: relative;
@@ -2976,176 +2983,6 @@ section.widget {
             box-shadow: 0 4px 12px rgba(66, 149, 228, 0.4);
         }
 
-    /* ==================== Fashion Hero Block ==================== */
-.fashion-hero-section {
-    width: 100%;
-    max-width: auto;
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-}
-
-.fashion-hero-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    min-height: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Background Images Grid */
-.fashion-images-grid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    z-index: 1;
-}
-
-.fashion-image-card {
-    flex: 1;
-    height: 100%;
-    overflow: hidden;
-    position: relative;
-}
-
-.fashion-image-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.fashion-image-card:hover img {
-    transform: scale(1.05);
-}
-
-/* Overlay for better text readability */
-.fashion-hero-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        45deg,
-        rgba(0, 0, 0, 0.4) 0%,
-        rgba(0, 0, 0, 0.2) 50%,
-        rgba(0, 0, 0, 0.4) 100%
-    );
-    z-index: 2;
-}
-
-/* Content Overlay */
-.fashion-hero-content {
-    position: relative;
-    z-index: 3;
-    text-align: center;
-    color: white;
-    max-width: 800px;
-    padding: 40px 20px;
-}
-
-.fashion-hero-title {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    font-weight: 700;
-    color: #F4F0EB;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.fashion-hero-subtitle {
-    font-family: 'Montserrat', sans-serif;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    color: #F4F0EB;
-    font-weight: 500;
-    line-height: 1.4;
-    margin-bottom: 30px;
-    opacity: 0.95;
-}
-
-/* ЗАМЕНИТЬ в вашем CSS: */
-.fashion-hero-btn {
-    display: inline-block;
-    padding: 12px 35px; /* Уменьшенный padding для соответствия дизайну */
-    background: #2C2C2C;
-    color: #D85AFF;
-    text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1px solid #a855f7; /* Фиолетовая рамка */
-    border-radius: 4px; /* Острые углы как в дизайне */
-    transition: all 0.3s ease;
-    box-shadow: none;
-    min-width: 121px; /* Минимальная ширина */
-    height: 40px; /* Фиксированная высота */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.fashion-hero-btn:hover {
-    background: #F4F0EB; /* Фиолетовый фон при hover */
-    color: #D85AFF;
-    border-color: #a855f7;
-    transform: none; /* Убираем движение вверх */
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
-    text-decoration: none;
-}
-
-/* Animation for images */
-.fashion-image-card {
-    animation: fadeInScale 0.8s ease-out forwards;
-    opacity: 0;
-}
-
-.fashion-image-card:nth-child(1) { animation-delay: 0.1s; }
-.fashion-image-card:nth-child(2) { animation-delay: 0.2s; }
-.fashion-image-card:nth-child(3) { animation-delay: 0.3s; }
-.fashion-image-card:nth-child(4) { animation-delay: 0.4s; }
-.fashion-image-card:nth-child(5) { animation-delay: 0.5s; }
-.fashion-image-card:nth-child(6) { animation-delay: 0.6s; }
-.fashion-image-card:nth-child(7) { animation-delay: 0.7s; }
-
-@keyframes fadeInScale {
-    from {
-        opacity: 0;
-        transform: scale(1.1);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Content animation */
-.fashion-hero-content {
-    animation: fadeInUp 1s ease-out 0.8s backwards;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ==================== End Fashion Hero Block ==================== */
-
 /* ==================== Исправление мобильного меню ==================== */
 
 /* Мобильный toggle button - делаем его более заметным */
@@ -3180,7 +3017,7 @@ section.widget {
 /* Offcanvas стили */
 .offcanvas {
     max-width: 300px;
-    background-color: #fff;
+    background-color: #2C2C2C;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
     z-index: 1050;
 }
@@ -3218,7 +3055,7 @@ section.widget {
 
 .offcanvas-body {
     padding: 0;
-    background-color: #fff;
+    background-color: #2C2C2C;
 }
 
 /* Мобильное меню */
@@ -3309,7 +3146,7 @@ section.widget {
 .offcanvas .mobile-nav-menu a:visited,
 .offcanvas .mobile-nav-menu a:hover,
 .offcanvas .mobile-nav-menu a:active {
-    color: #333333 !important;
+    color: #F4F0EB !important;
     opacity: 1 !important;
     visibility: visible !important;
     display: block !important;
@@ -3359,73 +3196,152 @@ section.widget {
     transform: rotate(180deg);
 }
 
+/* Родитель dropdown */
+.custom-dropdown {
+    position: relative;
+}
+
+/* Добавляем стрелку к ссылке с dropdown */
+.custom-dropdown .nav-link::after {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 8px;
+    vertical-align: middle;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid currentColor;
+    transition: transform 0.3s ease;
+}
+
+/* Поворачиваем стрелку при hover */
+.custom-dropdown:hover .nav-link::after {
+    transform: rotate(180deg);
+}
+
 /* Dropdown menu */
 .shop-dropdown {
-    position: fixed;
-    z-index: 9999;
-    background: #fff;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    z-index: 99999;
+    background: #F4F0EB;
     border: none;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     padding: 15px 0;
     min-width: 250px;
+    list-style: none;
+    margin: 0;
     display: none;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    top: 45px;
+    left: -100px;
+}
+
+/* Показываем dropdown при наведении на desktop */
+@media (min-width: 992px) {
+    .custom-dropdown:hover .shop-dropdown {
+        display: block;
+    }
+}
+
+/* Показываем dropdown по классу show (для мобильных) */
+.shop-dropdown.show {
+    display: block;
 }
 
 /* Dropdown item wrapper */
 .dropdown-item-wrapper {
     margin: 0;
     padding: 0;
+    display: block;
+    width: 100%;
 }
 
 /* Dropdown items */
-/* .shop-dropdown .dropdown-item {
-     display: flex;
+.shop-dropdown .dropdown-item {
+    display: flex;
     align-items: center;
     padding: 12px 20px;
-    color: #333333;
+    color: #000000;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     font-family: 'Montserrat', sans-serif;
     transition: all 0.3s ease;
     border: none;
     background: transparent;
     position: relative;
-    overflow: hidden;
+    width: 100%;
 }
 
 /* Dropdown item hover */
 .shop-dropdown .dropdown-item:hover {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    background: rgba(0, 0, 0, 0.05);
     color: #D85AFF;
-    transform: translateX(5px);
 }
 
 /* Иконка в dropdown */
 .dropdown-icon {
     width: 35px;
     height: 35px;
-    background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
-    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-right: 12px;
     transition: all 0.3s ease;
-    font-size: 16px;
-    color: #666;
 }
 
-/* Иконка при hover */
-.shop-dropdown .dropdown-item:hover .dropdown-icon {
-    background: linear-gradient(135deg, #D85AFF 0%, #a855f7 100%);
-    color: white;
-    transform: scale(1.1);
+.dropdown-icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+/* Анимация для звезды (Star) - вращение */
+.dropdown-item:hover .dropdown-icon img[alt="Star"] {
+    animation: rotateStar 0.6s ease-in-out;
+}
+
+@keyframes rotateStar {
+    0% { transform: rotate(0deg); }
+    50% { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Анимация для сердца (Heart) - биение */
+.dropdown-item:hover .dropdown-icon img[alt="Heart"] {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    10% { transform: scale(1.1); }
+    20% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+    40% { transform: scale(1); }
+}
+
+/* Анимация для планеты (Internet) - плавное вращение */
+.dropdown-item:hover .dropdown-icon img[alt="Internet"] {
+    animation: rotatePlanet 3s linear infinite;
+}
+
+@keyframes rotatePlanet {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Анимация для кулака (Punch) - пульсация вперед */
+.dropdown-item:hover .dropdown-icon img[alt="Punch"] {
+    animation: punchPulse 0.6s ease-in-out infinite;
+}
+
+@keyframes punchPulse {
+    0%, 100% { transform: scale(1) translateX(0); }
+    50% { transform: scale(1.1) translateX(3px); }
 }
 
 /* Текст dropdown */
@@ -3433,40 +3349,6 @@ section.widget {
     flex: 1;
     font-weight: 500;
     letter-spacing: 0.3px;
-} */
-
-/* Анимация появления для каждого элемента */
-.shop-dropdown .dropdown-item {
-    animation-delay: 0s;
-    opacity: 0;
-    transform: translateX(-20px);
-}
-
-.main-dark-bar .nav-item.dropdown .dropdown-item:nth-child(1) {
-    animation: slideInFromLeft 0.3s ease forwards;
-    animation-delay: 0.1s;
-}
-
-.main-dark-bar .nav-item.dropdown .dropdown-item:nth-child(2) {
-    animation: slideInFromLeft 0.3s ease forwards;
-    animation-delay: 0.2s;
-}
-
-.main-dark-bar .nav-item.dropdown .dropdown-item:nth-child(3) {
-    animation: slideInFromLeft 0.3s ease forwards;
-    animation-delay: 0.3s;
-}
-
-.main-dark-bar .nav-item.dropdown .dropdown-item:nth-child(4) {
-    animation: slideInFromLeft 0.3s ease forwards;
-    animation-delay: 0.4s;
-}
-
-@keyframes slideInFromLeft {
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
 }
 
 /* Треугольная стрелка для dropdown */
@@ -3480,28 +3362,7 @@ section.widget {
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-bottom: 8px solid #fff;
-}
-
-/* Hover на весь nav-item */
-.main-dark-bar .nav-item.dropdown:hover > .nav-link {
-    color: #D85AFF !important;
-}
-
-.main-dark-bar .shop-dropdown {
-    background-color: #fff !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    border: 1px solid #eaeaea !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
-    border-radius: 12px !important;
-    padding: 15px 0 !important;
-    margin-top: 15px !important;
-    
-    /* ПРИНУДИТЕЛЬНО вертикальный layout */
-    flex-direction: column !important;
-    width: 250px !important;
-    min-width: 250px !important;
+    border-bottom: 8px solid #F4F0EB;
 }
 
 .category-grid {
@@ -5558,3 +5419,327 @@ li.product::marker {
         padding: 0 0 15px 0;
     }
 }
+
+/* ==================== Scroll to Top Button ==================== */
+#scroll-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 100px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#scroll-to-top:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+#scroll-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scroll-to-top i {
+    transition: transform 0.3s ease;
+}
+
+#scroll-to-top:hover i {
+    transform: translateY(-3px);
+}
+
+@media (max-width: 768px) {
+    #scroll-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+    }
+}
+
+/* ==================== WooCommerce Checkout Styles ==================== */
+/* Multi-step Checkout Progress Bar */
+.woocommerce-checkout .checkout-steps {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0;
+    padding: 0;
+    list-style: none;
+    position: relative;
+}
+
+.woocommerce-checkout .checkout-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 0;
+}
+
+.woocommerce-checkout .checkout-steps .step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.woocommerce-checkout .checkout-steps .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f4f4f4;
+    color: #999;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-checkout .checkout-steps .step.active .step-number {
+    background: #D85AFF;
+    color: white;
+}
+
+.woocommerce-checkout .checkout-steps .step.completed .step-number {
+    background: #4CAF50;
+    color: white;
+}
+
+.woocommerce-checkout .checkout-steps .step-title {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+}
+
+.woocommerce-checkout .checkout-steps .step.active .step-title {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Checkout Form Sections */
+.woocommerce-checkout .checkout-section {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.woocommerce-checkout .checkout-section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Form Fields */
+.woocommerce-checkout .form-row {
+    margin-bottom: 20px;
+}
+
+.woocommerce-checkout .form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.woocommerce-checkout .form-row .required {
+    color: #D85AFF;
+    font-weight: bold;
+}
+
+.woocommerce-checkout .form-row input[type="text"],
+.woocommerce-checkout .form-row input[type="email"],
+.woocommerce-checkout .form-row input[type="tel"],
+.woocommerce-checkout .form-row input[type="password"],
+.woocommerce-checkout .form-row select,
+.woocommerce-checkout .form-row textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-checkout .form-row input:focus,
+.woocommerce-checkout .form-row select:focus,
+.woocommerce-checkout .form-row textarea:focus {
+    outline: none;
+    border-color: #D85AFF;
+    box-shadow: 0 0 0 3px rgba(216, 90, 255, 0.1);
+}
+
+/* Order Review */
+.woocommerce-checkout #order_review {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table th,
+.woocommerce-checkout .woocommerce-checkout-review-order-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table .product-name {
+    font-weight: 500;
+}
+
+.woocommerce-checkout .woocommerce-checkout-review-order-table .product-total {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* Payment Methods */
+.woocommerce-checkout .wc_payment_methods {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.woocommerce-checkout .wc_payment_method {
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-checkout .wc_payment_method:hover {
+    border-color: #D85AFF;
+}
+
+.woocommerce-checkout .wc_payment_method input[type="radio"] {
+    margin-right: 10px;
+}
+
+.woocommerce-checkout .wc_payment_method label {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Place Order Button */
+.woocommerce-checkout #place_order {
+    width: 100%;
+    padding: 15px 30px;
+    background: #D85AFF;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.woocommerce-checkout #place_order:hover {
+    background: #b83dba;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(216, 90, 255, 0.3);
+}
+
+/* Navigation Buttons */
+.woocommerce-checkout .checkout-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 15px;
+}
+
+.woocommerce-checkout .checkout-navigation .button {
+    flex: 1;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.woocommerce-checkout .checkout-navigation .button-prev {
+    background: #f4f4f4;
+    color: #666;
+    border: 1px solid #ddd;
+}
+
+.woocommerce-checkout .checkout-navigation .button-prev:hover {
+    background: #e0e0e0;
+}
+
+.woocommerce-checkout .checkout-navigation .button-next {
+    background: #D85AFF;
+    color: white;
+    border: none;
+}
+
+.woocommerce-checkout .checkout-navigation .button-next:hover {
+    background: #b83dba;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .woocommerce-checkout .checkout-steps {
+        margin: 20px 0;
+    }
+    
+    .woocommerce-checkout .checkout-steps .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    .woocommerce-checkout .checkout-steps .step-title {
+        font-size: 12px;
+    }
+    
+    .woocommerce-checkout .checkout-section {
+        padding: 20px 15px;
+    }
+    
+    .woocommerce-checkout .checkout-section-title {
+        font-size: 18px;
+    }
+    
+    .woocommerce-checkout #order_review {
+        padding: 15px;
+    }
+}
+/* ==================== End WooCommerce Checkout Styles ==================== */

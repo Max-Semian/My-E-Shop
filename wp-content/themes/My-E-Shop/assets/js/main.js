@@ -150,8 +150,6 @@ $(function () {
                 'per_page': reviewsPerPage
             },
             success: function(response) {
-                console.log("AJAX success, got response");
-                
                 // Remove loading button if it exists
                 $('#load-more-reviews').remove();
                 
@@ -195,11 +193,8 @@ $(function () {
     
     // Global click event handler for the button
     $(document).on('click', '#load-more-reviews', function(e) {
-        console.log("Load More Reviews button clicked via jQuery handler");
-        
         // If there's an onclick attribute, don't execute this handler
         if ($(this).attr('onclick')) {
-            console.log("Button has onclick, letting that handle it");
             return;
         }
         
@@ -231,16 +226,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function checkVideo() {
         if (video && (video.paused || video.ended)) {
-            video.play().catch(e => {
-                console.log("Video autoplay prevented by browser:", e);
-            });
+            video.play().catch(e => {});
         }
     }
     
     if (video) {
         video.play().catch(e => {
-            console.log("Initial video autoplay prevented by browser:", e);
-            
             const videoContainer = document.querySelector('.video-container');
             if (videoContainer) {
                 const playButton = document.createElement('button');
@@ -531,8 +522,6 @@ $(document).ready(function() {
     
     // Проверяем есть ли Bootstrap 5
     if (typeof bootstrap === 'undefined') {
-        console.log('Bootstrap не найден, используем кастомную реализацию');
-        
         // Кастомная реализация для мобильного меню
         $toggleButton.on('click', function(e) {
             e.preventDefault();
@@ -585,49 +574,32 @@ $(document).ready(function() {
                 closeCustomMenu();
             }
         });
-    } else {
-        console.log('Bootstrap найден, используем встроенный offcanvas');
     }
     
     // ========== SHOP DROPDOWN МЕНЮ ==========
-    // Shop Dropdown функциональность - ТОЛЬКО ПО КЛИКУ
-    $('.main-dark-bar .dropdown-toggle').on('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    // Для мобильных - клик
+    $('.custom-dropdown .nav-link').on('click', function(e) {
+        if ($(window).width() >= 992) {
+            return true; // На desktop разрешаем переход
+        }
         
-        const $dropdown = $(this).siblings('.dropdown-menu');
+        e.preventDefault();
+        const $dropdown = $(this).siblings('.shop-dropdown');
         const isOpen = $dropdown.hasClass('show');
         
-        // Закрываем все другие dropdown
-        $('.main-dark-bar .dropdown-menu').removeClass('show');
-        $('.main-dark-bar .dropdown-toggle').attr('aria-expanded', 'false');
+        $('.shop-dropdown').removeClass('show');
         
-        // Переключаем текущий dropdown
         if (!isOpen) {
             $dropdown.addClass('show');
-            $(this).attr('aria-expanded', 'true');
         }
     });
     
-    // Закрытие dropdown при клике вне его
+    // Закрытие по клику вне меню
     $(document).on('click', function(e) {
-        if (!$(e.target).closest('.nav-item.dropdown').length) {
-            $('.main-dark-bar .dropdown-menu').removeClass('show');
-            $('.main-dark-bar .dropdown-toggle').attr('aria-expanded', 'false');
+        if (!$(e.target).closest('.custom-dropdown').length) {
+            $dropdown.addClass('show');
         }
     });
-    
-    // Закрытие dropdown по клавише Escape
-    $(document).on('keydown', function(e) {
-        if (e.key === 'Escape') {
-            $('.main-dark-bar .dropdown-menu').removeClass('show');
-            $('.main-dark-bar .dropdown-toggle').attr('aria-expanded', 'false');
-        }
-    });
-    
-    // Дебаг информация
-    console.log('Toggle button найден:', $toggleButton.length > 0);
-    console.log('Offcanvas найден:', $offcanvas.length > 0);
 });
 
 (function() {
@@ -638,11 +610,8 @@ $(document).ready(function() {
                 const textContent = document.querySelector('.animated-text-section #textContent');
                 
                 if (!textBlock || !textContent) {
-                    console.log('Элементы анимации не найдены');
                     return;
                 }
-                
-                console.log('Анимация текста инициализирована');
                 
                 // Разбиваем текст на слова
                 function splitTextIntoWords() {
@@ -674,8 +643,6 @@ $(document).ready(function() {
                 // Главная функция анимации
                 function handleScroll() {
                     if (isElementVisible(textBlock)) {
-                        console.log('Блок стал видимым, запуск анимации');
-                        
                         // Показываем блок
                         textBlock.classList.add('visible');
                         
@@ -716,3 +683,29 @@ $(document).ready(function() {
                 });
             }
         })();
+
+// ========== SCROLL TO TOP BUTTON ==========
+$(document).ready(function() {
+    // Создаем кнопку если её нет
+    if (!$('#scroll-to-top').length) {
+        $('body').append('<button id="scroll-to-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>');
+    }
+    
+    const $scrollBtn = $('#scroll-to-top');
+    
+    // Показываем/скрываем кнопку при прокрутке
+    $(window).on('scroll', function() {
+        if ($(this).scrollTop() > 300) {
+            $scrollBtn.addClass('show');
+        } else {
+            $scrollBtn.removeClass('show');
+        }
+    });
+    
+    // Плавная прокрутка наверх при клике
+    $scrollBtn.on('click', function() {
+        $('html, body').animate({
+            scrollTop: 0
+        }, 600);
+    });
+});

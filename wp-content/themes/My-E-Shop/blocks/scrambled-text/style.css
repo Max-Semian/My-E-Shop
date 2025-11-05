@@ -7,6 +7,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    background-color: #F4F0EB;
 }
 
 .scrambled-text-block.align-left .scrambled-text-wrapper {
@@ -90,31 +91,6 @@
     .text-block {
         margin: 3vw auto;
     }
-}
-
-/* Touch устройства - визуальная подсказка */
-@media (hover: none) and (pointer: coarse) {
-    .scrambled-text-wrapper::after {
-        content: '👆 Коснитесь и проведите пальцем по тексту';
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.5);
-        font-family: sans-serif;
-        text-align: center;
-        padding: 5px 10px;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 4px;
-        pointer-events: none;
-        animation: fadeInOut 3s ease-in-out infinite;
-    }
-}
-
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
 }
 
 /* Загрузка */

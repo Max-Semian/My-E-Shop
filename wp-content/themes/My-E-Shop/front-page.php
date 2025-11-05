@@ -1,4 +1,31 @@
-<?php get_header() ?>
+<?php
+/**
+ * Front Page Template
+ * 
+ * Если в настройках WordPress выбрана статическая страница как главная,
+ * этот шаблон будет отображать её контент.
+ * В противном случае показывается дефолтный контент темы.
+ */
+
+get_header();
+
+// Проверяем, установлена ли статическая страница как главная
+if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
+    // Показываем контент выбранной статической страницы
+    while ( have_posts() ) : the_post();
+        ?>
+        <main class="main">
+            <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <div class="entry-content">
+                    <?php the_content(); ?>
+                </div>
+            </article>
+        </main>
+        <?php
+    endwhile;
+} else {
+    // Показываем дефолтный контент темы (старый front-page)
+    ?>
 <main class="main">
         <!-- Fashion Hero Section -->
         <!-- <section class="fashion-hero-section">
@@ -428,4 +455,7 @@
             </div>
         </section>
     </main>
-<?php get_footer() ?>
+    <?php
+} // Закрываем else для дефолтного контента
+?>
+<?php get_footer(); ?>

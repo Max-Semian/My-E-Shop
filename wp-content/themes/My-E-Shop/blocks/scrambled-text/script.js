@@ -5,27 +5,23 @@
     'use strict';
     
     function initScrambledBlocks() {
-        console.log('🎬 Scrambled Text: Initializing...');
-        
         // Проверяем наличие GSAP
         if (typeof gsap === 'undefined') {
-            console.error('❌ GSAP не загружен! Ожидание загрузки...');
-            // Попробуем еще раз через 500мс
             setTimeout(initScrambledBlocks, 500);
             return;
         }
-
-        console.log('✅ GSAP загружен, версия:', gsap.version);
+        
+        // Регистрируем ScrambleTextPlugin если он доступен
+        if (typeof ScrambleTextPlugin !== 'undefined') {
+            gsap.registerPlugin(ScrambleTextPlugin);
+        }
 
         // Находим все блоки scrambled text
         const scrambledBlocks = document.querySelectorAll('.scrambled-text-wrapper');
         
         if (!scrambledBlocks.length) {
-            console.log('ℹ️ Блоки scrambled-text не найдены на странице');
             return;
         }
-
-        console.log(`📦 Найдено блоков: ${scrambledBlocks.length}`);
 
         scrambledBlocks.forEach(function(wrapper, index) {
             initScrambledText(wrapper, index);
@@ -36,7 +32,6 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initScrambledBlocks);
     } else {
-        // DOM уже готов, запускаем сразу
         initScrambledBlocks();
     }
 })();
@@ -46,7 +41,6 @@ function initScrambledText(wrapper, blockIndex) {
     const textContent = wrapper.querySelector('.scrambled-text-content, p');
     
     if (!textBlock || !textContent) {
-        console.warn(`⚠️ Блок ${blockIndex}: Не найдены необходимые элементы`);
         return;
     }
 
@@ -56,13 +50,10 @@ function initScrambledText(wrapper, blockIndex) {
     const speed = parseFloat(wrapper.getAttribute('data-speed')) || 0.5;
     const scrambleChars = wrapper.getAttribute('data-scramble-chars') || '.:';
 
-    console.log(`⚙️ Блок ${blockIndex} настройки:`, { radius, duration, speed, scrambleChars });
-
     // Получаем текст
     const originalText = textContent.textContent || textContent.innerText;
     
     if (!originalText || !originalText.trim()) {
-        console.warn(`⚠️ Блок ${blockIndex}: Пустой текст`);
         return;
     }
 
@@ -75,7 +66,6 @@ function initScrambledText(wrapper, blockIndex) {
         
         // Для пробелов создаём специальный span или просто текстовый узел
         if (char === ' ') {
-            // Добавляем пробел как текстовый узел
             textContent.appendChild(document.createTextNode(' '));
             continue;
         }
@@ -89,8 +79,6 @@ function initScrambledText(wrapper, blockIndex) {
         textContent.appendChild(span);
         chars.push(span);
     }
-
-    console.log(`✨ Блок ${blockIndex}: Создано ${chars.length} символов`);
 
     // Функция обработки движения мыши
     const handleMove = function(e) {
@@ -107,7 +95,7 @@ function initScrambledText(wrapper, blockIndex) {
                 const originalChar = charEl.getAttribute('data-content') || '';
                 
                 // Проверяем наличие ScrambleTextPlugin
-                if (typeof gsap.registerPlugin !== 'undefined' && gsap.plugins && gsap.plugins.scrambleText) {
+                if (typeof ScrambleTextPlugin !== 'undefined' && gsap.plugins && gsap.plugins.scrambleText) {
                     // Используем ScrambleTextPlugin
                     gsap.to(charEl, {
                         duration: duration * (1 - dist / radius),
@@ -121,9 +109,6 @@ function initScrambledText(wrapper, blockIndex) {
                     });
                 } else {
                     // Fallback: простая анимация без ScrambleTextPlugin
-                    console.warn('⚠️ ScrambleTextPlugin не найден, используется fallback анимация');
-                    
-                    // Сохраняем оригинальный текст
                     const tempText = charEl.textContent;
                     
                     // Случайный символ из набора
@@ -163,8 +148,6 @@ function initScrambledText(wrapper, blockIndex) {
             handleMove(touch);
         }
     });
-
-    console.log(`🎯 Блок ${blockIndex}: Инициализация завершена`);
 }
 
 // Функция для повторной инициализации (для динамического контента)
