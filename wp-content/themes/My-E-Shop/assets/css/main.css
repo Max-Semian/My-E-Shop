@@ -698,7 +698,7 @@ section {
 }
 .breadcrumbs a::after {
     content: "/";
-    padding-left: 0.5rem;
+    padding-left: 1.5rem;
 }
 
  /* ====================Category Page==================== */
@@ -5743,3 +5743,48 @@ li.product::marker {
     }
 }
 /* ==================== End WooCommerce Checkout Styles ==================== */
+
+/* ==================== WooCommerce Cart Page Styles ==================== */
+/* Fix blurry product thumbnails in cart - show full quality images */
+.woocommerce-cart-form .product-thumbnail img,
+.woocommerce-cart-form .product-thumbnail .cart-product-image {
+    max-width: 240px !important;
+    width: auto !important;
+    height: auto !important;
+    object-fit: contain !important;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    display: block;
+}
+
+.woocommerce-cart-form .product-thumbnail {
+    max-width: 240px;
+    width: auto;
+    text-align: center;
+}
+
+/* Responsive cart images */
+@media (max-width: 768px) {
+    .woocommerce-cart-form .product-thumbnail img {
+        width: 80px !important;
+        max-width: 80px;
+    }
+    
+    .woocommerce-cart-form .product-thumbnail {
+        width: 80px;
+        min-width: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .woocommerce-cart-form .product-thumbnail img {
+        width: 60px !important;
+        max-width: 60px;
+    }
+    
+    .woocommerce-cart-form .product-thumbnail {
+        width: 60px;
+        min-width: 60px;
+    }
+}
+/* ==================== End WooCommerce Cart Page Styles ==================== */

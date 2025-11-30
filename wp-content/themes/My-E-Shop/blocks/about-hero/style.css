@@ -1,0 +1,183 @@
+/* Стили для фронтенда блока About Hero */
+
+.wp-block-my-e-shop-about-hero {
+    position: relative;
+    width: 100vw;
+    height: 700px;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: -10px;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #6A6F7033;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 1200px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 64px;
+    line-height: 40px;
+    letter-spacing: 0.01em;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #F4F0EB;
+    margin: 0;
+    animation: fadeInUp 1s ease-out;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-button-wrapper {
+    margin-top: 20px;
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-button {
+    display: inline-block;
+    padding: 15px 49px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: Medium;
+    font-size: 16px;
+    line-height: 13px;
+    letter-spacing: 0%;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.wp-block-my-e-shop-about-hero .about-hero-button:hover {
+    background-color: rgba(86, 169, 248, 0.9);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Адаптивные стили */
+@media (max-width: 1200px) {
+    .wp-block-my-e-shop-about-hero .about-hero-title {
+        font-size: 52px;
+        line-height: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wp-block-my-e-shop-about-hero {
+        height: 500px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-title {
+        font-size: 40px;
+        line-height: 32px;
+        letter-spacing: 0.01em;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-content {
+        padding: 2rem 1.5rem;
+        gap: 25px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-button {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-breadcrumbs {
+        padding: 30px 15px 15px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-breadcrumbs .breadcrumbs {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wp-block-my-e-shop-about-hero {
+        height: 400px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-title {
+        font-size: 32px;
+        line-height: 28px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-button {
+        padding: 10px 25px;
+        font-size: 13px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-breadcrumbs .breadcrumbs {
+        font-size: 12px;
+    }
+    
+    .wp-block-my-e-shop-about-hero .about-hero-breadcrumbs .breadcrumbs .separator {
+        margin: 0 6px;
+    }
+}

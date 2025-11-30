@@ -276,6 +276,11 @@ add_action('wp_enqueue_scripts', function () {
     if (is_product_category() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
         wp_enqueue_style('My-E-Shop-category-pages', get_template_directory_uri() . '/assets/css/category-pages.css');
     }
+    
+    // Подключаем стили для страницы "О нас"
+    if (is_page_template('page-about.php')) {
+        wp_enqueue_style('My-E-Shop-page-about', get_template_directory_uri() . '/assets/css/page-about.css');
+    }
 
     // Подключаем jQuery первым
     wp_deregister_script('jquery');
@@ -1690,6 +1695,22 @@ function my_e_shop_register_blocks() {
             '1.0.0'
         );
 
+        // About Hero Block
+        wp_enqueue_script(
+            'my-e-shop-about-hero-editor',
+            get_template_directory_uri() . '/blocks/about-hero/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            true
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-about-hero-editor-style',
+            get_template_directory_uri() . '/blocks/about-hero/editor.css',
+            array(),
+            '1.0.0'
+        );
+
         // Category Products Block
         wp_enqueue_script(
             'my-e-shop-category-products-editor',
@@ -1853,6 +1874,14 @@ function my_e_shop_register_blocks() {
             '1.0.0'
         );
 
+        // About Hero Block
+        wp_enqueue_style(
+            'my-e-shop-about-hero-style',
+            get_template_directory_uri() . '/blocks/about-hero/style.css',
+            array(),
+            '1.0.0'
+        );
+
         // Category Products Block
         wp_enqueue_style(
             'my-e-shop-category-products-style',
@@ -1899,6 +1928,7 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/why-choose-us/block.json');
     register_block_type(get_template_directory() . '/blocks/newsletter-section/block.json');
     register_block_type(get_template_directory() . '/blocks/category-hero/block.json');
+    register_block_type(get_template_directory() . '/blocks/about-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/category-products/block.json');
     register_block_type(get_template_directory() . '/blocks/newsletter-subscription/block.json');
 }
@@ -2124,4 +2154,56 @@ function load_category_products_ajax() {
 }
 add_action('wp_ajax_load_category_products', 'load_category_products_ajax');
 add_action('wp_ajax_nopriv_load_category_products', 'load_category_products_ajax');
+
+// ПОЛНОЕ ПЕРЕОПРЕДЕЛЕНИЕ миниатюр в корзине - используем оригинальные изображения
+add_filter('woocommerce_cart_item_thumbnail', 'custom_cart_item_thumbnail_full', 10, 3);
+function custom_cart_item_thumbnail_full($product_image, $cart_item, $cart_item_key) {
+    $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
+    
+    if ($_product && $_product->exists() && $cart_item['quantity'] > 0) {
+        $thumbnail_id = $_product->get_image_id();
+        
+        if ($thumbnail_id) {
+            // Получаем метаданные изображения
+            $image_meta = wp_get_attachment_metadata($thumbnail_id);
+            $image_url = wp_get_attachment_image_url($thumbnail_id, 'full');
+            
+            // Определяем реальные размеры изображения
+            $width = isset($image_meta['width']) ? $image_meta['width'] : 400;
+            $height = isset($image_meta['height']) ? $image_meta['height'] : 400;
+            
+            // Вычисляем пропорциональные размеры с max-width 240px
+            $max_width = 240;
+            if ($width > $max_width) {
+                $ratio = $max_width / $width;
+                $new_width = $max_width;
+                $new_height = round($height * $ratio);
+            } else {
+                $new_width = $width;
+                $new_height = $height;
+            }
+            
+            $product_image = sprintf(
+                '<img src="%s" alt="%s" class="cart-product-image" width="%d" height="%d" style="max-width: 240px; height: auto; display: block;">',
+                esc_url($image_url),
+                esc_attr($_product->get_name()),
+                $new_width,
+                $new_height
+            );
+        }
+    }
+    
+    return $product_image;
+}
+
+// Увеличение размера миниатюр WooCommerce
+add_filter('woocommerce_get_image_size_thumbnail', 'custom_woocommerce_thumbnail_size');
+function custom_woocommerce_thumbnail_size($size) {
+    return array(
+        'width'  => 600,
+        'height' => 600,
+        'crop'   => 0, // Не обрезаем, сохраняем пропорции
+    );
+}
+
 

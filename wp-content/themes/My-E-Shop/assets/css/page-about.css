@@ -1,0 +1,171 @@
+/* Стили для страницы "О нас" */
+
+body.page-template-page-about {
+    overflow-x: hidden;
+}
+
+.about-page {
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+}
+
+/* Хлебные крошки после hero блока */
+.about-page-breadcrumbs-wrapper {
+    background-color: #FFFFFF;
+    padding: 10px 0;
+}
+
+.about-page-breadcrumbs-wrapper .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.about-page-breadcrumbs-wrapper .breadcrumbs {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.about-page-breadcrumbs-wrapper .breadcrumbs a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #AA2DD0;
+
+}
+
+.about-page-breadcrumbs-wrapper .breadcrumbs a:hover {
+    color: #A21CAF;
+}
+
+.about-page-breadcrumbs-wrapper .breadcrumbs .separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.about-page-breadcrumbs-wrapper .breadcrumbs .current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #2C2C2C;
+    margin-left: 10px;
+
+}
+
+/* Обёртка для контента после hero блока */
+.about-page-content-wrapper {
+    background-color: #FFFFFF;
+}
+
+.about-page-content-wrapper .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Стили для параграфов */
+.about-page-content-wrapper p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    color: #333333;
+    margin-bottom: 30px;
+}
+
+/* Стили для изображений */
+.about-page-content-wrapper img,
+.about-page-content-wrapper .wp-block-image img {
+    max-width: 1100px;
+    width: 100%;
+    height: auto;
+    opacity: 1;
+    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.about-page-content-wrapper .wp-block-image {
+    margin-bottom: 40px;
+}
+
+.about-page-content-wrapper .wp-block-list {
+    margin-top: -30px;
+    margin-bottom: 30px;
+}
+.about-page-content-wrapper .wp-block-list li {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    color: #333333;
+}
+
+/* Стили для цитат */
+.about-page-content-wrapper .wp-block-quote p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 30px;
+    color: #B539DB;
+    margin-bottom: 20px;
+}
+
+/* Контейнер для блоков контента после хлебных крошек */
+.about-page .entry-content {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* Стили для заголовков H2 на странице About */
+.about-page-content-wrapper h2,
+h2.wp-block-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 40px;
+    letter-spacing: 0.01em;
+    text-align: center;
+    text-transform: capitalize;
+    color: #2C2C2C;
+    margin-top: 65px;
+    margin-bottom: 30px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .about-page .breadcrumbs-wrapper {
+        padding: 15px 20px;
+    }
+    
+    .about-page .breadcrumbs {
+        font-size: 13px;
+    }
+    
+    .about-page-content-wrapper {
+        padding: 40px 0;
+    }
+    
+    .about-page-content-wrapper .container {
+        padding: 0 15px;
+    }
+    
+    .about-page .entry-content {
+        margin: 30px auto;
+        padding: 0 15px;
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/about-hero",
+    "version": "1.0.0",
+    "title": "About Hero",
+    "category": "my-e-shop",
+    "icon": "cover-image",
+    "description": "Fullscreen hero section for the About Us page with a background image and a button",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "title": {
+            "type": "string",
+            "default": "About Us"
+        },
+        "buttonText": {
+            "type": "string",
+            "default": "Learn More"
+        },
+        "buttonUrl": {
+            "type": "string",
+            "default": ""
+        },
+        "backgroundImage": {
+            "type": "object",
+            "default": {
+                "id": 0,
+                "url": "",
+                "alt": ""
+            }
+        },
+        "textColor": {
+            "type": "string",
+            "default": "#F4F0EB"
+        },
+        "overlayOpacity": {
+            "type": "number",
+            "default": 0.5
+        }
+    },
+    "textdomain": "My-E-Shop",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

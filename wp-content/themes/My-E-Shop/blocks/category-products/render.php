@@ -133,7 +133,7 @@ if ($product_info_bg_color && $product_info_bg_color !== '#f8f9fa') {
                             $product_id = $product->get_id();
                             $product_name = $product->get_name();
                             $product_price = $product->get_price_html();
-                            $product_image = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'medium');
+                            $product_image = wp_get_attachment_image_src(get_post_thumbnail_id($product_id), 'full');
                             $product_link = get_permalink($product_id);
                             ?>
                             <div class="swiper-slide">
