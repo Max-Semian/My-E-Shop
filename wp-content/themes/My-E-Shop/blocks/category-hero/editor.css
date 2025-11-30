@@ -13,7 +13,7 @@
 
 /* В редакторе показываем полную ширину для понимания как будет выглядеть */
 .editor-styles-wrapper .category-hero-block .category-hero-container {
-    margin: 0 -20px; /* Имитируем полноэкранный вид в редакторе */
+    margin: 0 auto;
 }
 
 .category-hero-block .category-hero-background {

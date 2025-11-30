@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/faq",
+	"version": "1.0.0",
+	"title": "FAQ",
+	"category": "my-e-shop",
+	"icon": "editor-help",
+	"description": "FAQ блок с автоматическим раскрытием при скролле",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "My-E-Shop",
+	"attributes": {
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"id": "faq-1",
+					"question": "Style as a Spell",
+					"answer": ""
+				},
+				{
+					"id": "faq-2",
+					"question": "Creativity with Intent",
+					"answer": ""
+				},
+				{
+					"id": "faq-3",
+					"question": "Identity-First Mindset",
+					"answer": ""
+				},
+				{
+					"id": "faq-4",
+					"question": "Respect for Pace and Planet",
+					"answer": ""
+				},
+				{
+					"id": "faq-5",
+					"question": "Community over Hype",
+					"answer": ""
+				}
+			]
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}

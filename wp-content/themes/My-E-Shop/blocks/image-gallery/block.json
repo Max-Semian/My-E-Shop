@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/image-gallery",
+    "version": "1.0.0",
+    "title": "Image Gallery",
+    "category": "my-e-shop",
+    "icon": "images-alt2",
+    "description": "Галерея изображений с повторителем - ряды по 2 изображения",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "rows": {
+            "type": "array",
+            "default": [
+                {
+                    "image1": {
+                        "id": 0,
+                        "url": "",
+                        "alt": ""
+                    },
+                    "image2": {
+                        "id": 0,
+                        "url": "",
+                        "alt": ""
+                    }
+                }
+            ]
+        }
+    },
+    "textdomain": "My-E-Shop",
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./editor.css",
+    "style": "file:./style.css",
+    "render": "file:./render.php"
+}

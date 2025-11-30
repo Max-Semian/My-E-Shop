@@ -1541,7 +1541,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/category-cards/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1557,7 +1557,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/fashion-hero/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1573,7 +1573,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/animated-text/block.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1589,7 +1589,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/scrambled-text/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1621,7 +1621,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/about-section/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1637,7 +1637,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/gallery-slider/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1653,7 +1653,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/why-choose-us/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1669,7 +1669,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/newsletter-section/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1685,7 +1685,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/category-hero/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1701,7 +1701,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/about-hero/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1717,7 +1717,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/category-products/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components', 'wp-api-fetch', 'wp-data'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
@@ -1733,12 +1733,76 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/newsletter-subscription/index.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         wp_enqueue_style(
             'my-e-shop-newsletter-subscription-editor-style',
             get_template_directory_uri() . '/blocks/newsletter-subscription/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Image Gallery Block
+        wp_enqueue_script(
+            'my-e-shop-image-gallery-editor',
+            get_template_directory_uri() . '/blocks/image-gallery/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-image-gallery-editor-style',
+            get_template_directory_uri() . '/blocks/image-gallery/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // FAQ Block
+        wp_enqueue_script(
+            'my-e-shop-faq-editor',
+            get_template_directory_uri() . '/blocks/faq/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-faq-editor-style',
+            get_template_directory_uri() . '/blocks/faq/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Icon Cards Block
+        wp_enqueue_script(
+            'my-e-shop-icon-cards-editor',
+            get_template_directory_uri() . '/blocks/icon-cards/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-icon-cards-editor-style',
+            get_template_directory_uri() . '/blocks/icon-cards/editor.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Auto Slider Block
+        wp_enqueue_script(
+            'my-e-shop-auto-slider-editor',
+            get_template_directory_uri() . '/blocks/auto-slider/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-auto-slider-editor-style',
+            get_template_directory_uri() . '/blocks/auto-slider/editor.css',
             array(),
             '1.0.0'
         );
@@ -1759,7 +1823,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/category-cards/script.js',
             array('jquery'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
 
         // Fashion Hero Block
@@ -1783,7 +1847,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/animated-text/script.js',
             array('jquery'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
 
         // Scrambled Text Block (GSAP)
@@ -1799,7 +1863,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/scrambled-text/script.js',
             array('gsap', 'gsap-scramble-text'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
 
         // Product Cards Block
@@ -1839,7 +1903,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/gallery-slider/script.js',
             array('jquery'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
 
         // Why Choose Us Block
@@ -1855,7 +1919,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/why-choose-us/script.js',
             array('jquery'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
 
         // Newsletter Section Block
@@ -1895,7 +1959,7 @@ function my_e_shop_register_blocks() {
             get_template_directory_uri() . '/blocks/category-products/script.js',
             array('jquery'),
             '1.0.0',
-            true
+            array('in_footer' => false)
         );
         
         // Передать AJAX URL для блока category-products
@@ -1915,6 +1979,54 @@ function my_e_shop_register_blocks() {
             array(),
             '1.0.0'
         );
+
+        // Image Gallery Block
+        wp_enqueue_style(
+            'my-e-shop-image-gallery-style',
+            get_template_directory_uri() . '/blocks/image-gallery/style.css',
+            array(),
+            '1.0.0'
+        );
+
+        // FAQ Block
+        wp_enqueue_style(
+            'my-e-shop-faq-style',
+            get_template_directory_uri() . '/blocks/faq/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-faq-script',
+            get_template_directory_uri() . '/blocks/faq/script.js',
+            array(),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+
+        // Icon Cards Block
+        wp_enqueue_style(
+            'my-e-shop-icon-cards-style',
+            get_template_directory_uri() . '/blocks/icon-cards/style.css',
+            array(),
+            '1.0.0'
+        );
+
+        // Auto Slider Block
+        wp_enqueue_style(
+            'my-e-shop-auto-slider-style',
+            get_template_directory_uri() . '/blocks/auto-slider/style.css',
+            array(),
+            '1.0.0'
+        );
+        
+        wp_enqueue_script(
+            'my-e-shop-auto-slider-script',
+            get_template_directory_uri() . '/blocks/auto-slider/script.js',
+            array(),
+            '1.0.0',
+            array('in_footer' => true)
+        );
     });
 
     // Register blocks using block.json
@@ -1931,6 +2043,35 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/about-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/category-products/block.json');
     register_block_type(get_template_directory() . '/blocks/newsletter-subscription/block.json');
+    register_block_type(get_template_directory() . '/blocks/image-gallery/block.json');
+    register_block_type(get_template_directory() . '/blocks/faq/block.json', array(
+        'render_callback' => function($attributes, $content, $block) {
+            ob_start();
+            include get_template_directory() . '/blocks/faq/render.php';
+            return ob_get_clean();
+        }
+    ));
+    register_block_type(get_template_directory() . '/blocks/icon-cards/block.json', array(
+        'render_callback' => function($attributes, $content, $block) {
+            ob_start();
+            include get_template_directory() . '/blocks/icon-cards/render.php';
+            return ob_get_clean();
+        }
+    ));
+    register_block_type(get_template_directory() . '/blocks/auto-slider/block.json', array(
+        'render_callback' => function($attributes, $content, $block) {
+            ob_start();
+            include get_template_directory() . '/blocks/auto-slider/render.php';
+            return ob_get_clean();
+        }
+    ));
+    register_block_type(get_template_directory() . '/blocks/cta-banner/block.json', array(
+        'render_callback' => function($attributes, $content, $block) {
+            ob_start();
+            include get_template_directory() . '/blocks/cta-banner/render.php';
+            return ob_get_clean();
+        }
+    ));
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
 

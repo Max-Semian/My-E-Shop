@@ -1,0 +1,37 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "my-e-shop/cta-banner",
+  "title": "CTA Banner",
+  "category": "my-e-shop",
+  "icon": "megaphone",
+  "description": "CTA баннер с фоновым изображением и кнопкой",
+  "keywords": ["cta", "banner", "button"],
+  "version": "1.0.0",
+  "textdomain": "my-e-shop",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.css",
+  "style": "file:./style.css",
+  "attributes": {
+    "backgroundImage": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": "Ready to find your magical T-shirt?"
+    },
+    "subtitle": {
+      "type": "string",
+      "default": "Explore our collections and let your intuition choose for you"
+    },
+    "buttonText": {
+      "type": "string",
+      "default": "Shop Now"
+    },
+    "buttonLink": {
+      "type": "string",
+      "default": "#"
+    }
+  }
+}

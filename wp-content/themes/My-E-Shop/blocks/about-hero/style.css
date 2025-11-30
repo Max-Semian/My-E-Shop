@@ -2,16 +2,21 @@
 
 .wp-block-my-e-shop-about-hero {
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 700px;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+/* Полноэкранная ширина только на фронтенде, не в редакторе */
+body:not(.block-editor-page) .wp-block-my-e-shop-about-hero {
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
     margin-top: -10px;
 }
 
@@ -107,7 +112,6 @@
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
 }
-
 /* Анимация появления */
 @keyframes fadeInUp {
     from {

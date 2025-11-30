@@ -1,0 +1,116 @@
+.icon-cards-wrapper {
+    max-width: 1100px;
+    margin: 60px auto;
+    padding: 0 !important;
+}
+
+.icon-cards-main-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 50px 0;
+    color: #000000 !important;
+    line-height: 1.2;
+    margin-bottom: 64px !important;
+}
+
+.icon-cards-block {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.icon-card {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.icon-card img,
+.icon-card .icon-card-icon,
+.icon-cards-block img {
+    max-width: 78px !important;
+    width: 78px !important;
+    height: auto !important;
+    margin: 0 auto 15px auto !important;
+    display: block !important;
+}
+
+.icon-card:nth-child(1) { animation-delay: 0.1s; }
+.icon-card:nth-child(2) { animation-delay: 0.2s; }
+.icon-card:nth-child(3) { animation-delay: 0.3s; }
+.icon-card:nth-child(4) { animation-delay: 0.4s; }
+.icon-card:nth-child(5) { animation-delay: 0.5s; }
+.icon-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.icon-card-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+    display: block;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.icon-card:hover .icon-card-icon {
+    transform: scale(1.1);
+}
+
+.icon-card-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 16px 0;
+    color: #0C0C0C !important;
+}
+
+.icon-card-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 30px;
+    color: #0C0C0C;
+    margin: 0 !important;
+}
+
+/* Адаптив */
+@media (max-width: 768px) {
+    .icon-cards-wrapper {
+        margin: 40px auto;
+    }
+    
+    .icon-cards-main-title {
+        font-size: 32px;
+        margin-bottom: 35px;
+    }
+    
+    .icon-cards-block {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .icon-card-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .icon-card-title {
+        font-size: 18px;
+    }
+    
+    .icon-card-description {
+        font-size: 14px;
+    }
+}

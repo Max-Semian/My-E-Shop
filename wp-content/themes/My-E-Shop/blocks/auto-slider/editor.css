@@ -1,0 +1,11 @@
+.auto-slider-editor {
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-height: 240px;
+    align-items: center;
+    justify-content: center;
+}

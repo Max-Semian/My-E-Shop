@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/auto-slider",
+	"version": "1.0.0",
+	"title": "Auto Slider",
+	"category": "my-e-shop",
+	"icon": "images-alt2",
+	"description": "Слайдер с автоматической прокруткой",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "My-E-Shop",
+	"attributes": {
+		"images": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"script": "file:./script.js"
+}

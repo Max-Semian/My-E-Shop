@@ -70,9 +70,9 @@ body.page-template-page-about {
 }
 
 .about-page-content-wrapper .container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 !important;
 }
 
 /* Стили для параграфов */
@@ -86,6 +86,18 @@ body.page-template-page-about {
 }
 
 /* Стили для изображений */
+.about-page-content-wrapper .wp-block-image {
+    display: block !important;
+    margin: 0 0 50px 0 !important;
+    padding: 0 !important;
+}
+
+.about-page-content-wrapper .wp-block-image figure {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .about-page-content-wrapper img,
 .about-page-content-wrapper .wp-block-image img {
     max-width: 1100px;
@@ -94,11 +106,8 @@ body.page-template-page-about {
     opacity: 1;
     border-radius: 10px;
     display: block;
-    margin: 0 auto;
-}
-
-.about-page-content-wrapper .wp-block-image {
-    margin-bottom: 40px;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 .about-page-content-wrapper .wp-block-list {
@@ -134,7 +143,7 @@ body.page-template-page-about {
 /* Стили для заголовков H2 на странице About */
 .about-page-content-wrapper h2,
 h2.wp-block-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Playfair Display';
     font-weight: 600;
     font-size: 36px;
     line-height: 40px;

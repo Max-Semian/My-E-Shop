@@ -1,0 +1,150 @@
+.auto-slider-wrapper {
+    width: 100vw;
+    height: 542px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.auto-slider-container {
+    display: flex;
+    height: 100%;
+}
+
+.auto-slider-track {
+    display: flex;
+    height: 542px;
+    animation: autoSlide 120s linear infinite;
+    will-change: transform;
+    flex-shrink: 0;
+}
+
+.auto-slider-track:hover {
+    animation-play-state: paused;
+}
+
+.auto-slider-item {
+    flex: 0 0 auto;
+    width: 408px;
+    min-width: 408px;
+    max-width: 408px;
+    height: 542px;
+    position: relative;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.auto-slider-item img {
+    width: 408px;
+    height: 542px;
+    min-height: 542px;
+    max-height: 542px;
+    object-fit: cover;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Дублируем изображения для бесшовной прокрутки */
+@keyframes autoSlide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* Адаптив */
+@media (max-width: 1200px) {
+    .auto-slider-item {
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
+    }
+    
+    .auto-slider-item img {
+        width: 350px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .auto-slider-wrapper {
+        height: 450px;
+    }
+    
+    .auto-slider-track {
+        height: 450px;
+    }
+    
+    .auto-slider-item {
+        width: 320px;
+        min-width: 320px;
+        max-width: 320px;
+        height: 450px;
+    }
+    
+    .auto-slider-item img {
+        width: 320px;
+        height: 450px;
+        min-height: 450px;
+        max-height: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+    .auto-slider-wrapper {
+        height: 400px;
+    }
+    
+    .auto-slider-track {
+        height: 400px;
+        animation-duration: 90s;
+    }
+    
+    .auto-slider-item {
+        width: calc(50vw - 15px);
+        min-width: calc(50vw - 15px);
+        max-width: calc(50vw - 15px);
+        height: 400px;
+        margin-right: 10px;
+    }
+    
+    .auto-slider-item img {
+        width: 100%;
+        height: 400px;
+        min-height: 400px;
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .auto-slider-wrapper {
+        height: 350px;
+    }
+    
+    .auto-slider-track {
+        height: 350px;
+        animation-duration: 80s;
+    }
+    
+    .auto-slider-item {
+        width: calc(50vw - 15px);
+        min-width: calc(50vw - 15px);
+        max-width: calc(50vw - 15px);
+        height: 350px;
+        margin-right: 10px;
+    }
+    
+    .auto-slider-item img {
+        width: 100%;
+        height: 350px;
+        min-height: 350px;
+        max-height: 350px;
+    }
+}
