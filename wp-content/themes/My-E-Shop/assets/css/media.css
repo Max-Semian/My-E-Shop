@@ -169,6 +169,16 @@
         display: none; /* Скрываем нижнюю панель на мобильных */
     }
     
+    .main-header-bar {
+        position: fixed;
+        padding: 0 20px;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: #2C2C2C;
+    }
+    
     .main-header-bar .header-content {
         justify-content: space-between;
     }
@@ -190,11 +200,27 @@
     
     .main-header-bar .header-icons {
         gap: 15px;
+        display: flex !important;
+        align-items: center;
     }
     
     .main-header-bar .header-icon {
-        font-size: 16px;
-        padding: 6px;
+        font-size: 18px;
+        padding: 8px;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    .main-header-bar .header-icon img {
+        width: 22px;
+        height: 22px;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        filter: brightness(0) invert(1) !important;
     }
     
     .offcanvas.offcanvas-end {
@@ -644,12 +670,17 @@
 /* Ensure the video itself isn't taking up too much space */
 @media (max-width: 576px) {
     .main-header-bar .header-icons {
-        gap: 10px;
+        gap: 8px;
     }
     
     .main-header-bar .header-icon {
         font-size: 16px;
-        padding: 4px;
+        padding: 6px;
+    }
+    
+    .main-header-bar .header-icon img {
+        width: 20px !important;
+        height: 20px !important;
     }
 
     #background-video {

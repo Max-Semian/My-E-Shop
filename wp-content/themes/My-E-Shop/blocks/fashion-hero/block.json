@@ -39,6 +39,18 @@
                 "image6": null,
                 "image7": null
             }
+        },
+        "backgroundImage": {
+            "type": "object",
+            "default": {
+                "id": null,
+                "url": "",
+                "alt": ""
+            }
+        },
+        "overlayOpacity": {
+            "type": "number",
+            "default": 50
         }
     },
     "textdomain": "My-E-Shop",

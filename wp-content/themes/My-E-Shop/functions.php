@@ -259,6 +259,162 @@ add_action('widgets_init', function () {
 
 add_action('after_setup_theme', 'mytheme_add_woocommerce_support');
 
+/**
+ * Add custom menu icon field to menu items
+ */
+
+// Add custom field to menu item
+add_filter('wp_nav_menu_item_custom_fields', 'my_eshop_menu_item_icon_field', 10, 5);
+function my_eshop_menu_item_icon_field($item_id, $menu_item, $depth, $args, $id) {
+    $menu_icon = get_post_meta($item_id, '_menu_item_icon', true);
+    $menu_icon_animation = get_post_meta($item_id, '_menu_item_icon_animation', true);
+    ?>
+    <p class="field-menu-icon description description-wide">
+        <label for="edit-menu-item-icon-<?php echo $item_id; ?>">
+            <?php _e('Menu Icon', 'My-E-Shop'); ?><br />
+            <span class="menu-icon-preview" style="display: inline-block; margin: 10px 0;">
+                <?php if ($menu_icon): ?>
+                    <img src="<?php echo esc_url($menu_icon); ?>" style="max-width: 50px; height: auto; border: 1px solid #ddd; padding: 5px; background: #f9f9f9;" />
+                <?php endif; ?>
+            </span>
+            <input type="hidden" id="edit-menu-item-icon-<?php echo $item_id; ?>" class="menu-item-icon-url" name="menu-item-icon[<?php echo $item_id; ?>]" value="<?php echo esc_attr($menu_icon); ?>" />
+            <button type="button" class="button menu-item-icon-upload" data-item-id="<?php echo $item_id; ?>"><?php _e('Upload Icon', 'My-E-Shop'); ?></button>
+            <button type="button" class="button menu-item-icon-remove" data-item-id="<?php echo $item_id; ?>" <?php echo !$menu_icon ? 'style="display:none;"' : ''; ?>><?php _e('Remove', 'My-E-Shop'); ?></button>
+        </label>
+    </p>
+    <p class="field-menu-icon-animation description description-wide">
+        <label for="edit-menu-item-icon-animation-<?php echo $item_id; ?>">
+            <?php _e('Icon Animation', 'My-E-Shop'); ?><br />
+            <select id="edit-menu-item-icon-animation-<?php echo $item_id; ?>" name="menu-item-icon-animation[<?php echo $item_id; ?>]" class="widefat">
+                <option value="" <?php selected($menu_icon_animation, ''); ?>><?php _e('None', 'My-E-Shop'); ?></option>
+                <option value="rotate" <?php selected($menu_icon_animation, 'rotate'); ?>><?php _e('Rotate (Star)', 'My-E-Shop'); ?></option>
+                <option value="heartbeat" <?php selected($menu_icon_animation, 'heartbeat'); ?>><?php _e('Heartbeat', 'My-E-Shop'); ?></option>
+                <option value="spin" <?php selected($menu_icon_animation, 'spin'); ?>><?php _e('Spin (Planet)', 'My-E-Shop'); ?></option>
+                <option value="punch" <?php selected($menu_icon_animation, 'punch'); ?>><?php _e('Punch', 'My-E-Shop'); ?></option>
+            </select>
+        </label>
+    </p>
+    <?php
+}
+
+// Save custom field
+add_action('wp_update_nav_menu_item', 'my_eshop_save_menu_item_icon', 10, 2);
+function my_eshop_save_menu_item_icon($menu_id, $menu_item_id) {
+    if (isset($_POST['menu-item-icon'][$menu_item_id])) {
+        update_post_meta($menu_item_id, '_menu_item_icon', sanitize_text_field($_POST['menu-item-icon'][$menu_item_id]));
+    }
+    if (isset($_POST['menu-item-icon-animation'][$menu_item_id])) {
+        update_post_meta($menu_item_id, '_menu_item_icon_animation', sanitize_text_field($_POST['menu-item-icon-animation'][$menu_item_id]));
+    }
+}
+
+// Enqueue media uploader scripts in admin
+add_action('admin_enqueue_scripts', 'my_eshop_menu_icon_admin_scripts');
+function my_eshop_menu_icon_admin_scripts($hook) {
+    if ($hook !== 'nav-menus.php') {
+        return;
+    }
+    
+    wp_enqueue_media();
+    wp_add_inline_script('media-editor', "
+        jQuery(document).ready(function($) {
+            // Upload icon
+            $(document).on('click', '.menu-item-icon-upload', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var itemId = button.data('item-id');
+                var container = button.closest('.field-menu-icon');
+                
+                var frame = wp.media({
+                    title: 'Select Menu Icon',
+                    button: { text: 'Use this icon' },
+                    multiple: false,
+                    library: { type: 'image' }
+                });
+                
+                frame.on('select', function() {
+                    var attachment = frame.state().get('selection').first().toJSON();
+                    container.find('.menu-item-icon-url').val(attachment.url);
+                    container.find('.menu-icon-preview').html('<img src=\"' + attachment.url + '\" style=\"max-width: 50px; height: auto; border: 1px solid #ddd; padding: 5px; background: #f9f9f9;\" />');
+                    container.find('.menu-item-icon-remove').show();
+                });
+                
+                frame.open();
+            });
+            
+            // Remove icon
+            $(document).on('click', '.menu-item-icon-remove', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var container = button.closest('.field-menu-icon');
+                container.find('.menu-item-icon-url').val('');
+                container.find('.menu-icon-preview').html('');
+                button.hide();
+            });
+        });
+    ");
+}
+
+/**
+ * Custom Walker class for header navigation menu
+ */
+class My_E_Shop_Header_Walker extends Walker_Nav_Menu {
+    
+    function start_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '<ul class="shop-dropdown">';
+    }
+    
+    function end_lvl(&$output, $depth = 0, $args = null) {
+        $output .= '</ul>';
+    }
+    
+    function start_el(&$output, $item, $depth = 0, $args = null, $id = 0) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $has_children = in_array('menu-item-has-children', $classes);
+        
+        if ($depth === 0) {
+            // Top level menu items
+            if ($has_children) {
+                $output .= '<div class="nav-item custom-dropdown">';
+                $output .= '<a href="' . esc_url($item->url) . '" class="nav-link">' . esc_html($item->title) . '</a>';
+            } else {
+                $output .= '<a href="' . esc_url($item->url) . '" class="nav-link">' . esc_html($item->title) . '</a>';
+            }
+        } else {
+            // Submenu items (dropdown)
+            $output .= '<li class="dropdown-item-wrapper">';
+            
+            // Get icon from custom field
+            $icon_url = get_post_meta($item->ID, '_menu_item_icon', true);
+            $icon_animation = get_post_meta($item->ID, '_menu_item_icon_animation', true);
+            
+            // Add animation class to wrapper if icon has animation
+            $animation_class = $icon_animation ? ' has-animation animation-' . esc_attr($icon_animation) : '';
+            
+            $output .= '<a class="dropdown-item' . $animation_class . '" href="' . esc_url($item->url) . '">';
+            
+            if ($icon_url) {
+                $output .= '<div class="dropdown-icon">';
+                $output .= '<img src="' . esc_url($icon_url) . '" alt="' . esc_attr($item->title) . '" />';
+                $output .= '</div>';
+            }
+            
+            $output .= '<span class="dropdown-text">' . esc_html($item->title) . '</span>';
+            $output .= '</a>';
+        }
+    }
+    
+    function end_el(&$output, $item, $depth = 0, $args = null) {
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $has_children = in_array('menu-item-has-children', $classes);
+        
+        if ($depth === 0 && $has_children) {
+            $output .= '</div>';
+        } elseif ($depth > 0) {
+            $output .= '</li>';
+        }
+    }
+}
 
 add_action('wp_enqueue_scripts', function () {
     // Подключаем Google Fonts
@@ -299,6 +455,18 @@ add_action('wp_enqueue_scripts', function () {
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
     
+    // Подключаем Fabric.js для T-Shirt Designer
+    wp_enqueue_script('fabricjs', 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js', array('jquery'), '5.3.0', true);
+    
+    // Подключаем скрипт T-Shirt Designer
+    wp_enqueue_script(
+        'tshirt-designer-script',
+        get_template_directory_uri() . '/blocks/tshirt-designer/script.js',
+        array('jquery', 'fabricjs'),
+        '1.0.0',
+        true
+    );
+    
     // Подключаем jQuery UI только на страницах магазина
     if (is_shop() || is_product_category() || is_product_tag()) {
         // jQuery UI из CDN для надежности
@@ -317,6 +485,7 @@ add_action('wp_enqueue_scripts', function () {
 
 require_once get_template_directory() . '/incs/woocommerce-hooks.php';
 require_once get_template_directory() . '/incs/class-my-e-shop-header-menu.php';
+require_once get_template_directory() . '/incs/class-my-e-shop-mobile-walker.php';
 require_once get_template_directory() . '/incs/cpt.php';
 
 /**
@@ -1233,6 +1402,84 @@ function save_product_template_meta_box( $post_id ) {
 }
 
 /**
+ * Добавляем выбор темы для страниц
+ */
+
+// Добавляем мета-бокс для выбора темы страницы
+add_action( 'add_meta_boxes', 'add_page_theme_meta_box' );
+
+function add_page_theme_meta_box() {
+    add_meta_box(
+        'page_theme_selection',
+        __( 'Тема страницы', 'my-e-shop' ),
+        'page_theme_meta_box_callback',
+        'page',
+        'side',
+        'default'
+    );
+}
+
+function page_theme_meta_box_callback( $post ) {
+    // Добавляем nonce для безопасности
+    wp_nonce_field( 'page_theme_meta_box', 'page_theme_meta_box_nonce' );
+    
+    // Получаем текущее значение
+    $theme = get_post_meta( $post->ID, '_page_theme', true );
+    if ( empty( $theme ) ) {
+        $theme = 'light'; // По умолчанию светлая тема
+    }
+    
+    ?>
+    <p>
+        <label for="page_theme"><?php _e( 'Выберите тему оформления:', 'my-e-shop' ); ?></label>
+    </p>
+    <p>
+        <select name="page_theme" id="page_theme" style="width: 100%;">
+            <option value="light" <?php selected( $theme, 'light' ); ?>><?php _e( 'Светлая тема', 'my-e-shop' ); ?></option>
+            <option value="dark" <?php selected( $theme, 'dark' ); ?>><?php _e( 'Темная тема', 'my-e-shop' ); ?></option>
+        </select>
+    </p>
+    <p class="description">
+        <?php _e( 'Светлая тема: #F4F0EB<br>Темная тема: #2C2C2C', 'my-e-shop' ); ?>
+    </p>
+    <?php
+}
+
+// Сохраняем значение мета-поля темы страницы
+add_action( 'save_post', 'save_page_theme_meta_box' );
+
+function save_page_theme_meta_box( $post_id ) {
+    // Проверяем nonce
+    if ( ! isset( $_POST['page_theme_meta_box_nonce'] ) ) {
+        return;
+    }
+    
+    if ( ! wp_verify_nonce( $_POST['page_theme_meta_box_nonce'], 'page_theme_meta_box' ) ) {
+        return;
+    }
+    
+    // Проверяем автосохранение
+    if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+        return;
+    }
+    
+    // Проверяем права пользователя
+    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
+        if ( ! current_user_can( 'edit_page', $post_id ) ) {
+            return;
+        }
+    }
+    
+    // Сохраняем данные
+    if ( isset( $_POST['page_theme'] ) ) {
+        $theme = sanitize_text_field( $_POST['page_theme'] );
+        if ( in_array( $theme, array( 'light', 'dark' ) ) ) {
+            update_post_meta( $post_id, '_page_theme', $theme );
+        }
+    }
+}
+
+/**
  * Функция для получения hex цвета по названию
  */
 function get_color_hex_by_name($color_name) {
@@ -1339,7 +1586,7 @@ function advanced_blog_posts_shortcode($atts) {
         'posts' => 5,
         'category' => '',
         'show_image' => 'true',
-        'image_size' => 'medium',
+        'image_size' => 'large',
         'show_excerpt' => 'true',
         'excerpt_length' => 20,
         'columns' => 1
@@ -1572,7 +1819,7 @@ function my_e_shop_register_blocks() {
             'my-e-shop-animated-text-editor',
             get_template_directory_uri() . '/blocks/animated-text/block.js',
             array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
-            '1.0.0',
+            '1.0.5',
             array('in_footer' => false)
         );
         
@@ -1580,7 +1827,7 @@ function my_e_shop_register_blocks() {
             'my-e-shop-animated-text-editor-style',
             get_template_directory_uri() . '/blocks/animated-text/editor.css',
             array(),
-            '1.0.0'
+            '1.0.5'
         );
 
         // Scrambled Text Block (GSAP)
@@ -1679,6 +1926,22 @@ function my_e_shop_register_blocks() {
             '1.0.0'
         );
 
+        // Newsletter Simple Block
+        wp_enqueue_script(
+            'my-e-shop-newsletter-simple-editor',
+            get_template_directory_uri() . '/blocks/newsletter-simple/index.js',
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components'),
+            '1.0.0',
+            array('in_footer' => false)
+        );
+        
+        wp_enqueue_style(
+            'my-e-shop-newsletter-simple-editor-style',
+            get_template_directory_uri() . '/blocks/newsletter-simple/editor.css',
+            array(),
+            '1.0.0'
+        );
+
         // Category Hero Block
         wp_enqueue_script(
             'my-e-shop-category-hero-editor',
@@ -1715,7 +1978,7 @@ function my_e_shop_register_blocks() {
         wp_enqueue_script(
             'my-e-shop-category-products-editor',
             get_template_directory_uri() . '/blocks/category-products/index.js',
-            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components', 'wp-api-fetch', 'wp-data'),
+            array('wp-blocks', 'wp-element', 'wp-i18n', 'wp-block-editor', 'wp-components', 'wp-api-fetch', 'wp-data', 'wp-server-side-render'),
             '1.0.0',
             array('in_footer' => false)
         );
@@ -1839,14 +2102,14 @@ function my_e_shop_register_blocks() {
             'my-e-shop-animated-text-style',
             get_template_directory_uri() . '/blocks/animated-text/style.css',
             array(),
-            '1.0.0'
+            '1.0.5'
         );
         
         wp_enqueue_script(
             'my-e-shop-animated-text-script',
             get_template_directory_uri() . '/blocks/animated-text/script.js',
             array('jquery'),
-            '1.0.0',
+            '1.0.5',
             array('in_footer' => false)
         );
 
@@ -1930,6 +2193,14 @@ function my_e_shop_register_blocks() {
             '1.0.0'
         );
 
+        // Newsletter Simple Block
+        wp_enqueue_style(
+            'my-e-shop-newsletter-simple-style',
+            get_template_directory_uri() . '/blocks/newsletter-simple/style.css',
+            array(),
+            '1.0.0'
+        );
+
         // Category Hero Block
         wp_enqueue_style(
             'my-e-shop-category-hero-style',
@@ -1951,7 +2222,7 @@ function my_e_shop_register_blocks() {
             'my-e-shop-category-products-style',
             get_template_directory_uri() . '/blocks/category-products/style.css',
             array(),
-            '1.0.0'
+            '1.0.70'
         );
         
         wp_enqueue_script(
@@ -2031,8 +2302,20 @@ function my_e_shop_register_blocks() {
 
     // Register blocks using block.json
     register_block_type(get_template_directory() . '/blocks/category-cards/block.json');
+    register_block_type(get_template_directory() . '/blocks/collection-cards/block.json');
+    register_block_type(get_template_directory() . '/blocks/tshirt-designer/block.json');
     register_block_type(get_template_directory() . '/blocks/fashion-hero/block.json');
-    register_block_type(get_template_directory() . '/blocks/animated-text/block.json');
+    register_block_type(get_template_directory() . '/blocks/animated-text/block.json', array(
+        'render_callback' => function($attributes, $content, $block) {
+            // Заменяем старые inline стили на новые
+            $content = preg_replace(
+                '/style="([^"]*?)font-size:\s*\d+px;?([^"]*?)"/i',
+                'style="$1font-size: 40px; font-family: Playfair Display; font-weight: 500; line-height: 60px; letter-spacing: 1px; vertical-align: middle;$2"',
+                $content
+            );
+            return $content;
+        }
+    ));
     register_block_type(get_template_directory() . '/blocks/scrambled-text/block.json');
     register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
     register_block_type(get_template_directory() . '/blocks/about-section/block.json');
@@ -2043,6 +2326,7 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/about-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/category-products/block.json');
     register_block_type(get_template_directory() . '/blocks/newsletter-subscription/block.json');
+    register_block_type(get_template_directory() . '/blocks/newsletter-simple/block.json');
     register_block_type(get_template_directory() . '/blocks/image-gallery/block.json');
     register_block_type(get_template_directory() . '/blocks/faq/block.json', array(
         'render_callback' => function($attributes, $content, $block) {
@@ -2099,7 +2383,7 @@ function blog_trends_shortcode($atts) {
     ob_start();
     ?>
     <section class="blog-trends-section">
-        <div class="container">
+        <div class="blog-trends-section-container">
             <div class="blog-trends-header">
                 <h2 class="blog-trends-title"><?php echo esc_html($atts['title']); ?></h2>
                 <p class="blog-trends-subtitle"><?php echo esc_html($atts['subtitle']); ?></p>
@@ -2346,5 +2630,202 @@ function custom_woocommerce_thumbnail_size($size) {
         'crop'   => 0, // Не обрезаем, сохраняем пропорции
     );
 }
+
+// Live Product Search AJAX
+add_action('wp_ajax_live_product_search', 'live_product_search_handler');
+add_action('wp_ajax_nopriv_live_product_search', 'live_product_search_handler');
+
+function live_product_search_handler() {
+    $query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+    
+    if (empty($query)) {
+        wp_die();
+    }
+    
+    $args = array(
+        'post_type' => 'product',
+        'posts_per_page' => 5,
+        's' => $query,
+        'post_status' => 'publish'
+    );
+    
+    $products = new WP_Query($args);
+    
+    if ($products->have_posts()) {
+        echo '<div class="search-results">';
+        while ($products->have_posts()) {
+            $products->the_post();
+            $product = wc_get_product(get_the_ID());
+            $image = wp_get_attachment_image_src(get_post_thumbnail_id(), 'thumbnail');
+            
+            echo '<a href="' . get_permalink() . '" class="search-suggestion-item">';
+            if ($image) {
+                echo '<img src="' . esc_url($image[0]) . '" alt="' . get_the_title() . '">';
+            } else {
+                echo '<img src="' . wc_placeholder_img_src() . '" alt="' . get_the_title() . '">';
+            }
+            echo '<div class="search-suggestion-content">';
+            echo '<h4>' . get_the_title() . '</h4>';
+            echo '<div class="price">' . $product->get_price_html() . '</div>';
+            echo '</div>';
+            echo '</a>';
+        }
+        echo '</div>';
+    } else {
+        echo '<p style="text-align: center; padding: 20px; color: #999;">No products found</p>';
+    }
+    
+    wp_reset_postdata();
+    wp_die();
+}
+
+// Add Wishlist functionality
+function add_wishlist_button_to_products() {
+    ?>
+    <script>
+    jQuery(document).ready(function($) {
+        // Add wishlist button to product pages
+        if ($('.product').length && !$('.wishlist-toggle-btn').length) {
+            var wishlistBtn = '<button class="wishlist-toggle-btn" data-product-id="' + wc_add_to_cart_params.product_id + '" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #fff; border: 2px solid #AA2DD0; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><i class="far fa-heart" style="font-size: 24px; color: #AA2DD0;"></i></button>';
+            $('body').append(wishlistBtn);
+            
+            // Check if product is in wishlist
+            var productId = wc_add_to_cart_params.product_id;
+            var wishlist = getCookie('my_eshop_wishlist');
+            if (wishlist) {
+                wishlist = JSON.parse(wishlist);
+                if (wishlist.includes(parseInt(productId))) {
+                    $('.wishlist-toggle-btn i').removeClass('far').addClass('fas');
+                }
+            }
+        }
+        
+        // Toggle wishlist
+        $(document).on('click', '.wishlist-toggle-btn', function() {
+            var button = $(this);
+            var productId = parseInt(button.data('product-id'));
+            var icon = button.find('i');
+            
+            var wishlist = getCookie('my_eshop_wishlist');
+            if (!wishlist) {
+                wishlist = [];
+            } else {
+                wishlist = JSON.parse(wishlist);
+            }
+            
+            var index = wishlist.indexOf(productId);
+            
+            if (index > -1) {
+                // Remove from wishlist
+                wishlist.splice(index, 1);
+                icon.removeClass('fas').addClass('far');
+                showNotification('Removed from wishlist');
+            } else {
+                // Add to wishlist
+                wishlist.push(productId);
+                icon.removeClass('far').addClass('fas');
+                showNotification('Added to wishlist');
+            }
+            
+            setCookie('my_eshop_wishlist', JSON.stringify(wishlist), 30);
+        });
+        
+        function showNotification(message) {
+            var notification = $('<div class="wishlist-notification" style="position: fixed; top: 100px; right: 30px; background: #fff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 99999; font-family: Montserrat, sans-serif; font-weight: 500; animation: slideInRight 0.3s ease;">' + message + '</div>');
+            $('body').append(notification);
+            
+            setTimeout(function() {
+                notification.fadeOut(300, function() {
+                    $(this).remove();
+                });
+            }, 2000);
+        }
+        
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+    });
+    </script>
+    <style>
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .wishlist-toggle-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(170, 45, 208, 0.3) !important;
+    }
+    </style>
+    <?php
+}
+add_action('wp_footer', 'add_wishlist_button_to_products');
+
+// Create Wishlist page automatically
+function create_wishlist_page_if_not_exists() {
+    // Check if page already exists
+    $wishlist_page = get_page_by_path('wishlist');
+    
+    if (!$wishlist_page) {
+        // Create the page
+        $page_data = array(
+            'post_title'    => 'Wishlist',
+            'post_content'  => '',
+            'post_status'   => 'publish',
+            'post_type'     => 'page',
+            'post_author'   => 1,
+            'post_name'     => 'wishlist'
+        );
+        
+        $page_id = wp_insert_post($page_data);
+        
+        if ($page_id && !is_wp_error($page_id)) {
+            // Set the template
+            update_post_meta($page_id, '_wp_page_template', 'page-wishlist.php');
+            
+            // Flush rewrite rules
+            flush_rewrite_rules();
+        }
+    } else {
+        // Make sure the template is set
+        $current_template = get_post_meta($wishlist_page->ID, '_wp_page_template', true);
+        if ($current_template !== 'page-wishlist.php') {
+            update_post_meta($wishlist_page->ID, '_wp_page_template', 'page-wishlist.php');
+        }
+    }
+}
+
+// Run on theme activation
+add_action('after_switch_theme', 'create_wishlist_page_if_not_exists');
+
+// Also run on admin init to ensure page exists
+add_action('admin_init', function() {
+    if (!get_page_by_path('wishlist')) {
+        create_wishlist_page_if_not_exists();
+    }
+});
 
 

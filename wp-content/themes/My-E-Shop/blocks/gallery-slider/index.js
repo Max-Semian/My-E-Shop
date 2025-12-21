@@ -5,14 +5,13 @@
         InspectorControls, 
         MediaUpload, 
         MediaUploadCheck,
-        ColorPicker
+        PanelColorSettings
     } = wp.blockEditor;
     const { 
         PanelBody, 
         TextControl, 
         Button, 
-        RangeControl,
-        BaseControl
+        RangeControl
     } = wp.components;
     const { __ } = wp.i18n;
 
@@ -94,32 +93,33 @@
                             max: 500
                         })
                     ),
-                    el(PanelBody, { title: __('Цвета', 'my-e-shop'), initialOpen: false },
-                        el(BaseControl, { label: __('Цвет фона', 'my-e-shop') },
-                            el(ColorPicker, {
-                                color: backgroundColor,
+                    el(PanelColorSettings, {
+                        title: __('Цвета', 'my-e-shop'),
+                        initialOpen: false,
+                        colorSettings: [
+                            {
+                                value: backgroundColor,
                                 onChange: function(color) {
                                     setAttributes({ backgroundColor: color });
-                                }
-                            })
-                        ),
-                        el(BaseControl, { label: __('Цвет заголовка', 'my-e-shop') },
-                            el(ColorPicker, {
-                                color: titleColor,
+                                },
+                                label: __('Цвет фона', 'my-e-shop')
+                            },
+                            {
+                                value: titleColor,
                                 onChange: function(color) {
                                     setAttributes({ titleColor: color });
-                                }
-                            })
-                        ),
-                        el(BaseControl, { label: __('Цвет подзаголовка', 'my-e-shop') },
-                            el(ColorPicker, {
-                                color: subtitleColor,
+                                },
+                                label: __('Цвет заголовка', 'my-e-shop')
+                            },
+                            {
+                                value: subtitleColor,
                                 onChange: function(color) {
                                     setAttributes({ subtitleColor: color });
-                                }
-                            })
-                        )
-                    )
+                                },
+                                label: __('Цвет подзаголовка', 'my-e-shop')
+                            }
+                        ]
+                    })
                 ),
                 el('div', { 
                     className: 'gallery-slider-block-editor',

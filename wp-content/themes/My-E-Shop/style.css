@@ -13,3 +13,434 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: my-e-shop
 */
 
+/* ============================================
+   Хлебные крошки для страниц (page.php)
+   ============================================ */
+
+.page-breadcrumbs-wrapper {
+    background-color: #F6F6F4 !important;
+    padding: 10px 0;
+}
+
+.page-breadcrumbs-wrapper .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #AA2DD0;
+    text-decoration: none;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs a:hover {
+    color: #A21CAF;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs .separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs .current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #2C2C2C;
+    margin-left: 10px;
+}
+
+/* ============================================
+   Хлебные крошки для постов (single.php)
+   ============================================ */
+
+.post-breadcrumbs {
+    background-color: #FFFFFF;
+    padding: 10px 0;
+}
+
+.post-breadcrumbs .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.post-breadcrumbs .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+}
+
+.post-breadcrumbs .breadcrumb-nav a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #AA2DD0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-breadcrumbs .breadcrumb-nav a:hover {
+    color: #A21CAF;
+}
+
+.post-breadcrumbs .breadcrumb-separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.post-breadcrumbs .breadcrumb-current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #2C2C2C;
+    margin-left: 10px;
+}
+
+/* ============================================
+   Стили для single post
+   ============================================ */
+
+.single-post-container {
+    background: #fff;
+}
+
+.single-post {
+    padding: 2rem 0;
+}
+
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+.post-date {
+    font-weight: 500;
+}
+
+.post-categories a {
+    color: #666;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.post-categories a:hover {
+    color: #000;
+}
+
+.post-thumbnail {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.post-thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.post-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    font-family: 'Playfair Display', serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.post-content h2 {
+    font-size: 2rem;
+}
+
+.post-content h3 {
+    font-size: 1.5rem;
+}
+
+.post-content h4 {
+    font-size: 1.25rem;
+}
+
+.post-content ul,
+.post-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.post-content blockquote {
+    border-left: 4px solid #000;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+.page-links {
+    margin: 2rem 0;
+    font-weight: 500;
+}
+
+.post-tags {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-tags a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.post-tags a:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Навигация между постами */
+.post-navigation {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-navigation .nav-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.post-navigation .nav-previous,
+.post-navigation .nav-next {
+    flex: 1;
+}
+
+.post-navigation .nav-subtitle {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.post-navigation .nav-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.post-navigation a:hover .nav-title {
+    color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-content {
+        font-size: 1rem;
+    }
+    
+    .post-navigation .nav-links {
+        flex-direction: column;
+    }
+}
+
+/* ============================================
+   Стили для страниц (page.php)
+   ============================================ */
+
+.page-default {
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+}
+
+.page-content-wrapper {
+    background-color: #FFFFFF;
+}
+
+.page-content-wrapper .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.single-page {
+    padding: 2rem 0;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #000;
+}
+
+.page-thumbnail {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.page-thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.page-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.page-content p {
+    margin-bottom: 1.5rem;
+}
+
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+    font-family: 'Playfair Display', serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.page-content h2 {
+    font-size: 2rem;
+}
+
+.page-content h3 {
+    font-size: 1.5rem;
+}
+
+.page-content h4 {
+    font-size: 1.25rem;
+}
+
+.page-content ul,
+.page-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.page-content li {
+    margin-bottom: 0.5rem;
+}
+
+.page-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.page-content blockquote {
+    border-left: 4px solid #000;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+/* Адаптивность для страниц */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-content {
+        font-size: 1rem;
+    }
+}
+

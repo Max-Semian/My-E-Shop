@@ -25,55 +25,23 @@
                     
                     <!-- Навигация по центру -->
                     <nav class="navbar-nav d-none d-lg-flex">
-                        <div class="nav-item custom-dropdown">
-                            <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" class="nav-link">
-                                SHOP
-                            </a>
-                            <ul class="shop-dropdown">
-                                <li class="dropdown-item-wrapper">
-                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/witch-teaser/'); ?>">
-                                    <div class="dropdown-icon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Star.png" alt="Star" />
-                                    </div>
-                                        <span class="dropdown-text">Witch Core</span>
-                                    </a>
-                                </li>
-                                <li class="dropdown-item-wrapper">
-                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/tender-thoughts'); ?>">
-                                        <div class="dropdown-icon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Heart.png" alt="Heart" />
-                                        </div>
-                                        <span class="dropdown-text">Tender Thoughts</span>
-                                    </a>
-                                </li>
-                                <li class="dropdown-item-wrapper">
-                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/data-muse'); ?>">
-                                        <div class="dropdown-icon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Internet.png" alt="Internet" />
-                                        </div>
-                                        <span class="dropdown-text">Data Muse</span>
-                                    </a>
-                                </li>
-                                <li class="dropdown-item-wrapper">
-                                    <a class="dropdown-item" href="<?php echo home_url('/product-category/identity-in-action'); ?>">
-                                        <div class="dropdown-icon">
-                                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Punch.png" alt="Punch" />
-                                        </div>
-                                        <span class="dropdown-text">Identity In Action</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <a href="<?php echo home_url('/blog'); ?>" class="nav-link">BLOG</a>
-                        <a href="<?php echo home_url('/about'); ?>" class="nav-link">ABOUT US</a>
+                        <?php
+                        wp_nav_menu(array(
+                            'theme_location' => 'header-menu',
+                            'container' => false,
+                            'items_wrap' => '%3$s',
+                            'walker' => new My_E_Shop_Header_Walker(),
+                            'fallback_cb' => false,
+                        ));
+                        ?>
                     </nav>
                     
                     <!-- Иконки справа -->
                     <div class="header-icons">
-                        <a href="<?php echo home_url('/search'); ?>" class="header-icon">
+                        <a href="#" class="header-icon" onclick="openSearchModal(); return false;">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Search.svg" alt="Search" />
                         </a>
-                        <a href="<?php echo home_url('/account'); ?>" class="header-icon">
+                        <a href="<?php echo is_user_logged_in() ? esc_url(wc_get_page_permalink('myaccount')) : '#'; ?>" class="header-icon" <?php echo !is_user_logged_in() ? 'onclick="openLoginModal(); return false;"' : ''; ?>>
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Account.svg" alt="Account" />
                         </a>
                         <a href="<?php echo home_url('/wishlist'); ?>" class="header-icon">
@@ -95,29 +63,18 @@
         <!-- Mobile Menu -->
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-                <a class="navbar-brand" href="<?php echo home_url('/')?>">
-                    <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo-Cretho.png" alt="logo">
-                </a>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close">×</button>
             </div>
             <div class="offcanvas-body">
-                <ul class="mobile-nav-menu">
-                    <li class="mobile-nav-item">
-                        <a href="<?php echo home_url('/') ?>">Home</a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>">Shop</a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="<?php echo home_url('/blog') ?>">Blog</a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="<?php echo home_url('/about') ?>">About Us</a>
-                    </li>
-                    <li class="mobile-nav-item">
-                        <a href="<?php echo get_permalink(wc_get_page_id('cart')); ?>">Cart</a>
-                    </li>
-                </ul>
+                <?php
+                wp_nav_menu(array(
+                    'theme_location' => 'header-menu',
+                    'container' => false,
+                    'menu_class' => 'mobile-nav-menu',
+                    'walker' => new My_E_Shop_Mobile_Walker(),
+                    'fallback_cb' => false,
+                ));
+                ?>
             </div>
         </div>
     </header>

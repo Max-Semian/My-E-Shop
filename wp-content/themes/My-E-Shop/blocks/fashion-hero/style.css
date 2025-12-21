@@ -19,7 +19,20 @@
     margin-top: -60px;
 }
 
-/* Background Images Grid */
+/* Main Background Image (under everything) */
+.fashion-hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* 7 Fashion Images Grid (above background) */
 .fashion-images-grid {
     position: absolute;
     top: 0;
@@ -27,20 +40,27 @@
     width: 100%;
     height: 100%;
     display: flex;
+    align-items: flex-end;
     z-index: 1;
 }
 
 .fashion-image-card {
-    flex: 1;
+    flex: 1 1 0;
+    min-width: 0;
     height: 100%;
     overflow: hidden;
     position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
 }
 
 .fashion-image-card img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    min-height: 100%;
     object-fit: cover;
+    object-position: bottom center;
     transition: transform 0.5s ease;
 }
 
@@ -55,7 +75,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #0000004D;
+    background: rgba(0, 0, 0, 0.5);
     z-index: 2;
 }
 
@@ -72,9 +92,9 @@
 .fashion-hero-title {
     font-family: 'Playfair Display', serif;
     font-size: 56px;
-    font-weight: 600;
+    font-weight: 700;
     color: #F4F0EB;
-    line-height: 1.1;
+    line-height: 76px;
     margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -92,32 +112,30 @@
 
 .fashion-hero-btn {
     display: inline-block;
-    padding: 12px 35px;
-    background: #2C2C2C;
-    color: #D85AFF;
+    padding: 17px 49px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
     text-decoration: none;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
-    font-weight: 400;
+    font-weight: 500;
+    line-height: 13px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border: 1px solid #a855f7;
+    border: 1px solid #FFFFFF33;
     border-radius: 4px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     transition: all 0.3s ease;
-    box-shadow: none;
-    min-width: 121px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    min-width: 200px;
 }
 
 .fashion-hero-btn:hover {
-    background: #F4F0EB;
-    color: #D85AFF;
-    border-color: #a855f7;
+    background: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.8);
     transform: none;
-    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
     text-decoration: none;
 }
 
@@ -170,18 +188,92 @@
         max-width: 100%;
     }
 }
+
+@media (max-width: 991.98px) {
+    .fashion-hero-container {
+        height: auto;
+        min-height: auto;
+        padding-top: 70px;
+        margin-top: 0;
+        display: block;
+    }
+    
+    .fashion-images-grid {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: auto;
+    }
+    
+    /* Показываем только первые 3 изображения */
+    .fashion-image-card {
+        display: none !important;
+        height: auto;
+        overflow: visible;
+    }
+    
+    .fashion-image-card:nth-child(1),
+    .fashion-image-card:nth-child(2),
+    .fashion-image-card:nth-child(3) {
+        display: flex !important;
+        flex: 0 0 33.333%;
+        max-width: 33.333%;
+        align-items: flex-end;
+        height: auto;
+    }
+    
+    .fashion-image-card img {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        object-fit: contain;
+        object-position: bottom center;
+    }
+    
+    .fashion-hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .fashion-hero-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        padding: 20px;
+        animation: none;
+    }
+    
+    .fashion-hero-title {
+        font-size: 24px;
+        line-height: 1.3;
+        margin-bottom: 10px;
+    }
+    
+    .fashion-hero-subtitle {
+        font-size: 14px;
+        margin-bottom: 15px;
+        display: none;
+    }
+    
+    .fashion-hero-btn {
+        padding: 12px 30px;
+        font-size: 12px;
+    }
+}
+
 @media (max-width: 768px) {
     .fashion-hero-container {
-        height: 70vh;
-        min-height: 400px;
+        padding-top: 60px;
     }
 
-    .fashion-hero-title  {
-        font-size: 32px;
-        margin-bottom: 200px;
-    }
-
-    .fashion-hero-subtitle {
+    .fashion-hero-title {
         font-size: 20px;
+        margin-bottom: 10px;
     }
 }

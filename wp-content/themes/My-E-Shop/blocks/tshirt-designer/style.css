@@ -1,0 +1,440 @@
+/* T-Shirt Designer Block Styles */
+
+.tshirt-designer-block {
+    padding: 0;
+    min-height: 100vh;
+}
+
+.tshirt-designer-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    min-height: 700px;
+}
+
+/* Левая панель инструментов */
+.designer-tools-sidebar {
+    width: 80px;
+    background: #FFFFFF;
+    border-right: 1px solid #E5E7EB;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.tools-header {
+    display: none;
+}
+
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    padding: 15px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.tool-item:hover {
+    background: #F9FAFB;
+    border-left-color: #AA2DD0;
+}
+
+.tool-item.active {
+    background: #F3E8FF;
+    border-left-color: #AA2DD0;
+}
+
+.tool-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7280;
+}
+
+.tool-item:hover .tool-icon,
+.tool-item.active .tool-icon {
+    color: #AA2DD0;
+}
+
+.tool-label {
+    font-size: 11px;
+    color: #6B7280;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.tool-item:hover .tool-label,
+.tool-item.active .tool-label {
+    color: #AA2DD0;
+}
+
+/* Центральная область с футболкой */
+.designer-canvas-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: #FAFAFA;
+    position: relative;
+}
+
+.canvas-controls {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.zoom-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #fff;
+    border-radius: 6px;
+    padding: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6B7280;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.zoom-btn:hover {
+    background: #F3F4F6;
+    color: #AA2DD0;
+}
+
+.zoom-level {
+    font-size: 14px;
+    color: #374151;
+    min-width: 40px;
+    text-align: center;
+}
+
+/* Canvas с футболкой */
+.tshirt-canvas {
+    width: 600px;
+    height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.tshirt-view {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tshirt-svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 500px;
+}
+
+.tshirt-body,
+.tshirt-sleeve-left,
+.tshirt-sleeve-right {
+    transition: fill 0.3s ease;
+}
+
+/* Область для печати */
+.print-area {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    z-index: 10;
+}
+
+.print-area-border {
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 2px dashed #AA2DD0;
+    border-radius: 4px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.design-canvas {
+    display: block;
+    cursor: crosshair;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Переключатель сторон */
+.side-switcher {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.side-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #E5E7EB;
+    color: #6B7280;
+}
+
+.side-btn:hover {
+    background: #D1D5DB;
+}
+
+.side-btn.active {
+    background: #6B7280;
+    color: #fff;
+}
+
+/* Кнопка сохранения */
+.designer-actions {
+    margin-top: 20px;
+}
+
+.btn-save-design {
+    padding: 14px 40px;
+    background: #AA2DD0;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(170, 45, 208, 0.3);
+}
+
+.btn-save-design:hover {
+    background: #A21CAF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(170, 45, 208, 0.4);
+}
+
+/* Панель с графикой */
+.graphics-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100%;
+    background: #fff;
+    border-left: 1px solid #E5E7EB;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.graphics-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.graphics-header h4 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #111827;
+}
+
+.close-panel {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    font-size: 24px;
+    color: #6B7280;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.close-panel:hover {
+    background: #F3F4F6;
+    color: #AA2DD0;
+}
+
+.graphics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    padding: 20px;
+}
+
+.graphic-item {
+    aspect-ratio: 1;
+    border: 2px solid #E5E7EB;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.graphic-item:hover {
+    border-color: #AA2DD0;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(170, 45, 208, 0.2);
+}
+
+.graphic-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .tshirt-designer-wrapper {
+        flex-direction: column;
+    }
+
+    .designer-tools-sidebar {
+        width: 100%;
+        flex-direction: row;
+        border-right: none;
+        border-bottom: 1px solid #E5E7EB;
+        padding: 10px 20px;
+        overflow-x: auto;
+    }
+
+    .tool-item {
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px 15px;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+
+    .tool-item:hover,
+    .tool-item.active {
+        border-left: none;
+        border-bottom-color: #AA2DD0;
+    }
+
+    .tool-label {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .tshirt-designer-block {
+        padding: 30px 0;
+    }
+
+    .designer-canvas-area {
+        padding: 20px;
+    }
+
+    .tshirt-canvas {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        aspect-ratio: 3/4;
+    }
+
+    .side-switcher {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .side-btn {
+        width: 100%;
+    }
+
+    .graphics-panel {
+        width: 100%;
+    }
+
+    .graphics-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .canvas-controls {
+        position: static;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .designer-tools-sidebar {
+        padding: 5px 10px;
+    }
+
+    .tool-item {
+        padding: 8px 10px;
+    }
+
+    .tool-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .tool-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .tool-label {
+        font-size: 10px;
+    }
+
+    .graphics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+}
+
+/* Fabric.js canvas styling */
+.canvas-container {
+    margin: 0 auto !important;
+}
+
+.upper-canvas {
+    border: 2px dashed transparent !important;
+}
+
+.upper-canvas:hover {
+    border-color: rgba(170, 45, 208, 0.3) !important;
+}

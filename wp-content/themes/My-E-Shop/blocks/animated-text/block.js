@@ -73,23 +73,6 @@
                 ),
 
                 el(PanelBody, { 
-                    title: __('Настройки текста', 'My-E-Shop'), 
-                    initialOpen: false 
-                },
-                    el(SelectControl, {
-                        label: __('Размер шрифта', 'My-E-Shop'),
-                        value: fontSize,
-                        options: [
-                            { label: __('Маленький', 'My-E-Shop'), value: 'small' },
-                            { label: __('Обычный', 'My-E-Shop'), value: 'normal' },
-                            { label: __('Большой', 'My-E-Shop'), value: 'large' },
-                            { label: __('Очень большой', 'My-E-Shop'), value: 'extra-large' }
-                        ],
-                        onChange: function(value) { setAttributes({ fontSize: value }); }
-                    })
-                ),
-
-                el(PanelBody, { 
                     title: __('Настройки анимации', 'My-E-Shop'), 
                     initialOpen: false 
                 },
@@ -169,9 +152,12 @@
                         className: 'text-content preview-mode',
                         style: {
                             color: effectiveTextColor + ' !important',
-                            fontSize: fontSize === 'small' ? '14px' : 
-                                     fontSize === 'normal' ? '16px' :
-                                     fontSize === 'large' ? '18px' : '22px'
+                            fontSize: '36px',
+                            fontFamily: 'Montserrat',
+                            fontWeight: 500,
+                            lineHeight: '52px',
+                            letterSpacing: '1px',
+                            verticalAlign: 'middle'
                         }
                     },
                         el(RichText, {
@@ -240,9 +226,12 @@
                         id: 'textContent',
                         style: {
                             textAlign: textAlign,
-                            fontSize: fontSize === 'small' ? '14px' : 
-                                     fontSize === 'normal' ? '16px' :
-                                     fontSize === 'large' ? '18px' : '22px',
+                            fontSize: '36px',
+                            fontFamily: 'Montserrat',
+                            fontWeight: 500,
+                            lineHeight: '52px',
+                            letterSpacing: '1px',
+                            verticalAlign: 'middle',
                             color: effectiveTextColor + ' !important'
                         },
                         // Сохраняем чистый текст без HTML тегов для корректной работы анимаций

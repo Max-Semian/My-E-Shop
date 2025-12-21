@@ -1,0 +1,97 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "my-e-shop/collection-cards",
+    "version": "1.0.0",
+    "title": "Collection Cards",
+    "description": "Блок с карточками коллекций - отображает коллекции в виде красивых карточек с изображениями и ссылками",
+    "category": "my-e-shop",
+    "icon": "images-alt2",
+    "keywords": ["collection", "cards", "gallery", "коллекции", "карточки"],
+    "textdomain": "my-e-shop",
+    "editorScript": "file:./index.js",
+    "style": "file:./style.css",
+    "render": "file:./render.php",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"],
+        "anchor": true,
+        "customClassName": true,
+        "reusable": true,
+        "multiple": true,
+        "inserter": true,
+        "lock": false,
+        "spacing": {
+            "margin": true,
+            "padding": true
+        }
+    },
+    "attributes": {
+        "blockTitle": {
+            "type": "string",
+            "default": "Our Collections"
+        },
+        "blockSubtitle": {
+            "type": "string",
+            "default": "Each piece tells a story — choose yours"
+        },
+        "collections": {
+            "type": "array",
+            "default": [
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "title": "Tender Thoughts",
+                    "subtitle": "Everything you need here",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "title": "Witch Core",
+                    "subtitle": "Everything you need here",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "title": "Identity by design",
+                    "subtitle": "Everything you need here",
+                    "url": "#"
+                },
+                {
+                    "imageUrl": "",
+                    "imageId": 0,
+                    "title": "Data Muse",
+                    "subtitle": "Everything you need here",
+                    "url": "#"
+                }
+            ],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "imageUrl": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "imageId": {
+                        "type": "number",
+                        "default": 0
+                    },
+                    "title": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "subtitle": {
+                        "type": "string",
+                        "default": ""
+                    },
+                    "url": {
+                        "type": "string",
+                        "default": "#"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -8,10 +8,12 @@
     var ToggleControl = wp.components.ToggleControl;
     var RangeControl = wp.components.RangeControl;
     var ColorPicker = wp.components.ColorPicker;
-    var ServerSideRender = wp.serverSideRender;
+    var ServerSideRender = wp.serverSideRender || wp.components.ServerSideRender;
     var useState = wp.element.useState;
     var useEffect = wp.element.useEffect;
     var apiFetch = wp.apiFetch;
+    var Placeholder = wp.components.Placeholder;
+    var Spinner = wp.components.Spinner;
 
     registerBlockType('my-e-shop/category-products', {
         edit: function(props) {
@@ -40,7 +42,7 @@
 
             useEffect(function() {
                 apiFetch({
-                    path: '/wc/v3/products/categories?per_page=100'
+                    path: '/wp/v2/product_cat?per_page=100'
                 }).then(function(fetchedCategories) {
                     var categoryOptions = [{ label: 'Выберите категорию', value: 0 }];
                     fetchedCategories.forEach(function(cat) {
@@ -50,12 +52,11 @@
                         });
                     });
                     setCategories(categoryOptions);
-                }).catch(function() {
-                    // Fallback if WooCommerce API is not available
+                }).catch(function(error) {
+                    console.error('Error fetching categories:', error);
+                    // Fallback if API is not available
                     setCategories([
-                        { label: 'Выберите категорию', value: 0 },
-                        { label: 'DENIM', value: 1 },
-                        { label: 'FEELING', value: 2 }
+                        { label: 'Выберите категорию', value: 0 }
                     ]);
                 });
             }, []);
@@ -200,8 +201,11 @@
             var previewContent;
             if (categoryId === 0) {
                 previewContent = wp.element.createElement(
-                    'div',
-                    { className: 'category-products-placeholder' },
+                    Placeholder,
+                    { 
+                        icon: 'category',
+                        label: 'Category Products'
+                    },
                     wp.element.createElement(
                         'p',
                         {},
@@ -220,15 +224,23 @@
                     blockStyles += '.wp-block-my-e-shop-category-products .category-products-block .product-price, .wp-block-my-e-shop-category-products .category-products-block .product-price .woocommerce-Price-amount { color: ' + priceColor + ' !important; }';
                 }
 
-                previewContent = wp.element.createElement(
-                    'div',
-                    {},
-                    blockStyles && wp.element.createElement('style', {}, blockStyles),
-                    wp.element.createElement(ServerSideRender, {
-                        block: 'my-e-shop/category-products',
-                        attributes: attributes
-                    })
-                );
+                if (!ServerSideRender) {
+                    previewContent = wp.element.createElement(
+                        Placeholder,
+                        { label: 'Category Products' },
+                        'ServerSideRender недоступен'
+                    );
+                } else {
+                    previewContent = wp.element.createElement(
+                        'div',
+                        {},
+                        blockStyles && wp.element.createElement('style', {}, blockStyles),
+                        wp.element.createElement(ServerSideRender, {
+                            block: 'my-e-shop/category-products',
+                            attributes: attributes
+                        })
+                    );
+                }
             }
 
             return wp.element.createElement(

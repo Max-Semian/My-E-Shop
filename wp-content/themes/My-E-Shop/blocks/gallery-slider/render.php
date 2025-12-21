@@ -53,7 +53,8 @@ if (empty($images)) {
                         <?php 
                         // Выводим оригинальные изображения
                         foreach ($images as $image) : 
-                            $image_url = wp_get_attachment_image_url($image['id'], 'medium_large');
+                            // Используем URL из атрибутов, если есть, иначе получаем из медиабиблиотеки
+                            $image_url = !empty($image['url']) ? $image['url'] : wp_get_attachment_image_url($image['id'], 'medium_large');
                             $image_alt = !empty($image['alt']) ? $image['alt'] : '';
                             
                             if ($image_url) :
@@ -69,7 +70,8 @@ if (empty($images)) {
                         
                         // Выводим дублированные изображения для бесшовной петли
                         foreach ($images as $image) : 
-                            $image_url = wp_get_attachment_image_url($image['id'], 'medium_large');
+                            // Используем URL из атрибутов, если есть, иначе получаем из медиабиблиотеки
+                            $image_url = !empty($image['url']) ? $image['url'] : wp_get_attachment_image_url($image['id'], 'medium_large');
                             $image_alt = !empty($image['alt']) ? $image['alt'] : '';
                             
                             if ($image_url) :

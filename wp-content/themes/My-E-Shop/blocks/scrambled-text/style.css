@@ -7,7 +7,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
-    background-color: #F4F0EB;
+    background-color: #F6F6F4 !important;
 }
 
 .scrambled-text-block.align-left .scrambled-text-wrapper {
@@ -23,15 +23,24 @@
 }
 
 .text-block {
-    margin: 7vw auto;
-    max-width: 800px;
-    font-family: 'Montserrat', sans-serif;
-    line-height: 1.6;
+    margin: 2vw auto;
+    max-width: 1300px;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: 1px;
+    vertical-align: middle;
     position: relative;
 }
 
 .text-block p {
     margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 52px;
+    letter-spacing: 1px;
 }
 
 /* Размеры шрифта */

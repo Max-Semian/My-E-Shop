@@ -130,17 +130,18 @@
 html,
 body {
     height: 100%;
+    margin: 0 !important;
 }
 
 body {
     min-width: 320px;
     font-size: 16px;
-    font-family: 'SF Pro', sans-serif;
+    font-family: 'Playfair Display', serif;
     line-height: 26px;
     font-weight: 400;
     font-style: normal;
     background-color: var(--bg-color);
-    color: var(--grey-color);
+    color: #2C2C2C;
 }
 
 img {
@@ -150,7 +151,18 @@ img {
 
 section {
     padding: 50px 0;
-    background-color: #F4F0EB;
+    background-color: #F6F6F4;
+}
+h2 {
+    margin-top: 64px;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 40px;
 }
 
 .section-title {
@@ -222,7 +234,7 @@ section {
 /* ========== MAIN HEADER BAR ========== */
 .main-header-bar {
     background-color: #2C2C2C;
-    padding: 23px 0;
+    padding: 14px 0;
     border-bottom: 1px solid #3C3C3C;
     overflow: visible;
     position: relative;
@@ -231,6 +243,9 @@ section {
 
 .main-header-bar .container {
     overflow: visible;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .main-header-bar .header-content {
@@ -269,8 +284,9 @@ section {
     color: #FFFFFF !important;
     text-decoration: none;
     font-size: 16px;
-    font-weight: 500;
+    font-weight: 400;
     font-family: 'Montserrat', sans-serif;
+    line-height: 24px;
     letter-spacing: 1px;
     text-transform: uppercase;
     transition: all 0.3s ease;
@@ -315,6 +331,7 @@ section {
     color: #FFFFFF;
     font-size: 18px;
     margin-left: 15px;
+    display: none; /* Скрываем на десктопе */
 }
 
 /* Dropdown Styles */
@@ -652,8 +669,25 @@ section {
 
 .footer {
     background-color: #2C2C2C;
-    padding: 50px;
+    padding: 50px 10px;
     color: #F4F0EB;
+}
+.footer-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.footer-container > .row {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 30px;
+}
+.footer-container > .row > [class*="col-"] {
+    flex: 1;
+    max-width: none;
+    width: auto;
+    padding: 0;
 }
 .footer-icons {
     list-style: none;
@@ -667,7 +701,7 @@ section {
 .breadcrumbs {
     margin: 0;
     background-color: transparent;
-    padding: 1rem;
+    /* padding: 1rem; */
 }
 .breadcrumbs ul {
     list-style: none;
@@ -1101,17 +1135,70 @@ section.widget {
 /* Offcanvas menu styling */
 /* Mobile Menu Styles with Submenu Support */
 .offcanvas {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
     max-width: 80%;
+    width: 80%;
     background-color: #fff;
+    visibility: hidden;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out, visibility 0.3s;
+    z-index: 999;
+    display: none;
+}
+
+.offcanvas.show {
+    visibility: visible;
+    transform: translateX(0);
+    display: flex;
+    flex-direction: column;
 }
 
 .offcanvas-header {
-    padding-top: 60px;
+    margin-top: 100px;
     border-bottom: 1px solid #eee;
-    background-color: #fff;
+    background-color: #2C2C2C;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.offcanvas-header .offcanvas-header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.offcanvas-header .header-icon {
+    color: #FFFFFF;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.offcanvas-header .header-icon img {
+    width: 22px;
+    height: 22px;
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.offcanvas-header .btn-close {
+    color: #FFFFFF;
+    opacity: 1;
+    font-size: 24px;
+    font-weight: 300;
+    padding: 0;
+    width: auto;
+    height: auto;
+    background: transparent;
+    border: none;
 }
 
 .offcanvas-header .navbar-brand img {
@@ -1142,9 +1229,11 @@ section.widget {
 }
 
 .mobile-nav-item a {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 15px 20px;
-    color: #454f5b !important; /* var(--grey-color) */
+    color: #454f5b !important;
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
@@ -1154,6 +1243,50 @@ section.widget {
     visibility: visible !important;
     position: relative;
     z-index: 5;
+}
+
+.mobile-nav-item .menu-item-icon,
+.mobile-nav-item .menu-item-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.mobile-nav-item .menu-item-icon {
+    margin-right: 10px;
+}
+
+.mobile-nav-item .menu-item-icon img {
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Цвет иконки при hover - фиолетовый */
+.mobile-nav-item:hover .menu-item-icon img {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(73%) saturate(6158%) hue-rotate(260deg) brightness(101%) contrast(101%);
+}
+
+/* Анимация для звезды (Star) - вращение */
+.mobile-nav-item:hover .menu-item-icon img[alt*="Witch"],
+.mobile-nav-item:hover .menu-item-icon img[alt*="Star"] {
+    animation: rotateStar 0.6s ease-in-out;
+}
+
+/* Анимация для сердца (Heart) - биение */
+.mobile-nav-item:hover .menu-item-icon img[alt*="Tender"],
+.mobile-nav-item:hover .menu-item-icon img[alt*="Heart"] {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+
+/* Анимация для планеты (Internet) - плавное вращение */
+.mobile-nav-item:hover .menu-item-icon img[alt*="Data"],
+.mobile-nav-item:hover .menu-item-icon img[alt*="Internet"] {
+    animation: rotatePlanet 3s linear infinite;
+}
+
+/* Анимация для кулака (Punch) - пульсация вперед */
+.mobile-nav-item:hover .menu-item-icon img[alt*="Identity"],
+.mobile-nav-item:hover .menu-item-icon img[alt*="Punch"] {
+    animation: punchPulse 0.6s ease-in-out infinite;
 }
 
 .mobile-nav-item.has-submenu > a {
@@ -1207,9 +1340,56 @@ section.widget {
 }
 
 .submenu-item a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     padding: 12px 20px 12px 35px;
     font-size: 15px;
     font-weight: 400;
+}
+
+.submenu-item .menu-item-icon,
+.submenu-item .menu-item-text {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.submenu-item .menu-item-icon {
+    margin-right: 10px;
+}
+
+.submenu-item .menu-item-icon img {
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Цвет иконки при hover в submenu - фиолетовый */
+.submenu-item:hover .menu-item-icon img {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(73%) saturate(6158%) hue-rotate(260deg) brightness(101%) contrast(101%);
+}
+
+/* Анимация для звезды (Star) в submenu */
+.submenu-item:hover .menu-item-icon img[alt*="Witch"],
+.submenu-item:hover .menu-item-icon img[alt*="Star"] {
+    animation: rotateStar 0.6s ease-in-out;
+}
+
+/* Анимация для сердца (Heart) в submenu */
+.submenu-item:hover .menu-item-icon img[alt*="Tender"],
+.submenu-item:hover .menu-item-icon img[alt*="Heart"] {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+
+/* Анимация для планеты (Internet) в submenu */
+.submenu-item:hover .menu-item-icon img[alt*="Data"],
+.submenu-item:hover .menu-item-icon img[alt*="Internet"] {
+    animation: rotatePlanet 3s linear infinite;
+}
+
+/* Анимация для кулака (Punch) в submenu */
+.submenu-item:hover .menu-item-icon img[alt*="Identity"],
+.submenu-item:hover .menu-item-icon img[alt*="Punch"] {
+    animation: punchPulse 0.6s ease-in-out infinite;
 }
 
 .child-item a {
@@ -1272,7 +1452,7 @@ section.widget {
 
  /* OLD Collections Section Specific Styles */
         .collections {
-            padding: 111px 0;
+            padding: 40px 0;
             background-color: #F4F0EB;
         }
 
@@ -3019,7 +3199,6 @@ section.widget {
     max-width: 300px;
     background-color: #2C2C2C;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    z-index: 1050;
 }
 
 .offcanvas-header .navbar-brand {
@@ -3037,7 +3216,7 @@ section.widget {
     background: none;
     border: none;
     font-size: 1.5rem;
-    color: #333;
+    color: #F4F0EB;
     opacity: 0.7;
     cursor: pointer;
     padding: 0;
@@ -3115,25 +3294,7 @@ section.widget {
     z-index: 1040;
 }
 
-/* Анимации для offcanvas */
-.offcanvas.offcanvas-end {
-    right: -100%;
-    transition: right 0.3s ease-in-out;
-}
-
-.offcanvas.offcanvas-end.show {
-    right: 0;
-}
-
-/* Убеждаемся что offcanvas работает правильно */
-.offcanvas.offcanvas-end.show {
-    transform: none !important;
-}
-
-/* Исправляем z-index проблемы */
-.offcanvas {
-    z-index: 1055 !important;
-}
+/* Удалены дублирующие правила для offcanvas - см. выше */
 
 .offcanvas-backdrop {
     z-index: 1050 !important;
@@ -3235,7 +3396,7 @@ section.widget {
     list-style: none;
     margin: 0;
     display: none;
-    top: 45px;
+    top: 30px;
     left: -100px;
 }
 
@@ -3294,13 +3455,19 @@ section.widget {
 }
 
 .dropdown-icon img {
-    width: 24px;
-    height: 24px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Цвет иконки при hover - фиолетовый */
+.dropdown-item:hover .dropdown-icon img {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(73%) saturate(6158%) hue-rotate(260deg) brightness(101%) contrast(101%);
 }
 
 /* Анимация для звезды (Star) - вращение */
+.dropdown-item.animation-rotate:hover .dropdown-icon img,
 .dropdown-item:hover .dropdown-icon img[alt="Star"] {
     animation: rotateStar 0.6s ease-in-out;
 }
@@ -3312,6 +3479,7 @@ section.widget {
 }
 
 /* Анимация для сердца (Heart) - биение */
+.dropdown-item.animation-heartbeat:hover .dropdown-icon img,
 .dropdown-item:hover .dropdown-icon img[alt="Heart"] {
     animation: heartbeat 1s ease-in-out infinite;
 }
@@ -3325,6 +3493,7 @@ section.widget {
 }
 
 /* Анимация для планеты (Internet) - плавное вращение */
+.dropdown-item.animation-spin:hover .dropdown-icon img,
 .dropdown-item:hover .dropdown-icon img[alt="Internet"] {
     animation: rotatePlanet 3s linear infinite;
 }
@@ -3335,6 +3504,7 @@ section.widget {
 }
 
 /* Анимация для кулака (Punch) - пульсация вперед */
+.dropdown-item.animation-punch:hover .dropdown-icon img,
 .dropdown-item:hover .dropdown-icon img[alt="Punch"] {
     animation: punchPulse 0.6s ease-in-out infinite;
 }
@@ -4058,7 +4228,6 @@ li.product::marker {
             line-height: 1.5;
             text-align: center;
             letter-spacing: 0.5px;
-            text-transform: uppercase;
             position: relative;
             z-index: 1;
         }
@@ -4098,8 +4267,13 @@ li.product::marker {
 
 /* ========== BLOG TRENDS SECTION ========== */
 .blog-trends-section {
-    padding: 80px 0;
+    padding: 40px 0 80px;
     background-color: #F4F0EB;
+}
+.blog-trends-section-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0;
 }
 
 .blog-trends-header {
@@ -4109,26 +4283,29 @@ li.product::marker {
 
 .blog-trends-title {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 400;
-    color: #2C2C2C;
-    margin-bottom: 15px;
-    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 60px;
+    text-align: center;
+    text-transform: capitalize;
+    margin-bottom: 24px;
+    color: #0C0C0C;
 }
 
 .blog-trends-subtitle {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    color: #666666;
-    font-weight: 300;
-    margin: 0;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 32%;
+    text-align: center;
+    color: #2C2C2C;
 }
 
 .blog-trends-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
@@ -4240,6 +4417,68 @@ li.product::marker {
     color: #B539DB;
     font-family: 'Montserrat', sans-serif;
     margin-bottom: 15px;
+}
+
+/* Footer lists */
+.footer ul {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.footer ul li {
+    list-style-type: none !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #F4F0EB;
+    margin-bottom: 10px;
+}
+
+.footer ul li::marker {
+    display: none !important;
+    content: none !important;
+}
+
+.footer ul li a {
+    color: #F4F0EB;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+    color: #B539DB;
+}
+
+/* Footer lists */
+.footer ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 0;
+}
+
+.footer ul li {
+    list-style-type: none !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #F4F0EB;
+    margin-bottom: 10px;
+}
+
+.footer ul li::marker {
+    display: none;
+    content: none;
+}
+
+.footer ul li a {
+    color: #F4F0EB;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer ul li a:hover {
+    color: #B539DB;
 }
 
 /* ===========================
@@ -5154,7 +5393,7 @@ li.product::marker {
 
 .product-dark-related h2 {
     color: #ffffff !important;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Playfair Display', serif;
     font-size: 24px;
     font-weight: 500;
     margin-bottom: 58px;
@@ -5788,3 +6027,1131 @@ li.product::marker {
     }
 }
 /* ==================== End WooCommerce Cart Page Styles ==================== */
+
+/* ============================================
+   Хлебные крошки для страниц (page.php)
+   ============================================ */
+
+.page-breadcrumbs-wrapper {
+    background-color: #F6F6F4;
+    padding: 10px 0;
+}
+
+.page-breadcrumbs-wrapper .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #AA2DD0;
+    text-decoration: none;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs a:hover {
+    color: #A21CAF;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs .separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.page-breadcrumbs-wrapper .breadcrumbs .current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #2C2C2C;
+    margin-left: 10px;
+}
+
+/* ============================================
+   Хлебные крошки для постов (single.php)
+   ============================================ */
+
+.post-breadcrumbs {
+    background-color: #FFFFFF;
+    padding: 10px 0;
+}
+
+.post-breadcrumbs .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.post-breadcrumbs .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+}
+
+.post-breadcrumbs .breadcrumb-nav a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #AA2DD0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-breadcrumbs .breadcrumb-nav a:hover {
+    color: #A21CAF;
+}
+
+.post-breadcrumbs .breadcrumb-separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.post-breadcrumbs .breadcrumb-current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #2C2C2C;
+    margin-left: 10px;
+}
+
+/* ============================================
+   Стили для single post
+   ============================================ */
+
+.single-post-container {
+    background: #fff;
+}
+
+.single-post {
+    padding: 2rem 0;
+}
+
+.post-header {
+    margin-bottom: 2rem;
+}
+
+.post-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+.post-date {
+    font-weight: 500;
+}
+
+.post-categories a {
+    color: #666;
+    text-decoration: none;
+    margin-right: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.post-categories a:hover {
+    color: #000;
+}
+
+.post-thumbnail {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.post-thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.post-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    font-family: 'Playfair Display', serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.post-content h2 {
+    font-size: 2rem;
+}
+
+.post-content h3 {
+    font-size: 1.5rem;
+}
+
+.post-content h4 {
+    font-size: 1.25rem;
+}
+
+.post-content ul,
+.post-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.post-content blockquote {
+    border-left: 4px solid #000;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+.page-links {
+    margin: 2rem 0;
+    font-weight: 500;
+}
+
+.post-tags {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-tags a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #f8f9fa;
+    color: #666;
+    text-decoration: none;
+    border-radius: 20px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.post-tags a:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Навигация между постами */
+.post-navigation {
+    margin: 3rem 0;
+    padding: 2rem 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.post-navigation .nav-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.post-navigation .nav-previous,
+.post-navigation .nav-next {
+    flex: 1;
+}
+
+.post-navigation .nav-subtitle {
+    display: block;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.post-navigation .nav-title {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.post-navigation a:hover .nav-title {
+    color: #666;
+}
+
+/* ============================================
+   Стили для страниц (page.php)
+   ============================================ */
+
+.page-default {
+    background-color: #F6F6F4;
+    overflow-x: hidden;
+}
+
+.page-content-wrapper {
+    background-color: #F6F6F4;
+}
+
+.page-content-wrapper .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* WordPress Block Headings в page-content */
+.page-content-wrapper h2.wp-block-heading,
+.page-content-wrapper .wp-block-heading {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    font-size: 42px !important;
+    color: #2C2C2C !important;
+    margin: 0 0 15px 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.page-content-wrapper h2.wp-block-heading.has-text-align-center,
+.page-content-wrapper .wp-block-heading.has-text-align-center {
+    text-align: center !important;
+}
+
+.single-page {
+    padding: 2rem 0;
+}
+
+.page-header {
+    margin-bottom: 2rem;
+}
+
+.page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: #000;
+}
+
+.page-thumbnail {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.page-thumbnail img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.page-content {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.page-content p {
+    margin-bottom: 1.5rem;
+}
+
+.page-content h2,
+.page-content h3,
+.page-content h4 {
+    font-family: 'Playfair Display', serif;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+.page-content h2 {
+    font-size: 2rem;
+}
+
+.page-content h3 {
+    font-size: 1.5rem;
+}
+
+.page-content h4 {
+    font-size: 1.25rem;
+}
+
+.page-content ul,
+.page-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 2rem;
+}
+
+.page-content li {
+    margin-bottom: 0.5rem;
+}
+
+.page-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.page-content blockquote {
+    border-left: 4px solid #000;
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #666;
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
+    .page-content-wrapper h2.wp-block-heading,
+    .page-content-wrapper .wp-block-heading {
+        font-size: 36px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .post-title {
+        font-size: 2rem;
+    }
+    
+    .post-content {
+        font-size: 1rem;
+    }
+    
+    .post-navigation .nav-links {
+        flex-direction: column;
+    }
+    
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .page-content {
+        font-size: 1rem;
+    }
+    
+    .page-content-wrapper h2.wp-block-heading,
+    .page-content-wrapper .wp-block-heading {
+        font-size: 32px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-content-wrapper h2.wp-block-heading,
+    .page-content-wrapper .wp-block-heading {
+        font-size: 28px !important;
+    }
+}
+
+/* ============================================
+   Modal Overlays (Search & Login)
+   ============================================ */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.modal-close:hover {
+    color: #AA2DD0;
+    transform: rotate(90deg);
+}
+
+/* Search Modal Styles */
+.search-modal-body {
+    padding: 60px 40px 40px;
+}
+
+.search-modal-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #2C2C2C;
+    text-align: center;
+}
+
+.search-input-wrapper {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.search-field {
+    width: 100%;
+    padding: 15px 60px 15px 20px;
+    border: 2px solid #E0E0E0;
+    border-radius: 50px;
+    font-size: 16px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.search-field:focus {
+    outline: none;
+    border-color: #AA2DD0;
+    box-shadow: 0 0 0 4px rgba(170, 45, 208, 0.1);
+}
+
+.search-submit {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #AA2DD0;
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-submit:hover {
+    background: #A21CAF;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.search-suggestions {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-suggestion-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    text-decoration: none;
+    color: #2C2C2C;
+    transition: all 0.3s ease;
+}
+
+.search-suggestion-item:hover {
+    background: #f8f8f8;
+}
+
+.search-suggestion-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 15px;
+}
+
+.search-suggestion-content h4 {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+}
+
+.search-suggestion-content .price {
+    font-size: 14px;
+    color: #AA2DD0;
+    font-weight: 600;
+}
+
+/* Login Modal Styles */
+.login-modal {
+    max-width: 500px;
+}
+
+.login-modal-body {
+    padding: 60px 40px 40px;
+}
+
+.login-modal-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #2C2C2C;
+    text-align: center;
+}
+
+.login-modal-body .woocommerce-form-login {
+    max-width: 100%;
+}
+
+.login-modal-body .form-row {
+    margin-bottom: 20px;
+}
+
+.login-modal-body label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: #2C2C2C;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.login-modal-body input[type="text"],
+.login-modal-body input[type="password"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.login-modal-body input[type="text"]:focus,
+.login-modal-body input[type="password"]:focus {
+    outline: none;
+    border-color: #AA2DD0;
+    box-shadow: 0 0 0 4px rgba(170, 45, 208, 0.1);
+}
+
+.login-modal-body button[type="submit"],
+.login-modal-body .button {
+    width: 100%;
+    padding: 14px 20px;
+    background: #AA2DD0;
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-modal-body button[type="submit"]:hover,
+.login-modal-body .button:hover {
+    background: #A21CAF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(170, 45, 208, 0.3);
+}
+
+.login-modal-body .lost_password {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login-modal-body .lost_password a {
+    color: #AA2DD0;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+.login-modal-body .lost_password a:hover {
+    color: #A21CAF;
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #E0E0E0;
+}
+
+.register-link p {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.register-link a {
+    color: #AA2DD0;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.register-link a:hover {
+    color: #A21CAF;
+}
+
+/* Logged In Content */
+.logged-in-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #2C2C2C;
+    text-align: center;
+}
+
+.account-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.account-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #F6F6F4;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #2C2C2C;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.account-link i {
+    margin-right: 12px;
+    font-size: 18px;
+    color: #AA2DD0;
+}
+
+.account-link:hover {
+    background: #AA2DD0;
+    color: #fff;
+    transform: translateX(5px);
+}
+
+.account-link:hover i {
+    color: #fff;
+}
+
+.account-link.logout {
+    background: #fff;
+    border: 2px solid #E0E0E0;
+    margin-top: 10px;
+}
+
+.account-link.logout:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .search-modal-body,
+    .login-modal-body {
+        padding: 50px 25px 25px;
+    }
+    
+    .search-modal-body h2,
+    .login-modal-body h2 {
+        font-size: 24px;
+    }
+    
+    .modal-close {
+        top: 15px;
+        right: 15px;
+        font-size: 28px;
+    }
+}
+
+/* ============================================
+   WooCommerce My Account Page Styles
+   ============================================ */
+
+.woocommerce-account .woocommerce {
+    display: flex;
+    gap: 40px;
+    margin: 40px 0;
+}
+
+.woocommerce-MyAccount-navigation {
+    flex: 0 0 280px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.woocommerce-MyAccount-navigation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.woocommerce-MyAccount-navigation li {
+    margin: 0;
+}
+
+.woocommerce-MyAccount-navigation li a {
+    display: block;
+    padding: 15px 30px;
+    color: #2C2C2C;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+
+.woocommerce-MyAccount-navigation li:hover a,
+.woocommerce-MyAccount-navigation li.is-active a {
+    background: #F6F6F4;
+    border-left-color: #AA2DD0;
+    color: #AA2DD0;
+}
+
+.woocommerce-MyAccount-content {
+    flex: 1;
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.woocommerce-MyAccount-content h2,
+.woocommerce-MyAccount-content h3 {
+    font-family: 'Playfair Display', serif;
+    color: #2C2C2C;
+    margin-bottom: 20px;
+}
+
+.woocommerce-MyAccount-content p {
+    font-family: 'Montserrat', sans-serif;
+    line-height: 1.6;
+    color: #666;
+}
+
+.woocommerce-MyAccount-content .woocommerce-button,
+.woocommerce-MyAccount-content .button {
+    background: #AA2DD0;
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.woocommerce-MyAccount-content .woocommerce-button:hover,
+.woocommerce-MyAccount-content .button:hover {
+    background: #A21CAF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(170, 45, 208, 0.3);
+}
+
+/* Orders Table */
+.woocommerce-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.woocommerce-orders-table thead {
+    background: #F6F6F4;
+}
+
+.woocommerce-orders-table th {
+    padding: 15px;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #2C2C2C;
+    border-bottom: 2px solid #E0E0E0;
+}
+
+.woocommerce-orders-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    font-family: 'Montserrat', sans-serif;
+    color: #666;
+}
+
+.woocommerce-orders-table tr:hover {
+    background: #F6F6F4;
+}
+
+/* Form Fields */
+.woocommerce-form-row {
+    margin-bottom: 20px;
+}
+
+.woocommerce-form-row label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    color: #2C2C2C;
+}
+
+.woocommerce-form-row input[type="text"],
+.woocommerce-form-row input[type="email"],
+.woocommerce-form-row input[type="password"],
+.woocommerce-form-row input[type="tel"],
+.woocommerce-form-row textarea,
+.woocommerce-form-row select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.woocommerce-form-row input:focus,
+.woocommerce-form-row textarea:focus,
+.woocommerce-form-row select:focus {
+    outline: none;
+    border-color: #AA2DD0;
+    box-shadow: 0 0 0 4px rgba(170, 45, 208, 0.1);
+}
+
+/* Address Cards */
+.woocommerce-Address {
+    background: #F6F6F4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.woocommerce-Address-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.woocommerce-Address-title h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .woocommerce-account .woocommerce {
+        flex-direction: column;
+    }
+    
+    .woocommerce-MyAccount-navigation {
+        flex: none;
+        width: 100%;
+    }
+    
+    .woocommerce-MyAccount-navigation ul {
+        display: flex;
+        overflow-x: auto;
+    }
+    
+    .woocommerce-MyAccount-navigation li {
+        flex: 0 0 auto;
+    }
+    
+    .woocommerce-MyAccount-navigation li a {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+    }
+    
+    .woocommerce-MyAccount-navigation li:hover a,
+    .woocommerce-MyAccount-navigation li.is-active a {
+        border-left: none;
+        border-bottom-color: #AA2DD0;
+    }
+}
+
+@media (max-width: 768px) {
+    .woocommerce-MyAccount-content {
+        padding: 20px;
+    }
+    
+    .woocommerce-orders-table {
+        font-size: 12px;
+    }
+    
+    .woocommerce-orders-table th,
+    .woocommerce-orders-table td {
+        padding: 10px 8px;
+    }
+}
+
+/* ============================================
+   Стили для темной темы страницы
+   ============================================ */
+
+.page-theme-dark {
+    background-color: #2C2C2C !important;
+    color: #ffffff !important;
+}
+
+.page-theme-dark .page-breadcrumbs-wrapper {
+    background-color: #2C2C2C;
+}
+
+.page-theme-dark .page-breadcrumbs-wrapper .breadcrumbs a {
+    color: #ffffff;
+}
+
+.page-theme-dark .page-breadcrumbs-wrapper .breadcrumbs a:hover {
+    color: #cccccc;
+}
+
+.page-theme-dark .page-breadcrumbs-wrapper .breadcrumbs .separator {
+    color: #666666;
+}
+
+.page-theme-dark .page-breadcrumbs-wrapper .breadcrumbs .current {
+    color: #999999;
+}
+
+.page-theme-dark .page-content-wrapper {
+    background-color: #2C2C2C;
+}
+
+.page-theme-dark .page-content-wrapper h1,
+.page-theme-dark .page-content-wrapper h2,
+.page-theme-dark .page-content-wrapper h3,
+.page-theme-dark .page-content-wrapper h4,
+.page-theme-dark .page-content-wrapper h5 {
+    color: #ffffff !important;
+}
+
+.page-theme-dark .page-content-wrapper p,
+.page-theme-dark .page-content-wrapper li,
+.page-theme-dark .page-content-wrapper span,
+.page-theme-dark .page-content-wrapper div {
+    color: #e0e0e0;
+}
+
+.page-theme-dark .page-content-wrapper a {
+    color: #66b3ff;
+}
+
+.page-theme-dark .page-content-wrapper a:hover {
+    color: #99ccff;
+}
+
+/* Стили для светлой темы (явные) */
+.page-theme-light {
+    background-color: #F4F0EB !important;
+    color: #000000 !important;
+}
+
+.page-theme-light .page-breadcrumbs-wrapper {
+    background-color: #F4F0EB;
+}
+
+.page-theme-light .page-content-wrapper {
+    background-color: #F4F0EB;
+}
+
+.page-theme-light .page-content-wrapper h1,
+.page-theme-light .page-content-wrapper h2,
+.page-theme-light .page-content-wrapper h3,
+.page-theme-light .page-content-wrapper h4,
+.page-theme-light .page-content-wrapper h5,
+.page-theme-light .page-content-wrapper h6 {
+    color: #2C2C2C !important;
+}
+
+.page-theme-light .page-content-wrapper p,
+.page-theme-light .page-content-wrapper li,
+.page-theme-light .page-content-wrapper span {
+    color: #333333;
+}

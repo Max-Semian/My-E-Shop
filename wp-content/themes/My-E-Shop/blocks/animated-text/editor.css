@@ -27,6 +27,8 @@
 }
 
 /* Превью размеров шрифта в редакторе */
+/* Размеры шрифта - отключены, используются inline стили */
+/*
 .wp-block-my-e-shop-animated-text.font-small .text-content {
     font-size: 14px;
 }
@@ -42,6 +44,7 @@
 .wp-block-my-e-shop-animated-text.font-extra-large .text-content {
     font-size: 22px;
 }
+*/
 
 /* Выравнивание в редакторе */
 .wp-block-my-e-shop-animated-text.align-left .text-content {

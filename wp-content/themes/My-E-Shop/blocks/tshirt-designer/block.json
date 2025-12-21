@@ -1,0 +1,61 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/tshirt-designer",
+	"version": "1.0.0",
+	"title": "T-Shirt Designer",
+	"category": "my-e-shop",
+	"icon": "art",
+	"description": "Interactive designer for creating custom t-shirt prints",
+	"keywords": [
+		"tshirt",
+		"designer",
+		"print",
+		"custom"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"attributes": {
+		"backgroundColor": {
+			"type": "string",
+			"default": "#F5F5F0"
+		},
+		"tshirtColor": {
+			"type": "string",
+			"default": "#FFFFFF"
+		},
+		"printAreaWidth": {
+			"type": "number",
+			"default": 280
+		},
+		"printAreaHeight": {
+			"type": "number",
+			"default": 350
+		},
+		"enableTextTool": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableGraphicsTool": {
+			"type": "boolean",
+			"default": true
+		},
+		"enableUploadTool": {
+			"type": "boolean",
+			"default": true
+		},
+		"allowedGraphics": {
+			"type": "array",
+			"default": []
+		}
+	},
+	"render": "file:./render.php",
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css"
+}

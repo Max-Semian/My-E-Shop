@@ -5,228 +5,169 @@
 }
 
 .my-e-shop-newsletter-subscription-container {
-    width: 100%;
-    min-height: 700px;
+    width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 90px;
+    margin-bottom: 40px;
     display: flex;
-    align-items: flex-start;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    background-color: #f5f5f5;
-    color: var(--newsletter-text-color, #000000);
-    padding: 60px 0;
+    align-items: stretch;
+    background-color: #2C2C2C;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.my-e-shop-newsletter-overlay {
+/* Левая часть - изображение */
+.my-e-shop-newsletter-left {
+    flex: 0 0 587px;
+    position: relative;
+    height: 680px;
+    width: 587px;
+}
+
+.my-e-shop-newsletter-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    background-color: transparent;
 }
 
-.my-e-shop-newsletter-content {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    position: relative;
-    z-index: 2;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    min-height: 580px;
-}
-
-.my-e-shop-newsletter-left {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    padding-top: 40px;
-}
-
-.my-e-shop-newsletter-main-title {
-    font-family: 'Playfair Display', sans-serif;
-    font-weight: 500;
-    font-size: 46px;
-    line-height: 1.1;
-    margin: 0 0 30px 0;
-    color: inherit;
-    max-width: 338px;
-}
-
-.my-e-shop-read-blog-button {
-    display: inline-block;
-    padding: 8px 12px;
-    background-color: #2c2c2c;
-    color: #B539DB;
-    text-decoration: none;
-    border: 1px solid #B539DB;
-    border-radius: 4px;
-    font-weight: 600;
-    font-size: 14px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-    min-width: auto;
-}
-
-.my-e-shop-read-blog-button:hover {
-    background-color: #1a1a1a;
-    transform: translateY(-1px);
-}
-
+/* Правая часть - форма */
 .my-e-shop-newsletter-right {
-    flex: 0 0 auto;
-    max-width: 450px;
-    width: 450px;
+    flex: 1;
+    background-color: #F4F3F5;
+    padding: 60px 50px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-self: flex-end;
-    margin-top: auto;
-    padding-bottom: 40px;
+    justify-content: center;
 }
 
-.my-e-shop-newsletter-offer-title {
-    font-family: 'Montserrat', sans-serif;
+.my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-offer-title,
+.page-theme-dark .my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-offer-title {
+    font-family: 'Playfair Display', serif;
     font-weight: 600;
-    font-size: 22px;
+    font-size: 28px;
     line-height: 1.3;
-    margin: 0 0 15px 0;
-    color: inherit;
+    margin: 0 0 20px 0;
+    color: #2C2C2C !important;
 }
 
-.my-e-shop-newsletter-description {
-    font-size: 16px;
-    line-height: 1.5;
-    margin: 0 0 25px 0;
-    color: inherit;
-    opacity: 0.9;
+.my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-description,
+.page-theme-dark .my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-description {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    color: #454545 !important;
 }
 
 .my-e-shop-newsletter-form {
     width: 100%;
+    margin-bottom: 20px;
 }
 
 .my-e-shop-newsletter-form-group {
     display: flex;
-    gap: 10px;
+    gap: 0;
     align-items: stretch;
+    border: 1px solid #B539DB;
+    border-radius: 4px;
+    overflow: hidden;
 }
 
 .my-e-shop-newsletter-email-input {
     flex: 1;
-    padding: 16px;
-    border: 1px solid #B539DB;
-    border-radius: 4px;
-    font-size: 16px;
-    font-family: inherit;
-    background-color: rgba(244, 240, 235, 0.6);
+    padding: 14px 16px;
+    border: none;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: transparent;
     color: #333;
-    transition: all 0.3s ease;
-    width: 390px;
-    height: 40px;
 }
 
 .my-e-shop-newsletter-email-input:focus {
     outline: none;
-    border-color: #B539DB;
-    box-shadow: 0 0 0 2px rgba(181, 57, 219, 0.1);
-    background-color: rgba(244, 240, 235, 0.8);
 }
 
 .my-e-shop-newsletter-email-input::placeholder {
-    color: #2C2C2C;
+    color: #999;
 }
 
 .my-e-shop-newsletter-submit-button {
-    padding: 10px 5px;
+    padding: 14px 24px;
     background-color: #2C2C2C;
     color: #B539DB;
     border: none;
     font-family: 'Montserrat', sans-serif;
-    border-radius: 4px;
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
-    min-width: 99px;
-    height: 40px;
-    width: 99px;
 }
 
 .my-e-shop-newsletter-submit-button:hover {
     background-color: #1a1a1a;
-    transform: translateY(-1px);
+}
+
+.my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-disclaimer,
+.page-theme-dark .my-e-shop-newsletter-subscription-block .my-e-shop-newsletter-disclaimer {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #888 !important;
+    margin: 0;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .my-e-shop-newsletter-content {
+@media (max-width: 991.98px) {
+    .my-e-shop-newsletter-subscription-container {
         flex-direction: column;
-        min-height: auto;
-        gap: 40px;
-        text-align: center;
     }
     
     .my-e-shop-newsletter-left {
-        padding-top: 20px;
-        align-items: center;
+        min-height: 350px;
     }
     
     .my-e-shop-newsletter-right {
-        width: 100%;
-        max-width: 100%;
-        align-self: center;
-        margin-top: 0;
-        padding-bottom: 0;
-    }
-    
-    .my-e-shop-newsletter-main-title {
-        font-size: 32px;
-        max-width: none;
+        padding: 40px 30px;
     }
     
     .my-e-shop-newsletter-offer-title {
         font-size: 24px;
     }
-    
-    .my-e-shop-newsletter-form-group {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .my-e-shop-newsletter-submit-button {
-        width: 100%;
-    }
 }
 
-@media (max-width: 480px) {
-    .my-e-shop-newsletter-subscription-container {
-        padding: 40px 0;
+@media (max-width: 576px) {
+    .my-e-shop-newsletter-left {
+        min-height: 280px;
     }
     
-    .my-e-shop-newsletter-content {
-        padding: 0 15px;
-    }
-    
-    .my-e-shop-newsletter-main-title {
-        font-size: 28px;
+    .my-e-shop-newsletter-right {
+        padding: 30px 20px;
     }
     
     .my-e-shop-newsletter-offer-title {
         font-size: 20px;
     }
     
-    .my-e-shop-newsletter-description {
-        font-size: 14px;
+    .my-e-shop-newsletter-form-group {
+        flex-direction: column;
+        border: none;
+        gap: 10px;
+    }
+    
+    .my-e-shop-newsletter-email-input {
+        border: 1px solid #B539DB;
+        border-radius: 4px;
+    }
+    
+    .my-e-shop-newsletter-submit-button {
+        width: 100%;
+        border-radius: 4px;
     }
 }

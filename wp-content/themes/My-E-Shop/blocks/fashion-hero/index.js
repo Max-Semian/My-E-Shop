@@ -9,7 +9,9 @@
     var TextControl = wp.components.TextControl;
     var TextareaControl = wp.components.TextareaControl;
     var MediaUpload = wp.blockEditor.MediaUpload;
+    var MediaUploadCheck = wp.blockEditor.MediaUploadCheck;
     var Button = wp.components.Button;
+    var RangeControl = wp.components.RangeControl;
     var __ = wp.i18n.__;
 
     registerBlockType('my-e-shop/fashion-hero', {
@@ -74,6 +76,96 @@
                             onChange: function(value) {
                                 setAttributes({ buttonUrl: value });
                             }
+                        })
+                    ]),
+                    // Background Image Panel
+                    createElement(PanelBody, {
+                        key: 'background',
+                        title: __('Background Image', 'My-E-Shop'),
+                        initialOpen: false
+                    }, [
+                        createElement('div', {
+                            key: 'bg-upload',
+                            style: { marginBottom: '15px' }
+                        }, [
+                            createElement('p', {
+                                key: 'bg-description',
+                                style: { marginBottom: '10px', color: '#666', fontSize: '12px' }
+                            }, __('Upload a background image that will be displayed under the 7 fashion photos', 'My-E-Shop')),
+                            
+                            createElement(MediaUploadCheck, { key: 'check' },
+                                createElement(MediaUpload, {
+                                    onSelect: function(media) {
+                                        setAttributes({
+                                            backgroundImage: {
+                                                id: media.id,
+                                                url: media.url,
+                                                alt: media.alt || ''
+                                            }
+                                        });
+                                    },
+                                    allowedTypes: ['image'],
+                                    value: attributes.backgroundImage ? attributes.backgroundImage.id : '',
+                                    render: function(obj) {
+                                        return createElement('div', {}, [
+                                            attributes.backgroundImage && attributes.backgroundImage.url && createElement('div', {
+                                                key: 'bg-preview',
+                                                style: { marginBottom: '10px' }
+                                            }, [
+                                                createElement('img', {
+                                                    key: 'bg-img',
+                                                    src: attributes.backgroundImage.url,
+                                                    alt: attributes.backgroundImage.alt,
+                                                    style: {
+                                                        width: '100%',
+                                                        maxWidth: '250px',
+                                                        height: '120px',
+                                                        objectFit: 'cover',
+                                                        borderRadius: '4px',
+                                                        border: '1px solid #ddd'
+                                                    }
+                                                })
+                                            ]),
+                                            createElement('div', {
+                                                key: 'bg-buttons',
+                                                style: { display: 'flex', gap: '8px', flexWrap: 'wrap' }
+                                            }, [
+                                                createElement(Button, {
+                                                    key: 'bg-select',
+                                                    onClick: obj.open,
+                                                    variant: (attributes.backgroundImage && attributes.backgroundImage.url) ? 'secondary' : 'primary'
+                                                }, (attributes.backgroundImage && attributes.backgroundImage.url) ? __('Replace Background', 'My-E-Shop') : __('Select Background Image', 'My-E-Shop')),
+                                                
+                                                (attributes.backgroundImage && attributes.backgroundImage.url) && createElement(Button, {
+                                                    key: 'bg-remove',
+                                                    onClick: function() {
+                                                        setAttributes({
+                                                            backgroundImage: {
+                                                                id: null,
+                                                                url: '',
+                                                                alt: ''
+                                                            }
+                                                        });
+                                                    },
+                                                    variant: 'secondary',
+                                                    isDestructive: true
+                                                }, __('Remove', 'My-E-Shop'))
+                                            ])
+                                        ]);
+                                    }
+                                })
+                            )
+                        ]),
+                        createElement(RangeControl, {
+                            key: 'overlay-opacity',
+                            label: __('Overlay Opacity', 'My-E-Shop'),
+                            value: attributes.overlayOpacity || 50,
+                            onChange: function(value) {
+                                setAttributes({ overlayOpacity: value });
+                            },
+                            min: 0,
+                            max: 100,
+                            step: 5
                         })
                     ]),
                     createElement(PanelBody, {
@@ -165,7 +257,23 @@
                         borderRadius: '8px'
                     }
                 }, [
-                    // Отображаем 7 позиций для изображений
+                    // Фоновое изображение (самый нижний слой, если загружено)
+                    (attributes.backgroundImage && attributes.backgroundImage.url) && createElement('div', {
+                        key: 'background-layer',
+                        style: {
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            backgroundImage: 'url(' + attributes.backgroundImage.url + ')',
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                            backgroundRepeat: 'no-repeat',
+                            zIndex: 0
+                        }
+                    }),
+                    // Отображаем 7 позиций для изображений (всегда, поверх фона)
                     createElement('div', {
                         key: 'images-grid',
                         style: {
@@ -175,7 +283,8 @@
                             right: 0,
                             bottom: 0,
                             display: 'flex',
-                            opacity: 0.7
+                            opacity: 0.7,
+                            zIndex: 1
                         }
                     }, [1, 2, 3, 4, 5, 6, 7].map(function(position, index) {
                         var imageKey = 'image' + position;
@@ -217,15 +326,15 @@
                             left: 0,
                             right: 0,
                             bottom: 0,
-                            background: 'linear-gradient(45deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.4) 100%)',
-                            zIndex: 1
+                            background: 'rgba(0, 0, 0, ' + ((attributes.overlayOpacity || 50) / 100) + ')',
+                            zIndex: 2
                         }
                     }),
                     createElement('div', {
                         key: 'content',
                         style: {
                             position: 'relative',
-                            zIndex: 2,
+                            zIndex: 3,
                             textAlign: 'center',
                             color: 'white',
                             padding: '40px 20px'

@@ -1,0 +1,304 @@
+/* Collection Cards Block Styles */
+
+/* Block Container */
+.collection-cards-block {
+    background-color: #F5F5F5;
+    padding: 80px 0;
+    margin: 0;
+}
+
+.collection-cards-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Header */
+.collection-cards-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.collection-cards-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 42px;
+    color: #2C2C2C;
+    margin: 0 0 15px 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+.collection-cards-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* WordPress Block Headings */
+.collection-cards-block h2.wp-block-heading,
+.collection-cards-block .wp-block-heading {
+    font-family: 'Playfair Display', serif !important;
+    font-weight: 700 !important;
+    font-size: 42px !important;
+    color: #2C2C2C !important;
+    margin: 0 0 15px 0 !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.collection-cards-block h2.wp-block-heading.has-text-align-center,
+.collection-cards-block .wp-block-heading.has-text-align-center {
+    text-align: center !important;
+}
+
+/* Grid Layout */
+.collection-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Card Item */
+.collection-card-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.collection-card-item:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.collection-card-link {
+    display: block;
+    width: 100%;
+    height: 400px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+}
+
+/* Image Container */
+.collection-card-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.collection-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+}
+
+.collection-card-item:hover .collection-card-image {
+    transform: scale(1.08);
+}
+
+.collection-card-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    color: #adb5bd;
+    font-size: 48px;
+}
+
+/* Overlay */
+.collection-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3) 0%,
+        rgba(0, 0, 0, 0.5) 100%
+    );
+    transition: opacity 0.4s ease;
+    z-index: 1;
+}
+
+.collection-card-item:hover .collection-card-overlay {
+    opacity: 0;
+}
+
+/* Content */
+.collection-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px;
+    z-index: 2;
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+}
+
+.collection-card-item:hover .collection-card-content {
+    transform: translateY(-10px);
+}
+
+.collection-card-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    line-height: 1.2;
+    text-transform: capitalize;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.collection-card-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #FFFFFF;
+    margin: 0;
+    line-height: 1.5;
+    opacity: 0.9;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* No Collections Message */
+.no-collections-message {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: #999;
+    padding: 40px 20px;
+}
+
+/* Editor Styles */
+.collection-cards-block-editor {
+    background-color: #F5F5F5;
+    padding: 40px 20px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+}
+
+.collection-cards-block-editor .collection-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.collection-cards-block-editor .collection-card-link {
+    height: 300px;
+    cursor: pointer;
+}
+
+.collection-cards-block-editor .collection-card-image-placeholder {
+    font-size: 24px;
+    background: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .collection-cards-block {
+        padding: 60px 0;
+    }
+    
+    .collection-cards-title,
+    .collection-cards-block h2.wp-block-heading,
+    .collection-cards-block .wp-block-heading {
+        font-size: 36px !important;
+    }
+    
+    .collection-cards-grid {
+        gap: 20px;
+    }
+    
+    .collection-card-link {
+        height: 350px;
+    }
+    
+    .collection-card-title {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    .collection-cards-block {
+        padding: 50px 0;
+    }
+    
+    .collection-cards-title,
+    .collection-cards-block h2.wp-block-heading,
+    .collection-cards-block .wp-block-heading {
+        font-size: 32px !important;
+    }
+    
+    .collection-cards-subtitle {
+        font-size: 16px;
+    }
+    
+    .collection-cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .collection-card-link {
+        height: 320px;
+    }
+    
+    .collection-card-content {
+        padding: 25px;
+    }
+    
+    .collection-card-title {
+        font-size: 26px;
+    }
+    
+    .collection-card-subtitle {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .collection-cards-block {
+        padding: 40px 0;
+    }
+    
+    .collection-cards-header {
+        margin-bottom: 30px;
+    }
+    
+    .collection-cards-title,
+    .collection-cards-block h2.wp-block-heading,
+    .collection-cards-block .wp-block-heading {
+        font-size: 28px !important;
+    }
+    
+    .collection-cards-subtitle {
+        font-size: 14px;
+    }
+    
+    .collection-card-link {
+        height: 280px;
+    }
+    
+    .collection-card-content {
+        padding: 20px;
+    }
+    
+    .collection-card-title {
+        font-size: 22px;
+    }
+    
+    .collection-card-subtitle {
+        font-size: 12px;
+    }
+}

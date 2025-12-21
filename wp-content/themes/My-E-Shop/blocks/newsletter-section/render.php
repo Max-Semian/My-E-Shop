@@ -14,13 +14,15 @@ $text_color = $attributes['textColor'] ?? '#ffffff';
 $overlay = $attributes['overlay'] ?? 0.7;
 
 // Получаем атрибуты блока
-$wrapper_attributes = get_block_wrapper_attributes();
+$wrapper_attributes = get_block_wrapper_attributes(array(
+    'class' => 'newsletter-section'
+));
 
 // Генерируем уникальный ID для формы
 $form_id = 'newsletter-form-' . wp_rand(1000, 9999);
 ?>
 
-<section <?php echo $wrapper_attributes; ?> class="newsletter-section">
+<section <?php echo $wrapper_attributes; ?>>
     <div class="newsletter-background" style="
         background-image: <?php echo $background_image ? 'url(' . esc_url($background_image) . ')' : 'none'; ?>;
         background-color: <?php echo esc_attr($background_color); ?>;

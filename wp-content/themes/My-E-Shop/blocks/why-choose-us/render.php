@@ -22,9 +22,7 @@ if (empty($items)) {
 <section class="why-choose-us">
     <div class="container">
         <div class="row">
-            <div class="col-12">
                 <h2 class="about-section-title text-center"><?php echo esc_html($title); ?></h2>
-            </div>
         </div>
         <div class="row features-row">
             <?php foreach ($items as $index => $item) : 

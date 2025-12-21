@@ -7,9 +7,8 @@
 
 /* Content Container - ограничивает ширину контента и центрирует */
 .wp-block-my-e-shop-category-products .category-products-content {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 1.5rem;
 }
 
 /* Breadcrumbs */
@@ -44,11 +43,6 @@
     font-weight: 500;
 }
 
-/* Search */
-.wp-block-my-e-shop-category-products .category-search {
-    margin-bottom: 2rem;
-}
-
 /* Layout for breadcrumbs and search in one row */
 .wp-block-my-e-shop-category-products .category-top-section {
     display: flex;
@@ -62,31 +56,23 @@
     flex: 1;
 }
 
-.wp-block-my-e-shop-category-products .category-search {
-    flex: 0 0 auto;
-    min-width: 300px;
-    margin-bottom: 0;
-}
-
 @media (max-width: 768px) {
     .wp-block-my-e-shop-category-products .category-top-section {
         flex-direction: column;
         align-items: stretch;
         gap: 15px;
     }
-    
-    .wp-block-my-e-shop-category-products .category-search {
-        min-width: auto;
-    }
 }
 
 .wp-block-my-e-shop-category-products .search-input-wrapper {
     position: relative;
     max-width: 500px;
+    width: 300px;
 }
 
 .category-search-input {
     width: 100%;
+    height: 45px;
     padding: 0 50px 0 16px;
     border: 2px solid #e1e1e1;
     border-radius: 8px;
@@ -138,8 +124,23 @@
 
 .swiper-slide {
     flex-shrink: 0;
-    width: calc(25% - 15px);
+    width: 250px;
 }
+.page-breadcrumbs-wrapper .category-breadcrumbs-container .breadcrumbs a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: bottom;
+    text-transform: uppercase;
+    color: #A45B00 !important;
+    }
+
+.page-theme-dark .page-breadcrumbs-wrapper .category-breadcrumbs-container .breadcrumbs a {
+    color: #B539DB !important;
+    }
 
 /* Removed old product card styles - replaced with new ones below */
 
@@ -150,10 +151,17 @@
 }
 
 .wp-block-my-e-shop-category-products .product-title {
-    margin: 0 0 1rem 0;
-    font-size: 1rem;
+    margin: 0 0 0.3rem 0;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
-    line-height: 1.4;
+    font-style: Medium;
+    font-size: 14px;
+    line-height: 100%;
+    letter-spacing: 1%;
+    text-transform: uppercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .wp-block-my-e-shop-category-products .product-title a {
@@ -167,8 +175,8 @@
 }
 
 .wp-block-my-e-shop-category-products .product-price {
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
+    margin-bottom: 0;
+    font-size: 1rem;
     font-weight: 600;
     color: #e74c3c;
 }
@@ -262,13 +270,13 @@
 /* Responsive */
 @media (max-width: 1024px) {
     .swiper-slide {
-        width: calc(33.333% - 13px);
+        width: 250px;
     }
 }
 
 @media (max-width: 768px) {
     .swiper-slide {
-        width: calc(50% - 10px);
+        width: 250px;
     }
     
     .swiper-button-prev,
@@ -288,7 +296,7 @@
 
 @media (max-width: 480px) {
     .swiper-slide {
-        width: calc(100% - 5px);
+        width: 250px;
     }
     
     .category-products-block {
@@ -302,12 +310,15 @@
 
 /* Product Cards */
 .wp-block-my-e-shop-category-products .product-card {
-    height: 511px;
+    width: 250px;
+    height: 398px;
     display: flex;
     flex-direction: column;
-    border-radius: 0;
+    border-radius: 3px;
     padding: 0;
     margin: 0;
+    border: 1px solid transparent;
+    overflow: hidden;
 }
 .wp-block-my-e-shop-category-products .product-card:hover {
     border: 1px solid #F4F0EB !important;
@@ -315,22 +326,26 @@
 /* Fallback for testing */
 .product-card {
     box-sizing: border-box;
-    border: 2px solid transparent;
+    border: 1px solid transparent;
     transition: border-color 0.3s ease;
 }
 
 .wp-block-my-e-shop-category-products .product-image-wrapper {
-    flex: 1;
+    width: 250px;
+    height: 321px;
+    border-radius: 3px;
     display: flex;
-    align-items: stretch;
+    align-items: center;
+    justify-content: center;
     overflow: hidden;
     padding: 0;
     margin: 0;
     position: relative;
+    flex-shrink: 0;
 }
 
 .wp-block-my-e-shop-category-products .product-image {
-    border-radius: 0;
+    border-radius: 3px 3px 0 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -339,9 +354,13 @@
 
 .wp-block-my-e-shop-category-products .product-info {
     flex: 0 0 auto;
-    padding: 15px;
+    padding: 17px 14px;
     margin: 0;
-    border-radius: 0;
+    border-radius: 0 0 3px 3px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .wp-block-my-e-shop-category-products .add-to-cart-btn {

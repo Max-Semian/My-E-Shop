@@ -6,7 +6,7 @@
 	"title": "Category Products",
 	"category": "my-e-shop",
 	"icon": "category",
-	"description": "Блок товаров категории с хлебными крошками, поиском и слайдером",
+	"description": "Category products block with breadcrumbs, search and slider",
 	"keywords": [
 		"category",
 		"products",

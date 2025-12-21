@@ -6,7 +6,7 @@
 }
 
 .product-cards-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
 }
 
@@ -33,21 +33,20 @@
     font-family: 'Playfair Display', sans-serif;
     font-weight: 700;
     font-size: 36px;
-    color: #333;
-    margin: 0 0 12px 0;
+    color: #0C0C0C;
+    margin: 0 0 24px 0;
     line-height: 1.2;
     letter-spacing: -0.02em;
     text-align: center;
 }
 
 .product-cards-subtitle {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-size: 16px;
-    color: #666;
-    margin: 0;
-    line-height: 1.5;
+    font-size: 18px;
+    line-height: 32%;
     text-align: center;
+    color: #2C2C2C
 }
 
 .product-cards-view-all {

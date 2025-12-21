@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/newsletter-simple",
+	"version": "1.0.0",
+	"title": "Newsletter Simple",
+	"category": "my-e-shop",
+	"icon": "email",
+	"description": "Простой блок подписки на рассылку",
+	"keywords": [
+		"newsletter",
+		"subscription",
+		"email"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"title": {
+			"type": "string",
+			"default": "Join our world and get 5% off your first order"
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "Stay updated with new drops, visual stories & rare finds before anyone else."
+		},
+		"buttonText": {
+			"type": "string",
+			"default": "JOIN NOW"
+		},
+		"placeholderText": {
+			"type": "string",
+			"default": "Enter your email"
+		},
+		"disclaimerText": {
+			"type": "string",
+			"default": "We only send thoughtful emails - no spam, just style. By subscribing, you agree to receive inspiration and exclusive privileges. Your data is safe with us."
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"render": "file:./render.php"
+}

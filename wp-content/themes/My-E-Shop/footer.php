@@ -1,7 +1,7 @@
 <footer class="footer">
-    <div class="container">
+    <div class="footer-container">
         <div class="row">
-            <div class="col-md-3 col-6">
+            <div class="col-lg-3 col-md-6 col-12">
                 <div class="footer-logo">
                     <a href="/">
                         <img src="<?php echo get_template_directory_uri(); ?>/assets/img/footer-logo.png" alt="Crethos">
@@ -11,7 +11,7 @@
                     Your individuality, trending now
                 </p>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-2 col-md-6 col-6">
                 <div class="footer-menu">About Us</div>
                 <ul class="list-unstyled">
                     <li><a href="index.html">Our Story</a></li>
@@ -19,7 +19,7 @@
                     <li><a href="#">HOME</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-2 col-md-6 col-6">
                 <div class="footer-menu">Support</div>
                 <ul class="list-unstyled">
                     <li>FAQ</li>
@@ -28,14 +28,14 @@
                     <li>Contact Us</li>
                 </ul>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-2 col-md-6 col-6">
                 <div class="footer-menu">Legal</div>
                 <ul class="list-unstyled">
                     <li>Privacy Policy</li>
                     <li>Terms of Service</li>
                 </ul>
             </div>
-            <div class="col-md-3 col-6">
+            <div class="col-lg-3 col-md-6 col-6">
                 <div class="footer-menu">Follow Us</div>
                 <ul class="list-unstyled">
                     <li>Instagram</li>
@@ -208,6 +208,137 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
+
+<!-- Search Modal -->
+<div id="searchModal" class="modal-overlay">
+    <div class="modal-content search-modal">
+        <button class="modal-close" onclick="closeSearchModal()">&times;</button>
+        <div class="search-modal-body">
+            <h2>Search Products</h2>
+            <form role="search" method="get" class="search-form" action="<?php echo esc_url(home_url('/')); ?>">
+                <div class="search-input-wrapper">
+                    <input type="search" 
+                           class="search-field" 
+                           placeholder="Search for products..." 
+                           value="<?php echo get_search_query(); ?>" 
+                           name="s" 
+                           autocomplete="off" />
+                    <input type="hidden" name="post_type" value="product" />
+                    <button type="submit" class="search-submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+            <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal-overlay">
+    <div class="modal-content login-modal">
+        <button class="modal-close" onclick="closeLoginModal()">&times;</button>
+        <div class="login-modal-body">
+            <?php if (is_user_logged_in()): ?>
+                <div class="logged-in-content">
+                    <h2>Welcome, <?php echo wp_get_current_user()->display_name; ?>!</h2>
+                    <div class="account-links">
+                        <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" class="account-link">
+                            <i class="fas fa-user"></i> My Account
+                        </a>
+                        <a href="<?php echo esc_url(wc_get_endpoint_url('orders', '', wc_get_page_permalink('myaccount'))); ?>" class="account-link">
+                            <i class="fas fa-shopping-bag"></i> Orders
+                        </a>
+                        <a href="<?php echo esc_url(home_url('/wishlist')); ?>" class="account-link">
+                            <i class="fas fa-heart"></i> Wishlist
+                        </a>
+                        <a href="<?php echo esc_url(wc_logout_url()); ?>" class="account-link logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            <?php else: ?>
+                <h2>Login to Your Account</h2>
+                <?php woocommerce_login_form(array('redirect' => wc_get_page_permalink('myaccount'))); ?>
+                <div class="register-link">
+                    <p>Don't have an account? <a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>">Register here</a></p>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+
+<script>
+// Search Modal Functions
+function openSearchModal() {
+    document.getElementById('searchModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    document.querySelector('#searchModal .search-field').focus();
+}
+
+function closeSearchModal() {
+    document.getElementById('searchModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Login Modal Functions
+function openLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginModal() {
+    document.getElementById('loginModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Close on outside click
+document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+});
+
+// Close on ESC key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeSearchModal();
+        closeLoginModal();
+    }
+});
+
+// Live search functionality
+jQuery(document).ready(function($) {
+    var searchTimeout;
+    $('#searchModal .search-field').on('keyup', function() {
+        var query = $(this).val();
+        
+        clearTimeout(searchTimeout);
+        
+        if (query.length >= 3) {
+            searchTimeout = setTimeout(function() {
+                $.ajax({
+                    url: '<?php echo admin_url('admin-ajax.php'); ?>',
+                    type: 'POST',
+                    data: {
+                        action: 'live_product_search',
+                        query: query
+                    },
+                    success: function(response) {
+                        $('#searchSuggestions').html(response);
+                    }
+                });
+            }, 300);
+        } else {
+            $('#searchSuggestions').html('');
+        }
+    });
+});
+</script>
+
 <?php wp_footer();?>
 </body>
 </html>

@@ -55,6 +55,20 @@ if ($price_color && $price_color !== '#e74c3c') {
 if ($product_info_bg_color && $product_info_bg_color !== '#f8f9fa') {
     $custom_styles .= '.wp-block-my-e-shop-category-products .category-products-block .product-info { background-color: ' . esc_attr($product_info_bg_color) . '; }';
 }
+
+// Добавляем стили для центрирования поиска
+$custom_styles .= '
+.wp-block-my-e-shop-category-products .category-products-content .category-top-section .category-search {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: end !important;
+    margin-bottom: 0 !important;
+}
+.wp-block-my-e-shop-category-products .search-input-wrapper {
+    margin: 0 auto !important;
+}
+';
 ?>
 
 <?php if ($custom_styles): ?>
@@ -69,20 +83,47 @@ if ($product_info_bg_color && $product_info_bg_color !== '#f8f9fa') {
     <?php if ($show_breadcrumbs || $show_search): ?>
         <div class="category-top-section">
             <?php if ($show_breadcrumbs): ?>
-                <div class="category-breadcrumbs">
-                    <nav class="breadcrumb-nav">
-                        <a href="<?php echo esc_url(home_url('/')); ?>">Главная</a>
-                        <span class="breadcrumb-separator">/</span>
-                        <?php if ($category->parent): 
-                            $parent_category = get_term($category->parent, 'product_cat');
-                            if ($parent_category && !is_wp_error($parent_category)): ?>
-                                <a href="<?php echo esc_url(get_term_link($parent_category)); ?>"><?php echo esc_html($parent_category->name); ?></a>
-                                <span class="breadcrumb-separator">/</span>
-                            <?php endif;
-                        endif; ?>
-                        <span class="breadcrumb-current"><?php echo esc_html($category->name); ?></span>
-                    </nav>
-                </div>
+<!-- Хлебные крошки после hero блока -->
+        <div class="page-breadcrumbs-wrapper">
+            <div class="category-breadcrumbs-container">
+                <nav class="breadcrumbs">
+                    <a href="<?php echo esc_url(home_url('/')); ?>">HOME</a>
+                    <?php
+                    global $post;
+                    // Если у страницы есть родительские страницы
+                    if ($post->post_parent) {
+                        $parent_id = $post->post_parent;
+                        $breadcrumbs_array = array();
+                        
+                        while ($parent_id) {
+                            $page = get_post($parent_id);
+                            $breadcrumbs_array[] = array(
+                                'id' => $page->ID,
+                                'title' => $page->post_title,
+                                'url' => get_permalink($page->ID)
+                            );
+                            $parent_id = $page->post_parent;
+                        }
+                        
+                        $breadcrumbs_array = array_reverse($breadcrumbs_array);
+                        foreach ($breadcrumbs_array as $crumb) {
+                            echo '<a href="' . esc_url($crumb['url']) . '">' . strtoupper(esc_html($crumb['title'])) . '</a>';
+                        }
+                    }
+                    
+                    // Получаем заголовок текущей страницы
+                    $page_title = get_the_title();
+                    if (empty($page_title)) {
+                        $page_title = get_the_title($post->ID);
+                    }
+                    if (empty($page_title)) {
+                        $page_title = $post->post_title;
+                    }
+                    ?>
+                    <span class="current"><?php echo strtoupper(esc_html($page_title)); ?></span>
+                </nav>
+            </div>
+        </div>
             <?php endif; ?>
 
             <?php if ($show_search): ?>

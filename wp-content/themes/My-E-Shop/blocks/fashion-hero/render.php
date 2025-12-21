@@ -9,8 +9,13 @@ $subtitle = $attributes['subtitle'] ?? 'Designer T-shirts inspired by the catwal
 $button_text = $attributes['buttonText'] ?? 'Shop Now';
 $button_url = $attributes['buttonUrl'] ?? '#';
 $images_data = $attributes['images'] ?? array();
+$background_image = $attributes['backgroundImage'] ?? array();
+$overlay_opacity = isset($attributes['overlayOpacity']) ? $attributes['overlayOpacity'] : 50;
 
-// Строим массив изображений для 7 позиций
+// Проверяем, есть ли фоновое изображение
+$has_background_image = !empty($background_image['url']);
+
+// Строим массив изображений для 7 позиций (всегда показываем их)
 $images = array();
 for ($i = 1; $i <= 7; $i++) {
     $image_key = 'image' . $i;
@@ -36,7 +41,13 @@ $wrapper_attributes = get_block_wrapper_attributes();
 
 <section <?php echo $wrapper_attributes; ?> class="fashion-hero-section">
     <div class="fashion-hero-container">
-        <!-- Background Images Grid -->
+        <?php if ($has_background_image) : ?>
+            <!-- Main Background Image (under 7 photos) -->
+            <div class="fashion-hero-background" style="background-image: url('<?php echo esc_url($background_image['url']); ?>');">
+            </div>
+        <?php endif; ?>
+        
+        <!-- 7 Fashion Images Grid (always visible) -->
         <div class="fashion-images-grid">
             <?php foreach ($images as $index => $image) : ?>
                 <?php 
@@ -50,15 +61,17 @@ $wrapper_attributes = get_block_wrapper_attributes();
         </div>
 
         <!-- Dark Overlay -->
-        <div class="fashion-hero-overlay"></div>
+        <div class="fashion-hero-overlay" style="opacity: <?php echo esc_attr($overlay_opacity / 100); ?>;"></div>
 
         <!-- Content -->
         <div class="fashion-hero-content">
             <h1 class="fashion-hero-title"><?php echo esc_html($title); ?></h1>
             <p class="fashion-hero-subtitle"><?php echo esc_html($subtitle); ?></p>
-            <a href="<?php echo esc_url($button_url); ?>" class="fashion-hero-btn">
-                <?php echo esc_html($button_text); ?>
-            </a>
+            <?php if (!empty($button_url) && $button_url !== '#') : ?>
+                <a href="<?php echo esc_url($button_url); ?>" class="fashion-hero-btn">
+                    <?php echo esc_html($button_text); ?>
+                </a>
+            <?php endif; ?>
         </div>
     </div>
 </section>
