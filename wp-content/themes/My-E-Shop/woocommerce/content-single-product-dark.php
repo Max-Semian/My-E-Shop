@@ -25,7 +25,7 @@ global $product;
     <div class="product-layout">
         <div class="product-images-section">
             <div class="product-dark-image-wrapper">
-                <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div id="carouselExampleFade" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
 						<?php
 						$product_img_id = $product->get_image_id();
@@ -35,33 +35,30 @@ global $product;
 							$main_img = wc_placeholder_img_src( 'woocommerce_full' );
 						}
 						$product_img_ids = $product->get_gallery_image_ids();
+						$has_gallery = !empty($product_img_ids);
 						?>
                         <div class="carousel-item active">
-                            <img data-fancybox="gallery" src="<?php echo $main_img; ?>" class="d-block w-100 product-main-image"
+                            <img data-fancybox="gallery" data-src="<?php echo $main_img; ?>" src="<?php echo $main_img; ?>" class="d-block w-100 product-main-image product-gallery-image"
                                  alt="<?php echo $product->get_title(); ?>">
                         </div>
-						<?php if ( $product_img_ids ): ?>
+						<?php if ( $has_gallery ): ?>
 							<?php foreach ( $product_img_ids as $product_img_id ): ?>
                                 <div class="carousel-item">
-                                    <img data-fancybox="gallery" src="<?php echo wp_get_attachment_url( $product_img_id ); ?>"
-                                         class="d-block w-100 product-main-image" alt="<?php echo $product->get_title(); ?>">
+                                    <img data-fancybox="gallery" data-src="<?php echo wp_get_attachment_url( $product_img_id ); ?>" src="<?php echo wp_get_attachment_url( $product_img_id ); ?>"
+                                         class="d-block w-100 product-main-image product-gallery-image" alt="<?php echo $product->get_title(); ?>">
                                 </div>
 							<?php endforeach; ?>
 						<?php endif; ?>
                     </div>
-					<?php if ( $product_img_ids ): ?>
-                        <button class="carousel-control-prev product-dark-carousel-control" type="button"
-                                data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next product-dark-carousel-control" type="button"
-                                data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-					<?php endif; ?>
                 </div>
+                <?php if ( $has_gallery ): ?>
+                <button class="carousel-control-prev product-dark-carousel-control" type="button" id="carouselPrevBtn" onclick="window.handleCarouselNav('prev'); return false;">
+                    <img class="carousel-control-prev-icon" aria-hidden="true" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/left_arrow-dark.png' ); ?>" alt="Previous">
+                </button>
+                <button class="carousel-control-next product-dark-carousel-control" type="button" id="carouselNextBtn" onclick="window.handleCarouselNav('next'); return false;">
+                    <img class="carousel-control-next-icon" aria-hidden="true" src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/right_arrow-dark.png' ); ?>" alt="Next">
+                </button>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -71,11 +68,6 @@ global $product;
                 
                 <!-- Название товара -->
                 <h1 class="product-title"><?php the_title(); ?></h1>
-                
-                <!-- Описание товара -->
-                <div class="product-short-description">
-                    <?php echo apply_filters( 'woocommerce_short_description', $post->post_excerpt ); ?>
-                </div>
                 
                 <!-- Цена товара -->
                 <div class="product-price">
@@ -113,7 +105,7 @@ global $product;
                     if ( is_array($colors_array) && !empty($colors_array) ) {
                 ?>
                 <div class="product-color-picker">
-                    <label class="product-option-label">Color</label>
+                    <label class="product-option-label">Colors</label>
                     <div class="color-picker-options">
                         <?php foreach ($colors_array as $index => $color) : ?>
                             <div class="color-picker-item" data-color="<?php echo esc_attr($color['color']); ?>" title="<?php echo esc_attr($color['name']); ?>">
@@ -153,19 +145,29 @@ global $product;
                     $size_guide_image = get_field('size_guide_image');
                     
                     if ( !empty($sizes_array) ) {
+                        // Получаем атрибут Fit
+                        $wc_fit = $product->get_attribute('Fit');
+                        $fit_array = array();
+                        if ( !empty($wc_fit) ) {
+                            $fit_array = array_map('trim', explode(',', $wc_fit));
+                        }
                 ?>
                 <div class="product-size-picker">
-                    <div class="size-picker-header">
-                        <label class="product-option-label" for="size-select">Size</label>
-                        <?php if ( !empty($size_guide_image) ) : ?>
-                            <button type="button" class="size-guide-btn" data-bs-toggle="modal" data-bs-target="#sizeGuideModal">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
-                                </svg>
-                                Size Guide
-                            </button>
-                        <?php endif; ?>
+                    <?php if ( !empty($fit_array) ) : ?>
+                    <div class="custom-select-wrapper">
+                        <select name="product_fit" id="fit-select" class="custom-select">
+                            <option value="">Select Fit</option>
+                            <?php foreach ($fit_array as $fit) : ?>
+                                <option value="<?php echo esc_attr($fit); ?>"><?php echo esc_html($fit); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="select-arrow">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
+                    <?php endif; ?>
                     <div class="custom-select-wrapper">
                         <select name="product_size" id="size-select" class="custom-select">
                             <option value="">Select Size</option>
@@ -221,7 +223,7 @@ global $product;
                 
                 if (!empty($color_options)) : ?>
                 <div class="product-color-picker">
-                    <label class="product-option-label">Color</label>
+                    <label class="product-option-label">Colors</label>
                     <div class="color-picker-options">
                         <?php foreach ($color_options as $index => $color_slug) : 
                             $color_name = ucfirst(str_replace('-', ' ', $color_slug));
@@ -273,11 +275,54 @@ global $product;
                     }
                 }
                 
-                if (!empty($size_options)) : ?>
+                if (!empty($size_options)) : 
+                    // Получаем атрибут Fit для вариативных продуктов
+                    $fit_options = array();
+                    $fit_attribute_name = '';
+                    $default_fit = '';
+                    
+                    foreach ($product_attributes as $attribute_name => $attribute) {
+                        if (strpos(strtolower($attribute_name), 'fit') !== false) {
+                            if ($attribute->get_variation()) {
+                                $fit_attribute_name = 'attribute_' . $attribute_name;
+                                
+                                $default_attributes = $product->get_default_attributes();
+                                $default_fit = isset($default_attributes[str_replace('attribute_', '', $fit_attribute_name)]) 
+                                    ? $default_attributes[str_replace('attribute_', '', $fit_attribute_name)] 
+                                    : '';
+                                
+                                $terms = $attribute->get_terms();
+                                if ($terms) {
+                                    foreach ($terms as $term) {
+                                        $fit_options[] = $term->slug;
+                                    }
+                                } else {
+                                    $fit_options = $attribute->get_options();
+                                }
+                                break;
+                            }
+                        }
+                    }
+                ?>
                 <div class="product-size-picker">
-                    <div class="size-picker-header">
-                        <label class="product-option-label" for="size-select-var">Size</label>
+                    <?php if (!empty($fit_options)) : ?>
+                    <div class="custom-select-wrapper">
+                        <select name="<?php echo esc_attr($fit_attribute_name); ?>" id="fit-select-var" class="custom-select variation-fit-select">
+                            <option value="">Select Fit</option>
+                            <?php foreach ($fit_options as $fit_slug) : 
+                                $fit_name = ucfirst(str_replace('-', ' ', $fit_slug));
+                                $is_default_fit = ($default_fit === $fit_slug);
+                            ?>
+                                <option value="<?php echo esc_attr($fit_slug); ?>" <?php echo $is_default_fit ? 'selected' : ''; ?>><?php echo esc_html($fit_name); ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <div class="select-arrow">
+                            <svg width="12" height="8" viewBox="0 0 12 8" fill="none">
+                                <path d="M1 1L6 6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                     </div>
+                    <?php endif; ?>
                     <div class="custom-select-wrapper">
                         <select name="<?php echo esc_attr($size_attribute_name); ?>" id="size-select-var" class="custom-select variation-size-select">
                             <option value="">Select Size</option>
@@ -308,16 +353,14 @@ global $product;
                     
                     <!-- Кастомная форма с quantity и add to cart для вариативных продуктов -->
                     <div class="quantity-add-to-cart">
-                        <div class="quantity-wrapper">
-                            <label for="quantity">Quantity:</label>
-                            <div class="quantity-controls">
-                                <button type="button" class="qty-btn minus">-</button>
-                                <input type="number" id="quantity" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric">
-                                <button type="button" class="qty-btn plus">+</button>
-                            </div>
-                        </div>
+                        <button class="add-to-favorite-btn-dark" title="Add to Favorites">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            Add To Favorite
+                        </button>
                         <button type="button" class="single_add_to_cart_button button alt custom-variation-add-to-cart">
-                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Symbol.png' ); ?>" alt="Add to cart">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/cart-icon.svg' ); ?>" alt="Add to cart">
                             Add to cart
                         </button>
                     </div>
@@ -325,52 +368,21 @@ global $product;
                     <!-- Для простых продуктов используем кастомную форму -->
                 <form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
                     <div class="quantity-add-to-cart">
-                        <div class="quantity-wrapper">
-                            <label for="quantity">Quantity:</label>
-                            <div class="quantity-controls">
-                                <button type="button" class="qty-btn minus">-</button>
-                                <input type="number" id="quantity" class="input-text qty text" step="1" min="1" max="" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric">
-                                <button type="button" class="qty-btn plus">+</button>
-                            </div>
-                        </div>
+                        <button class="add-to-favorite-btn-dark" title="Add to Favorites">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            Add To Favorite
+                        </button>
                         <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F0EB" stroke-width="2">
+                                <path d="M9 2L7 8M9 2L11 8M9 2V1M17 2L15 8M17 2L19 8M17 2V1M7 8H19M7 8L5 22H19L17 8M7 8H3M19 8H21M10 11V19M14 11V19"></path>
+                            </svg>
                             Add to cart
                         </button>
                     </div>
                 </form>
                 <?php endif; ?>
-                
-                <!-- Дополнительные опции -->
-                <div class="product-extra-options">
-
-                    <!-- Политика возврата -->
-                    <?php 
-                    // Try ACF field first
-                    $return_policy = get_field('return_policy');
-                    
-                    // Fallback to post meta
-                    if (empty($return_policy)) {
-                        $return_policy = get_post_meta( get_the_ID(), '_product_return_policy', true );
-                    }
-                    
-                    // Default text if nothing is set
-                    if (empty($return_policy)) {
-                        $return_policy = 'Free returns within 30 days';
-                    }
-                    ?>
-                    <div class="shipping-policy">
-                        <img src="<?php echo get_template_directory_uri(); ?>/assets/img/local_shipping.png" alt="Return Icon" class="return-icon">
-                        <?php echo esc_html($return_policy); ?>
-                    </div>
-
-                    <!-- Добавить в избранное -->
-                    <button class="add-to-favorite-btn" title="Add to Favorites">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                        Add To Favorite
-                    </button>
-                </div>
             </div>
         </div>
         
@@ -524,7 +536,7 @@ global $product;
     <!-- Category Products Section -->
     <div class="category-products-section" id="category-products-section">
         <div class="product-dark-related">
-            <h2><?php echo esc_html__('More Products in this Category', 'My-E-Shop'); ?></h2>
+            <h2><?php echo esc_html__('YOU MAY ALSO LIKE', 'My-E-Shop'); ?></h2>
             <div class="category-products-container">
                 <?php
                 // Get the product categories
@@ -573,13 +585,10 @@ global $product;
                                         ?>
                                     </a>
                                     <div class="product-card-body">
-                                        <h5 class="product-card-title">
+                                        <div class="product-card-title-dark">
                                             <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-                                        </h5>
-                                        <p class="product-card-price"><?php echo $product->get_price_html(); ?></p>
-                                        <a href="<?php echo esc_url($product->add_to_cart_url()); ?>" class="add-to-cart-btn add_to_cart_button ajax_add_to_cart" data-product_id="<?php echo get_the_ID(); ?>">
-                                            <?php echo esc_html__('Add to Cart', 'My-E-Shop'); ?>
-                                        </a>
+                                        </div>
+                                        <div class="product-card-price-dark"><?php echo $product->get_price_html(); ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -611,7 +620,76 @@ global $product;
 
     <!-- Enhanced JavaScript for Product Interactions -->
     <script>
+    // Function to handle carousel navigation
+    function handleCarouselNav(direction) {
+        var carousel = window.productCarousel;
+        if (!carousel) {
+            var el = document.getElementById('carouselExampleFade');
+            if (el && typeof bootstrap !== 'undefined') {
+                carousel = bootstrap.Carousel.getInstance(el);
+                if (!carousel) {
+                    carousel = new bootstrap.Carousel(el, {
+                        interval: false,
+                        wrap: true
+                    });
+                    window.productCarousel = carousel;
+                }
+            }
+        }
+        
+        if (carousel) {
+            if (direction === 'prev') {
+                carousel.prev();
+            } else if (direction === 'next') {
+                carousel.next();
+            }
+        }
+    }
+    
+    // Make function global
+    window.handleCarouselNav = handleCarouselNav;
+    
+    // Block ALL events on carousel buttons at capture phase
+    ['click', 'mousedown', 'pointerdown', 'touchstart'].forEach(function(eventType) {
+        document.addEventListener(eventType, function(e) {
+            var button = e.target.closest('.product-dark-carousel-control');
+            if (button) {
+                e.stopImmediatePropagation();
+                e.preventDefault();
+                
+                // Trigger navigation on click (desktop) or touchstart (mobile)
+                if (eventType === 'click') {
+                    var direction = button.classList.contains('carousel-control-prev') ? 'prev' : 'next';
+                    handleCarouselNav(direction);
+                }
+                return false;
+            }
+        }, true); // capture phase
+    });
+    
     jQuery(document).ready(function($) {
+        // Initialize Bootstrap Carousel with delay to ensure Bootstrap is loaded
+        setTimeout(function() {
+            var myCarousel = document.getElementById('carouselExampleFade');
+            if (myCarousel && typeof bootstrap !== 'undefined') {
+                // Dispose existing instance if any
+                var existingInstance = bootstrap.Carousel.getInstance(myCarousel);
+                if (existingInstance) {
+                    existingInstance.dispose();
+                }
+                
+                var carousel = new bootstrap.Carousel(myCarousel, {
+                    interval: false,
+                    wrap: true,
+                    touch: true,
+                    keyboard: true
+                });
+                
+                // Store carousel instance globally for event handlers
+                window.productCarousel = carousel;
+            }
+        }, 300);
+        
         // Quantity controls
         $('.qty-btn.plus').on('click', function() {
             var input = $(this).siblings('input[type="number"]');
@@ -659,7 +737,7 @@ global $product;
         });
         
         // Add to favorite functionality
-        $('.add-to-favorite-btn').on('click', function() {
+        $('.add-to-favorite-btn-dark').on('click', function() {
             var button = $(this);
             var productId = <?php echo get_the_ID(); ?>;
             
@@ -968,253 +1046,5 @@ global $product;
         });
     });
     </script>
-    
-    <!-- Additional CSS for messages and interactions -->
-    <style>
-    .product-message {
-        padding: 12px 16px;
-        border-radius: 6px;
-        margin-bottom: 15px;
-        font-weight: 500;
-        animation: slideInDown 0.3s ease;
-    }
-    
-    .product-message-success {
-        background-color: rgba(34, 197, 94, 0.2);
-        border: 1px solid #22c55e;
-        color: #22c55e;
-    }
-    
-    .product-message-error {
-        background-color: rgba(239, 68, 68, 0.2);
-        border: 1px solid #ef4444;
-        color: #ef4444;
-    }
-    
-    .product-message-info {
-        background-color: rgba(59, 130, 246, 0.2);
-        border: 1px solid #3b82f6;
-        color: #3b82f6;
-    }
-    
-    @keyframes slideInDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .single_add_to_cart_button.loading {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-    
-    /* Стилизация стандартных WooCommerce вариаций в темном стиле */
-    .product-dark-theme .variations {
-        background: transparent;
-        border: none;
-        margin: 20px 0;
-    }
-    
-    .product-dark-theme .variations tr {
-        background: transparent;
-        border: none;
-    }
-    
-    .product-dark-theme .variations td {
-        padding: 10px 0;
-        border: none;
-        background: transparent;
-    }
-    
-    .product-dark-theme .variations label {
-        color: #e5e5e5;
-        font-weight: 600;
-        font-size: 16px;
-        margin-bottom: 8px;
-        display: block;
-    }
-    
-    .product-dark-theme .variations select {
-        background: #3c3c3c;
-        border: 2px solid #555;
-        color: #e5e5e5;
-        padding: 12px 16px;
-        border-radius: 8px;
-        font-size: 14px;
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-    
-    .product-dark-theme .variations select:focus {
-        outline: none;
-        border-color: #6c5ce7;
-        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-    }
-    
-    .product-dark-theme .variations select option {
-        background: #3c3c3c;
-        color: #e5e5e5;
-    }
-    
-    .product-dark-theme .single_variation_wrap {
-        margin-top: 20px;
-    }
-    
-    .product-dark-theme .woocommerce-variation-description {
-        color: #b0b0b0;
-        margin: 10px 0;
-        font-style: italic;
-    }
-    
-    .product-dark-theme .woocommerce-variation-price {
-        color: #6c5ce7;
-        font-size: 24px;
-        font-weight: 700;
-        margin: 15px 0;
-    }
-    
-    .product-dark-theme .woocommerce-variation-availability {
-        color: #22c55e;
-        margin: 10px 0;
-        font-weight: 500;
-    }
-    
-    /* Скрываем стандартные селекты если используем кастомные */
-    .hide-default-variations .variations {
-        display: none !important;
-    }
-    
-    /* Полностью скрываем стандартную WooCommerce форму вариаций */
-    .product-dark-theme .variations_form {
-        display: none !important;
-    }
-    
-    /* Показываем только наши кастомные элементы */
-    /* .product-dark-theme .product-color-picker,
-    .product-dark-theme .product-size-picker,
-    .product-dark-theme .quantity-add-to-cart {
-        display: block !important;
-    } */
-    
-    /* Стили для выбранных по умолчанию элементов */
-    .color-picker-item input[type="radio"]:checked + label.color-circle {
-        border: 3px solid #6c5ce7;
-        box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.3);
-        transform: scale(1.1);
-    }
-    
-    .color-picker-item input[type="radio"]:checked + label.color-circle .checkmark {
-        opacity: 1;
-        color: #fff;
-        text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-    }
-    
-    .custom-select.variation-size-select {
-        transition: all 0.3s ease;
-    }
-    
-    .custom-select.variation-size-select:focus,
-    .custom-select.variation-size-select.has-value {
-        border-color: #6c5ce7;
-        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-    }
-    
-    /* Фиксированная высота для карусели - 522px */
-    .product-dark-image-wrapper {
-        height: 522px !important;
-        position: relative;
-    }
-    
-    #carouselExampleFade {
-        height: 522px !important;
-    }
-    
-    #carouselExampleFade .carousel-inner {
-        height: 522px !important;
-        overflow: hidden;
-    }
-    
-    #carouselExampleFade .carousel-item {
-        height: 522px !important;
-    }
-    
-    #carouselExampleFade .carousel-item img.product-main-image {
-        height: 522px !important;
-        width: 100% !important;
-        object-fit: contain !important;
-        object-position: center !important;
-        background-color: #2c2c2c;
-    }
-    
-    
-    /* Выравнивание ширины quantity и size селектов */
-    .custom-select-wrapper,
-    .quantity-wrapper {
-        width: 100% !important;
-        max-width: 200px !important;
-    }
-    
-    .quantity-wrapper .quantity-controls {
-        width: 127px !important;
-        height: 34px !important;
-        display: flex !important;
-        align-items: center !important;
-        background: #3c3c3c !important;
-        border: 2px solid #555 !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-    }
-    
-    .quantity-wrapper .qty-btn {
-        width: 40px !important;
-        height: 48px !important;
-        background: #555 !important;
-        border: none !important;
-        color: #e5e5e5 !important;
-        font-size: 18px !important;
-        font-weight: bold !important;
-        cursor: pointer !important;
-        transition: background-color 0.3s ease !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    
-    .quantity-wrapper .qty-btn:hover {
-        background: #6c5ce7 !important;
-    }
-    
-    .quantity-wrapper input[type="number"] {
-        flex: 1 !important;
-        height: 48px !important;
-        border: none !important;
-        background: #3c3c3c !important;
-        color: #e5e5e5 !important;
-        text-align: center !important;
-        font-size: 16px !important;
-        padding: 0 10px !important;
-        outline: none !important;
-    }
-    
-    .quantity-wrapper input[type="number"]:focus {
-        background: #444 !important;
-    }
-    
-    /* Убираем стрелки у input number */
-    .quantity-wrapper input[type="number"]::-webkit-outer-spin-button,
-    .quantity-wrapper input[type="number"]::-webkit-inner-spin-button {
-        -webkit-appearance: none !important;
-        margin: 0 !important;
-    }
-    
-    .quantity-wrapper input[type="number"] {
-        -moz-appearance: textfield !important;
-    }
-    </style>
 </div>
 <?php do_action( 'woocommerce_after_single_product' ); ?>

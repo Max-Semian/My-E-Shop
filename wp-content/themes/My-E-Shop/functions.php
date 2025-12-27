@@ -235,6 +235,15 @@ function mytheme_add_woocommerce_support() {
     load_theme_textdomain( 'My-E-Shop', get_template_directory() . '/languages' );
     add_theme_support( 'woocommerce' );
     add_theme_support( 'title-tag' );
+    
+    // Добавляем поддержку custom logo
+    add_theme_support( 'custom-logo', array(
+        'height'      => 100,
+        'width'       => 400,
+        'flex-height' => true,
+        'flex-width'  => true,
+        'header-text' => array( 'site-title', 'site-description' ),
+    ) );
 
     register_nav_menus(
         array(
@@ -2828,4 +2837,42 @@ add_action('admin_init', function() {
     }
 });
 
+// Modify WooCommerce breadcrumbs to use /collection/ instead of /shop/
+add_filter('woocommerce_breadcrumb_defaults', 'custom_woocommerce_breadcrumbs');
+function custom_woocommerce_breadcrumbs($defaults) {
+    $defaults['home'] = _x('Home', 'breadcrumb', 'woocommerce');
+    return $defaults;
+}
+
+add_filter('woocommerce_get_breadcrumb', 'custom_woocommerce_breadcrumb_links', 10, 2);
+function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
+    $new_crumbs = array();
+    
+    foreach ($crumbs as $key => $crumb) {
+        // Replace /shop/ with /collection/ in URLs
+        if (isset($crumb[1]) && !empty($crumb[1])) {
+            // Replace shop URL
+            $crumb[1] = str_replace('/shop/', '/collection/', $crumb[1]);
+            $crumb[1] = str_replace('my-shop/shop', 'my-shop/collection', $crumb[1]);
+            
+            // For category links, ensure they use /collection/{category-slug}/
+            if (strpos($crumb[1], '/product-cat/') !== false || strpos($crumb[1], '/product-category/') !== false) {
+                // Extract category slug from URL
+                $url_parts = parse_url($crumb[1]);
+                $path = isset($url_parts['path']) ? $url_parts['path'] : '';
+                
+                // Get category slug from path
+                $path_parts = explode('/', trim($path, '/'));
+                $category_slug = end($path_parts);
+                
+                // Build new URL
+                $crumb[1] = home_url('/collection/' . $category_slug . '/');
+            }
+        }
+        
+        $new_crumbs[] = $crumb;
+    }
+    
+    return $new_crumbs;
+}
 

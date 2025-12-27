@@ -117,6 +117,33 @@ add_filter('woocommerce_breadcrumb_defaults', function() {
     );
 });
 
+// Добавляем "COLLECTION" в breadcrumbs для товаров
+add_filter('woocommerce_get_breadcrumb', function($crumbs) {
+    if (is_product()) {
+        // Создаем новый массив с HOME, COLLECTION, и остальными элементами
+        $new_crumbs = array();
+        
+        // Добавляем HOME (первый элемент)
+        if (isset($crumbs[0])) {
+            $new_crumbs[] = $crumbs[0];
+        }
+        
+        // Добавляем COLLECTION после HOME
+        $new_crumbs[] = array(
+            'COLLECTION',
+            get_permalink(wc_get_page_id('shop'))
+        );
+        
+        // Добавляем остальные элементы (категории и товар)
+        for ($i = 1; $i < count($crumbs); $i++) {
+            $new_crumbs[] = $crumbs[$i];
+        }
+        
+        return $new_crumbs;
+    }
+    return $crumbs;
+});
+
 function my_e_shop_get_shop_thumb () {
     $html = '';
     if ( is_product_category() ){

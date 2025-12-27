@@ -396,12 +396,12 @@
                                                     }
                                                 }, 'Нет изображения')
                                         ),
-                                        createElement('div', { className: 'product-info' },
-                                            createElement('h3', { className: 'product-title' },
+                                        createElement('div', { className: 'product-card-info' },
+                                            createElement('h3', { className: 'product-card-title' },
                                                 createElement('a', { href: image.link }, image.title)
                                             ),
-                                            createElement('div', { className: 'product-price' }, image.price),
-                                            createElement('div', { className: 'product-actions' },
+                                            createElement('div', { className: 'product-card-price' }, image.price),
+                                            createElement('div', { className: 'product-card-actions' },
                                                 createElement('a', { 
                                                     href: image.link,
                                                     className: 'add-to-cart-btn'

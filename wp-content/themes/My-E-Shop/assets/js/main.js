@@ -11,7 +11,14 @@ $(function () {
     });
     
     Fancybox.bind("[data-fancybox]", {
-        // Your custom options
+        // Disable thumbnails
+        Thumbs: false,
+        // Ignore clicks on carousel controls
+        on: {
+            shouldClose: (fancybox, slide) => {
+                return true;
+            }
+        }
     });
     
     // OwlCarousel initialization
@@ -58,7 +65,14 @@ $(function () {
     
     // Fancybox initialization
     if (typeof Fancybox !== 'undefined') {
-        Fancybox.bind("[data-fancybox]", {});
+        Fancybox.bind("[data-fancybox]", {
+            Thumbs: false,
+            on: {
+                shouldClose: (fancybox, slide) => {
+                    return true;
+                }
+            }
+        });
     }
     
     // Make the loadMoreReviewsInline function globally available

@@ -10,16 +10,14 @@ get_header(); ?>
 		// Проверяем выбранный шаблон для товара
 		$product_template = get_post_meta( get_the_ID(), '_product_template', true );
 		
-		if ( $product_template === 'dark' ) {
-			// Для темного шаблона отключаем стандартные breadcrumbs
-			remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-		}
+		// Отключаем стандартные breadcrumbs для всех шаблонов (встроены в content-single-product.php)
+		remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 		
 		/**
 		 * woocommerce_before_main_content hook.
 		 *
 		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
-		 * @hooked woocommerce_breadcrumb - 20 (отключаются для темного шаблона)
+		 * @hooked woocommerce_breadcrumb - 20 (отключены - встроены в шаблоны)
 		 */
 		do_action( 'woocommerce_before_main_content' );
 	?> 

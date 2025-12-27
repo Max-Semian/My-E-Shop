@@ -20,7 +20,15 @@
                 <div class="header-content">
                     <!-- Логотип слева -->
                     <a class="navbar-brand" href="<?php echo home_url('/')?>">
-                        <img src="<?php echo get_template_directory_uri() ?>/assets/img/Logo.png" alt="logo">
+                        <?php 
+                        $custom_logo_id = get_theme_mod( 'custom_logo' );
+                        if ( $custom_logo_id ) {
+                            $logo_url = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+                            echo '<img src="' . esc_url( $logo_url[0] ) . '" alt="' . get_bloginfo( 'name' ) . '">';
+                        } else {
+                            echo '<img src="' . get_template_directory_uri() . '/assets/img/Logo.png" alt="logo">';
+                        }
+                        ?>
                     </a>
                     
                     <!-- Навигация по центру -->
