@@ -353,36 +353,68 @@ global $product;
                     
                     <!-- Кастомная форма с quantity и add to cart для вариативных продуктов -->
                     <div class="quantity-add-to-cart">
-                        <button class="add-to-favorite-btn-dark" title="Add to Favorites">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                            Add To Favorite
-                        </button>
-                        <button type="button" class="single_add_to_cart_button button alt custom-variation-add-to-cart">
-                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/cart-icon.svg' ); ?>" alt="Add to cart">
+                        <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
+                        <button type="button" class="button alt custom-variation-add-to-cart custom-atc-btn" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>" data-icon-src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Cart-icon.svg' ); ?>" data-original-text="Add to cart">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Cart-icon.svg' ); ?>" alt="Add to cart">
                             Add to cart
                         </button>
+                        <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
                     </div>
                 <?php else : ?>
                     <!-- Для простых продуктов используем кастомную форму -->
                 <form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
                     <div class="quantity-add-to-cart">
-                        <button class="add-to-favorite-btn-dark" title="Add to Favorites">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                            Add To Favorite
-                        </button>
-                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F4F0EB" stroke-width="2">
-                                <path d="M9 2L7 8M9 2L11 8M9 2V1M17 2L15 8M17 2L19 8M17 2V1M7 8H19M7 8L5 22H19L17 8M7 8H3M19 8H21M10 11V19M14 11V19"></path>
-                            </svg>
+                        <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
+                        <button type="submit" name="add-to-cart" value="<?php echo esc_attr( $product->get_id() ); ?>" class="single_add_to_cart_button button alt custom-atc-btn" data-icon-src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Cart-icon.svg' ); ?>" data-original-text="Add to cart">
+                            <img src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Cart-icon.svg' ); ?>" alt="Add to cart">
                             Add to cart
                         </button>
+                        <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
                     </div>
                 </form>
                 <?php endif; ?>
+
+                <!-- Accordion Content Area (shows selected content) -->
+                <div class="product-accordion-content" id="accordionContent"></div>
+
+                <!-- Product Information Accordion Navigation -->
+                <?php
+                // Get product description (standard WooCommerce field)
+                $description = $product->get_description();
+                // Get ACF fields
+                $product_details = get_field('product_details');
+                $shipping_return = get_field('shipping_return');
+                ?>
+                <div class="product-info-accordion">
+                    <?php if (!empty($description)) : ?>
+                    <button class="accordion-nav-btn" type="button" data-target="description">Description</button>
+                    <?php endif; ?>
+                    <?php if (!empty($product_details)) : ?>
+                    <button class="accordion-nav-btn" type="button" data-target="details">Details</button>
+                    <?php endif; ?>
+                    <?php if (!empty($shipping_return)) : ?>
+                    <button class="accordion-nav-btn" type="button" data-target="shipping">Shipping</button>
+                    <?php endif; ?>
+                    <button class="accordion-nav-btn" type="button" data-target="enquiries">Enquiries</button>
+                </div>
+
+                <!-- Hidden content blocks -->
+                <div class="accordion-hidden-content">
+                    <?php if (!empty($description)) : ?>
+                    <div id="content-description"><?php echo wpautop($description); ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($product_details)) : ?>
+                    <div id="content-details"><?php echo wpautop($product_details); ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($shipping_return)) : ?>
+                    <div id="content-shipping"><?php echo wpautop($shipping_return); ?></div>
+                    <?php endif; ?>
+                    <div id="content-enquiries">
+                        <p>For any questions about this product, please contact us at:</p>
+                        <p>Email: support@example.com</p>
+                        <p>Phone: +1 234 567 890</p>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -420,119 +452,6 @@ global $product;
         </div>
         <?php endif; ?>
     </div>
-
-    <div class="product-description-section">
-        <div class="product-dark-description">
-            <?php
-            // Get ACF fields
-            $title = get_field('title');
-            $description = get_field('description');
-            $image = get_field('image');
-
-            // Display ACF fields if they exist
-            if (!empty($title) || !empty($description) || !empty($image)) : ?>
-                <div class="product-custom-description">
-                    <?php if (!empty($title)) : ?>
-                        <h2 class="acf-title"><?php echo esc_html($title); ?></h2>
-                    <?php endif; ?>
-
-                    <?php if (!empty($description)) : ?>
-                        <div class="acf-desc"><?php echo wpautop($description); ?></div>
-                    <?php endif; ?>
-
-                    <?php if (!empty($image)) : ?>
-                        <div class="acf-image">
-                            <?php echo wp_get_attachment_image($image, 'large', false, ['class' => 'acf-custom-img']); ?>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-            
-            <!-- Product Details Sections -->
-            <div class="product-details-tabs">
-                <?php
-                // Get detailed product information
-                $product_details = get_field('product_details');
-                $eco_crafto = get_field('eco_crafto');
-                $shipping_return = get_field('shipping_return');
-                
-                // Check if any of these fields have content
-                $has_details = !empty($product_details) || !empty($eco_crafto) || !empty($shipping_return);
-                
-                if ($has_details) : ?>
-                
-                <div class="details-columns">
-                    <!-- Left Column -->
-                    <div class="details-column details-left">
-                        <!-- Product Details -->
-                        <?php if (!empty($product_details)) : ?>
-                        <div class="detail-section product-details-section collapsed">
-                            <h3 class="detail-title accordion-toggle">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                    <line x1="16" y1="13" x2="8" y2="13"></line>
-                                    <line x1="16" y1="17" x2="8" y2="17"></line>
-                                    <polyline points="10 9 9 9 8 9"></polyline>
-                                </svg>
-                                <span>Product Details</span>
-                                <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </h3>
-                            <div class="detail-content">
-                                <?php echo wpautop($product_details); ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-                        
-                        <!-- Shipping And Return -->
-                        <?php if (!empty($shipping_return)) : ?>
-                        <div class="detail-section shipping-section collapsed">
-                            <h3 class="detail-title accordion-toggle">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="1" y="3" width="15" height="13"></rect>
-                                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                                </svg>
-                                <span>Shipping And Return</span>
-                                <svg class="accordion-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                </svg>
-                            </h3>
-                            <div class="detail-content">
-                                <?php echo wpautop($shipping_return); ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                    
-                    <!-- Right Column -->
-                    <div class="details-column details-right">
-                        <!-- Eco Crafto -->
-                        <?php if (!empty($eco_crafto)) : ?>
-                        <div class="detail-section eco-section no-accordion">
-                            <h3 class="detail-title">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                                    <path d="M12 6v6l4 2"></path>
-                                </svg>
-                                <span>Eco Crafto</span>
-                            </h3>
-                            <div class="detail-content">
-                                <?php echo wpautop($eco_crafto); ?>
-                            </div>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-                
-                <?php endif; ?>
-            </div>
-        </div>
-    </div>
-
     <!-- Category Products Section -->
     <div class="category-products-section" id="category-products-section">
         <div class="product-dark-related">
@@ -550,7 +469,7 @@ global $product;
                     // Query for products in the same category
                     $args = array(
                         'post_type' => 'product',
-                        'posts_per_page' => 3, // Show only 3 products
+                        'posts_per_page' => 4, // Show 4 products
                         'post__not_in' => array($current_product_id), // Exclude current product
                         'tax_query' => array(
                             array(
@@ -617,434 +536,5 @@ global $product;
             </div>
         </div>
     </div>
-
-    <!-- Enhanced JavaScript for Product Interactions -->
-    <script>
-    // Function to handle carousel navigation
-    function handleCarouselNav(direction) {
-        var carousel = window.productCarousel;
-        if (!carousel) {
-            var el = document.getElementById('carouselExampleFade');
-            if (el && typeof bootstrap !== 'undefined') {
-                carousel = bootstrap.Carousel.getInstance(el);
-                if (!carousel) {
-                    carousel = new bootstrap.Carousel(el, {
-                        interval: false,
-                        wrap: true
-                    });
-                    window.productCarousel = carousel;
-                }
-            }
-        }
-        
-        if (carousel) {
-            if (direction === 'prev') {
-                carousel.prev();
-            } else if (direction === 'next') {
-                carousel.next();
-            }
-        }
-    }
-    
-    // Make function global
-    window.handleCarouselNav = handleCarouselNav;
-    
-    // Block ALL events on carousel buttons at capture phase
-    ['click', 'mousedown', 'pointerdown', 'touchstart'].forEach(function(eventType) {
-        document.addEventListener(eventType, function(e) {
-            var button = e.target.closest('.product-dark-carousel-control');
-            if (button) {
-                e.stopImmediatePropagation();
-                e.preventDefault();
-                
-                // Trigger navigation on click (desktop) or touchstart (mobile)
-                if (eventType === 'click') {
-                    var direction = button.classList.contains('carousel-control-prev') ? 'prev' : 'next';
-                    handleCarouselNav(direction);
-                }
-                return false;
-            }
-        }, true); // capture phase
-    });
-    
-    jQuery(document).ready(function($) {
-        // Initialize Bootstrap Carousel with delay to ensure Bootstrap is loaded
-        setTimeout(function() {
-            var myCarousel = document.getElementById('carouselExampleFade');
-            if (myCarousel && typeof bootstrap !== 'undefined') {
-                // Dispose existing instance if any
-                var existingInstance = bootstrap.Carousel.getInstance(myCarousel);
-                if (existingInstance) {
-                    existingInstance.dispose();
-                }
-                
-                var carousel = new bootstrap.Carousel(myCarousel, {
-                    interval: false,
-                    wrap: true,
-                    touch: true,
-                    keyboard: true
-                });
-                
-                // Store carousel instance globally for event handlers
-                window.productCarousel = carousel;
-            }
-        }, 300);
-        
-        // Quantity controls
-        $('.qty-btn.plus').on('click', function() {
-            var input = $(this).siblings('input[type="number"]');
-            var currentVal = parseInt(input.val()) || 1;
-            input.val(currentVal + 1);
-        });
-        
-        $('.qty-btn.minus').on('click', function() {
-            var input = $(this).siblings('input[type="number"]');
-            var currentVal = parseInt(input.val()) || 1;
-            if (currentVal > 1) {
-                input.val(currentVal - 1);
-            }
-        });
-        
-        // Color picker functionality
-        $('.color-picker-item input[type="radio"]').on('change', function() {
-            var selectedColor = $(this).val();
-            var colorHex = $(this).closest('.color-picker-item').data('color');
-            
-            console.log('Selected color: ' + selectedColor + ' (' + colorHex + ')');
-            
-            // Add visual feedback
-            $('.color-picker-item').removeClass('selected');
-            $(this).closest('.color-picker-item').addClass('selected');
-            
-            // Here you can add logic to change product images based on color
-        });
-        
-        // Size picker functionality
-        $('#size-select').on('change', function() {
-            var selectedSize = $(this).val();
-            
-            if (selectedSize) {
-                console.log('Selected size: ' + selectedSize);
-                
-                // Add visual feedback
-                $(this).addClass('selected');
-                
-                // Enable add to cart button if it was disabled
-                $('.single_add_to_cart_button').prop('disabled', false);
-            } else {
-                $(this).removeClass('selected');
-            }
-        });
-        
-        // Add to favorite functionality
-        $('.add-to-favorite-btn-dark').on('click', function() {
-            var button = $(this);
-            var productId = <?php echo get_the_ID(); ?>;
-            
-            // Toggle visual state
-            button.toggleClass('favorited');
-            
-            if (button.hasClass('favorited')) {
-                button.find('svg').attr('fill', '#ff6b9d');
-                button.find('path').attr('fill', '#ff6b9d');
-                
-                console.log('Added to favorites: ' + productId);
-                showMessage('Added to favorites!', 'success');
-            } else {
-                button.find('svg').attr('fill', 'none');
-                button.find('path').attr('fill', 'none');
-                
-                console.log('Removed from favorites: ' + productId);
-                showMessage('Removed from favorites!', 'info');
-            }
-        });
-        
-        // Form validation before submit
-        $('form.cart').on('submit', function(e) {
-            var selectedColor = $('input[name="product_color"]:checked').val();
-            var selectedSize = $('#size-select').val();
-            
-            // Check if color is required and selected
-            if ($('.product-color-picker').length > 0 && !selectedColor) {
-                e.preventDefault();
-                showMessage('Please select a color!', 'error');
-                return false;
-            }
-            
-            // Check if size is required and selected
-            if ($('.product-size-picker').length > 0 && !selectedSize) {
-                e.preventDefault();
-                showMessage('Please select a size!', 'error');
-                return false;
-            }
-            
-            // Add loading state to button
-            $('.single_add_to_cart_button').addClass('loading').text('Adding...');
-        });
-        
-        // Helper function to show messages
-        function showMessage(message, type) {
-            var messageClass = 'product-message-' + type;
-            var messageHtml = '<div class="product-message ' + messageClass + '">' + message + '</div>';
-            
-            // Remove existing messages
-            $('.product-message').remove();
-            
-            // Add new message
-            $('.product-dark-content').prepend(messageHtml);
-            
-            // Auto remove after 3 seconds
-            setTimeout(function() {
-                $('.product-message').fadeOut(300, function() {
-                    $(this).remove();
-                });
-            }, 3000);
-        }
-        
-        // Accordion functionality for product details sections
-        $('.accordion-toggle').on('click', function() {
-            const $section = $(this).closest('.detail-section');
-            const $content = $section.find('.detail-content');
-            
-            // Toggle collapsed class
-            $section.toggleClass('collapsed');
-            
-            // Slide toggle content with animation
-            if ($section.hasClass('collapsed')) {
-                $content.slideUp(300);
-            } else {
-                $content.slideDown(300);
-            }
-        });
-        
-        // Load initial reviews
-        const productId = <?php echo get_the_ID(); ?>;
-        console.log("Loading reviews for product:", productId);
-        
-        // Simple check to make sure we're not loading twice
-        if ($('#reviews-container').attr('data-loaded') === 'false') {
-            $.ajax({
-                url: '/wp-admin/admin-ajax.php',
-                type: 'POST',
-                data: {
-                    'action': 'load_product_reviews',
-                    'product_id': productId
-                },
-                success: function(response) {
-                    $('#reviews-container').html(response).attr('data-loaded', 'true');
-                    console.log("Reviews loaded successfully");
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error loading reviews:", error);
-                    $('#reviews-container').html('<p class="error-message">Error loading reviews: ' + error + '</p>');
-                }
-            });
-        }
-        
-        // Event delegation for load more button
-        $(document).on('click', '#load-more-reviews', function(e) {
-            e.preventDefault();
-            
-            console.log("Load more button clicked");
-            
-            const $button = $(this);
-            $button.text('Loading...').prop('disabled', true);
-            
-            const productId = $button.data('product-id');
-            const nextPage = $button.data('page');
-            
-            $.ajax({
-                url: '/wp-admin/admin-ajax.php',
-                type: 'POST',
-                data: {
-                    'action': 'load_product_reviews',
-                    'product_id': productId,
-                    'page': nextPage
-                },
-                success: function(response) {
-                    // Create temporary div to parse the HTML
-                    const tempDiv = $('<div>').html(response);
-                    
-                    // Find new reviews and append them
-                    const newReviews = tempDiv.find('.commentlist li');
-                    $('#reviews-container .commentlist').append(newReviews);
-                    
-                    // Replace old button with new one
-                    $button.remove();
-                    
-                    const newButton = tempDiv.find('#load-more-reviews');
-                    if (newButton.length) {
-                        $('#reviews-container').append(newButton);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Error loading more reviews:", error);
-                    $button.text('Error. Try again').prop('disabled', false);
-                }
-            });
-        });
-        
-        // WooCommerce variations image switching for custom carousel
-        $(document).ready(function() {
-            // Инициализация дефолтных значений для вариативных продуктов
-            function initializeDefaultVariations() {
-                // Для цветных кружочков - находим checked элемент и синхронизируем
-                const checkedColorInput = $('.variation-color-input:checked');
-                if (checkedColorInput.length) {
-                    const selectedColor = checkedColorInput.val();
-                    const hiddenSelect = $('form.variations_form select[name="' + checkedColorInput.attr('name') + '"]');
-                    if (hiddenSelect.length) {
-                        hiddenSelect.val(selectedColor).trigger('change');
-                    }
-                }
-                
-                // Для размеров - находим selected элемент и синхронизируем
-                const selectedSizeOption = $('.variation-size-select option:selected');
-                if (selectedSizeOption.length && selectedSizeOption.val() !== '') {
-                    const selectedSize = selectedSizeOption.val();
-                    const sizeSelect = $('.variation-size-select');
-                    const hiddenSelect = $('form.variations_form select[name="' + sizeSelect.attr('name') + '"]');
-                    if (hiddenSelect.length) {
-                        hiddenSelect.val(selectedSize).trigger('change');
-                    }
-                    // Добавляем класс для стилизации
-                    sizeSelect.addClass('has-value');
-                }
-            }
-            
-            // Функция для обновления визуального состояния селектов
-            function updateSelectState() {
-                $('.variation-size-select').each(function() {
-                    if ($(this).val() !== '') {
-                        $(this).addClass('has-value');
-                    } else {
-                        $(this).removeClass('has-value');
-                    }
-                });
-            }
-            
-            // Запускаем инициализацию после загрузки страницы
-            setTimeout(function() {
-                initializeDefaultVariations();
-                updateSelectState();
-            }, 500);
-            
-            // Если это вариативный продукт, слушаем изменения формы вариаций
-            $('form.variations_form').on('found_variation', function(event, variation) {
-                console.log('Variation found:', variation);
-                
-                // Получаем изображение вариации
-                if (variation.image && variation.image.src) {
-                    // Находим активный слайд карусели
-                    const activeSlide = $('#carouselExampleFade .carousel-item.active img');
-                    
-                    // Плавно меняем изображение
-                    activeSlide.fadeOut(200, function() {
-                        $(this).attr('src', variation.image.src)
-                               .attr('alt', variation.image.alt || '')
-                               .fadeIn(200);
-                    });
-                    
-                    // Также обновляем изображения в fancybox если используется
-                    activeSlide.attr('data-fancybox', 'gallery');
-                }
-            });
-            
-            // Сброс к оригинальному изображению при сбросе вариации
-            $('form.variations_form').on('reset_data', function() {
-                // Возвращаем основное изображение продукта
-                const activeSlide = $('#carouselExampleFade .carousel-item.active img');
-                const originalImage = $('#carouselExampleFade .carousel-item:first-child img').attr('src');
-                
-                if (originalImage) {
-                    activeSlide.fadeOut(200, function() {
-                        $(this).attr('src', originalImage)
-                               .fadeIn(200);
-                    });
-                }
-            });
-            
-            // Дополнительная обработка для кастомных цветных кружочков
-            $('.color-picker-item input[type="radio"]').on('change', function() {
-                const selectedColor = $(this).val();
-                console.log('Custom color selected:', selectedColor);
-                
-                // Синхронизируем со скрытой формой WooCommerce
-                const hiddenSelect = $('form.variations_form select[name="' + $(this).attr('name') + '"]');
-                if (hiddenSelect.length) {
-                    hiddenSelect.val(selectedColor).trigger('change');
-                }
-            });
-            
-            // Обработка для кастомного селекта размеров
-            $('.custom-select.variation-size-select').on('change', function() {
-                const selectedSize = $(this).val();
-                console.log('Custom size selected:', selectedSize);
-                
-                // Обновляем визуальное состояние
-                updateSelectState();
-                
-                // Синхронизируем со скрытой формой WooCommerce
-                const hiddenSelect = $('form.variations_form select[name="' + $(this).attr('name') + '"]');
-                if (hiddenSelect.length) {
-                    hiddenSelect.val(selectedSize).trigger('change');
-                }
-            });
-            
-            // Кастомная кнопка Add to Cart для вариаций
-            $('.custom-variation-add-to-cart').on('click', function(e) {
-                e.preventDefault();
-                
-                const $button = $(this);
-                const $form = $('form.variations_form');
-                
-                if ($form.length) {
-                    // Проверяем что все вариации выбраны
-                    const isValid = $form.find('select[name^="attribute_"]').toArray().every(select => {
-                        return $(select).val() !== '';
-                    });
-                    
-                    if (!isValid) {
-                        alert('Please select all product options before adding to cart.');
-                        return;
-                    }
-                    
-                    // Обновляем quantity в скрытой форме
-                    const quantity = $('#quantity').val();
-                    $form.find('input[name="quantity"]').val(quantity);
-                    
-                    // Симулируем клик по скрытой кнопке WooCommerce
-                    $form.find('.single_add_to_cart_button').click();
-                } else {
-                    console.error('Variations form not found');
-                }
-            });
-            
-            // Обработка для простых продуктов
-            $('.color-picker-item input[type="radio"]:not(.variation-color-input)').on('change', function() {
-                const selectedColor = $(this).val();
-                console.log('Custom color selected:', selectedColor);
-                
-                // Триггерим изменение в стандартной форме WooCommerce если она есть
-                const wooSelect = $('select[name="attribute_pa_color"], select[name="attribute_color"]');
-                if (wooSelect.length) {
-                    wooSelect.val(selectedColor.toLowerCase()).trigger('change');
-                }
-            });
-            
-            // Обработка для кастомного селекта размеров (простые продукты)
-            $('.custom-select:not(.variation-size-select)').on('change', function() {
-                const selectedSize = $(this).val();
-                console.log('Custom size selected:', selectedSize);
-                
-                // Триггерим изменение в стандартной форме WooCommerce если она есть
-                const wooSelect = $('select[name="attribute_pa_size"], select[name="attribute_size"]');
-                if (wooSelect.length) {
-                    wooSelect.val(selectedSize.toLowerCase()).trigger('change');
-                }
-            });
-        });
-    });
-    </script>
 </div>
 <?php do_action( 'woocommerce_after_single_product' ); ?>

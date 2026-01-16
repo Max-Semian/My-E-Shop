@@ -1136,7 +1136,14 @@
 }
 
 /* ========== BLOG TRENDS RESPONSIVE ========== */
-
+@media (max-width: 1200px) {
+    .blog-trends-section {
+        padding: 40px 20px;
+    }
+    .blog-trends-title {
+        margin-top: 0;
+    }
+}
 /* Tablet styles */
 @media (max-width: 768px) {
     .blog-trends-section {

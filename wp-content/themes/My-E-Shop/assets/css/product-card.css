@@ -1,0 +1,138 @@
+/* ====================Product Card==================== */
+   
+.product-card {
+    transition: all .3s;
+    border: 1px solid var(--grey-color);
+    background-color: #FFF;
+    position: relative;
+    width: 240px !important; /* Фиксированная ширина карточки */
+    flex: 0 0 240px !important; /* Фиксированная ширина в flex-контейнере */
+    max-width: 240px !important;
+    margin: 20px; /* Увеличиваем отступы между карточками до 40px (20px с каждой стороны) */
+}
+.product-card:hover {
+    box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.75);
+}
+
+/* Убираем адаптивные изменения ширины - карточки остаются 240px на всех экранах */
+.product-card-offer {
+    color: #FFF;
+    position: absolute;
+    top: 5px;
+    right: 65px;
+    text-transform: uppercase;
+}
+.product-card-offer>div {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+.offer-hit{
+    background-color: var(--red-color);
+}
+.offer-new{
+    background-color: var(--main-color);
+}
+.product-thumb {
+    text-align: center;
+    width: 202px !important; /* Фиксированная ширина */
+    height: 290px !important; /* Фиксированная высота */
+    overflow: hidden !important; /* Обрезаем все, что выходит за рамки */
+    position: relative !important;
+    display: block !important;
+    margin-left: 17px;
+}
+
+.product-thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* Масштабируем изображение с сохранением пропорций */
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin-top: 19px;
+}
+.products-details {
+    padding: 10px 20px;
+}
+.products-details h4 {
+    font-size: 1.2rem;
+}
+.products-details h4 a {
+    height: 45px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-decoration: none;
+    transition: all .3s;
+}
+.products-details h4 a:hover {
+    color: var(--main-light-color);
+}
+.product-exerpt {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    height: 45px;
+    overflow: hidden;
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    line-height: 1.4;
+    max-height: 2.8em; /* Adjust for 2 lines */
+}
+.product-excerpt p {
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    line-height: 1.4;
+    max-height: 2.8em; /* Adjust for 2 lines */
+}
+
+/* Hide empty description block if no text exists */
+.product-excerpt:empty {
+    display: none;
+}
+
+.product-bottom-details {
+    border-top: 1px solid var(--stroke-color);
+    padding-top: 1rem;
+}
+.price {
+    font-size: 18px;
+    color: var(--red-color);
+    font-weight: 600;
+}
+.price small {
+    color: var(--grey-color);
+    font-weight: 400;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.owl-carousel-full .owl-item img {
+    display: inline-block;
+    max-width: auto;
+}
+.carousel {
+    padding-left: 50px;
+}
+/* ====================End Product Card==================== */
+
+/* ====================About Us==================== */
+.about-us {
+    background-color: #fff;
+}
+
+.about-us .section-title span,
+.sidebar .section-title span {
+    background-color: #fff;
+}
+/* ====================End About Us==================== */

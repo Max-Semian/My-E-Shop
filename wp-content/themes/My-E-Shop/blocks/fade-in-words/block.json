@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "my-e-shop/fade-in-words",
+	"version": "1.0.0",
+	"title": "Fade In Words",
+	"category": "my-e-shop",
+	"icon": "editor-alignleft",
+	"description": "Текстовый блок с анимацией появления слов",
+	"keywords": [
+		"text",
+		"animation",
+		"fade",
+		"words"
+	],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true
+		}
+	},
+	"attributes": {
+		"content": {
+			"type": "string",
+			"default": "T-shirts that combine runway aesthetics with individuality."
+		},
+		"speed": {
+			"type": "number",
+			"default": 100
+		},
+		"textColor": {
+			"type": "string",
+			"default": "#000000"
+		},
+		"backgroundColor": {
+			"type": "string",
+			"default": "#F6F6F4"
+		},
+		"fontSize": {
+			"type": "string",
+			"default": "medium"
+		},
+		"textAlign": {
+			"type": "string",
+			"default": "center"
+		}
+	},
+	"textdomain": "My-E-Shop",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css",
+	"viewScript": "file:./script.js"
+}

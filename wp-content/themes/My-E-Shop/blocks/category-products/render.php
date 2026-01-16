@@ -83,47 +83,43 @@ $custom_styles .= '
     <?php if ($show_breadcrumbs || $show_search): ?>
         <div class="category-top-section">
             <?php if ($show_breadcrumbs): ?>
-<!-- Хлебные крошки после hero блока -->
-        <div class="page-breadcrumbs-wrapper">
-            <div class="category-breadcrumbs-container">
-                <nav class="breadcrumbs">
-                    <a href="<?php echo esc_url(home_url('/')); ?>">HOME</a>
-                    <?php
-                    global $post;
-                    // Если у страницы есть родительские страницы
-                    if ($post->post_parent) {
-                        $parent_id = $post->post_parent;
-                        $breadcrumbs_array = array();
-                        
-                        while ($parent_id) {
-                            $page = get_post($parent_id);
-                            $breadcrumbs_array[] = array(
-                                'id' => $page->ID,
-                                'title' => $page->post_title,
-                                'url' => get_permalink($page->ID)
-                            );
-                            $parent_id = $page->post_parent;
-                        }
-                        
-                        $breadcrumbs_array = array_reverse($breadcrumbs_array);
-                        foreach ($breadcrumbs_array as $crumb) {
-                            echo '<a href="' . esc_url($crumb['url']) . '">' . strtoupper(esc_html($crumb['title'])) . '</a>';
-                        }
-                    }
-                    
-                    // Получаем заголовок текущей страницы
-                    $page_title = get_the_title();
-                    if (empty($page_title)) {
-                        $page_title = get_the_title($post->ID);
-                    }
-                    if (empty($page_title)) {
-                        $page_title = $post->post_title;
-                    }
-                    ?>
-                    <span class="current"><?php echo strtoupper(esc_html($page_title)); ?></span>
-                </nav>
-            </div>
-        </div>
+<!-- Хлебные крошки -->
+<?php
+// Определяем темную или светлую тему
+$is_dark_theme = ($background_color === '#2C2C2C' || $background_color === '#2c2c2c');
+$breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light-breadcrumbs';
+?>
+<div class="<?php echo esc_attr($breadcrumb_class); ?>">
+    <div class="container">
+        <nav class="woocommerce-breadcrumb"><a href="<?php echo esc_url(home_url('/')); ?>">HOME</a> / <?php
+            global $post;
+            if ($post->post_parent) {
+                $parent_id = $post->post_parent;
+                $breadcrumbs_array = array();
+                while ($parent_id) {
+                    $page = get_post($parent_id);
+                    $breadcrumbs_array[] = array(
+                        'title' => $page->post_title,
+                        'url' => get_permalink($page->ID)
+                    );
+                    $parent_id = $page->post_parent;
+                }
+                $breadcrumbs_array = array_reverse($breadcrumbs_array);
+                foreach ($breadcrumbs_array as $crumb) {
+                    ?><a href="<?php echo esc_url($crumb['url']); ?>"><?php echo strtoupper(esc_html($crumb['title'])); ?></a> / <?php
+                }
+            }
+            $page_title = get_the_title();
+            if (empty($page_title)) {
+                $page_title = get_the_title($post->ID);
+            }
+            if (empty($page_title)) {
+                $page_title = $post->post_title;
+            }
+            echo strtoupper(esc_html($page_title));
+            ?></nav>
+    </div>
+</div>
             <?php endif; ?>
 
             <?php if ($show_search): ?>

@@ -157,7 +157,9 @@
                             fontWeight: 500,
                             lineHeight: '52px',
                             letterSpacing: '1px',
-                            verticalAlign: 'middle'
+                            verticalAlign: 'middle',
+                            minHeight: '156px',
+                            display: 'block'
                         }
                     },
                         el(RichText, {
@@ -232,6 +234,8 @@
                             lineHeight: '52px',
                             letterSpacing: '1px',
                             verticalAlign: 'middle',
+                            minHeight: '156px',
+                            display: 'block',
                             color: effectiveTextColor + ' !important'
                         },
                         // Сохраняем чистый текст без HTML тегов для корректной работы анимаций

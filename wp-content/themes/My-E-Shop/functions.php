@@ -425,6 +425,16 @@ class My_E_Shop_Header_Walker extends Walker_Nav_Menu {
     }
 }
 
+// Отключаем стандартный WooCommerce скрипт для вариаций - используем свой AJAX
+add_action('wp_enqueue_scripts', function() {
+    if (is_product()) {
+        $product = wc_get_product(get_the_ID());
+        if ($product && $product->is_type('variable')) {
+            wp_dequeue_script('wc-add-to-cart-variation');
+        }
+    }
+}, 100);
+
 add_action('wp_enqueue_scripts', function () {
     // Подключаем Google Fonts
     wp_enqueue_style('google-fonts-playfair', 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap', array(), null);
@@ -434,12 +444,35 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('My-E-Shop-owlcarousel', get_template_directory_uri() . '/assets/owlcarousel2/owl.carousel.min.css');
     wp_enqueue_style('My-E-Shop-owlcarousel-theme', get_template_directory_uri() . '/assets/owlcarousel2/owl.theme.default.min.css');
     wp_enqueue_style('My-E-Shop-fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
-    wp_enqueue_style('My-E-Shop-main', get_template_directory_uri() .'/assets/css/main.css');
-    wp_enqueue_style('My-E-Shop-media', get_template_directory_uri() .'/assets/css/media.css');
     
-    // Подключаем стили для страниц категорий на соответствующих страницах
-    if (is_product_category() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
+    // Модульные CSS файлы (вместо main.css)
+    wp_enqueue_style('My-E-Shop-base', get_template_directory_uri() . '/assets/css/base.css');
+    wp_enqueue_style('My-E-Shop-header', get_template_directory_uri() . '/assets/css/header.css');
+    wp_enqueue_style('My-E-Shop-footer', get_template_directory_uri() . '/assets/css/footer.css');
+    wp_enqueue_style('My-E-Shop-slider', get_template_directory_uri() . '/assets/css/slider.css');
+    wp_enqueue_style('My-E-Shop-product-card', get_template_directory_uri() . '/assets/css/product-card.css');
+    wp_enqueue_style('My-E-Shop-components', get_template_directory_uri() . '/assets/css/components.css');
+    wp_enqueue_style('My-E-Shop-modals', get_template_directory_uri() . '/assets/css/modals.css');
+    wp_enqueue_style('My-E-Shop-responsive', get_template_directory_uri() . '/assets/css/responsive.css');
+    
+    // Основной main.css (для стилей, которые ещё не вынесены)
+    wp_enqueue_style('My-E-Shop-main', get_template_directory_uri() . '/assets/css/main.css');
+    wp_enqueue_style('My-E-Shop-media', get_template_directory_uri() . '/assets/css/media.css');
+    
+    // Подключаем стили для страниц категорий
+    if (is_product_category() || is_shop() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
+        wp_enqueue_style('My-E-Shop-category-page', get_template_directory_uri() . '/assets/css/category-page.css');
         wp_enqueue_style('My-E-Shop-category-pages', get_template_directory_uri() . '/assets/css/category-pages.css');
+    }
+    
+    // Подключаем стили для страницы товара
+    if (is_product()) {
+        wp_enqueue_style('My-E-Shop-single-product', get_template_directory_uri() . '/assets/css/single-product.css');
+    }
+    
+    // Подключаем стили для корзины и оформления
+    if (is_cart() || is_checkout() || is_account_page()) {
+        wp_enqueue_style('My-E-Shop-woocommerce', get_template_directory_uri() . '/assets/css/woocommerce.css');
     }
     
     // Подключаем стили для страницы "О нас"
@@ -463,6 +496,30 @@ add_action('wp_enqueue_scripts', function () {
     wp_localize_script('My-E-Shop-main', 'my_e_shop_params', array(
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
+    
+    // Подключаем скрипты для страницы товара
+    if (is_product()) {
+        // Определяем тему по мета-полю _product_template
+        $product_template = get_post_meta(get_the_ID(), '_product_template', true);
+        
+        // Зависимости с WooCommerce скриптами для вариативных продуктов
+        $script_deps = array('jquery', 'My-E-Shop-bootstrap', 'wc-add-to-cart-variation');
+        
+        // Подключаем соответствующий скрипт
+        if ($product_template === 'dark') {
+            wp_enqueue_script('single-product-dark', get_template_directory_uri() . '/assets/js/single-product-dark.js', $script_deps, '1.0.1', true);
+            wp_localize_script('single-product-dark', 'singleProductData', array(
+                'productId' => get_the_ID(),
+                'ajaxUrl' => admin_url('admin-ajax.php')
+            ));
+        } else {
+            wp_enqueue_script('single-product-light', get_template_directory_uri() . '/assets/js/single-product-light.js', $script_deps, '1.0.1', true);
+            wp_localize_script('single-product-light', 'singleProductData', array(
+                'productId' => get_the_ID(),
+                'ajaxUrl' => admin_url('admin-ajax.php')
+            ));
+        }
+    }
     
     // Подключаем Fabric.js для T-Shirt Designer
     wp_enqueue_script('fabricjs', 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js', array('jquery'), '5.3.0', true);
@@ -586,6 +643,86 @@ function add_product_description_styles() {
     </style>
     <?php
 }
+
+// Предотвращаем двойное добавление вариативного товара
+$GLOBALS['products_added_in_request'] = array();
+
+// Отслеживаем что добавляется
+add_action('woocommerce_add_to_cart', function($cart_item_key, $product_id, $quantity, $variation_id) {
+    $GLOBALS['products_added_in_request'][] = array(
+        'product_id' => $product_id,
+        'variation_id' => $variation_id,
+        'cart_item_key' => $cart_item_key
+    );
+}, 5, 4);
+
+// После добавления всех товаров удаляем дубликаты
+add_action('woocommerce_ajax_added_to_cart', function($product_id) {
+    if (empty($GLOBALS['products_added_in_request'])) {
+        return;
+    }
+    
+    // Группируем по product_id
+    $by_product = array();
+    foreach ($GLOBALS['products_added_in_request'] as $item) {
+        $pid = $item['product_id'];
+        if (!isset($by_product[$pid])) {
+            $by_product[$pid] = array();
+        }
+        $by_product[$pid][] = $item;
+    }
+    
+    // Для каждого product_id если есть дубликаты
+    foreach ($by_product as $pid => $items) {
+        if (count($items) > 1) {
+            // Находим вариативный и простой
+            $variation_key = null;
+            $simple_key = null;
+            
+            foreach ($items as $item) {
+                if ($item['variation_id'] > 0) {
+                    $variation_key = $item['cart_item_key'];
+                } else {
+                    $simple_key = $item['cart_item_key'];
+                }
+            }
+            
+            // Если есть оба, удаляем простой
+            if ($variation_key && $simple_key) {
+                WC()->cart->remove_cart_item($simple_key);
+            }
+        }
+    }
+}, 10);
+
+// Remove "product has been modified" cart notices
+add_filter('woocommerce_cart_item_removed_notice_type', function($notice_type, $cart_item_key) {
+    // Return null to suppress the notice completely
+    return null;
+}, 10, 2);
+
+// Suppress specific WooCommerce notices about modified products
+add_action('woocommerce_cart_loaded_from_session', function($cart) {
+    // Clear notices that contain "has been removed from your cart because it has since been modified"
+    if (function_exists('wc_clear_notices')) {
+        $notices = wc_get_notices();
+        if (!empty($notices['notice'])) {
+            foreach ($notices['notice'] as $key => $notice) {
+                $message = isset($notice['notice']) ? $notice['notice'] : (is_string($notice) ? $notice : '');
+                if (strpos($message, 'has been removed from your cart because it has since been modified') !== false) {
+                    unset($notices['notice'][$key]);
+                }
+            }
+            // Re-set the cleaned notices
+            wc_clear_notices();
+            if (!empty($notices['notice'])) {
+                foreach ($notices['notice'] as $notice) {
+                    wc_add_notice($notice['notice'] ?? $notice, 'notice');
+                }
+            }
+        }
+    }
+}, 999);
 
 // Removing related products from product page 
 remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
@@ -1615,28 +1752,29 @@ function advanced_blog_posts_shortcode($atts) {
     $columns_class = 'columns-' . intval($atts['columns']);
     $output = '<div class="blog-posts-grid ' . $columns_class . '">';
 
-    foreach ($posts as $post) {
-        setup_postdata($post);
+    foreach ($posts as $post_item) {
+        $post_id = $post_item->ID;
+        $post_title = $post_item->post_title;
         
         $output .= '<div class="blog-post-card">';
         
-        if ($atts['show_image'] === 'true' && has_post_thumbnail($post->ID)) {
+        if ($atts['show_image'] === 'true' && has_post_thumbnail($post_id)) {
             $output .= '<div class="post-thumbnail">';
-            $output .= '<a href="' . get_permalink($post->ID) . '">';
-            $output .= get_the_post_thumbnail($post->ID, $atts['image_size']);
+            $output .= '<a href="' . get_permalink($post_id) . '">';
+            $output .= get_the_post_thumbnail($post_id, $atts['image_size']);
             $output .= '</a></div>';
         }
         
         $output .= '<div class="post-content">';
-        $output .= '<h3><a href="' . get_permalink($post->ID) . '">' . get_the_title($post->ID) . '</a></h3>';
-        $output .= '<div class="post-meta">' . get_the_date('', $post->ID) . '</div>';
+        $output .= '<h3><a href="' . get_permalink($post_id) . '">' . esc_html($post_title) . '</a></h3>';
+        $output .= '<div class="post-meta">' . get_the_date('', $post_id) . '</div>';
         
         if ($atts['show_excerpt'] === 'true') {
-            $excerpt = wp_trim_words(get_the_excerpt($post->ID), intval($atts['excerpt_length']));
+            $excerpt = has_excerpt($post_id) ? get_the_excerpt($post_id) : wp_trim_words($post_item->post_content, intval($atts['excerpt_length']));
             $output .= '<div class="post-excerpt">' . $excerpt . '</div>';
         }
         
-        $output .= '<a href="' . get_permalink($post->ID) . '" class="read-more-btn">Подробнее →</a>';
+        $output .= '<a href="' . get_permalink($post_id) . '" class="read-more-btn">Подробнее →</a>';
         $output .= '</div></div>';
     }
 
@@ -2326,6 +2464,7 @@ function my_e_shop_register_blocks() {
         }
     ));
     register_block_type(get_template_directory() . '/blocks/scrambled-text/block.json');
+    register_block_type(get_template_directory() . '/blocks/fade-in-words/block.json');
     register_block_type(get_template_directory() . '/blocks/product-cards/block.json');
     register_block_type(get_template_directory() . '/blocks/about-section/block.json');
     register_block_type(get_template_directory() . '/blocks/gallery-slider/block.json');
@@ -2461,48 +2600,7 @@ add_filter('the_title', function($title, $id) {
 // Подключаем функционал кастомных страниц категорий
 require_once get_template_directory() . '/includes/category-pages.php';
 
-// AJAX обработчик для добавления товара в корзину
-function handle_ajax_add_to_cart() {
-    if (!wp_verify_nonce($_POST['nonce'] ?? '', 'wc_add_to_cart_nonce') && !current_user_can('edit_posts')) {
-        // Разрешаем без nonce для совместимости
-    }
-
-    if (!class_exists('WooCommerce')) {
-        wp_die('WooCommerce not active');
-    }
-
-    $product_id = absint($_POST['product_id'] ?? 0);
-    $quantity = absint($_POST['quantity'] ?? 1);
-    $variation_id = absint($_POST['variation_id'] ?? 0);
-    $variation = array();
-
-    if (empty($product_id)) {
-        wp_send_json_error('Invalid product ID');
-        return;
-    }
-
-    // Получаем продукт
-    $product = wc_get_product($product_id);
-    if (!$product) {
-        wp_send_json_error('Product not found');
-        return;
-    }
-
-    // Добавляем товар в корзину
-    $result = WC()->cart->add_to_cart($product_id, $quantity, $variation_id, $variation);
-    
-    if ($result) {
-        wp_send_json_success(array(
-            'message' => 'Product added to cart',
-            'cart_count' => WC()->cart->get_cart_contents_count(),
-            'cart_total' => WC()->cart->get_cart_total()
-        ));
-    } else {
-        wp_send_json_error('Failed to add product to cart');
-    }
-}
-add_action('wp_ajax_woocommerce_add_to_cart', 'handle_ajax_add_to_cart');
-add_action('wp_ajax_nopriv_woocommerce_add_to_cart', 'handle_ajax_add_to_cart');
+// УДАЛЕНО: Кастомные AJAX обработчики add_to_cart дублировали стандартный функционал WooCommerce
 
 // AJAX обработчик для загрузки товаров категории
 function load_category_products_ajax() {
@@ -2695,16 +2793,29 @@ function add_wishlist_button_to_products() {
     jQuery(document).ready(function($) {
         // Add wishlist button to product pages
         if ($('.product').length && !$('.wishlist-toggle-btn').length) {
-            var wishlistBtn = '<button class="wishlist-toggle-btn" data-product-id="' + wc_add_to_cart_params.product_id + '" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #fff; border: 2px solid #AA2DD0; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><i class="far fa-heart" style="font-size: 24px; color: #AA2DD0;"></i></button>';
-            $('body').append(wishlistBtn);
+            // Get product ID from different sources
+            var productId = null;
+            if (typeof wc_add_to_cart_params !== 'undefined' && wc_add_to_cart_params.product_id) {
+                productId = wc_add_to_cart_params.product_id;
+            } else if ($('[data-product_id]').length) {
+                productId = $('[data-product_id]').first().data('product_id');
+            } else if ($('.product').data('product-id')) {
+                productId = $('.product').data('product-id');
+            }
             
-            // Check if product is in wishlist
-            var productId = wc_add_to_cart_params.product_id;
-            var wishlist = getCookie('my_eshop_wishlist');
-            if (wishlist) {
-                wishlist = JSON.parse(wishlist);
-                if (wishlist.includes(parseInt(productId))) {
-                    $('.wishlist-toggle-btn i').removeClass('far').addClass('fas');
+            if (productId) {
+                var wishlistBtn = '<button class="wishlist-toggle-btn" data-product-id="' + productId + '" style="position: fixed; bottom: 100px; right: 10px; width: 60px; height: 60px; background: #fff; border: 2px solid #AA2DD0; border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 9999; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><i class="far fa-heart" style="font-size: 24px; color: #AA2DD0;"></i></button>';
+                $('body').append(wishlistBtn);
+                
+                // Check if product is in wishlist
+                var wishlist = getCookie('my_eshop_wishlist');
+                if (wishlist) {
+                    try {
+                        wishlist = JSON.parse(wishlist);
+                        if (wishlist.includes(parseInt(productId))) {
+                            $('.wishlist-toggle-btn i').removeClass('far').addClass('fas');
+                        }
+                    } catch(e) {}
                 }
             }
         }
@@ -2719,19 +2830,23 @@ function add_wishlist_button_to_products() {
             if (!wishlist) {
                 wishlist = [];
             } else {
-                wishlist = JSON.parse(wishlist);
+                try {
+                    wishlist = JSON.parse(wishlist);
+                    wishlist = wishlist.filter(function(id) { return id != null && id > 0; }).map(function(id) { return parseInt(id); });
+                } catch(e) {
+                    wishlist = [];
+                }
             }
             
             var index = wishlist.indexOf(productId);
             
             if (index > -1) {
-                // Remove from wishlist
-                wishlist.splice(index, 1);
+                wishlist = wishlist.filter(function(id) { return id !== productId; });
                 icon.removeClass('fas').addClass('far');
                 showNotification('Removed from wishlist');
             } else {
-                // Add to wishlist
                 wishlist.push(productId);
+                wishlist = wishlist.filter(function(id) { return id != null && id > 0; });
                 icon.removeClass('far').addClass('fas');
                 showNotification('Added to wishlist');
             }
@@ -2876,3 +2991,164 @@ function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
     return $new_crumbs;
 }
 
+// Подключаем стили для single post
+add_action('wp_enqueue_scripts', 'enqueue_single_post_styles');
+function enqueue_single_post_styles() {
+    if (is_single()) {
+        wp_enqueue_style('single-post-styles', get_template_directory_uri() . '/css/single-post.css', array(), '1.0.0');
+    }
+}
+
+// ============================================
+// Мета-боксы для Hero блока поста
+// ============================================
+
+// Добавляем мета-бокс для настроек Hero блока
+add_action('add_meta_boxes', 'add_post_hero_meta_box');
+function add_post_hero_meta_box() {
+    add_meta_box(
+        'post_hero_settings',
+        'Настройки Hero блока',
+        'post_hero_meta_box_callback',
+        'post',
+        'side',
+        'high'
+    );
+}
+
+// Отображение полей мета-бокса
+function post_hero_meta_box_callback($post) {
+    wp_nonce_field('post_hero_meta_box', 'post_hero_meta_box_nonce');
+    
+    $hero_image = get_post_meta($post->ID, '_hero_image', true);
+    $hero_title = get_post_meta($post->ID, '_hero_title', true);
+    $hero_description = get_post_meta($post->ID, '_hero_description', true);
+    ?>
+    
+    <div class="post-hero-fields">
+        <p>
+            <label><strong>Hero изображение:</strong></label><br>
+            <input type="hidden" id="hero_image" name="hero_image" value="<?php echo esc_attr($hero_image); ?>" />
+            <button type="button" class="button hero-image-upload" data-target="hero_image">
+                <?php echo $hero_image ? 'Изменить изображение' : 'Выбрать изображение'; ?>
+            </button>
+            <button type="button" class="button hero-image-remove" data-target="hero_image" style="<?php echo $hero_image ? '' : 'display:none;'; ?>">
+                Удалить
+            </button>
+            <div class="hero-image-preview" style="margin-top:10px;">
+                <?php if ($hero_image) : 
+                    $image_url = wp_get_attachment_image_src($hero_image, 'medium');
+                    if ($image_url) :
+                ?>
+                    <img src="<?php echo esc_url($image_url[0]); ?>" style="max-width:100%;height:auto;" />
+                <?php 
+                    endif;
+                endif; ?>
+            </div>
+        </p>
+        
+        <p>
+            <label><strong>Hero заголовок:</strong></label><br>
+            <input type="text" name="hero_title" value="<?php echo esc_attr($hero_title); ?>" style="width:100%;" 
+                   placeholder="Оставьте пустым для использования заголовка поста" />
+        </p>
+        
+        <p>
+            <label><strong>Hero описание:</strong></label><br>
+            <textarea name="hero_description" rows="4" style="width:100%;" 
+                      placeholder="Краткое описание для hero блока"><?php echo esc_textarea($hero_description); ?></textarea>
+        </p>
+    </div>
+    
+    <script>
+    jQuery(document).ready(function($) {
+        // Загрузка изображения
+        $('.hero-image-upload').on('click', function(e) {
+            e.preventDefault();
+            var button = $(this);
+            var targetInput = button.data('target');
+            var customUploader = wp.media({
+                title: 'Выберите Hero изображение',
+                button: { text: 'Использовать это изображение' },
+                multiple: false
+            }).on('select', function() {
+                var attachment = customUploader.state().get('selection').first().toJSON();
+                $('#' + targetInput).val(attachment.id);
+                button.text('Изменить изображение');
+                button.siblings('.hero-image-remove').show();
+                button.siblings('.hero-image-preview').html('<img src="' + attachment.url + '" style="max-width:100%;height:auto;" />');
+            }).open();
+        });
+        
+        // Удаление изображения
+        $('.hero-image-remove').on('click', function(e) {
+            e.preventDefault();
+            var button = $(this);
+            var targetInput = button.data('target');
+            $('#' + targetInput).val('');
+            button.siblings('.hero-image-upload').text('Выбрать изображение');
+            button.hide();
+            button.siblings('.hero-image-preview').html('');
+        });
+    });
+    </script>
+    
+    <style>
+    .post-hero-fields p {
+        margin-bottom: 15px;
+    }
+    .post-hero-fields label {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+    </style>
+    <?php
+}
+
+// Сохранение данных мета-бокса
+add_action('save_post', 'save_post_hero_meta_box_data');
+function save_post_hero_meta_box_data($post_id) {
+    if (!isset($_POST['post_hero_meta_box_nonce'])) {
+        return;
+    }
+    
+    if (!wp_verify_nonce($_POST['post_hero_meta_box_nonce'], 'post_hero_meta_box')) {
+        return;
+    }
+    
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+        return;
+    }
+    
+    if (!current_user_can('edit_post', $post_id)) {
+        return;
+    }
+    
+    // Сохраняем Hero изображение
+    if (isset($_POST['hero_image'])) {
+        update_post_meta($post_id, '_hero_image', sanitize_text_field($_POST['hero_image']));
+    }
+    
+    // Сохраняем Hero заголовок
+    if (isset($_POST['hero_title'])) {
+        update_post_meta($post_id, '_hero_title', sanitize_text_field($_POST['hero_title']));
+    }
+    
+    // Сохраняем Hero описание
+    if (isset($_POST['hero_description'])) {
+        update_post_meta($post_id, '_hero_description', sanitize_textarea_field($_POST['hero_description']));
+    }
+}
+
+// Функция для расчета времени чтения поста
+function get_reading_time($post_id = null) {
+    if (!$post_id) {
+        $post_id = get_the_ID();
+    }
+    
+    $content = get_post_field('post_content', $post_id);
+    $word_count = str_word_count(strip_tags($content));
+    $reading_time = ceil($word_count / 200); // Средняя скорость чтения 200 слов в минуту
+    
+    return $reading_time;
+}

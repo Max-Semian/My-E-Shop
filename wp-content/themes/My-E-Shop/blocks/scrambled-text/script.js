@@ -61,24 +61,48 @@ function initScrambledText(wrapper, blockIndex) {
     textContent.innerHTML = '';
     const chars = [];
     
-    for (let i = 0; i < originalText.length; i++) {
-        const char = originalText.charAt(i);
-        
-        // Для пробелов создаём специальный span или просто текстовый узел
-        if (char === ' ') {
-            textContent.appendChild(document.createTextNode(' '));
-            continue;
+    // Разбиваем текст на слова, сохраняя пробелы
+    const words = originalText.split(/(\s+)/);
+    
+    words.forEach(function(word) {
+        // Если это пробелы - добавляем как есть
+        if (/^\s+$/.test(word)) {
+            textContent.appendChild(document.createTextNode(word));
+            return;
         }
         
-        const span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = char;
-        span.style.display = 'inline-block';
-        span.setAttribute('data-content', char);
+        // Оборачиваем слово в span для предотвращения разрыва слова
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'word';
+        wordSpan.style.whiteSpace = 'nowrap';
+        wordSpan.style.display = 'inline';
         
-        textContent.appendChild(span);
-        chars.push(span);
-    }
+        for (let i = 0; i < word.length; i++) {
+            const char = word.charAt(i);
+            
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+            span.setAttribute('data-content', char);
+            
+            // Фиксируем ширину символа чтобы избежать скачков
+            span.style.display = 'inline-block';
+            span.style.textAlign = 'center';
+            
+            wordSpan.appendChild(span);
+            chars.push(span);
+        }
+        
+        textContent.appendChild(wordSpan);
+    });
+    
+    // Фиксируем ширину каждого символа после рендеринга
+    requestAnimationFrame(function() {
+        chars.forEach(function(charEl) {
+            const width = charEl.offsetWidth;
+            charEl.style.width = width + 'px';
+        });
+    });
 
     // Функция обработки движения мыши
     const handleMove = function(e) {
@@ -109,27 +133,23 @@ function initScrambledText(wrapper, blockIndex) {
                     });
                 } else {
                     // Fallback: простая анимация без ScrambleTextPlugin
-                    const tempText = charEl.textContent;
-                    
                     // Случайный символ из набора
                     const randomChars = scrambleChars.split('');
                     const randomChar = randomChars[Math.floor(Math.random() * randomChars.length)];
                     
                     charEl.textContent = randomChar;
                     
-                    // Анимация возврата
+                    // Анимация возврата (без scale чтобы избежать скачков)
                     gsap.to(charEl, {
                         duration: duration * (1 - dist / radius) * 0.5,
                         opacity: 0.5,
-                        scale: 1.1,
                         ease: 'power2.out',
                         overwrite: true,
                         onComplete: function() {
                             charEl.textContent = originalChar;
                             gsap.to(charEl, {
                                 duration: 0.2,
-                                opacity: 1,
-                                scale: 1
+                                opacity: 1
                             });
                         }
                     });

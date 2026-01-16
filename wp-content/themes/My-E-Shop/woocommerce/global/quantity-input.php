@@ -33,7 +33,7 @@ $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 
 	 */
 	do_action( 'woocommerce_before_quantity_input_field' );
 	?>
-<div class="input-group d-flex">
+<!-- <div class="input-group d-flex">
 		<button type="button" class="btn btn-warning btn-minus "><i class="fa-solid fa-minus"></i></button>
 		<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo esc_attr( $label ); ?></label>
 		<input
@@ -55,7 +55,7 @@ $label = ! empty( $args['product_name'] ) ? sprintf( esc_html__( '%s quantity', 
 			<?php endif; ?>
 		/>
 		<button type="button" class="btn btn-warning btn-plus "><i class="fa-solid fa-plus"></i></button>
-</div>
+</div> -->
 	<?php
 	/**
 	 * Hook to output something after quantity input field

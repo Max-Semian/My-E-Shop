@@ -1,0 +1,297 @@
+/* ============================================
+   Стили для Hero блока single post
+   ============================================ */
+
+.post-hero {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    display: flex;
+    align-items: flex-end;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #1a1a1a;
+}
+
+.post-hero::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 50%;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+}
+
+.post-hero .post-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: 27px;
+}
+
+.post-hero .post-hero-content .post-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 100px;
+}
+
+.post-hero .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 56px;
+    color: #F4F0EB;
+    text-transform: none;
+}
+
+.post-hero .hero-info-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.post-hero .post-hero-description {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 25.6px;
+    letter-spacing: 1%;
+    color: #F4F0EB;
+}
+
+.post-hero .post-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: #F4F0EB;
+}
+
+.post-hero .hero-meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.post-hero .post-hero-meta .meta-author {
+    font-weight: 300;
+    display: flex;
+    align-items: center;
+}
+
+.post-hero .hero-meta .meta-author img {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+}
+
+.post-hero .hero-meta .meta-date,
+.post-hero .hero-meta .meta-reading-time {
+    opacity: 0.95;
+}
+
+/* Хлебные крошки */
+.post-breadcrumbs {
+    background-color: #FFFFFF;
+    padding: 20px 0;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.post-breadcrumbs .post-breadcrumbs-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 100px;
+}
+
+.post-breadcrumbs .breadcrumb-nav {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    flex-wrap: wrap;
+}
+
+.post-breadcrumbs .breadcrumb-nav a {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #AA2DD0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.post-breadcrumbs .breadcrumb-nav a:hover {
+    color: #A21CAF;
+}
+
+.post-breadcrumbs .breadcrumb-separator {
+    margin: 0 10px;
+    color: #D946EF;
+    font-weight: 400;
+}
+
+.post-breadcrumbs .breadcrumb-current {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 180%;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #2C2C2C;
+}
+
+.single-post-container .post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.single-post-container .post-content .wp-block-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700 !important;
+    font-size: 26px !important;
+    line-height: 40px !important;
+    text-align: center;
+    text-transform: capitalize;
+    color: #2C2C2C !important;
+}
+
+.nav-links .nav-previous .nav-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 24px;
+    color: #2C2C2C;
+}
+
+.comment-reply-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 42px;
+    color: #2C2C2C;
+}
+/* Адаптив */
+
+/* Планшеты */
+@media (max-width: 1024px) {
+    .post-hero .post-hero-content .post-container {
+        padding: 0 60px;
+    }
+    
+    .post-breadcrumbs .post-breadcrumbs-container {
+        padding: 20px 60px;
+    }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+    .post-hero {
+        height: 450px;
+    }
+    
+    .post-hero .post-hero-content {
+        padding-bottom: 20px;
+    }
+    
+    .post-hero .post-hero-content .post-container {
+        padding: 0 16px;
+    }
+    
+    .post-hero .hero-title {
+        font-size: 26px;
+        line-height: 36px;
+    }
+    
+    .post-hero .hero-info-line {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .post-hero .post-hero-description {
+        font-size: 14px;
+        line-height: 22px;
+    }
+    
+    .post-hero .post-hero-meta {
+        font-size: 10px;
+        gap: 15px;
+    }
+    
+    /* Хлебные крошки */
+    .post-breadcrumbs {
+        display: none;
+    }
+    
+    /* Контент поста */
+    .single-post-container .post-container {
+        padding: 0;
+    }
+    
+    .single-post-container .post-content .wp-block-heading {
+        font-size: 22px !important;
+        line-height: 32px !important;
+    }
+    
+    /* Навигация */
+    .nav-links .nav-previous .nav-title {
+        font-size: 20px;
+        line-height: 28px;
+    }
+    
+    .comment-reply-title {
+        font-size: 20px;
+        line-height: 32px;
+    }
+}
+
+/* Маленькие мобильные устройства */
+@media (max-width: 480px) {
+    .post-hero {
+        height: 400px;
+    }
+    
+    .post-hero .hero-title {
+        font-size: 22px;
+        line-height: 30px;
+    }
+    
+    .post-hero .post-hero-description {
+        font-size: 13px;
+        line-height: 20px;
+    }
+    
+    .post-hero .post-hero-meta {
+        font-size: 9px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .single-post-container .post-content .wp-block-heading {
+        font-size: 18px !important;
+        line-height: 28px !important;
+    }
+    
+    .nav-links .nav-previous .nav-title {
+        font-size: 16px;
+        line-height: 24px;
+    }
+    
+    .comment-reply-title {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}

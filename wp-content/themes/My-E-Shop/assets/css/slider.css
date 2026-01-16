@@ -1,0 +1,79 @@
+/* ==================Slider==================== */
+.slider {
+    background-color: #fafafa;
+}
+.carousel-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+.carousel-text h5 {
+    color: var(--black-color);
+    font-size: 44px;
+    line-height: 50px;
+    font-weight: 600;
+}
+.carousel-desc {
+    max-width: 50%;
+    margin-bottom: 15px;
+}
+.carousel-price strong {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--black-color);
+}
+.carousel-price del {
+    font-size: 20px;
+    font-weight: 300;
+    color: #a4a4a4;
+}
+.carousel-btn {
+    margin-top: 15px;
+}
+.carousel-item {
+    transition: transform 0.5s /* Adjust slide transition speed */
+}
+.slider .carousel .carousel-indicators {
+    margin-bottom: -3rem;
+}
+.slider .carousel-control-prev,
+.slider .carousel-control-next {
+    position: relative;
+    background-color: transparent !important;
+}
+.carousel-control-next {
+    right: -52px;
+}
+.carousel-indicators {
+    display: none;
+}
+.slider .carousel {
+    padding-bottom: 50px;
+}
+.slider {
+    margin-bottom: 100px;
+}
+/* ==================End Slider==================== */
+
+/* ==================Advantages==================== */
+.advantages .items {
+    margin-top: 50px;
+}
+.advantages .items .item {
+    background-color: var(--stroke-color);
+    text-align: center;
+    padding: 5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all .3s;
+}
+.advantages .items .item:hover {
+    box-shadow: 0 15px 30px -20px rgba(0, 0, 0, 5);
+}
+.advantages i {
+    font-size: 70px;
+    color: var(--main-color);
+}
+/* ==================End Advantages==================== */

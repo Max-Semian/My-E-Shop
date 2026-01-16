@@ -1,0 +1,13 @@
+/* Editor styles for Fade In Words Block */
+
+.editor-styles-wrapper .fade-in-words-block {
+    margin: 20px 0;
+}
+
+.editor-styles-wrapper .fade-in-words-wrapper {
+    min-height: 200px;
+}
+
+.editor-styles-wrapper .text-block p {
+    cursor: text;
+}

@@ -21,9 +21,17 @@ get_header();
         // Get wishlist from cookie or session
         $wishlist = array();
         if (isset($_COOKIE['my_eshop_wishlist'])) {
-            $wishlist = json_decode(stripslashes($_COOKIE['my_eshop_wishlist']), true);
+            $decoded = json_decode(stripslashes($_COOKIE['my_eshop_wishlist']), true);
+            if (is_array($decoded)) {
+                // Ensure all IDs are integers
+                $wishlist = array_map('intval', $decoded);
+                // Remove any invalid IDs (0 or negative)
+                $wishlist = array_filter($wishlist, function($id) {
+                    return $id > 0;
+                });
+            }
         }
-
+        
         if (!empty($wishlist) && is_array($wishlist)):
         ?>
             <div class="wishlist-items-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; margin-bottom: 40px;">
@@ -80,7 +88,7 @@ get_header();
             </div>
             
             <div style="text-align: center; margin-top: 30px;">
-                <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" 
+                <a href="<?php echo home_url('/collection/'); ?>" 
                    style="display: inline-block; padding: 15px 40px; background: #2C2C2C; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: all 0.3s ease;">
                     Continue Shopping
                 </a>
@@ -94,7 +102,7 @@ get_header();
                 <p style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #666; margin-bottom: 30px;">
                     Start adding products you love to your wishlist
                 </p>
-                <a href="<?php echo get_permalink(wc_get_page_id('shop')); ?>" 
+                <a href="<?php echo home_url('/collection/'); ?>" 
                    style="display: inline-block; padding: 15px 40px; background: #AA2DD0; color: #fff; text-decoration: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 600; transition: all 0.3s ease;">
                     Browse Products
                 </a>
@@ -147,6 +155,26 @@ get_header();
 
 <script>
 jQuery(document).ready(function($) {
+    // Auto-cleanup corrupted cookies
+    var wishlistCookie = getCookie('my_eshop_wishlist');
+    
+    if (wishlistCookie) {
+        try {
+            var parsed = JSON.parse(wishlistCookie);
+            var cleaned = parsed.filter(function(id) { return id != null && id > 0; });
+            
+            if (cleaned.length === 0 && parsed.length > 0) {
+                document.cookie = 'my_eshop_wishlist=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                setTimeout(function() { location.reload(); }, 1000);
+            } else if (cleaned.length !== parsed.length) {
+                setCookie('my_eshop_wishlist', JSON.stringify(cleaned), 30);
+                setTimeout(function() { location.reload(); }, 500);
+            }
+        } catch(e) {
+            document.cookie = 'my_eshop_wishlist=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+        }
+    }
+    
     // Remove from wishlist
     $('.remove-from-wishlist').on('click', function(e) {
         e.preventDefault();
@@ -154,15 +182,13 @@ jQuery(document).ready(function($) {
         var productId = button.data('product-id');
         var item = button.closest('.wishlist-item');
         
-        // Remove from cookie
+        // Remove from cookie using filter (more reliable)
         var wishlist = getCookie('my_eshop_wishlist');
         if (wishlist) {
             wishlist = JSON.parse(wishlist);
-            var index = wishlist.indexOf(productId);
-            if (index > -1) {
-                wishlist.splice(index, 1);
-                setCookie('my_eshop_wishlist', JSON.stringify(wishlist), 30);
-            }
+            // Use filter instead of splice to avoid null values
+            wishlist = wishlist.filter(function(id) { return id !== productId && id != null && id > 0; });
+            setCookie('my_eshop_wishlist', JSON.stringify(wishlist), 30);
         }
         
         // Animate removal

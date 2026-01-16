@@ -540,7 +540,7 @@ if ( ! function_exists( 'wpcsb_init' ) ) {
 												do_action( 'wpcsb_before_add_to_cart_form', $product );
 
 												if ( ( self::get_setting( 'show_quantity', 'yes' ) === 'yes' ) && ! $product->is_type( 'grouped' ) && ! $product->is_type( 'woosg' ) ) { ?>
-                                                    <div class="wpcsb-quantity">
+                                                    <!-- <div class="wpcsb-quantity">
 														<?php
 														do_action( 'wpcsb_before_quantity_input', $product );
 
@@ -557,7 +557,7 @@ if ( ! function_exists( 'wpcsb_init' ) ) {
 
 														do_action( 'wpcsb_after_quantity_input', $product );
 														?>
-                                                    </div>
+                                                    </div> -->
 												<?php } ?>
 
                                                 <div class="wpcsb-atc">

@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Находим все блоки анимированного текста
     const animatedTextBlocks = document.querySelectorAll('.animated-text-section');
+    console.log('Found animated text blocks:', animatedTextBlocks.length);
     
     // Функция для очистки HTML тегов и получения чистого текста
     function getCleanText(element) {
@@ -32,56 +33,110 @@ document.addEventListener('DOMContentLoaded', function() {
     function typewriterAnimation(element, speed = 50) {
         const cleanText = getCleanText(element);
         
-        element.innerHTML = ''; // Используем innerHTML вместо textContent
-        element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
-        element.classList.add('typewriter');
-        
         // Проверяем размер экрана для адаптивности
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-            // На мобильных устройствах разрешаем перенос текста
-            element.style.whiteSpace = 'pre-wrap';
-            element.style.borderRight = 'none';
-            // Используем более быструю анимацию для мобильных
+            // На мобильных устройствах показываем весь текст сразу
+            element.style.visibility = 'visible';
             element.innerHTML = cleanText.replace(/\n/g, '<br>');
-            fadeInAnimation(element);
+            element.style.opacity = '1';
             return;
-        } else {
-            // На десктопе тоже разрешаем переносы для корректного отображения
-            element.style.whiteSpace = 'pre-wrap';
         }
         
-        let i = 0;
-        const timer = setInterval(function() {
-            if (i < cleanText.length) {
-                // Проверяем переносы строк в тексте
-                const currentChar = cleanText.charAt(i);
-                if (currentChar === '\n') {
-                    element.innerHTML += '<br>';
-                } else {
-                    element.innerHTML += currentChar; // Используем innerHTML для корректного отображения
+        // Вставляем весь текст невидимо для измерения
+        element.innerHTML = cleanText.replace(/\n/g, '<br>');
+        element.style.visibility = 'hidden';
+        
+        // Даем браузеру обновить Layout
+        const fullHeight = element.offsetHeight;
+        
+        // Показываем элемент и фиксируем высоту
+        element.style.visibility = 'visible';
+        element.style.height = fullHeight + 'px';
+        element.style.borderRight = '3px solid';
+        
+        // Очищаем содержимое
+        element.innerHTML = '';
+        
+        // Постепенно добавляем символы
+        const chars = cleanText.split('');
+        let currentIndex = 0;
+        let animationActive = true;
+        
+        // MutationObserver для защиты от внешних изменений
+        const observer = new MutationObserver(function(mutations) {
+            if (!animationActive) return;
+            
+            // Если кто-то добавил контент, восстанавливаем наше
+            for (let mutation of mutations) {
+                if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                    // Проверяем не наши ли это ноды
+                    let isOurNode = false;
+                    for (let i = 0; i < currentIndex; i++) {
+                        if (element.childNodes.length > i) {
+                            // Если есть наши ноды, значит это нормально
+                            isOurNode = true;
+                            break;
+                        }
+                    }
+                    
+                    // Если это чужие ноды, удаляем их
+                    if (!isOurNode && mutation.addedNodes.length > 0) {
+                        for (let node of mutation.addedNodes) {
+                            if (node.parentNode === element) {
+                                element.removeChild(node);
+                            }
+                        }
+                    }
                 }
-                i++;
+            }
+        });
+        
+        observer.observe(element, {
+            childList: true,
+            subtree: false
+        });
+        
+        const animate = function() {
+            if (currentIndex < chars.length) {
+                const char = chars[currentIndex];
+                
+                if (char === '\n') {
+                    element.appendChild(document.createElement('br'));
+                } else if (char === ' ') {
+                    const space = document.createTextNode('\u00A0');
+                    element.appendChild(space);
+                } else {
+                    const text = document.createTextNode(char);
+                    element.appendChild(text);
+                }
+                
+                currentIndex++;
+                setTimeout(animate, speed);
             } else {
-                clearInterval(timer);
-                // Убираем курсор через 2 секунды
-                setTimeout(() => {
+                // Анимация завершена
+                animationActive = false;
+                observer.disconnect();
+                setTimeout(function() {
                     element.style.borderRight = 'none';
+                    element.style.height = 'auto';
                 }, 2000);
             }
-        }, speed);
+        };
+        
+        animate();
     }
     
     // Функция для анимации появления слов
     function fadeInWordsAnimation(element, speed = 100) {
+        console.log('fadeInWordsAnimation called');
         const cleanText = getCleanText(element);
         const words = cleanText.split(' ').filter(word => word.trim() !== '');
         
         element.innerHTML = '';
+        element.style.visibility = 'visible';
         element.style.opacity = '1';
-        element.style.transform = 'translateY(0)';
         element.classList.add('fadeInWords');
         
         words.forEach((word, index) => {
@@ -99,11 +154,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Функция для плавного появления
     function fadeInAnimation(element) {
+        console.log('fadeInAnimation called');
+        element.style.visibility = 'visible';
         element.classList.add('fadeIn');
     }
     
     // Функция для скольжения снизу
     function slideUpAnimation(element) {
+        console.log('slideUpAnimation called');
+        element.style.visibility = 'visible';
         element.classList.add('slideUp');
     }
     
@@ -117,6 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (textContent && !textContent.classList.contains('loaded')) {
                     const animationType = section.getAttribute('data-animation') || 'fadeIn';
                     const speed = parseInt(section.getAttribute('data-speed')) || 50;
+                    
+                    console.log('Starting animation:', animationType, 'for', textContent);
                     
                     // Запускаем анимацию в зависимости от типа
                     switch (animationType) {

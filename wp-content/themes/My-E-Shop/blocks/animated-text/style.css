@@ -24,28 +24,14 @@
     color: #333;
     text-align: center;
     position: relative;
-    opacity: 0;
-    transform: translateY(30px);
+    visibility: hidden;
+    max-width: 100%;
+    width: 100%;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
-
-/* Размеры шрифта - отключены, используются inline стили */
-/*
-.font-small .text-content {
-    font-size: 1.2rem;
-}
-
-.font-normal .text-content {
-    font-size: 1.5rem;
-}
-
-.font-large .text-content {
-    font-size: 1.8rem;
-}
-
-.font-extra-large .text-content {
-    font-size: 2.5rem;
-}
-*/
 
 /* Выравнивание текста */
 .align-left .text-content {
@@ -183,8 +169,7 @@
     
     .text-content.typewriter {
         white-space: pre-wrap; /* Переносы строк с сохранением пробелов */
-        border-right: none;
-        animation: fadeInText 2s ease forwards;
+        border-right: 3px solid;
         word-break: break-word;
         overflow-wrap: anywhere;
     }

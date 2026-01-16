@@ -1,6 +1,9 @@
 'use strict';
 
 (function($) {
+  // Глобальный флаг для предотвращения двойного добавления
+  window.wpcsb_adding_to_cart = false;
+  
   $(document).on('woovr_selected', function(e, selected, variations) {
     var id = selected.attr('data-id');
     var pid = selected.attr('data-pid');
@@ -126,29 +129,176 @@
 
   $(document).on('click touch', '.wpcsb-btn', function(e) {
     e.preventDefault();
+    e.stopImmediatePropagation();
+    
+    // Проверяем глобальный флаг
+    if (window.wpcsb_adding_to_cart) {
+      return false;
+    }
 
-    var product_id = $(this).closest('.wpcsb-add-to-cart').data('product_id');
+    var $button = $(this);
+    var $stickyWrapper = $button.closest('.wpcsb-wrapper');
+    var product_id = $button.closest('.wpcsb-add-to-cart').data('product_id');
+    var quantity = $('.wpcsb-qty-' + product_id).val() || 1;
+    
+    // Проверяем, есть ли форма вариаций в sticky панели
+    var $variationsForm = $stickyWrapper.find('.variations_form');
+    var isVariableProduct = $variationsForm.length > 0;
 
-    if ($(this).hasClass('wpcsb-disabled')) {
+    if ($button.hasClass('wpcsb-disabled')) {
       wpcsb_scroll();
-    } else {
-      // not Buy Now button
-      var $btn = $('.wpcsb-id-' + product_id).
-          closest('form.cart').
-          find('.single_add_to_cart_button:not(.wpcbn-btn)');
-
-      if ($btn.hasClass('disabled') || $btn.hasClass('wpc-disabled') ||
-          $btn.hasClass('woosb-disabled') ||
-          $btn.hasClass('wooco-disabled') || $btn.hasClass('woobt-disabled') ||
-          $btn.hasClass('woosg-disabled') || $btn.hasClass('woofs-disabled') ||
-          $btn.hasClass('woopq-disabled')) {
+    } else if (isVariableProduct) {
+      // Для вариативных товаров - проверяем variation_id
+      var variation_id = $variationsForm.find('input[name="variation_id"]').val();
+      
+      if (!variation_id || variation_id == '0') {
+        // Прокручиваем к основной форме если вариация не выбрана
         wpcsb_scroll();
-      } else {
-        $btn.trigger('click');
+        return false;
       }
+      
+      // Устанавливаем глобальный флаг
+      window.wpcsb_adding_to_cart = true;
+      
+      // Собираем данные для вариативного товара
+      var formData = new FormData();
+      formData.append('add-to-cart', variation_id);
+      formData.append('product_id', product_id);
+      formData.append('variation_id', variation_id);
+      formData.append('quantity', quantity);
+      
+      // Добавляем атрибуты вариации
+      $variationsForm.find('select[name^="attribute_"]').each(function() {
+        var attrName = $(this).attr('name');
+        var attrValue = $(this).val();
+        if (attrValue) {
+          formData.append(attrName, attrValue);
+        }
+      });
+      
+      // Отправляем AJAX запрос для вариативного товара
+      $.ajax({
+        type: 'POST',
+        url: wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'),
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function() {
+          $button.addClass('loading').prop('disabled', true);
+        },
+        success: function(response) {
+          if (response.error && response.product_url) {
+            window.location = response.product_url;
+            return;
+          }
+          
+          $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $button]);
+        },
+        complete: function() {
+          $button.removeClass('loading').prop('disabled', false);
+          // Сбрасываем флаг через 2 секунды
+          setTimeout(function() {
+            window.wpcsb_adding_to_cart = false;
+          }, 2000);
+        }
+      });
+    } else {
+      // Устанавливаем глобальный флаг
+      window.wpcsb_adding_to_cart = true;
+      
+      // Для простых товаров - обычная логика
+      $.ajax({
+        type: 'POST',
+        url: wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'),
+        data: {
+          product_id: product_id,
+          quantity: quantity
+        },
+        beforeSend: function() {
+          $button.addClass('loading').prop('disabled', true);
+        },
+        success: function(response) {
+          if (response.error && response.product_url) {
+            window.location = response.product_url;
+            return;
+          }
+          
+          $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $button]);
+        },
+        complete: function() {
+          $button.removeClass('loading').prop('disabled', false);
+          // Сбрасываем флаг через 2 секунды
+          setTimeout(function() {
+            window.wpcsb_adding_to_cart = false;
+          }, 2000);
+        }
+      });
     }
 
     $(document).trigger('wpcsb_btn_clicked');
+  });
+
+  // Обработчик для кнопки вариативного товара в sticky панели
+  $(document).on('click', '.wpcsb-wrapper .variations_form .add2cart-btn-var', function(e) {
+    e.preventDefault();
+    
+    var $button = $(this);
+    var $stickyForm = $button.closest('.variations_form');
+    var variation_id = $stickyForm.find('input[name="variation_id"]').val();
+    var product_id = $stickyForm.find('input[name="product_id"]').val();
+    var quantity = $stickyForm.find('input[name="quantity"]').val() || 1;
+    
+    // Проверяем, что вариация выбрана
+    if (!variation_id || variation_id == '0') {
+      // Прокручиваем к основной форме
+      wpcsb_scroll();
+      return false;
+    }
+    
+    // Собираем данные для WooCommerce
+    var formData = new FormData();
+    formData.append('add-to-cart', product_id);
+    formData.append('product_id', product_id);
+    formData.append('variation_id', variation_id);
+    formData.append('quantity', quantity);
+    
+    // Добавляем атрибуты вариации
+    $stickyForm.find('select[name^="attribute_"]').each(function() {
+      var attrName = $(this).attr('name');
+      var attrValue = $(this).val();
+      if (attrValue) {
+        formData.append(attrName, attrValue);
+      }
+    });
+    
+    // Отправляем AJAX запрос
+    $.ajax({
+      type: 'POST',
+      url: wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'),
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function() {
+        $button.addClass('loading').prop('disabled', true);
+      },
+      success: function(response) {
+        if (response.error && response.product_url) {
+          window.location = response.product_url;
+          return;
+        }
+        
+        // Обновляем фрагменты корзины
+        $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $button]);
+      },
+      complete: function() {
+        $button.removeClass('loading').prop('disabled', false);
+      },
+      error: function() {
+        $button.removeClass('loading').prop('disabled', false);
+      }
+    });
+    
+    return false;
   });
 
   $(document).on('click touch', '.wpcsb-wrapper .wpcbn-btn', function(e) {

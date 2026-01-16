@@ -1,65 +1,69 @@
 <?php get_header(); ?>
 
-<div class="single-post-container">
-    <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-        
-        <!-- Хлебные крошки -->
-        <div class="post-breadcrumbs">
-            <div class="container">
-                <nav class="breadcrumb-nav">
-                    <a href="<?php echo esc_url(home_url('/')); ?>">Главная</a>
-                    <span class="breadcrumb-separator">/</span>
+<!-- Hero блок -->
+<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+    <?php
+    // Получаем данные hero блока
+    $hero_image_id = get_post_meta(get_the_ID(), '_hero_image', true);
+    $hero_title = get_post_meta(get_the_ID(), '_hero_title', true);
+    $hero_description = get_post_meta(get_the_ID(), '_hero_description', true);
+    
+    // Если hero заголовок не задан, используем заголовок поста
+    if (empty($hero_title)) {
+        $hero_title = get_the_title();
+    }
+    
+    // Определяем изображение для hero блока
+    $hero_image_url = '';
+    if ($hero_image_id) {
+        $hero_image_url = wp_get_attachment_image_url($hero_image_id, 'full');
+    } elseif (has_post_thumbnail()) {
+        $hero_image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
+    }
+    
+    $hero_style = $hero_image_url ? 'style="background-image: url(' . esc_url($hero_image_url) . ');"' : '';
+    ?>
+    
+    <div class="post-hero" <?php echo $hero_style; ?>>
+        <div class="post-hero-content">
+            <div class="post-container">
+                <h1 class="hero-title"><?php echo esc_html($hero_title); ?></h1>
+                
+                <div class="hero-info-line">
+                    <?php if ($hero_description) : ?>
+                        <span class="post-hero-description"><?php echo esc_html($hero_description); ?></span>
+                    <?php endif; ?>
                     
-                    <?php
-                    // Получаем категории поста
-                    $categories = get_the_category();
-                    if (!empty($categories)) {
-                        $category = $categories[0];
-                        
-                        // Если есть родительская категория
-                        if ($category->parent) {
-                            $parent_category = get_category($category->parent);
-                            if ($parent_category && !is_wp_error($parent_category)) {
-                                echo '<a href="' . esc_url(get_category_link($parent_category->term_id)) . '">' . esc_html($parent_category->name) . '</a>';
-                                echo '<span class="breadcrumb-separator">/</span>';
-                            }
-                        }
-                        
-                        // Текущая категория
-                        echo '<a href="' . esc_url(get_category_link($category->term_id)) . '">' . esc_html($category->name) . '</a>';
-                        echo '<span class="breadcrumb-separator">/</span>';
-                    }
-                    ?>
-                    
-                    <span class="breadcrumb-current"><?php the_title(); ?></span>
-                </nav>
+                    <span class="post-hero-meta">
+                        <span class="meta-author">
+                            <?php the_author(); ?>
+                        </span>
+                        <span class="meta-date"><?php echo get_the_date(); ?></span>
+                        <span class="meta-reading-time"><?php echo get_reading_time(); ?> мин чтения</span>
+                    </span>
+                </div>
             </div>
         </div>
+    </div>
+
+    <!-- Хлебные крошки -->
+    <div class="post-breadcrumbs">
+        <div class="post-breadcrumbs-container">
+            <nav class="breadcrumb-nav">
+                <a href="<?php echo esc_url(home_url('/')); ?>">HOME</a>
+                <span class="breadcrumb-separator">/</span>
+                <a href="<?php echo esc_url(home_url('/blog/')); ?>">BLOG</a>
+                <span class="breadcrumb-separator">/</span>
+                <span class="breadcrumb-current"><?php the_title(); ?></span>
+            </nav>
+        </div>
+    </div>
+
+<div class="single-post-container">
 
         <!-- Контент поста -->
-        <div class="container">
+        <div class="post-container">
             <article id="post-<?php the_ID(); ?>" <?php post_class('single-post'); ?>>
-                <header class="post-header">
-                    <h1 class="post-title"><?php the_title(); ?></h1>
-                    
-                    <div class="post-meta">
-                        <span class="post-date"><?php echo get_the_date(); ?></span>
-                        <?php if (!empty($categories)) : ?>
-                            <span class="post-categories">
-                                <?php foreach ($categories as $cat) : ?>
-                                    <a href="<?php echo esc_url(get_category_link($cat->term_id)); ?>"><?php echo esc_html($cat->name); ?></a>
-                                <?php endforeach; ?>
-                            </span>
-                        <?php endif; ?>
-                    </div>
-                </header>
-
-                <?php if (has_post_thumbnail()) : ?>
-                    <div class="post-thumbnail">
-                        <?php the_post_thumbnail('large'); ?>
-                    </div>
-                <?php endif; ?>
-
                 <div class="post-content">
                     <?php the_content(); ?>
                 </div>
@@ -81,8 +85,8 @@
             <?php
             // Навигация между постами
             the_post_navigation(array(
-                'prev_text' => '<span class="nav-subtitle">' . __('Предыдущий:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
-                'next_text' => '<span class="nav-subtitle">' . __('Следующий:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
+                'prev_text' => '<span class="nav-subtitle">' . __('Previous:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
+                'next_text' => '<span class="nav-subtitle">' . __('Next:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
             ));
             ?>
 

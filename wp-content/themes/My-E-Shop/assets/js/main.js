@@ -697,29 +697,3 @@ $(document).ready(function() {
                 });
             }
         })();
-
-// ========== SCROLL TO TOP BUTTON ==========
-$(document).ready(function() {
-    // Создаем кнопку если её нет
-    if (!$('#scroll-to-top').length) {
-        $('body').append('<button id="scroll-to-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>');
-    }
-    
-    const $scrollBtn = $('#scroll-to-top');
-    
-    // Показываем/скрываем кнопку при прокрутке
-    $(window).on('scroll', function() {
-        if ($(this).scrollTop() > 300) {
-            $scrollBtn.addClass('show');
-        } else {
-            $scrollBtn.removeClass('show');
-        }
-    });
-    
-    // Плавная прокрутка наверх при клике
-    $scrollBtn.on('click', function() {
-        $('html, body').animate({
-            scrollTop: 0
-        }, 600);
-    });
-});

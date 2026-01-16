@@ -1,0 +1,223 @@
+/* ==================Header==================== */
+/* ==================== Corrected Two Level Header ==================== */
+/* ==================== Исправленный двухуровневый хедер ==================== */
+
+/* Убираем старые стили header-transparent */
+.header-transparent {
+    position: static;
+    background-color: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom: none;
+    box-shadow: none;
+    padding: 0;
+    overflow: visible;
+}
+
+/* Убираем glass effect */
+.glass-effect {
+    display: none;
+}
+
+/* ========== MAIN HEADER BAR ========== */
+.main-header-bar {
+    background-color: #2C2C2C;
+    padding: 14px 0;
+    border-bottom: 1px solid #3C3C3C;
+    overflow: visible;
+    position: relative;
+    z-index: 10000;
+}
+
+.main-header-bar .container {
+    overflow: visible;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.main-header-bar .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Логотип слева */
+.main-header-bar .navbar-brand {
+    flex-shrink: 0;
+}
+
+.main-header-bar .navbar-brand img {
+    height: 60px;
+    width: auto;
+}
+
+/* Навигация по центру */
+.main-header-bar .navbar-nav {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex !important;
+    flex-direction: row !important;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    gap: 40px;
+}
+
+.main-header-bar .nav-link {
+    color: #FFFFFF !important;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 24px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 0;
+    position: relative;
+}
+
+.main-header-bar .nav-link:hover {
+    color: #D85AFF !important;
+}
+
+/* Иконки справа */
+.main-header-bar .header-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+}
+
+.main-header-bar .header-icon {
+    color: #FFFFFF;
+    font-size: 18px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 8px;
+    display: inline-block;
+}
+
+.main-header-bar .header-icon img {
+    transition: filter 0.3s ease;
+    filter: brightness(0) invert(1);
+}
+
+.main-header-bar .header-icon:hover img {
+    filter: brightness(0) saturate(100%) invert(66%) sepia(73%) saturate(6158%) hue-rotate(260deg) brightness(101%) contrast(101%);
+}
+
+/* Mobile toggle */
+.main-header-bar .navbar-toggler {
+    border: none;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 18px;
+    margin-left: 15px;
+    display: none; /* Скрываем на десктопе */
+}
+
+/* Dropdown Styles */
+.main-header-bar .dropdown {
+    position: relative;
+}
+
+.main-header-bar .dropdown-toggle::after {
+    content: '';
+    border: none;
+    margin-left: 8px;
+}
+
+.main-header-bar .dropdown-toggle {
+    position: relative;
+}
+
+.main-header-bar .dropdown-toggle::after {
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-left: 8px;
+    font-size: 12px;
+}
+
+/* ИСПРАВЛЯЕМ: убираем вертикальное отображение */
+.main-header-bar .navbar-nav li {
+    display: inline-block !important;
+    margin: 0 !important;
+}
+
+.main-dark-bar .nav-link {
+    color: #F4F0EB !important;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+}
+
+.main-dark-bar .nav-link:hover {
+    color: #D85AFF !important;
+}
+
+/* Обновляем основной navbar */
+.header-transparent .navbar {
+    min-height: auto;
+    padding: 0;
+    background-color: transparent;
+    border-bottom: none;
+    flex-direction: column;
+}
+
+/* Скрываем старый navbar-side на десктопе */
+.header-transparent .navbar-side {
+    display: none;
+}
+
+/* Убираем container padding */
+.container {
+    padding-top: 0;
+}
+
+/* Убираем glassmorphism из dropdown */
+.dropdown-menu {
+    position: absolute !important;
+    background-color: #F4F0EB !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid #eaeaea !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    margin-top: 10px !important;
+    transform: none !important;
+    inset: auto !important;
+    top: 100% !important;
+    left: 0 !important;
+}
+
+.dropdown-menu .dropdown-item,
+.dropdown-menu a {
+    color: #333333 !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 8px 15px !important;
+    border-radius: 4px !important;
+    transition: all 0.3s ease !important;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu a:hover {
+    background-color: #f8f9fa !important;
+    color: #a855f7 !important;
+    transform: none !important;
+}
+/* ==================== End Corrected Two Level Header ==================== */

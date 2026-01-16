@@ -1,0 +1,219 @@
+/**
+ * Base styles - Variables, Fonts, General styles
+ */
+
+:root {
+    --bg-color: #fff;
+    --grey-color: #454f5b;
+    --black-color: #161c24;
+    --main-color: #4295e4;
+    --main-light-color: #56A9F8;
+    --red-color: #e36e73;
+    --stroke-color: #eaeaea;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('../fonts/sfpro/SFProText-Light.woff2') format('woff2'),
+        url('../fonts/sfpro/SFProText-Light.ttf') format('ttf');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family:star;
+    src:url(../fonts/star.eot);
+    src:url(../fonts/star.eot?#iefix) format("embedded-opentype"), url(../fonts/star.woff) format("woff"),
+        url(../fonts/star.ttf) format('ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@import url('https://fonts.cdnfonts.com/css/jost');
+
+.My-E-Shop-rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20px;
+    margin-bottom: 10px;
+}
+.products .product .star-rating {
+    font-size: .857em;
+}
+.woocommerce .star-rating {
+    float: right;
+    overflow: hidden;
+    position: relative;
+    height: 1em;
+    line-height: 1;
+    font-size: 1em;
+    width: 5.4em;
+    font-family: star;
+}
+.woocommerce .star-rating::before {
+    content: "sssss";
+    color: #b5b6b0;
+    float: left;
+    top: 0;
+    left: 0;
+    position: absolute;
+}
+.woocommerce .star-rating span {
+    overflow: hidden;
+    float: left;
+    top: 0;
+    left: 0;
+    position: absolute;
+    padding-top: 1.5em;
+}
+.woocommerce .star-rating span::before {
+    content: "sssss";
+    top: 0;
+    position: absolute;
+    left: 0;
+    color: #FFD333;
+}
+.woocommerce .woocommerce-product-rating {
+    line-height: 2;
+    display: block;
+}
+.woocommerce .woocommerce-product-rating::after
+.woocommerce .woocommerce-product-rating::before {
+    content: " ";
+    display: table;
+}
+.woocommerce .woocommerce-product-rating::after {
+    clear: both;
+}
+.woocommerce .woocommerce-product-rating .star-rating {
+    margin: .5em 4px 0 0;
+    float: left;
+}
+.woocommerce .products .star-rating {
+    display: block;
+    float: none;
+}
+.woocommerce .hreview-aggregate .star-rating {
+    margin: 10px 0 0;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('../fonts/sfpro/SFProText-Regular.woff2') format('woff2'),
+        url('../fonts/sfpro/SFProText-Regular.ttf') format('ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('../fonts/sfpro/SFProText-Medium.woff2') format('woff2'),
+        url('../fonts/sfpro/SFProText-Medium.ttf') format('ttf');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('../fonts/sfpro/SFProText-Semibold.woff2') format('woff2'),
+        url('../fonts/sfpro/SFProText-Semibold.ttf') format('ttf');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SF Pro';
+    src: url('../fonts/sfpro/SFProText-Bold.woff2') format('woff2'),
+        url('../fonts/sfpro/SFProText-Bold.ttf') format('ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* ==================General==================== */
+
+html,
+body {
+    height: 100%;
+    margin: 0 !important;
+}
+
+body {
+    min-width: 320px;
+    font-size: 16px;
+    font-family: 'Playfair Display', serif;
+    line-height: 26px;
+    font-weight: 400;
+    font-style: normal;
+    background-color: var(--bg-color);
+    color: #2C2C2C;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+section {
+    padding: 50px 0;
+    background-color: #F6F6F4;
+}
+h2 {
+    margin-top: 64px;
+}
+
+p {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 30px;
+    margin-bottom: 40px;
+}
+
+.section-title {
+    position: relative;
+    text-align: left;
+    font-family: 'Montserrat', sans-serif;
+    color: #2C2C2C;
+    font-size: 28px;
+    line-height: 60px;
+    font-weight: 400;
+}
+.section-title span {
+    position: relative;
+    z-index: 1;
+}
+.section-description {
+    position: relative;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-style: normal; 
+    font-size: 20px;
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.btn {
+    padding: 12px 35px;
+    font-weight: 500;
+}
+.btn-primary {
+    background-color: var(--main-color);
+}
+.btn-primary:hover {
+    background-color: var(--main-light-color);
+    border-color: var(--main-light-color);
+}
+
+.dropdown-toggle::after {
+    content: "\f078";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    border: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

@@ -118,15 +118,94 @@
     margin: 0;
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
+    gap: 10px;
 }
 
 .wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations {
-    margin: 0;
-    width: auto;
+    margin: 0 !important;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px;
+    border: none !important;
 }
 
-.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations td {
-    padding: 5px;
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations tbody {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 10px;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations tr {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 5px;
+    border: none !important;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations td,
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations th {
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    border: none !important;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations th label {
+    margin: 0 5px 0 0 !important;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations td.value {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations select {
+    min-width: 80px;
+    max-width: 120px;
+    margin: 0 !important;
+    height: auto;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations .variation-radios {
+    display: inline-flex !important;
+    gap: 5px;
+}
+
+/* Стили для кастомных цветовых кругов */
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations .variation-color-circles {
+    display: inline-flex !important;
+    gap: 8px;
+    align-items: center;
+}
+
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations .variation-color-input {
+    display: inline-flex !important;
+}
+
+/* Стили для кастомных селектов Size и Fit */
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations .variation-size-select,
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations .variation-fit-select {
+    min-width: 80px !important;
+    max-width: 120px !important;
+    margin: 0 !important;
+}
+
+/* Убираем перенос строк для всех элементов вариаций */
+.wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .variations * {
+    white-space: nowrap;
+}
+
+/* Скрываем wpcsb-id и quantity внутри sticky панели */
+.wpcsb-wrapper .wpcsb-id,
+.wpcsb-wrapper .quantity {
+    display: none !important;
 }
 
 .wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .reset_variations {
@@ -143,7 +222,23 @@
 }
 
 .wpcsb-wrapper .wpcsb-container .wpcsb-product .wpcsb-product-action .variations_form .single_variation_wrap .woocommerce-variation-add-to-cart > * {
-    margin-left: 5px;
+
+    background-color: #CD7406 !important;
+    border: 1px solid #CD7406 !important;
+    color: #FFFFFF !important;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    max-width: 200px;
+    letter-spacing: 0.5px;
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .wpcsb-disabled {
