@@ -467,7 +467,7 @@ add_action('wp_enqueue_scripts', function () {
     
     // Подключаем стили для страницы товара
     if (is_product()) {
-        wp_enqueue_style('My-E-Shop-single-product', get_template_directory_uri() . '/assets/css/single-product.css');
+        wp_enqueue_style('My-E-Shop-single-product', get_template_directory_uri() . '/assets/css/single-product.css', array(), '1.0.1');
     }
     
     // Подключаем стили для корзины и оформления
@@ -2369,14 +2369,14 @@ function my_e_shop_register_blocks() {
             'my-e-shop-category-products-style',
             get_template_directory_uri() . '/blocks/category-products/style.css',
             array(),
-            '1.0.70'
+            '2.0.0' . time()
         );
         
         wp_enqueue_script(
             'my-e-shop-category-products-script',
             get_template_directory_uri() . '/blocks/category-products/script.js',
             array('jquery'),
-            '1.0.0',
+            '2.0.0' . time(),
             array('in_footer' => false)
         );
         

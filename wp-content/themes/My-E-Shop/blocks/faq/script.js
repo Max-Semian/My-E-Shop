@@ -7,6 +7,9 @@
 
         var faqItems = Array.prototype.slice.call(faqBlock.querySelectorAll('.faq-item'));
         var itemStates = {};
+        
+        // Переменные для замедления скролла
+        var scrollMultiplier = 0.3; // Коэффициент замедления (чем меньше, тем медленнее)
 
         // Инициализируем состояния для каждого элемента
         faqItems.forEach(function(item) {
@@ -136,6 +139,29 @@
             
             return 0;
         }
+
+        // Обработчик колеса мыши для замедления скролла в пределах блока
+        function handleWheel(e) {
+            var rect = faqBlock.getBoundingClientRect();
+            var viewportHeight = window.innerHeight;
+            
+            // Проверяем, находится ли блок в видимой области
+            var isBlockVisible = rect.top < viewportHeight && rect.bottom > 0;
+            
+            if (isBlockVisible) {
+                e.preventDefault();
+                
+                // Замедляем скролл
+                var scrollAmount = e.deltaY * scrollMultiplier;
+                window.scrollBy({
+                    top: scrollAmount,
+                    behavior: 'auto'
+                });
+            }
+        }
+        
+        // Добавляем обработчик замедленного скролла
+        window.addEventListener('wheel', handleWheel, { passive: false });
 
         // Функция анимации
         var lastUpdateTime = 0;

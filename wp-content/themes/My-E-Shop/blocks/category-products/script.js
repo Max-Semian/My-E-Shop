@@ -1,3 +1,4 @@
+// VERSION: 2.0.0 - UPDATED: 2026-02-10 - MOBILE FIX APPLIED
 (function() {
     'use strict';
 
@@ -22,16 +23,40 @@
             var showPagination = sliderElement.dataset.showPagination === 'true';
             
             var currentIndex = 0;
-            var maxIndex = Math.max(0, slides.length - slidesPerView);
             var autoplayInterval;
 
             // Добавляем плавную анимацию к wrapper
             wrapper.style.transition = 'transform 0.3s ease-in-out';
 
+            // Функция определения количества видимых слайдов на текущем разрешении
+            function getCurrentSlidesPerView() {
+                if (window.innerWidth <= 576) {
+                    return 2;
+                } else if (window.innerWidth <= 768) {
+                    return 2;
+                } else if (window.innerWidth <= 1024) {
+                    return 3;
+                } else {
+                    return slidesPerView;
+                }
+            }
+            
+            // Вычисляем maxIndex с учетом текущего разрешения
+            var maxIndex = Math.max(0, slides.length - getCurrentSlidesPerView());
+
             // Функция обновления позиции слайдера
             function updateSliderPosition() {
-                var translateX = -(currentIndex * (100 / slidesPerView));
-                wrapper.style.transform = 'translateX(' + translateX + '%)';
+                var currentSlidesPerView = getCurrentSlidesPerView();
+                
+                // Динамически получаем ширину слайда из DOM
+                var slideWidth = slides.length > 0 ? slides[0].offsetWidth : 250;
+                
+                // Определяем gap в зависимости от разрешения
+                var gap = window.innerWidth <= 576 ? 20 : 36;
+                
+                var translateX = -(currentIndex * (slideWidth + gap));
+                
+                wrapper.style.transform = 'translateX(' + translateX + 'px)';
                 
                 // Обновляем состояние кнопок навигации
                 if (prevBtn) {
@@ -177,17 +202,8 @@
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(function() {
                     // Пересчитываем максимальный индекс для нового размера экрана
-                    var newSlidesPerView = slidesPerView;
-                    
-                    if (window.innerWidth <= 480) {
-                        newSlidesPerView = 1;
-                    } else if (window.innerWidth <= 768) {
-                        newSlidesPerView = 2;
-                    } else if (window.innerWidth <= 1024) {
-                        newSlidesPerView = 3;
-                    }
-                    
-                    maxIndex = Math.max(0, slides.length - newSlidesPerView);
+                    var currentSlidesPerView = getCurrentSlidesPerView();
+                    maxIndex = Math.max(0, slides.length - currentSlidesPerView);
                     
                     if (currentIndex > maxIndex) {
                         currentIndex = maxIndex;

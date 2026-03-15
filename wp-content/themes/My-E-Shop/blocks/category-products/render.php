@@ -69,6 +69,129 @@ $custom_styles .= '
     margin: 0 auto !important;
 }
 ';
+
+// Определяем темную или светлую тему для стилей кнопок
+$is_dark_theme = ($background_color === '#2C2C2C' || $background_color === '#2c2c2c');
+$is_light_beige = ($background_color === '#F4F0EB' || $background_color === '#f4f0eb');
+
+// Добавляем стили кнопок в зависимости от темы
+if (!$is_dark_theme) {
+    $button_bg = $is_light_beige ? '#F4F0EB' : '#ffffff';
+    $custom_styles .= '
+    .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev,
+    .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next {
+        background-color: ' . $button_bg . ' !important;
+        border-color: #AA2DD0 !important;
+        color: #AA2DD0 !important;
+    }
+    
+    .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover,
+    .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover {
+        background-color: #AA2DD0 !important;
+        color: ' . $button_bg . ' !important;
+    }
+    ';
+}
+
+// Добавляем анимацию для кнопок навигации слайдера
+$custom_styles .= '
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next {
+    overflow: hidden !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev .nav-icon,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next .nav-icon {
+    position: relative;
+    z-index: 10;
+    transition: opacity 0.1s ease;
+    pointer-events: none;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .nav-icon,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .nav-icon {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev .nav-hover-icon,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next .nav-hover-icon {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: opacity 0.1s ease;
+    pointer-events: none;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .nav-hover-icon,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .nav-hover-icon {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .anim-layer {
+    position: absolute;
+    width: 144px;
+    height: 128px;
+    top: -32px;
+    left: -8px;
+    transform: rotate(12deg) scaleX(0);
+    transform-origin: left;
+    transition: transform 1s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev .anim-layer {
+    left: auto;
+    right: -8px;
+    transform: rotate(-12deg) scaleX(0);
+    transform-origin: right;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .anim-layer-1 {
+    background-color: #000000;
+    transition: transform 0.5s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .anim-layer-2 {
+    background-color: #c084fc;
+    transition: transform 0.7s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .anim-layer-3 {
+    background-color: #9333ea;
+    transition: transform 1s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .anim-layer {
+    transform: rotate(12deg) scaleX(1);
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .anim-layer {
+    transform: rotate(-12deg) scaleX(1);
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .anim-layer-1,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .anim-layer-1 {
+    transition: transform 0.5s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .anim-layer-2,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .anim-layer-2 {
+    transition: transform 0.7s ease;
+}
+
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev:hover .anim-layer-3,
+.wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next:hover .anim-layer-3 {
+    transition: transform 1s ease;
+}
+';
 ?>
 
 <?php if ($custom_styles): ?>
@@ -190,9 +313,6 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
                                         <button class="add-to-wishlist" data-product-id="<?php echo esc_attr($product_id); ?>">
                                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/HeartFavorit.png" alt="Добавить в избранное">
                                         </button>
-                                        <button class="quick-view-btn" data-product-id="<?php echo esc_attr($product_id); ?>">
-                                            QUIK VIEW
-                                        </button>
                                     </div>
                                     <div class="product-info">
                                         <h3 class="product-title">
@@ -234,14 +354,26 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
         <?php if ($show_navigation): ?>
             <div class="slider-navigation">
                 <div class="swiper-button-prev">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
+                    <svg class="nav-hover-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="anim-layer anim-layer-1"></span>
+                    <span class="anim-layer anim-layer-2"></span>
+                    <span class="anim-layer anim-layer-3"></span>
                 </div>
                 <div class="swiper-button-next">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="nav-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
+                    <svg class="nav-hover-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="anim-layer anim-layer-1"></span>
+                    <span class="anim-layer anim-layer-2"></span>
+                    <span class="anim-layer anim-layer-3"></span>
                 </div>
             </div>
         <?php endif; ?>

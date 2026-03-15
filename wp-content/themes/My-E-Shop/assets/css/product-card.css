@@ -124,6 +124,13 @@
 .carousel {
     padding-left: 50px;
 }
+
+@media (max-width: 768px) {
+        .carousel {
+        padding-left: 20px;
+    }
+}
+
 /* ====================End Product Card==================== */
 
 /* ====================About Us==================== */

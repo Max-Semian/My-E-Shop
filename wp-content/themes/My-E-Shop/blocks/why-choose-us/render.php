@@ -44,14 +44,14 @@ if (empty($items)) {
                         if ($icon_type === 'image' && $icon_image_id) {
                             $image_url = wp_get_attachment_image_url($icon_image_id, 'thumbnail');
                             if ($image_url) {
-                                echo '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($question) . '" style="width: ' . esc_attr($icon_size) . 'px; height: ' . esc_attr($icon_size) . 'px; object-fit: cover; border-radius: 4px;">';
+                                echo '<img src="' . esc_url($image_url) . '" alt="' . esc_attr($question) . '" style="width: ' . esc_attr($icon_size) . 'px; height: auto; object-fit: cover; border-radius: 4px;">';
                                 $image_displayed = true;
                             }
                         }
                         
                         // Вариант 2: Используем прямую ссылку на изображение
                         if (!$image_displayed && $icon_type === 'image' && $icon_image) {
-                            echo '<img src="' . esc_url($icon_image) . '" alt="' . esc_attr($question) . '" style="width: ' . esc_attr($icon_size) . 'px; height: ' . esc_attr($icon_size) . 'px; object-fit: cover; border-radius: 4px;">';
+                            echo '<img src="' . esc_url($icon_image) . '" alt="' . esc_attr($question) . '" style="width: ' . esc_attr($icon_size) . 'px; height: auto; object-fit: cover; border-radius: 4px;">';
                             $image_displayed = true;
                         }
                         

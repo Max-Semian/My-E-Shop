@@ -2,11 +2,13 @@
     max-width: 1100px;
     margin: 0 auto;
     padding: 50px 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .cta-banner {
-    width: 100%;
-    min-height: 200px;
+    /* width: 100%;
+    min-height: 200px; */
     border-radius: 10px;
     background-size: cover;
     background-position: center;
@@ -88,7 +90,8 @@
 /* Адаптив */
 @media (max-width: 768px) {
     .cta-banner-wrapper {
-        padding: 30px 15px;
+        padding: 0;
+        margin-bottom: 20px;
     }
     
     .cta-banner {
@@ -101,7 +104,6 @@
     
     .cta-banner-subtitle {
         font-size: 14px;
-        margin-bottom: 25px;
     }
     
     .cta-banner-button {
@@ -111,9 +113,6 @@
 }
 
 @media (max-width: 480px) {
-    .cta-banner-wrapper {
-        padding: 20px 10px;
-    }
     
     .cta-banner {
         padding: 30px 20px;
@@ -127,8 +126,8 @@
     }
     
     .cta-banner-subtitle {
-        font-size: 13px;
-        margin-bottom: 20px;
+        font-size: 13px !important;
+        margin-bottom: 20px !important;
     }
     
     .cta-banner-button {

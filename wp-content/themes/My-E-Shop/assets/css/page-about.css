@@ -166,7 +166,7 @@ h2.wp-block-heading {
     }
     
     .about-page-content-wrapper {
-        padding: 40px 0;
+        padding: 0 20px;
     }
     
     .about-page-content-wrapper .container {
@@ -176,5 +176,27 @@ h2.wp-block-heading {
     .about-page .entry-content {
         margin: 30px auto;
         padding: 0 15px;
+    }
+    .about-page-content-wrapper h2, h2.wp-block-heading {
+        font-size: 18px;
+        line-height: 28px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .about-page-content-wrapper p {
+        font-size: 16px;
+        line-height: 28px;
+        margin-bottom: 20px;
+    }
+    .about-page-breadcrumbs-wrapper .breadcrumbs .current {
+        font-size: 11px;
+    }
+    .about-page-breadcrumbs-wrapper .breadcrumbs a {
+        font-size: 11px;
+    }
+    .wp-block-quote.is-layout-flow.wp-block-quote-is-layout-flow {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 0 !important;
     }
 }

@@ -48,7 +48,10 @@ $form_id = 'newsletter-form-' . wp_rand(1000, 9999);
                             required
                         >
                         <button type="submit" class="newsletter-button">
-                            <?php echo esc_html($button_text); ?>
+                            <span class="newsletter-btn-text"><?php echo esc_html($button_text); ?></span>
+                            <span class="newsletter-anim-layer newsletter-anim-layer-1"></span>
+                            <span class="newsletter-anim-layer newsletter-anim-layer-2"></span>
+                            <span class="newsletter-anim-layer newsletter-anim-layer-3"></span>
                         </button>
                     </div>
                     <div class="newsletter-message" id="newsletter-message-<?php echo esc_attr($form_id); ?>"></div>

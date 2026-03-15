@@ -62,7 +62,10 @@ $wrapper_attributes = get_block_wrapper_attributes(array(
                     <button type="submit" 
                             name="newsletter_submit"
                             class="my-e-shop-newsletter-submit-button">
-                        <?php echo esc_html($button_text); ?>
+                        <span class="newsletter-btn-text"><?php echo esc_html($button_text); ?></span>
+                        <span class="newsletter-anim-layer newsletter-anim-layer-1"></span>
+                        <span class="newsletter-anim-layer newsletter-anim-layer-2"></span>
+                        <span class="newsletter-anim-layer newsletter-anim-layer-3"></span>
                     </button>
                 </div>
             </form>

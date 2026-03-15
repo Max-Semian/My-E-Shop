@@ -164,7 +164,7 @@ body:not(.block-editor-page) .wp-block-my-e-shop-about-hero {
 
 @media (max-width: 480px) {
     .wp-block-my-e-shop-about-hero {
-        height: 400px;
+        height: 300px;
     }
     
     .wp-block-my-e-shop-about-hero .about-hero-title {
