@@ -1,6 +1,7 @@
 # WordPress core files and directories
-wp-config.php
-wp-content/uploads/
+# wp-config.php  # tracked for local dev
+wp-content/uploads/cache/
+wp-content/uploads/elementor/
 wp-content/upgrade/
 wp-content/backup*/
 wp-content/cache/
@@ -52,7 +53,7 @@ yarn-error.log
 
 # Logs and databases
 *.log
-*.sql
+# *.sql  # SQL dump tracked
 *.sqlite
 
 # WordPress specific ignores
@@ -67,11 +68,11 @@ wp-content/mu-plugins/
 wp-content/wp-cache-config.php
 wp-content/plugins/hello.php
 
-# htaccess
-/.htaccess
+# htaccess — tracked for local dev
+# /.htaccess
 
 # Any local config files
-*config.php
+# *config.php
 
 # But keep these files
 !wp-content/plugins/
