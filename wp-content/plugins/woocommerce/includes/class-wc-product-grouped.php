@@ -39,7 +39,7 @@ class WC_Product_Grouped extends WC_Product {
 	 * @return string
 	 */
 	public function add_to_cart_text() {
-		return apply_filters( 'woocommerce_product_add_to_cart_text', __( 'View', 'woocommerce' ), $this );
+		return apply_filters( 'woocommerce_product_add_to_cart_text', __( 'View products', 'woocommerce' ), $this );
 	}
 
 	/**

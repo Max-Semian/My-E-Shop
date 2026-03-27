@@ -73,7 +73,7 @@ class WC_Product_Variable extends WC_Product {
 	 * @return string
 	 */
 	public function add_to_cart_text() {
-		return apply_filters( 'woocommerce_product_add_to_cart_text', $this->is_purchasable() ? __( 'Select', 'woocommerce' ) : __( 'Read more', 'woocommerce' ), $this );
+		return apply_filters( 'woocommerce_product_add_to_cart_text', $this->is_purchasable() ? __( 'Select options', 'woocommerce' ) : __( 'Read more', 'woocommerce' ), $this );
 	}
 
 	/**
