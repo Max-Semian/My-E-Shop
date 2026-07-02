@@ -11,12 +11,19 @@
 .fashion-hero-container {
     position: relative;
     width: 100%;
-    height: 100vh;
-    min-height: 600px;
+    /* Высота блока. Фото (2:3) показываются целиком (object-fit: contain) и
+       прижаты к низу, поэтому разница между высотой блока и высотой фото
+       (~21.4vw) остаётся полосой фона-подиума над головами моделей.
+       При 34vw полоса фона над головами ≈ 12.5vw. Регулируйте высоту этим
+       значением: больше 34vw → больше фона сверху, меньше → плотнее к головам.
+       min-height не ставим — иначе на узких экранах полоса фона раздувается. */
+    height: 34vw;
+    max-height: 88vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: -60px;
+    /* Подтягиваем блок вплотную к шапке, чтобы не было светлой полосы между ними */
+    margin-top: -50px;
 }
 
 /* Main Background Image (under everything) */
@@ -39,6 +46,7 @@
     left: 0;
     width: 100%;
     height: 100%;
+    /* Фото прижаты к низу; свободное место сверху занимает фон-подиум */
     display: flex;
     align-items: flex-end;
     z-index: 1;
@@ -57,10 +65,9 @@
 
 .fashion-image-card img {
     width: 100%;
-    height: auto;
-    min-height: 100%;
-    object-fit: cover;
-    object-position: bottom center;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
     transition: transform 0.5s ease;
 }
 

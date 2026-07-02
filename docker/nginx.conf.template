@@ -1,0 +1,52 @@
+worker_processes auto;
+daemon off;
+pid /run/nginx.pid;
+error_log /dev/stderr warn;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+    access_log    /dev/stdout;
+    sendfile      on;
+    keepalive_timeout 65;
+    client_max_body_size 64m;
+
+    server {
+        listen ${PORT};
+        listen [::]:${PORT};
+        server_name _;
+
+        root /var/www/html;
+        index index.php index.html;
+
+        # WordPress permalinks.
+        location / {
+            try_files $uri $uri/ /index.php?$args;
+        }
+
+        # Pass PHP to php-fpm.
+        location ~ \.php$ {
+            include fastcgi_params;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_read_timeout 300;
+        }
+
+        # Long-cache static assets.
+        location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|webp|woff2?|ttf|eot)$ {
+            expires max;
+            access_log off;
+            log_not_found off;
+        }
+
+        # Deny hidden files (.htaccess, .git, etc.).
+        location ~ /\. {
+            deny all;
+        }
+    }
+}

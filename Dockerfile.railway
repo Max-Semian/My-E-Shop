@@ -1,0 +1,54 @@
+# Dockerfile.railway — self-contained WordPress image for Railway (nginx + php-fpm).
+#
+# Uses nginx instead of Apache to avoid Apache MPM issues. The local ./Dockerfile
+# (Apache + bind mount) is only for local dev; Railway uses THIS file.
+#
+# Deploy from a directory that contains the full site:  railway up
+FROM php:8.1-fpm
+
+# PHP extensions for WordPress/WooCommerce + nginx + mysql client + envsubst.
+RUN apt-get update && apt-get install -y \
+        libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
+        libzip-dev \
+        libicu-dev \
+        zip \
+        unzip \
+        default-mysql-client \
+        nginx \
+        gettext-base \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install \
+        gd \
+        mysqli \
+        pdo \
+        pdo_mysql \
+        zip \
+        exif \
+        intl \
+        opcache \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN { \
+        echo "upload_max_filesize = 64M"; \
+        echo "post_max_size = 64M"; \
+        echo "memory_limit = 256M"; \
+        echo "max_execution_time = 300"; \
+        echo "cgi.fix_pathinfo = 0"; \
+    } > /usr/local/etc/php/conf.d/wordpress.ini
+
+WORKDIR /var/www/html
+
+# Full site is copied in from the build context.
+COPY . /var/www/html
+# Use the Railway-specific config in the image (local wp-config.php is untouched).
+RUN cp -f wp-config-railway.php wp-config.php
+RUN chown -R www-data:www-data /var/www/html
+
+# nginx site config (listen port is templated with $PORT at runtime).
+COPY docker/nginx.conf.template /etc/nginx/nginx.conf.template
+COPY docker/railway-entrypoint.sh /usr/local/bin/railway-entrypoint.sh
+RUN chmod +x /usr/local/bin/railway-entrypoint.sh
+
+ENTRYPOINT ["/usr/local/bin/railway-entrypoint.sh"]
