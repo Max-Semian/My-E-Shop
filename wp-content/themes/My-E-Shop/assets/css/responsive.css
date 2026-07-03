@@ -43,12 +43,12 @@
     }
     
     .collections-smooth-track {
-        width: calc(250px * 16);
+        width: max-content;
     }
     
     @keyframes infiniteScroll {
         0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-250px * 8)); }
+        100% { transform: translateX(-50%); }
     }
     
     .collections-square-card {
@@ -186,12 +186,12 @@
     }
     
     .collections-smooth-track {
-        width: calc(180px * 16);
+        width: max-content;
     }
     
     @keyframes infiniteScroll {
         0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-180px * 8)); }
+        100% { transform: translateX(-50%); }
     }
     
     .collections-square-card {
@@ -466,12 +466,12 @@
     }
     
     .collections-smooth-track {
-        width: calc(140px * 16);
+        width: max-content;
     }
     
     @keyframes infiniteScroll {
         0% { transform: translateX(0); }
-        100% { transform: translateX(calc(-140px * 8)); }
+        100% { transform: translateX(-50%); }
     }
     
     .collections-square-card {
@@ -698,9 +698,14 @@
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-    
-    .collections-smooth-track {
-        animation: none;
+
+    /* Keep the collections/gallery auto-scroll marquee running even with
+       reduced motion (it's a core brand element). Restores the real duration
+       and infinite loop that the global rule above would otherwise flatten. */
+    .gallery-slider-block .collections-smooth-track,
+    .collections-horizontal-carousel .collections-smooth-track {
+        animation-duration: var(--gallery-animation-speed, 50s) !important;
+        animation-iteration-count: infinite !important;
     }
 }
 

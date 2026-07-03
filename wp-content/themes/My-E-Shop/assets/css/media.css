@@ -378,7 +378,7 @@
     } */
 
    .collections-smooth-track {
-        width: calc(216px * 16); /* 216px = 200px width + 16px margin */
+        width: max-content; /* 216px = 200px width + 16px margin */
         animation: infiniteScrollMobile 50s linear infinite;
     }
 
@@ -387,7 +387,7 @@
             transform: translateX(0);
         }
         100% {
-            transform: translateX(calc(-216px * 8));
+            transform: translateX(-50%);
         }
     }
 
@@ -424,10 +424,6 @@
         font-size: 18px;
     }
     
-    .collections-modal-description {
-        font-size: 14px;
-    }
-
     .category-hero-section {
         margin-top: 80px;
         margin-bottom: 40px;
@@ -748,7 +744,7 @@
     }
 
     .collections-smooth-track {
-        width: calc(176px * 16); /* 176px = 160px width + 16px margin */
+        width: max-content; /* 176px = 160px width + 16px margin */
         animation: infiniteScrollSmall 40s linear infinite;
     }
 
@@ -757,7 +753,7 @@
             transform: translateX(0);
         }
         100% {
-            transform: translateX(calc(-176px * 8));
+            transform: translateX(-50%);
         }
     }
 

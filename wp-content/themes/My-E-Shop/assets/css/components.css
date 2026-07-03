@@ -135,7 +135,7 @@
 
 .collections-smooth-track {
     display: flex;
-    width: calc(296px * 16);
+    width: max-content;
     animation: infiniteScroll 60s linear infinite;
     will-change: transform;
 }
@@ -148,7 +148,7 @@
 
 @keyframes infiniteScroll {
     0% { transform: translateX(0); }
-    100% { transform: translateX(calc(-296px * 8)); }
+    100% { transform: translateX(-50%); }
 }
 
 .collections-square-card {
@@ -349,13 +349,6 @@
     margin-top: 8px;
     margin-bottom: 8px;
     letter-spacing: 1px;
-}
-
-.collections-modal-description {
-    font-size: 11px;
-    color: var(--grey-color);
-    margin-bottom: 8px;
-    line-height: 1.5;
 }
 
 body.modal-open {

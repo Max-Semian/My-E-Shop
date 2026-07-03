@@ -368,7 +368,6 @@ $(document).ready(function() {
                         <img class="collections-modal-image" src="" alt="">
                         <div class="collections-modal-info">
                             <h3 class="collections-modal-title"></h3>
-                            <p class="collections-modal-description"></p>
                         </div>
                     </div>
                 </div>
@@ -379,7 +378,6 @@ $(document).ready(function() {
         const $modalOverlay = $('.collections-modal-overlay');
         const $modalImage = $('.collections-modal-image');
         const $modalTitle = $('.collections-modal-title');
-        const $modalDescription = $('.collections-modal-description');
         const $sliderTrack = $('.collections-smooth-track');
         const $carousel = $('.collections-horizontal-carousel');
         
@@ -469,7 +467,6 @@ $(document).ready(function() {
             };
             
             $modalTitle.text(data.title);
-            $modalDescription.text(data.description);
             
             // Показываем модальное окно
             setTimeout(() => {
