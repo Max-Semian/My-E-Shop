@@ -3149,6 +3149,6 @@ function get_reading_time($post_id = null) {
     $content = get_post_field('post_content', $post_id);
     $word_count = str_word_count(strip_tags($content));
     $reading_time = ceil($word_count / 200); // Средняя скорость чтения 200 слов в минуту
-    
+
     return $reading_time;
 }

@@ -805,6 +805,21 @@ body.modal-open {
     animation: punchPulse 0.6s ease-in-out infinite;
 }
 
+/* Class-based icon animations — driven by the walker's `animation-*` classes
+   (robust; independent of the icon alt text). */
+.shop-dropdown .dropdown-item.animation-rotate:hover .dropdown-icon img {
+    animation: rotateStar 0.6s ease-in-out infinite;
+}
+.shop-dropdown .dropdown-item.animation-heartbeat:hover .dropdown-icon img {
+    animation: heartbeat 1s ease-in-out infinite;
+}
+.shop-dropdown .dropdown-item.animation-spin:hover .dropdown-icon img {
+    animation: rotatePlanet 3s linear infinite;
+}
+.shop-dropdown .dropdown-item.animation-punch:hover .dropdown-icon img {
+    animation: punchPulse 0.6s ease-in-out infinite;
+}
+
 /* Dropdown Animations */
 @keyframes rotateStar {
     0% { transform: rotate(0deg); }

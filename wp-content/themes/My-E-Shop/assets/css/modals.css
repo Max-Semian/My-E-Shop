@@ -795,3 +795,270 @@
         bottom: 15px;
     }
 }
+
+/* ==================== Header Search & Login Modals (theme-matched) ==================== */
+/* The modal box — footer markup uses .modal-content (not .modal-container). */
+.modal-content {
+    background: #F4F0EB;
+    border-radius: 16px;
+    max-width: 520px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 40px;
+    font-family: 'Montserrat', sans-serif;
+    color: #333333;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95) translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1) translateY(0);
+}
+
+.modal-content h2,
+.search-modal-body h2,
+.login-modal-body h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 22px;
+    text-align: center;
+}
+
+/* --- Search modal --- */
+.search-form .search-input-wrapper {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid #d8d2c8;
+    border-radius: 10px;
+    background: #ffffff;
+    overflow: hidden;
+}
+
+.search-form .search-field {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 13px 16px;
+    font-size: 15px;
+    background: transparent;
+    color: #333333;
+    font-family: inherit;
+}
+
+.search-form .search-submit {
+    border: none;
+    background: #a855f7;
+    color: #ffffff;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.search-form .search-submit:hover {
+    background: #9333ea;
+}
+
+/* Search results (markup from live_product_search_handler) */
+.search-suggestions {
+    margin-top: 16px;
+    max-height: 340px;
+    overflow-y: auto;
+}
+
+.search-results {
+    display: flex;
+    flex-direction: column;
+}
+
+a.search-suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border-radius: 10px;
+    color: #333333;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+a.search-suggestion-item + a.search-suggestion-item {
+    border-top: 1px solid #e6ded2;
+}
+
+a.search-suggestion-item:hover {
+    background: #efe8df;
+}
+
+a.search-suggestion-item img {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex: 0 0 52px;
+    background: #ffffff;
+}
+
+.search-suggestion-content {
+    min-width: 0;
+}
+
+.search-suggestion-content h4 {
+    margin: 0 0 3px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-suggestion-content .price {
+    font-size: 14px;
+    color: #a855f7;
+    font-weight: 600;
+}
+
+.search-suggestion-content .price del {
+    color: #999999;
+    font-weight: 400;
+    margin-right: 6px;
+}
+
+.search-suggestion-content .price ins {
+    text-decoration: none;
+}
+
+/* --- Login modal (WooCommerce form inside .login-modal-body) --- */
+.login-modal-body .woocommerce-form-login,
+.login-modal-body .woocommerce-form-register {
+    margin: 0;
+}
+
+.login-modal-body .col2-set,
+.login-modal-body .u-columns {
+    display: block;
+}
+
+.login-modal-body .form-row {
+    margin-bottom: 16px;
+}
+
+.login-modal-body label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+.login-modal-body input[type="text"],
+.login-modal-body input[type="email"],
+.login-modal-body input[type="password"],
+.login-modal-body input.input-text {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d8d2c8;
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.login-modal-body input:focus {
+    outline: none;
+    border-color: #a855f7;
+}
+
+.login-modal-body .woocommerce-form-login__rememberme {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 400;
+    font-size: 14px;
+    margin: 4px 0 14px;
+}
+
+.login-modal-body .button,
+.login-modal-body button[type="submit"] {
+    width: 100%;
+    padding: 13px 20px;
+    background: #a855f7;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.2s ease;
+}
+
+.login-modal-body .button:hover,
+.login-modal-body button[type="submit"]:hover {
+    background: #9333ea;
+}
+
+.login-modal-body .lost_password {
+    margin-top: 14px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.login-modal-body .lost_password a,
+.login-modal-body .register-link a {
+    color: #a855f7;
+    font-weight: 600;
+}
+
+.login-modal-body .register-link {
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid #e6ded2;
+    text-align: center;
+    font-size: 14px;
+    color: #777777;
+}
+
+/* Logged-in account links */
+.login-modal-body .account-links {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.login-modal-body .account-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    background: #ffffff;
+    border-radius: 10px;
+    color: #333333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.login-modal-body .account-link i {
+    color: #a855f7;
+    width: 18px;
+    text-align: center;
+}
+
+.login-modal-body .account-link:hover {
+    background: #efe8df;
+    color: #a855f7;
+}
+
+.login-modal-body .account-link.logout i,
+.login-modal-body .account-link.logout:hover {
+    color: #dc3545;
+}

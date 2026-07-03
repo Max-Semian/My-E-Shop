@@ -26,7 +26,7 @@
                             $logo_url = wp_get_attachment_image_src( $custom_logo_id, 'full' );
                             echo '<img src="' . esc_url( $logo_url[0] ) . '" alt="' . get_bloginfo( 'name' ) . '">';
                         } else {
-                            echo '<img src="' . get_template_directory_uri() . '/assets/img/Logo.png" alt="logo">';
+                            echo '<img src="' . get_template_directory_uri() . '/assets/img/logo.png" alt="logo">';
                         }
                         ?>
                     </a>
