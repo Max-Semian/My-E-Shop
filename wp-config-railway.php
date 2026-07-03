@@ -48,8 +48,8 @@ foreach ( array(
 }
 unset( $wp_salt_key );
 
-// Production DB uses the imported prod prefix by default.
-$table_prefix = wp_env( 'TABLE_PREFIX', 'FKvxLodqZ_' );
+// Real production data uses the wp_ prefix (from u821689086_ldApu.sql).
+$table_prefix = 'wp_';
 
 // ** Site URL ** //
 // Prefer explicit WP_HOME/WP_SITEURL variables; otherwise use Railway's public
