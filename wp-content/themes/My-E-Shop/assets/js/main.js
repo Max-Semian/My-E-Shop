@@ -366,9 +366,6 @@ $(document).ready(function() {
                             <i class="fas fa-times"></i>
                         </button>
                         <img class="collections-modal-image" src="" alt="">
-                        <div class="collections-modal-info">
-                            <h3 class="collections-modal-title"></h3>
-                        </div>
                     </div>
                 </div>
             `);
