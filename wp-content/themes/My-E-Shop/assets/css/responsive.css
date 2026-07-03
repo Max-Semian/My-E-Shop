@@ -703,6 +703,30 @@
         animation-duration: var(--gallery-animation-speed, 50s) !important;
         animation-iteration-count: infinite !important;
     }
+
+    /* Keep dropdown icon hover animations working under reduced motion — they
+       only play on deliberate hover, so restore their real timing/loop that the
+       global rule above would otherwise flatten to an instant single frame. */
+    .shop-dropdown .dropdown-item.animation-rotate:hover .dropdown-icon img,
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Witch"],
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Star"] {
+        animation: rotateStar 0.6s ease-in-out infinite !important;
+    }
+    .shop-dropdown .dropdown-item.animation-heartbeat:hover .dropdown-icon img,
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Tender"],
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Heart"] {
+        animation: heartbeat 1s ease-in-out infinite !important;
+    }
+    .shop-dropdown .dropdown-item.animation-spin:hover .dropdown-icon img,
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Data"],
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="muse"] {
+        animation: rotatePlanet 3s linear infinite !important;
+    }
+    .shop-dropdown .dropdown-item.animation-punch:hover .dropdown-icon img,
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="Identity"],
+    .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="action"] {
+        animation: punchPulse 0.6s ease-in-out infinite !important;
+    }
 }
 
 /* ==================== Dark Mode Support ==================== */
