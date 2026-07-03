@@ -8,8 +8,9 @@
     font-family: 'Playfair Display', serif;
     font-weight: 600;
     font-size: 36px;
-    line-height: 40px;
-    letter-spacing: 1px;
+    line-height: 140%;
+    letter-spacing: 2px;
+    text-transform: capitalize;
     text-align: center;
     color: #0C0C0C;
     margin-bottom: 24px;
@@ -21,10 +22,11 @@
 }
 
 .gallery-slider-block .section-description {
-   font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 18px;
-    line-height: 32%;
+    line-height: 32px;
+    letter-spacing: 1px;
     text-align: center;
     color: #2C2C2C !important;
 }

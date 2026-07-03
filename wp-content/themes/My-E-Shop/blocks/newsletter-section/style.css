@@ -53,22 +53,25 @@
 
 .newsletter-title {
     font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    font-weight: 300;
+    font-size: 36px;
+    font-weight: 600;
     margin-bottom: 20px;
-    line-height: 1.2;
-    letter-spacing: 0.5px;
+    line-height: 140%;
+    letter-spacing: 2px;
+    text-transform: capitalize;
     color: #F4F0EB !important;
     margin-top: 0 !important;
 }
 
 .newsletter-subtitle {
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.1rem;
-    font-weight: 300;
+    font-size: 18px;
+    font-weight: 400;
     margin-bottom: 40px;
     opacity: 0.9;
-    line-height: 1.5;
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: center;
     color: #F4F0EB !important;
 }
 

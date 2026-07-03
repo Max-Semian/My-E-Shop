@@ -66,7 +66,9 @@ $wrapper_attributes = get_block_wrapper_attributes();
         <!-- Content -->
         <div class="fashion-hero-content">
             <h1 class="fashion-hero-title"><?php echo esc_html($title); ?></h1>
-            <p class="fashion-hero-subtitle"><?php echo esc_html($subtitle); ?></p>
+            <?php if (!empty($subtitle)) : ?>
+                <p class="fashion-hero-subtitle"><?php echo esc_html($subtitle); ?></p>
+            <?php endif; ?>
             <?php if (!empty($button_url) && $button_url !== '#') : ?>
                 <a href="<?php echo esc_url($button_url); ?>" class="fashion-hero-btn">
                     <?php echo esc_html($button_text); ?>

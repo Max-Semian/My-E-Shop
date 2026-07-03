@@ -20,12 +20,13 @@
 
 .collection-cards-title {
     font-family: 'Playfair Display', serif;
-    font-weight: 700;
-    font-size: 42px;
+    font-weight: 600;
+    font-size: 36px;
     color: #2C2C2C;
     margin: 0 0 15px 0;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
+    line-height: 140%;
+    letter-spacing: 2px;
+    text-transform: capitalize;
 }
 
 .collection-cards-subtitle {
@@ -34,7 +35,9 @@
     font-size: 18px;
     color: #666;
     margin: 0;
-    line-height: 1.6;
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: center;
 }
 
 /* WordPress Block Headings */

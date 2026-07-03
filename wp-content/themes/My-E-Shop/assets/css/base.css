@@ -173,11 +173,13 @@ p {
 .section-title {
     position: relative;
     text-align: left;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Playfair Display', serif;
     color: #2C2C2C;
-    font-size: 28px;
-    line-height: 60px;
-    font-weight: 400;
+    font-size: 36px;
+    line-height: 140%;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: capitalize;
 }
 .section-title span {
     position: relative;
@@ -187,8 +189,8 @@ p {
     position: relative;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    font-style: normal; 
-    font-size: 20px;
+    font-style: normal;
+    font-size: 18px;
     line-height: 32px;
     letter-spacing: 1px;
     text-align: center;

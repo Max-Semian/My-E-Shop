@@ -1082,7 +1082,8 @@ body.modal-open {
     font-family: 'Playfair Display', serif;
     font-weight: 600;
     font-size: 36px;
-    line-height: 60px;
+    line-height: 140%;
+    letter-spacing: 2px;
     text-align: center;
     text-transform: capitalize;
     margin-bottom: 24px;
@@ -1093,7 +1094,8 @@ body.modal-open {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
     font-size: 18px;
-    line-height: 32%;
+    line-height: 32px;
+    letter-spacing: 1px;
     text-align: center;
     color: #2C2C2C;
 }

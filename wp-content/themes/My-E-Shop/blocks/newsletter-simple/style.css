@@ -14,16 +14,20 @@
     font-family: 'Playfair Display', serif;
     font-weight: 600;
     font-size: 36px;
-    line-height: 100%;
+    line-height: 140%;
+    letter-spacing: 2px;
+    text-transform: capitalize;
     margin: 0 0 20px 0;
     color: #2C2C2C;
 }
 
 .newsletter-simple-subtitle {
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 400;
-    line-height: 100%;
+    line-height: 32px;
+    letter-spacing: 1px;
+    text-align: center;
     margin: 0 0 20px 0;
     color: #2C2C2C;
 }
