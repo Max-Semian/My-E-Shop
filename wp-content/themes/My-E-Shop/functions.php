@@ -474,6 +474,11 @@ add_action('wp_enqueue_scripts', function () {
     if (is_cart() || is_checkout() || is_account_page()) {
         wp_enqueue_style('My-E-Shop-woocommerce', get_template_directory_uri() . '/assets/css/woocommerce.css');
     }
+
+    // Enqueue styles for the author page
+    if (is_author()) {
+        wp_enqueue_style('My-E-Shop-author', get_template_directory_uri() . '/assets/css/author.css');
+    }
     
     // Enqueue styles for the "About us" page
     if (is_page_template('page-about.php')) {
@@ -3026,6 +3031,109 @@ add_filter('display_post_states', function ($states, $post) {
     }
     return $states;
 }, 10, 2);
+
+// ============================================
+// Custom avatar from the Media Library (user profile)
+// Adds a media-library picker to the profile screen and uses the chosen image
+// wherever get_avatar()/get_avatar_url() is called (author page, comments, etc.).
+// ============================================
+add_action('show_user_profile', 'my_e_shop_custom_avatar_field');
+add_action('edit_user_profile', 'my_e_shop_custom_avatar_field');
+function my_e_shop_custom_avatar_field($user) {
+    wp_enqueue_media();
+    $avatar_id  = (int) get_user_meta($user->ID, 'custom_avatar_id', true);
+    $avatar_url = $avatar_id ? wp_get_attachment_image_url($avatar_id, 'thumbnail') : '';
+    ?>
+    <h2><?php esc_html_e('Custom avatar', 'my-e-shop'); ?></h2>
+    <table class="form-table" role="presentation">
+        <tr>
+            <th><label for="custom_avatar_id"><?php esc_html_e('Profile picture (Media Library)', 'my-e-shop'); ?></label></th>
+            <td>
+                <input type="hidden" name="custom_avatar_id" id="custom_avatar_id" value="<?php echo esc_attr($avatar_id); ?>">
+                <div id="custom-avatar-preview" style="margin-bottom:10px;">
+                    <?php if ($avatar_url) : ?>
+                        <img src="<?php echo esc_url($avatar_url); ?>" style="width:96px;height:96px;border-radius:50%;object-fit:cover;">
+                    <?php endif; ?>
+                </div>
+                <button type="button" class="button" id="custom-avatar-upload"><?php esc_html_e('Select image', 'my-e-shop'); ?></button>
+                <button type="button" class="button" id="custom-avatar-remove" style="<?php echo $avatar_id ? '' : 'display:none;'; ?>"><?php esc_html_e('Remove', 'my-e-shop'); ?></button>
+                <p class="description"><?php esc_html_e('Overrides the default Gravatar across the site.', 'my-e-shop'); ?></p>
+            </td>
+        </tr>
+    </table>
+    <script>
+    (function($){
+        var frame;
+        $('#custom-avatar-upload').on('click', function(e){
+            e.preventDefault();
+            if (frame) { frame.open(); return; }
+            frame = wp.media({ title: '<?php echo esc_js(__('Select profile picture', 'my-e-shop')); ?>', button: { text: '<?php echo esc_js(__('Use this image', 'my-e-shop')); ?>' }, multiple: false });
+            frame.on('select', function(){
+                var a = frame.state().get('selection').first().toJSON();
+                var url = (a.sizes && a.sizes.thumbnail) ? a.sizes.thumbnail.url : a.url;
+                $('#custom_avatar_id').val(a.id);
+                $('#custom-avatar-preview').html('<img src="'+url+'" style="width:96px;height:96px;border-radius:50%;object-fit:cover;">');
+                $('#custom-avatar-remove').show();
+            });
+            frame.open();
+        });
+        $('#custom-avatar-remove').on('click', function(e){
+            e.preventDefault();
+            $('#custom_avatar_id').val('');
+            $('#custom-avatar-preview').empty();
+            $(this).hide();
+        });
+    })(jQuery);
+    </script>
+    <?php
+}
+
+add_action('personal_options_update', 'my_e_shop_save_custom_avatar');
+add_action('edit_user_profile_update', 'my_e_shop_save_custom_avatar');
+function my_e_shop_save_custom_avatar($user_id) {
+    if (!current_user_can('edit_user', $user_id)) {
+        return;
+    }
+    if (isset($_POST['custom_avatar_id'])) {
+        update_user_meta($user_id, 'custom_avatar_id', (int) $_POST['custom_avatar_id']);
+    }
+}
+
+// Serve the custom avatar through the standard get_avatar() pipeline.
+add_filter('pre_get_avatar_data', 'my_e_shop_custom_avatar_data', 10, 2);
+function my_e_shop_custom_avatar_data($args, $id_or_email) {
+    $user_id = 0;
+    if (is_numeric($id_or_email)) {
+        $user_id = (int) $id_or_email;
+    } elseif ($id_or_email instanceof WP_User) {
+        $user_id = $id_or_email->ID;
+    } elseif ($id_or_email instanceof WP_Post) {
+        $user_id = (int) $id_or_email->post_author;
+    } elseif ($id_or_email instanceof WP_Comment) {
+        if (!empty($id_or_email->user_id)) {
+            $user_id = (int) $id_or_email->user_id;
+        } elseif (!empty($id_or_email->comment_author_email)) {
+            $u = get_user_by('email', $id_or_email->comment_author_email);
+            if ($u) { $user_id = $u->ID; }
+        }
+    } elseif (is_string($id_or_email) && is_email($id_or_email)) {
+        $u = get_user_by('email', $id_or_email);
+        if ($u) { $user_id = $u->ID; }
+    }
+
+    if ($user_id) {
+        $avatar_id = (int) get_user_meta($user_id, 'custom_avatar_id', true);
+        if ($avatar_id) {
+            $size = isset($args['size']) ? (int) $args['size'] : 96;
+            $url  = wp_get_attachment_image_url($avatar_id, array($size, $size));
+            if ($url) {
+                $args['url']           = $url;
+                $args['found_avatar']  = true;
+            }
+        }
+    }
+    return $args;
+}
 
 // Modify WooCommerce breadcrumbs to use /collection/ instead of /shop/
 add_filter('woocommerce_breadcrumb_defaults', 'custom_woocommerce_breadcrumbs');

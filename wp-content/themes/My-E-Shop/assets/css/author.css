@@ -1,0 +1,143 @@
+/* ============================================
+   Author page — hero (avatar + bio) and articles grid
+   ============================================ */
+
+.author-page .author-hero {
+    background-color: #F4F0EB;
+    padding: 70px 20px 60px;
+    text-align: center;
+}
+
+.author-page .author-hero-inner {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.author-page .author-avatar {
+    margin-bottom: 22px;
+}
+
+.author-page .author-avatar img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ffffff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.author-page .author-name {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-size: 40px;
+    line-height: 1.2;
+    color: #2C2C2C;
+    margin: 0 0 14px;
+}
+
+.author-page .author-bio {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #555555;
+    margin: 0 auto 18px;
+    max-width: 620px;
+}
+
+.author-page .author-post-count {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #a855f7;
+}
+
+/* Articles */
+.author-page .author-posts {
+    padding: 60px 0 80px;
+}
+
+.author-page .author-posts .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Category tag on the card (not present in the base blog-card styles) */
+.author-page .blog-trend-cat {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #a855f7;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.author-page .blog-trend-cat:hover {
+    color: #9333ea;
+}
+
+.author-page .author-no-posts {
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    color: #777;
+    padding: 40px 0;
+}
+
+/* Pagination */
+.author-page .pagination,
+.author-page .navigation.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.author-page .pagination .nav-links {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.author-page .pagination .page-numbers {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    color: #2C2C2C;
+    padding: 10px 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.author-page .pagination .page-numbers.current,
+.author-page .pagination .page-numbers:hover {
+    background: #a855f7;
+    border-color: #a855f7;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .author-page .author-hero {
+        padding: 50px 16px 40px;
+    }
+    .author-page .author-name {
+        font-size: 30px;
+    }
+    .author-page .author-bio {
+        font-size: 15px;
+    }
+    .author-page .author-avatar img {
+        width: 110px;
+        height: 110px;
+    }
+    .author-page .author-posts {
+        padding: 40px 0 60px;
+    }
+}
