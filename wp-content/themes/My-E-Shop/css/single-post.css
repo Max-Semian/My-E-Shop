@@ -198,6 +198,50 @@
     color: #2C2C2C !important;
 }
 
+/* Цитата в контенте статьи */
+.single-post-container .post-content blockquote,
+.single-post-container .post-content .wp-block-quote {
+    border-left: 4px solid #681AE6;
+    margin: 28px 0;
+    padding: 4px 0 4px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 20px;
+    /* по макету 100%, но для многострочных цитат ставим 1.4 ради читаемости */
+    line-height: 1.4;
+    letter-spacing: 0;
+    color: #444444;
+    background: transparent;
+    quotes: none;
+}
+
+/* Вложенный blockquote (в разметке их два) — без второго бордера/отступа */
+.single-post-container .post-content .wp-block-quote .wp-block-quote {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.single-post-container .post-content blockquote p,
+.single-post-container .post-content .wp-block-quote p {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+
+.single-post-container .post-content blockquote cite,
+.single-post-container .post-content .wp-block-quote cite,
+.single-post-container .post-content .wp-block-quote__citation {
+    display: block;
+    margin-top: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: #888888;
+}
+
 .nav-links .nav-previous .nav-title {
     font-family: 'Playfair Display', serif;
     font-weight: 700;

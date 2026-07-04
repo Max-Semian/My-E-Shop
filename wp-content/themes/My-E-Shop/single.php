@@ -77,6 +77,10 @@
                 <span class="breadcrumb-separator">/</span>
                 <a href="<?php echo esc_url(home_url('/blog/')); ?>">BLOG</a>
                 <span class="breadcrumb-separator">/</span>
+                <?php if ($hero_category) : ?>
+                    <a href="<?php echo esc_url(get_category_link($hero_category->term_id)); ?>"><?php echo esc_html($hero_category->name); ?></a>
+                    <span class="breadcrumb-separator">/</span>
+                <?php endif; ?>
                 <span class="breadcrumb-current"><?php the_title(); ?></span>
             </nav>
         </div>
