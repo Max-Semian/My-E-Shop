@@ -143,11 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const span = document.createElement('span');
             span.className = 'word';
             span.textContent = word + ' ';
-            span.style.animationDelay = (index * 0.1) + 's';
             span.style.opacity = '0';
             span.style.transform = 'translateY(20px)';
             span.style.display = 'inline-block';
-            span.style.animation = 'fadeInWord 0.6s ease forwards';
+            // Задержку кладём прямо в шорткат animation (4-е значение = delay),
+            // иначе отдельный animationDelay затирается этим же шорткатом и слова
+            // проявляются все разом, а не по очереди.
+            span.style.animation = 'fadeInWord 0.6s ease ' + (index * 0.1) + 's forwards';
             element.appendChild(span);
         });
     }

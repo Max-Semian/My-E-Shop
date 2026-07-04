@@ -7,10 +7,27 @@
     $hero_image_id = get_post_meta(get_the_ID(), '_hero_image', true);
     $hero_title = get_post_meta(get_the_ID(), '_hero_title', true);
     $hero_description = get_post_meta(get_the_ID(), '_hero_description', true);
-    
+
     // Если hero заголовок не задан, используем заголовок поста
     if (empty($hero_title)) {
         $hero_title = get_the_title();
+    }
+
+    // Если подзаголовок не задан вручную — берём краткий отрывок статьи
+    if (empty($hero_description)) {
+        $hero_description = wp_trim_words(get_the_excerpt(), 14, '…');
+    }
+
+    // Рубрика статьи для тега над заголовком (кроме «Без рубрики»)
+    $hero_category = null;
+    $post_cats = get_the_category();
+    if (!empty($post_cats)) {
+        foreach ($post_cats as $c) {
+            if ($c->slug !== 'uncategorized') {
+                $hero_category = $c;
+                break;
+            }
+        }
     }
     
     // Определяем изображение для hero блока
@@ -27,16 +44,22 @@
     <div class="post-hero" <?php echo $hero_style; ?>>
         <div class="post-hero-content">
             <div class="post-container">
+                <?php if ($hero_category) : ?>
+                    <a class="post-hero-category" href="<?php echo esc_url(get_category_link($hero_category->term_id)); ?>">
+                        <?php echo esc_html($hero_category->name); ?>
+                    </a>
+                <?php endif; ?>
+
                 <h1 class="hero-title"><?php echo esc_html($hero_title); ?></h1>
-                
+
                 <div class="hero-info-line">
                     <?php if ($hero_description) : ?>
                         <span class="post-hero-description"><?php echo esc_html($hero_description); ?></span>
                     <?php endif; ?>
-                    
+
                     <span class="post-hero-meta">
                         <span class="meta-author">
-                            <?php the_author(); ?>
+                            <?php printf(__('By %s', 'my-e-shop'), get_the_author()); ?>
                         </span>
                         <span class="meta-date"><?php echo get_the_date(); ?></span>
                         <span class="meta-reading-time"><?php echo get_reading_time(); ?> мин чтения</span>

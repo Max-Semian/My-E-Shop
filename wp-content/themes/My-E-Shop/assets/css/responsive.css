@@ -727,6 +727,30 @@
     .shop-dropdown .dropdown-item:hover .dropdown-icon img[alt*="action"] {
         animation: punchPulse 0.6s ease-in-out infinite !important;
     }
+
+    /* Keep Animated Text Block entrance animations (typewriter / word-fade /
+       fade-in / slide-up) playing under reduced motion. They run once on scroll
+       and are a deliberate brand effect; the global rule above would otherwise
+       flatten them to an instant frame → «статичный текст без анимации».
+       Per-word animation-delay is untouched, so the staggered reveal is kept. */
+    .animated-text-section .text-block {
+        transition-duration: 0.8s !important;
+    }
+    .animated-text-section .text-content.fadeInWords .word,
+    .animated-text-section .word {
+        animation-duration: 0.6s !important;
+        transition-duration: 0.6s !important;
+    }
+    .animated-text-section .text-content.fadeIn {
+        animation-duration: 2s !important;
+    }
+    .animated-text-section .text-content.slideUp {
+        animation-duration: 1.5s !important;
+    }
+    .animated-text-section .text-content.typewriter {
+        animation-duration: 3s, 0.75s !important;
+        animation-iteration-count: 1, infinite !important;
+    }
 }
 
 /* ==================== Dark Mode Support ==================== */
