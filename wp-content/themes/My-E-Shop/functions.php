@@ -2952,6 +2952,81 @@ add_action('admin_init', function() {
     }
 });
 
+// ============================================
+// Wishlist as an internal (non-public) utility page.
+// The URL stays reachable (the header heart icon works for everyone, guests
+// included), but the page is hidden from search engines, the site's own search,
+// the sitemap and automatic page lists — like cart/checkout, not public content.
+// ============================================
+function my_e_shop_wishlist_page_id() {
+    static $id = null;
+    if ($id === null) {
+        $page = get_page_by_path('wishlist');
+        $id = $page ? (int) $page->ID : 0;
+    }
+    return $id;
+}
+
+// noindex / nofollow on the wishlist page
+add_filter('wp_robots', function ($robots) {
+    $id = my_e_shop_wishlist_page_id();
+    if ($id && is_page($id)) {
+        $robots['noindex']  = true;
+        $robots['nofollow'] = true;
+        unset($robots['index'], $robots['follow']);
+    }
+    return $robots;
+});
+
+// Keep it out of the site's own search results
+add_action('pre_get_posts', function ($q) {
+    if (is_admin() || !$q->is_main_query() || !$q->is_search()) {
+        return;
+    }
+    $id = my_e_shop_wishlist_page_id();
+    if ($id) {
+        $q->set('post__not_in', array_merge((array) $q->get('post__not_in'), array($id)));
+    }
+});
+
+// Keep it out of the WordPress core sitemap (pages)
+add_filter('wp_sitemaps_posts_query_args', function ($args, $post_type) {
+    if ($post_type === 'page') {
+        $id = my_e_shop_wishlist_page_id();
+        if ($id) {
+            $existing = isset($args['post__not_in']) ? (array) $args['post__not_in'] : array();
+            $args['post__not_in'] = array_merge($existing, array($id));
+        }
+    }
+    return $args;
+}, 10, 2);
+
+// Keep it out of wp_list_pages() / page-list widgets / page dropdowns
+add_filter('wp_list_pages_excludes', function ($exclude) {
+    $id = my_e_shop_wishlist_page_id();
+    if ($id) {
+        $exclude[] = $id;
+    }
+    return $exclude;
+});
+
+// Label system pages in the admin Pages list (like WooCommerce's "Cart Page",
+// "Checkout Page", "My Account Page"): mark Wishlist and Collection too.
+add_filter('display_post_states', function ($states, $post) {
+    if ($post->post_type !== 'page') {
+        return $states;
+    }
+    $wishlist_id = my_e_shop_wishlist_page_id();
+    if ($wishlist_id && (int) $post->ID === $wishlist_id) {
+        $states['my_e_shop_wishlist'] = __('Wishlist Page', 'my-e-shop');
+    }
+    $collection = get_page_by_path('collection');
+    if ($collection && (int) $post->ID === (int) $collection->ID) {
+        $states['my_e_shop_collection'] = __('Collection Page', 'my-e-shop');
+    }
+    return $states;
+}, 10, 2);
+
 // Modify WooCommerce breadcrumbs to use /collection/ instead of /shop/
 add_filter('woocommerce_breadcrumb_defaults', 'custom_woocommerce_breadcrumbs');
 function custom_woocommerce_breadcrumbs($defaults) {

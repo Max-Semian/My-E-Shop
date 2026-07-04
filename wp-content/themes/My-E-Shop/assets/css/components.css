@@ -1406,3 +1406,9 @@ body.modal-open {
 .animated-text-section .text-block.visible:hover {
     transform: translateY(-5px);
 }
+
+@media (max-width: 480px) {
+    .offcanvas-header {
+        margin-top: 50px;
+    }
+}
