@@ -1,3 +1,47 @@
+<?php if ( is_singular('post') ) :
+    // ===== CTA-футер статьи (настраивается в сайдбаре поста) =====
+    $cta_theme = get_post_meta(get_the_ID(), '_footer_cta_theme', true);
+    if ($cta_theme === '') { $cta_theme = 'dark'; }
+    $cta_title = get_post_meta(get_the_ID(), '_footer_cta_title', true);
+    $cta_sub   = get_post_meta(get_the_ID(), '_footer_cta_subtitle', true);
+    $cta_btn   = get_post_meta(get_the_ID(), '_footer_cta_button_text', true);
+    if ($cta_btn === '') { $cta_btn = 'EXPLORE THE COLLECTION'; }
+    $cta_page  = (int) get_post_meta(get_the_ID(), '_footer_cta_button_page', true);
+    $cta_url   = $cta_page ? get_permalink($cta_page) : '';
+    $shop_url  = function_exists('wc_get_page_id') ? get_permalink(wc_get_page_id('shop')) : home_url('/');
+?>
+    <footer class="footer article-footer article-footer--<?php echo esc_attr($cta_theme); ?>">
+        <?php if ($cta_title || $cta_sub || ($cta_btn && $cta_url)) : ?>
+            <div class="article-cta">
+                <?php if ($cta_title) : ?>
+                    <h2 class="article-cta-title"><?php echo esc_html($cta_title); ?></h2>
+                <?php endif; ?>
+                <?php if ($cta_sub) : ?>
+                    <p class="article-cta-subtitle"><?php echo esc_html($cta_sub); ?></p>
+                <?php endif; ?>
+                <?php if ($cta_btn && $cta_url) : ?>
+                    <a class="article-cta-btn" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_btn); ?></a>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+
+        <div class="article-footer-bottom">
+            <p class="article-footer-copy">&copy; <?php echo esc_html(date('Y')); ?> CRETHO. All rights reserved.</p>
+            <nav class="article-footer-links">
+                <a href="<?php echo esc_url(home_url('/about-us/')); ?>">About Us</a>
+                <span class="sep">|</span>
+                <a href="<?php echo esc_url($shop_url); ?>">Shop</a>
+                <span class="sep">|</span>
+                <a href="<?php echo esc_url(home_url('/blog/')); ?>">Blog</a>
+            </nav>
+            <nav class="article-footer-social">
+                <a href="#">Instagram</a>
+                <a href="#">Pinterest</a>
+                <a href="#">TikTok</a>
+            </nav>
+        </div>
+    </footer>
+<?php else : ?>
 <footer class="footer">
     <div class="footer-container">
         <div class="row">
@@ -52,6 +96,7 @@
             <p class="footer-copy" style="padding-top: 20px;">&copy; 2024 My E-Shop. All rights reserved.</p>
     </div>
 </footer>
+<?php endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Ищем все возможные варианты

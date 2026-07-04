@@ -3157,6 +3157,103 @@ function save_post_hero_meta_box_data($post_id) {
     }
 }
 
+// ============================================
+// Мета-бокс: CTA-футер статьи
+// Вариант (тёмный/светлый), заголовок, подзаголовок, кнопка со ссылкой на коллекцию.
+// Для статей вместо стандартного футера выводится этот CTA-футер (см. footer.php).
+// ============================================
+add_action('add_meta_boxes', 'add_post_footer_cta_meta_box');
+function add_post_footer_cta_meta_box() {
+    add_meta_box(
+        'post_footer_cta_settings',
+        'Футер статьи (CTA)',
+        'post_footer_cta_meta_box_callback',
+        'post',
+        'side',
+        'default'
+    );
+}
+
+function post_footer_cta_meta_box_callback($post) {
+    wp_nonce_field('post_footer_cta_meta_box', 'post_footer_cta_meta_box_nonce');
+
+    $theme       = get_post_meta($post->ID, '_footer_cta_theme', true);
+    if ($theme === '') { $theme = 'dark'; }
+    $title       = get_post_meta($post->ID, '_footer_cta_title', true);
+    $subtitle    = get_post_meta($post->ID, '_footer_cta_subtitle', true);
+    $button_text = get_post_meta($post->ID, '_footer_cta_button_text', true);
+    if ($button_text === '') { $button_text = 'EXPLORE THE COLLECTION'; }
+    $button_page = (int) get_post_meta($post->ID, '_footer_cta_button_page', true);
+
+    // Страницы-коллекции (дети страницы "collection"); фолбэк — все страницы
+    $collection_parent = get_page_by_path('collection');
+    $pages = $collection_parent
+        ? get_pages(array('child_of' => $collection_parent->ID, 'sort_column' => 'post_title'))
+        : get_pages(array('sort_column' => 'post_title'));
+    ?>
+    <div class="footer-cta-fields">
+        <p>
+            <label><strong>Вариант футера:</strong></label><br>
+            <select name="footer_cta_theme" style="width:100%;">
+                <option value="dark"  <?php selected($theme, 'dark'); ?>>Тёмный</option>
+                <option value="light" <?php selected($theme, 'light'); ?>>Светлый</option>
+            </select>
+        </p>
+        <p>
+            <label><strong>Заголовок:</strong></label><br>
+            <input type="text" name="footer_cta_title" value="<?php echo esc_attr($title); ?>" style="width:100%;">
+        </p>
+        <p>
+            <label><strong>Подзаголовок:</strong></label><br>
+            <textarea name="footer_cta_subtitle" rows="3" style="width:100%;"><?php echo esc_textarea($subtitle); ?></textarea>
+        </p>
+        <p>
+            <label><strong>Текст кнопки:</strong></label><br>
+            <input type="text" name="footer_cta_button_text" value="<?php echo esc_attr($button_text); ?>" style="width:100%;">
+        </p>
+        <p>
+            <label><strong>Кнопка ведёт на коллекцию:</strong></label><br>
+            <select name="footer_cta_button_page" style="width:100%;">
+                <option value="0"><?php esc_html_e('— не выбрано —', 'my-e-shop'); ?></option>
+                <?php foreach ($pages as $pg) : ?>
+                    <option value="<?php echo (int) $pg->ID; ?>" <?php selected($button_page, $pg->ID); ?>>
+                        <?php echo esc_html($pg->post_title); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </p>
+    </div>
+    <style>
+        .footer-cta-fields p { margin-bottom: 12px; }
+        .footer-cta-fields label { display: inline-block; margin-bottom: 4px; }
+    </style>
+    <?php
+}
+
+add_action('save_post', 'save_post_footer_cta_meta_box_data');
+function save_post_footer_cta_meta_box_data($post_id) {
+    if (!isset($_POST['post_footer_cta_meta_box_nonce'])) return;
+    if (!wp_verify_nonce($_POST['post_footer_cta_meta_box_nonce'], 'post_footer_cta_meta_box')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['footer_cta_theme'])) {
+        update_post_meta($post_id, '_footer_cta_theme', $_POST['footer_cta_theme'] === 'light' ? 'light' : 'dark');
+    }
+    if (isset($_POST['footer_cta_title'])) {
+        update_post_meta($post_id, '_footer_cta_title', sanitize_text_field($_POST['footer_cta_title']));
+    }
+    if (isset($_POST['footer_cta_subtitle'])) {
+        update_post_meta($post_id, '_footer_cta_subtitle', sanitize_textarea_field($_POST['footer_cta_subtitle']));
+    }
+    if (isset($_POST['footer_cta_button_text'])) {
+        update_post_meta($post_id, '_footer_cta_button_text', sanitize_text_field($_POST['footer_cta_button_text']));
+    }
+    if (isset($_POST['footer_cta_button_page'])) {
+        update_post_meta($post_id, '_footer_cta_button_page', (int) $_POST['footer_cta_button_page']);
+    }
+}
+
 // Функция для расчета времени чтения поста
 function get_reading_time($post_id = null) {
     if (!$post_id) {
