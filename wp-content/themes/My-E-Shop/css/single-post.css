@@ -604,7 +604,7 @@
     }
 
     .single-post-container .comment-respond {
-        padding: 24px 20px;
+        padding: 20px 16px;
     }
 }
 
@@ -644,6 +644,9 @@
     .single-post-container .comment-reply-title {
         font-size: 18px;
         line-height: 28px;
+    }
+    .single-post-container .post-navigation .nav-links {
+        padding: 0 16px;
     }
 }
 
