@@ -2961,33 +2961,50 @@ function custom_woocommerce_breadcrumbs($defaults) {
 
 add_filter('woocommerce_get_breadcrumb', 'custom_woocommerce_breadcrumb_links', 10, 2);
 function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
+    // Категории товаров (product_cat), чья страница-коллекция называется иначе,
+    // чем сам термин. Слаг категории → слаг страницы /collection/{slug}/ + подпись.
+    // Пример: товары лежат в product_cat "Witch teaser", а публичная коллекция —
+    // страница "Witch Core" (/collection/witch-core/). Без ремапа крошка вела бы
+    // на несуществующий /collection/witch-teaser/ (резолвится в картинку).
+    $collection_map = array(
+        'witch-teaser' => array('slug' => 'witch-core', 'label' => 'Witch Core'),
+    );
+
     $new_crumbs = array();
-    
+
     foreach ($crumbs as $key => $crumb) {
         // Replace /shop/ with /collection/ in URLs
         if (isset($crumb[1]) && !empty($crumb[1])) {
             // Replace shop URL
             $crumb[1] = str_replace('/shop/', '/collection/', $crumb[1]);
             $crumb[1] = str_replace('my-shop/shop', 'my-shop/collection', $crumb[1]);
-            
+
             // For category links, ensure they use /collection/{category-slug}/
             if (strpos($crumb[1], '/product-cat/') !== false || strpos($crumb[1], '/product-category/') !== false) {
                 // Extract category slug from URL
                 $url_parts = parse_url($crumb[1]);
                 $path = isset($url_parts['path']) ? $url_parts['path'] : '';
-                
+
                 // Get category slug from path
                 $path_parts = explode('/', trim($path, '/'));
                 $category_slug = end($path_parts);
-                
+
+                // Ремап на страницу-коллекцию, если её слаг отличается от слага категории
+                if (isset($collection_map[$category_slug])) {
+                    if (!empty($collection_map[$category_slug]['label'])) {
+                        $crumb[0] = $collection_map[$category_slug]['label'];
+                    }
+                    $category_slug = $collection_map[$category_slug]['slug'];
+                }
+
                 // Build new URL
                 $crumb[1] = home_url('/collection/' . $category_slug . '/');
             }
         }
-        
+
         $new_crumbs[] = $crumb;
     }
-    
+
     return $new_crumbs;
 }
 
@@ -3145,10 +3162,29 @@ function get_reading_time($post_id = null) {
     if (!$post_id) {
         $post_id = get_the_ID();
     }
-    
+
     $content = get_post_field('post_content', $post_id);
     $word_count = str_word_count(strip_tags($content));
     $reading_time = ceil($word_count / 200); // Средняя скорость чтения 200 слов в минуту
 
     return $reading_time;
 }
+
+// ============================================
+// Авто cache-busting ассетов темы по mtime файла.
+// Заменяет статичные ?ver=x.x.x на метку изменения файла, чтобы правки
+// CSS/JS сразу подхватывались браузером и CDN без ручной чистки кэша.
+// ============================================
+function my_e_shop_asset_cachebust( $src ) {
+    $theme_uri = get_template_directory_uri();
+    if ( strpos( $src, $theme_uri ) === 0 ) {
+        $clean = strtok( $src, '?' );
+        $path  = str_replace( $theme_uri, get_template_directory(), $clean );
+        if ( is_file( $path ) ) {
+            $src = add_query_arg( 'ver', filemtime( $path ), $clean );
+        }
+    }
+    return $src;
+}
+add_filter( 'style_loader_src', 'my_e_shop_asset_cachebust', 20 );
+add_filter( 'script_loader_src', 'my_e_shop_asset_cachebust', 20 );

@@ -10,9 +10,33 @@
     min-height: 150px;
 }
 
-.wp-block-my-e-shop-animated-text .text-content {
-    opacity: 1;
-    transform: translateY(0);
+/* В редакторе нет фронтенд-JS, снимающего visibility/opacity,
+   поэтому принудительно показываем текст и обёртку. */
+.wp-block-my-e-shop-animated-text .text-block {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.wp-block-my-e-shop-animated-text .text-content,
+.wp-block-my-e-shop-animated-text .text-content.preview-mode {
+    visibility: visible !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* Фон секции по выбранной теме шаблона (превью как на фронте) */
+.wp-block-my-e-shop-animated-text.theme-dark .animated-text-section {
+    background-color: #2C2C2C;
+}
+
+.wp-block-my-e-shop-animated-text.theme-light .animated-text-section {
+    background-color: #F4F0EB;
+}
+
+/* Превью-бокс под тёмную тему: тёмная подложка, чтобы светлый текст был читаем */
+.wp-block-my-e-shop-animated-text.theme-dark .text-content.preview-mode {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .wp-block-my-e-shop-animated-text .text-content.preview-mode {

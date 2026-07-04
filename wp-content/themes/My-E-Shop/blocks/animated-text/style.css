@@ -9,6 +9,20 @@
     overflow: hidden;
 }
 
+/* Фон секции по выбранной теме шаблона.
+   Кастомный backgroundColor (если задан) приходит inline и перекрывает это. */
+.animated-text-block.theme-dark .animated-text-section {
+    background-color: #2C2C2C;
+}
+
+.animated-text-block.theme-light .animated-text-section {
+    background-color: #F4F0EB;
+}
+
+.animated-text-block.theme-dark .text-content {
+    color: #F4F0EB;
+}
+
 .text-block {
     max-width: 1100px;
     width: 100%;

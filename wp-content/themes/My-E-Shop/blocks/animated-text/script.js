@@ -172,7 +172,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (entry.isIntersecting) {
                 const section = entry.target;
                 const textContent = section.querySelector('.text-content');
-                
+
+                // Снимаем opacity:0 с обёртки (.text-block { opacity:0 } → .visible { opacity:1 }).
+                // Без этого блок остаётся невидимым, даже когда текст «loaded».
+                const textBlock = section.querySelector('.text-block');
+                if (textBlock) {
+                    textBlock.classList.add('visible');
+                }
+
                 if (textContent && !textContent.classList.contains('loaded')) {
                     const animationType = section.getAttribute('data-animation') || 'fadeIn';
                     const speed = parseInt(section.getAttribute('data-speed')) || 50;

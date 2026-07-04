@@ -722,7 +722,6 @@ body.modal-open {
 }
 
 .shop-dropdown .dropdown-item:hover {
-    background: rgba(0, 0, 0, 0.05);
     color: #D85AFF;
 }
 
