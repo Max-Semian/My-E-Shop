@@ -117,6 +117,27 @@
     align-items: center;
 }
 
+.post-hero .post-hero-meta .meta-author-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #F4F0EB;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.post-hero .post-hero-meta .meta-author-link:hover {
+    opacity: 0.8;
+}
+
+.post-hero .post-hero-meta .meta-author-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
 .post-hero .hero-meta .meta-author img {
     border-radius: 50%;
     width: 32px;

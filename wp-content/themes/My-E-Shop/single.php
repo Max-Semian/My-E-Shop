@@ -59,7 +59,11 @@
 
                     <span class="post-hero-meta">
                         <span class="meta-author">
-                            <?php printf(__('By %s', 'my-e-shop'), get_the_author()); ?>
+                            <?php $post_author_id = (int) get_the_author_meta('ID'); ?>
+                            <a class="meta-author-link" href="<?php echo esc_url(get_author_posts_url($post_author_id)); ?>">
+                                <?php echo get_avatar($post_author_id, 48, '', get_the_author(), array('class' => 'meta-author-avatar')); ?>
+                                <span class="meta-author-name"><?php printf(__('By %s', 'my-e-shop'), esc_html(get_the_author())); ?></span>
+                            </a>
                         </span>
                         <span class="meta-date"><?php echo get_the_date(); ?></span>
                         <span class="meta-reading-time"><?php echo get_reading_time(); ?> min read</span>
