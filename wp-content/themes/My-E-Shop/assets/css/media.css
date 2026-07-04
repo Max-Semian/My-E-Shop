@@ -178,6 +178,13 @@
         z-index: 1000;
         background-color: #2C2C2C;
     }
+
+    /* When logged in, the WP admin bar shifts page content down 46px but the
+       fixed header stays at top:0, leaving a strip below it. Drop the header
+       under the admin bar so it stays flush with the content. */
+    .admin-bar .main-header-bar {
+        top: 46px;
+    }
     
     .main-header-bar .header-content {
         justify-content: space-between;
@@ -536,19 +543,49 @@
                 width: 100%;
             }
     
+    /* Stable mobile fashion hero: 3 equal full-height slices, object-fit: cover,
+       height driven by viewport HEIGHT (vh) so width changes don't reflow it and
+       the images stop jumping. High-specificity + !important beats the block CSS. */
     .fashion-hero-container {
-        height: 80vh;
-        min-height: 500px;
+        height: 64vh !important;
+        min-height: 440px !important;
+        max-height: 620px !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        top: -2px;
     }
 
-    .fashion-images-grid {
-        flex-wrap: wrap;
-        margin-top: -40px;
+    .fashion-hero-section .fashion-images-grid {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: stretch !important;
+        position: absolute !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
     }
 
-    .fashion-image-card {
-        flex-basis: 30%;
-        height: 50%;
+    .fashion-hero-section .fashion-image-card {
+        display: flex !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        width: auto !important;
+        height: 100% !important;
+        overflow: hidden !important;
+    }
+
+    /* Show only the first 3 images on mobile */
+    .fashion-hero-section .fashion-image-card:nth-child(n+4) {
+        display: none !important;
+    }
+
+    .fashion-hero-section .fashion-image-card img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center top !important;
     }
 
     .fashion-hero-content {
@@ -768,82 +805,46 @@
         max-height: 95vh;
     }
 
+    /* Same stable layout on phones — 3 full-height slices, cover, vh-based height. */
     .fashion-hero-container {
-        height: 50vh;
-        min-height: 600px;
+        height: 60vh !important;
+        min-height: 400px !important;
+        max-height: 560px !important;
+        top: -2px;
     }
 
     .fashion-hero-section .fashion-images-grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        grid-template-rows: repeat(2, 1fr) !important;
-        gap: 5px !important;
-        height: 100% !important;
-        width: 100% !important;
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        align-items: stretch !important;
         position: absolute !important;
-        top: 0 !important;
-        left: 0 !important;
+        inset: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
         z-index: 1 !important;
-        flex-direction: unset !important;
-        overflow: hidden !important;
     }
 
     .fashion-hero-section .fashion-image-card {
-        flex-basis: auto !important;
-        height: auto !important;
-        width: 100% !important;
+        display: flex !important;
+        flex: 1 1 0 !important;
+        min-width: 0 !important;
+        max-width: none !important;
+        width: auto !important;
+        height: 100% !important;
         overflow: hidden !important;
         position: relative !important;
-        flex: none !important;
     }
 
-    .fashion-hero-section .fashion-image-7 .fashion-mobile-hidden {
+    .fashion-hero-section .fashion-image-card:nth-child(n+4) {
         display: none !important;
-    }
-
-    .fashion-image-7 {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        top: -9999px !important;
-        left: -9999px !important;
-        z-index: -1 !important;
-    }
-
-    .fashion-hero-section .fashion-image-card:nth-child(n+7) {
-        display: none !important; /* Hide the 7th image, show only 6 */
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        top: -9999px !important;
-        left: -9999px !important;
-    }
-
-    .fashion-hero-section .fashion-image-card:nth-child(7) {
-        display: none !important; /* Specifically hide the 7th element */
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        top: -9999px !important;
-        left: -9999px !important;
-    }
-
-    .fashion-hero-section .fashion-image-card:last-child {
-        display: none !important; /* Hide the last element */
-        visibility: hidden !important;
-        opacity: 0 !important;
-        position: absolute !important;
-        top: -9999px !important;
-        left: -9999px !important;
     }
 
     .fashion-hero-section .fashion-image-card img {
         width: 100% !important;
         height: 100% !important;
-        object-fit: contain !important;
-        object-position: center !important;
-        background-color: rgba(0, 0, 0, 0.05) !important;
+        object-fit: cover !important;
+        object-position: center top !important;
     }
 
     .fashion-hero-content {

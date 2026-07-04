@@ -38,10 +38,12 @@
         $hero_image_url = get_the_post_thumbnail_url(get_the_ID(), 'full');
     }
     
-    $hero_style = $hero_image_url ? 'style="background-image: url(' . esc_url($hero_image_url) . ');"' : '';
     ?>
-    
-    <div class="post-hero" <?php echo $hero_style; ?>>
+
+    <div class="post-hero<?php echo $hero_image_url ? ' has-image' : ''; ?>">
+        <?php if ($hero_image_url) : ?>
+            <img class="post-hero-img" src="<?php echo esc_url($hero_image_url); ?>" alt="<?php echo esc_attr($hero_title); ?>">
+        <?php endif; ?>
         <div class="post-hero-content">
             <div class="post-container">
                 <?php if ($hero_category) : ?>

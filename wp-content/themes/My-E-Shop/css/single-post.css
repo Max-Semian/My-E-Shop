@@ -5,13 +5,15 @@
 .post-hero {
     position: relative;
     width: 100%;
-    height: 600px;
-    display: flex;
-    align-items: flex-end;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     background-color: #1a1a1a;
+    overflow: hidden;
+}
+
+/* Full featured image — never cropped: fills the width, height follows the image */
+.post-hero-img {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
 .post-hero::before {
@@ -26,7 +28,10 @@
 }
 
 .post-hero .post-hero-content {
-    position: relative;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 2;
     width: 100%;
     padding-bottom: 27px;
@@ -563,14 +568,24 @@
 
 /* Mobile devices */
 @media (max-width: 768px) {
+    /* Clear the fixed mobile header so the hero isn't hidden under it, and let
+       the full featured image show on top with the text stacked below it on the
+       dark hero background — otherwise a wide image is too short for an overlay. */
     .post-hero {
-        height: 450px;
+        height: auto;
+        margin-top: 48px;
     }
-    
+
+    .post-hero::before {
+        display: none;
+    }
+
     .post-hero .post-hero-content {
-        padding-bottom: 20px;
+        position: static;
+        transform: none;
+        padding: 22px 0 24px;
     }
-    
+
     .post-hero .post-hero-content .post-container {
         padding: 0 16px;
     }
@@ -632,7 +647,8 @@
 /* Small mobile devices */
 @media (max-width: 480px) {
     .post-hero {
-        height: 400px;
+        height: auto;
+        margin-top: 48px;
     }
     
     .post-hero .hero-title {

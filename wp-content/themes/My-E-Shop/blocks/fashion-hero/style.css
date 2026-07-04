@@ -197,55 +197,61 @@
 }
 
 @media (max-width: 991.98px) {
+    /* Stable height driven by the viewport HEIGHT (vh), not width — so resizing
+       the width no longer changes the block height and the images stop jumping.
+       Images use object-fit: cover to fill the columns evenly (no variable gaps). */
     .fashion-hero-container {
-        height: auto;
-        min-height: auto;
-        padding-top: 70px;
+        height: 68vh;
+        min-height: 460px;
+        max-height: 640px;
         margin-top: 0;
+        padding-top: 0;
         display: block;
     }
-    
+
     .fashion-images-grid {
-        position: relative;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         display: flex;
-        justify-content: center;
-        align-items: flex-end;
-        height: auto;
+        align-items: stretch;
     }
-    
-    /* Show only the first 3 images */
+
+    /* Show only the first 3 images, as equal, full-height vertical slices */
     .fashion-image-card {
         display: none !important;
-        height: auto;
-        overflow: visible;
     }
-    
+
     .fashion-image-card:nth-child(1),
     .fashion-image-card:nth-child(2),
     .fashion-image-card:nth-child(3) {
         display: flex !important;
-        flex: 0 0 33.333%;
-        max-width: 33.333%;
-        align-items: flex-end;
-        height: auto;
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: none;
+        height: 100%;
+        align-items: stretch;
+        overflow: hidden;
     }
-    
+
     .fashion-image-card img {
         width: 100%;
-        height: auto;
-        min-height: auto;
-        object-fit: contain;
-        object-position: bottom center;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
     }
-    
+
     .fashion-hero-overlay {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+        height: 100%;
     }
-    
+
     .fashion-hero-content {
         position: absolute;
         top: 50%;
@@ -255,19 +261,19 @@
         padding: 20px;
         animation: none;
     }
-    
+
     .fashion-hero-title {
         font-size: 24px;
         line-height: 1.3;
         margin-bottom: 10px;
     }
-    
+
     .fashion-hero-subtitle {
         font-size: 14px;
         margin-bottom: 15px;
         display: none;
     }
-    
+
     .fashion-hero-btn {
         padding: 12px 30px;
         font-size: 12px;
@@ -276,18 +282,12 @@
 
 @media (max-width: 768px) {
     .fashion-hero-container {
-        padding-top: 60px;
+        height: 60vh;
+        min-height: 420px;
     }
 
     .fashion-hero-title {
         font-size: 20px;
         margin-bottom: 10px;
-    }
-    section.wp-block-my-e-shop-fashion-hero {
-    padding: 48px 0;
-    height: 420px;
-}
-    .fashion-hero-overlay  {
-        height: 470px;
     }
 }
