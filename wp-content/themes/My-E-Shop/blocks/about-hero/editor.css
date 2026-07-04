@@ -1,4 +1,4 @@
-/* Стили для редактора блока About Hero */
+/* Styles for the About Hero block editor */
 
 .about-hero-block .about-hero-container {
     position: relative;
@@ -11,7 +11,7 @@
     border: 2px dashed #ccc;
 }
 
-/* В редакторе показываем полную ширину для понимания как будет выглядеть */
+/* In the editor, show full width to preview the final appearance */
 .editor-styles-wrapper .about-hero-block .about-hero-container {
     margin: 0 auto;
 }
@@ -100,7 +100,7 @@
     outline-offset: 2px;
 }
 
-/* Медиа-запросы для адаптивности в редакторе */
+/* Media queries for responsiveness in the editor */
 @media (max-width: 768px) {
     .about-hero-block .about-hero-container {
         height: 500px;
@@ -138,7 +138,7 @@
     }
 }
 
-/* Стили для панели настроек */
+/* Styles for the settings panel */
 .media-upload-container {
     margin-bottom: 20px;
 }

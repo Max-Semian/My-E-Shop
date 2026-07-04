@@ -50,23 +50,23 @@
 
             return [
                 el(InspectorControls, null,
-                    el(PanelBody, { title: __('Настройки галереи', 'my-e-shop'), initialOpen: true },
+                    el(PanelBody, { title: __('Gallery settings', 'my-e-shop'), initialOpen: true },
                         el(TextControl, {
-                            label: __('Заголовок', 'my-e-shop'),
+                            label: __('Title', 'my-e-shop'),
                             value: title,
                             onChange: function(value) {
                                 setAttributes({ title: value });
                             }
                         }),
                         el(TextControl, {
-                            label: __('Подзаголовок', 'my-e-shop'),
+                            label: __('Subtitle', 'my-e-shop'),
                             value: subtitle,
                             onChange: function(value) {
                                 setAttributes({ subtitle: value });
                             }
                         }),
                         el(RangeControl, {
-                            label: __('Скорость анимации', 'my-e-shop'),
+                            label: __('Animation speed', 'my-e-shop'),
                             value: animationSpeed,
                             onChange: function(value) {
                                 setAttributes({ animationSpeed: value });
@@ -75,7 +75,7 @@
                             max: 100
                         }),
                         el(RangeControl, {
-                            label: __('Ширина карточки (px)', 'my-e-shop'),
+                            label: __('Card width (px)', 'my-e-shop'),
                             value: cardWidth,
                             onChange: function(value) {
                                 setAttributes({ cardWidth: value });
@@ -84,7 +84,7 @@
                             max: 400
                         }),
                         el(RangeControl, {
-                            label: __('Высота карточки (px)', 'my-e-shop'),
+                            label: __('Card height (px)', 'my-e-shop'),
                             value: cardHeight,
                             onChange: function(value) {
                                 setAttributes({ cardHeight: value });
@@ -94,7 +94,7 @@
                         })
                     ),
                     el(PanelColorSettings, {
-                        title: __('Цвета', 'my-e-shop'),
+                        title: __('Colors', 'my-e-shop'),
                         initialOpen: false,
                         colorSettings: [
                             {
@@ -102,21 +102,21 @@
                                 onChange: function(color) {
                                     setAttributes({ backgroundColor: color });
                                 },
-                                label: __('Цвет фона', 'my-e-shop')
+                                label: __('Background color', 'my-e-shop')
                             },
                             {
                                 value: titleColor,
                                 onChange: function(color) {
                                     setAttributes({ titleColor: color });
                                 },
-                                label: __('Цвет заголовка', 'my-e-shop')
+                                label: __('Title color', 'my-e-shop')
                             },
                             {
                                 value: subtitleColor,
                                 onChange: function(color) {
                                     setAttributes({ subtitleColor: color });
                                 },
-                                label: __('Цвет подзаголовка', 'my-e-shop')
+                                label: __('Subtitle color', 'my-e-shop')
                             }
                         ]
                     })
@@ -162,9 +162,9 @@
                                                 display: 'block',
                                                 margin: '0 auto 20px'
                                             }
-                                        }, images.length > 0 ? 
-                                            __('Изменить изображения', 'my-e-shop') : 
-                                            __('Выбрать изображения', 'my-e-shop')
+                                        }, images.length > 0 ?
+                                            __('Change images', 'my-e-shop') :
+                                            __('Select images', 'my-e-shop')
                                         );
                                     }
                                 })
@@ -231,7 +231,7 @@
                                     color: '#999'
                                 }
                             },
-                                el('p', null, __('Выберите изображения для галереи', 'my-e-shop'))
+                                el('p', null, __('Select images for the gallery', 'my-e-shop'))
                             )
                         )
                     )

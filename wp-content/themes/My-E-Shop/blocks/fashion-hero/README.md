@@ -1,49 +1,49 @@
 # Fashion Hero Block
 
-Блок героя моды для темы My-E-Shop.
+Fashion hero block for the My-E-Shop theme.
 
-## Описание
+## Description
 
-Этот блок создает полноэкранную секцию героя с сеткой фоновых изображений и центрированным контентом. Включает заголовок, подзаголовок и кнопку призыва к действию.
+This block creates a full-screen hero section with a grid of background images and centered content. It includes a title, subtitle, and a call-to-action button.
 
-## Функции
+## Features
 
-- ✅ Загрузка до 7 фоновых изображений
-- ✅ Настраиваемый заголовок и подзаголовок
-- ✅ Настраиваемый текст и URL кнопки
-- ✅ Анимации появления изображений
-- ✅ Адаптивный дизайн
-- ✅ Hover эффекты для изображений
+- ✅ Upload up to 7 background images
+- ✅ Customizable title and subtitle
+- ✅ Customizable button text and URL
+- ✅ Image appearance animations
+- ✅ Responsive design
+- ✅ Hover effects for images
 
-## Использование
+## Usage
 
-1. Добавьте блок в редактор Gutenberg
-2. В панели настроек справа:
-   - Введите заголовок и подзаголовок
-   - Настройте текст и URL кнопки
-   - Загрузите фоновые изображения (рекомендуется 7 штук)
+1. Add the block in the Gutenberg editor
+2. In the settings panel on the right:
+   - Enter the title and subtitle
+   - Configure the button text and URL
+   - Upload background images (7 recommended)
 
-## Структура файлов
+## File Structure
 
-- `block.json` - Конфигурация блока
-- `index.js` - JavaScript для редактора
-- `render.php` - PHP шаблон для фронтенда
-- `style.css` - Стили для фронтенда
-- `editor.css` - Стили для редактора
-- `README.md` - Документация
+- `block.json` - Block configuration
+- `index.js` - JavaScript for the editor
+- `render.php` - PHP template for the frontend
+- `style.css` - Frontend styles
+- `editor.css` - Editor styles
+- `README.md` - Documentation
 
-## Атрибуты
+## Attributes
 
-- `title` (string) - Заголовок секции
-- `subtitle` (string) - Подзаголовок секции
-- `buttonText` (string) - Текст кнопки
-- `buttonUrl` (string) - URL кнопки
-- `images` (array) - Массив фоновых изображений
+- `title` (string) - Section title
+- `subtitle` (string) - Section subtitle
+- `buttonText` (string) - Button text
+- `buttonUrl` (string) - Button URL
+- `images` (array) - Array of background images
 
-## Стили
+## Styles
 
-Блок использует те же стили, что и оригинальная верстка в `main.css`:
-- Анимации fadeInScale для изображений
-- Градиентный оверлей для читаемости текста
-- Hover эффекты для изображений
-- Адаптивные размеры шрифтов
+The block uses the same styles as the original markup in `main.css`:
+- fadeInScale animations for images
+- Gradient overlay for text readability
+- Hover effects for images
+- Responsive font sizes

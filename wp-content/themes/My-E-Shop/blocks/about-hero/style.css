@@ -1,4 +1,4 @@
-/* Стили для фронтенда блока About Hero */
+/* Styles for the About Hero block frontend */
 
 .wp-block-my-e-shop-about-hero {
     position: relative;
@@ -10,7 +10,7 @@
     overflow: hidden;
 }
 
-/* Полноэкранная ширина только на фронтенде, не в редакторе */
+/* Full-screen width only on the frontend, not in the editor */
 body:not(.block-editor-page) .wp-block-my-e-shop-about-hero {
     width: 100vw;
     left: 50%;
@@ -112,7 +112,7 @@ body:not(.block-editor-page) .wp-block-my-e-shop-about-hero {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
 }
-/* Анимация появления */
+/* Appearance animation */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -124,7 +124,7 @@ body:not(.block-editor-page) .wp-block-my-e-shop-about-hero {
     }
 }
 
-/* Адаптивные стили */
+/* Responsive styles */
 @media (max-width: 1200px) {
     .wp-block-my-e-shop-about-hero .about-hero-title {
         font-size: 52px;

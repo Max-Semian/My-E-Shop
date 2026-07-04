@@ -2,7 +2,7 @@
 
 add_filter('woocommerce_enqueue_styles', '__return_false');
 
-// Подключаем кастомные стили для карусели
+// Enqueue custom styles for the carousel
 function my_e_shop_enqueue_carousel_styles() {
     wp_enqueue_style('my-e-shop-carousel-custom', get_template_directory_uri() . '/assets/css/carousel-custom.css', array(), '1.0.0');
 }
@@ -38,7 +38,7 @@ function my_e_shop_recent_products( $atts ) {
 	$atts = shortcode_atts(
 		array(
 			'limit'      => 8,
-			'columns'    => 5, // Устанавливаем 5 колонок по умолчанию
+			'columns'    => 5, // Set 5 columns by default
 			'orderby'    => 'date',
 			'order'      => 'DESC',
 			'categories' => '',
@@ -63,12 +63,12 @@ function my_e_shop_recent_products( $atts ) {
 		return '';
 	}
 
-	// Устанавливаем количество колонок для WooCommerce
+	// Set the number of columns for WooCommerce
 	$woocommerce_loop['columns'] = $atts['columns'];
 
 	ob_start();
 
-	// Начинаем стандартный цикл WooCommerce
+	// Begin the standard WooCommerce loop
 	woocommerce_product_loop_start();
 
 	while ( $products->have_posts() ) {
@@ -76,7 +76,7 @@ function my_e_shop_recent_products( $atts ) {
 		wc_get_template_part( 'content', 'product' );
 	}
 
-	// Заканчиваем стандартный цикл WooCommerce
+	// End the standard WooCommerce loop
 	woocommerce_product_loop_end();
 
 	wp_reset_postdata();
@@ -92,9 +92,9 @@ add_action('templete_redirect', function () {
     }
 });
 
-// ИЗМЕНЕННЫЙ фильтр breadcrumbs - только для страницы Shop, НЕ для категорий
+// MODIFIED breadcrumbs filter - only for the Shop page, NOT for categories
 add_filter('woocommerce_breadcrumb_defaults', function() {
-    // Если это страница категории - НЕ применяем этот фильтр
+    // If this is a category page - do NOT apply this filter
     if (is_product_category()) {
         return array(
             'delimiter'   => ' / ',
@@ -106,7 +106,7 @@ add_filter('woocommerce_breadcrumb_defaults', function() {
         );
     }
     
-    // Только для страницы Shop применяем старое оформление
+    // Apply the old styling only for the Shop page
     return array(
         'delimiter'   => '',
         'wrap_before' => '<div class="container"><div class="col-12"><nav class="breadcrumbs"><ul>',
@@ -117,24 +117,24 @@ add_filter('woocommerce_breadcrumb_defaults', function() {
     );
 });
 
-// Добавляем "COLLECTION" в breadcrumbs для товаров
+// Add "COLLECTION" to the breadcrumbs for products
 add_filter('woocommerce_get_breadcrumb', function($crumbs) {
     if (is_product()) {
-        // Создаем новый массив с HOME, COLLECTION, и остальными элементами
+        // Create a new array with HOME, COLLECTION, and the remaining items
         $new_crumbs = array();
-        
-        // Добавляем HOME (первый элемент)
+
+        // Add HOME (the first item)
         if (isset($crumbs[0])) {
             $new_crumbs[] = $crumbs[0];
         }
-        
-        // Добавляем COLLECTION после HOME
+
+        // Add COLLECTION after HOME
         $new_crumbs[] = array(
             'COLLECTION',
             get_permalink(wc_get_page_id('shop'))
         );
-        
-        // Добавляем остальные элементы (категории и товар)
+
+        // Add the remaining items (categories and product)
         for ($i = 1; $i < count($crumbs); $i++) {
             $new_crumbs[] = $crumbs[$i];
         }

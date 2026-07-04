@@ -29,9 +29,9 @@
             templateTheme 
         } = attributes;
         
-        // Автоматически устанавливаем цвет текста для тёмного шаблона
+        // Automatically set the text color for the dark template
         const effectiveTextColor = templateTheme === 'dark' ? '#F4F0EB' : textColor;
-        
+
         const blockProps = useBlockProps({
             className: `animated-text-block align-${textAlign} font-${fontSize} theme-${templateTheme}`,
             style: {
@@ -52,19 +52,19 @@
 
             el(InspectorControls, {},
                 el(PanelBody, { 
-                    title: __('Шаблон и тема', 'My-E-Shop'), 
+                    title: __('Template & theme', 'My-E-Shop'),
                     initialOpen: true 
                 },
                     el(SelectControl, {
-                        label: __('Тема шаблона', 'My-E-Shop'),
+                        label: __('Template theme', 'My-E-Shop'),
                         value: templateTheme,
                         options: [
-                            { label: __('Светлый шаблон', 'My-E-Shop'), value: 'light' },
-                            { label: __('Тёмный шаблон', 'My-E-Shop'), value: 'dark' }
+                            { label: __('Light template', 'My-E-Shop'), value: 'light' },
+                            { label: __('Dark template', 'My-E-Shop'), value: 'dark' }
                         ],
-                        onChange: function(value) { 
+                        onChange: function(value) {
                             setAttributes({ templateTheme: value });
-                            // При выборе тёмного шаблона автоматически устанавливаем светлый цвет текста
+                            // When the dark template is selected, automatically set a light text color
                             if (value === 'dark') {
                                 setAttributes({ textColor: '#F4F0EB' });
                             }
@@ -73,23 +73,23 @@
                 ),
 
                 el(PanelBody, { 
-                    title: __('Настройки анимации', 'My-E-Shop'), 
+                    title: __('Animation settings', 'My-E-Shop'),
                     initialOpen: false 
                 },
                     el(SelectControl, {
-                        label: __('Тип анимации', 'My-E-Shop'),
+                        label: __('Animation type', 'My-E-Shop'),
                         value: animationType,
                         options: [
-                            { label: __('Печатная машинка', 'My-E-Shop'), value: 'typewriter' },
-                            { label: __('Появление слов', 'My-E-Shop'), value: 'fadeInWords' },
-                            { label: __('Плавное появление', 'My-E-Shop'), value: 'fadeIn' },
-                            { label: __('Скольжение снизу', 'My-E-Shop'), value: 'slideUp' }
+                            { label: __('Typewriter', 'My-E-Shop'), value: 'typewriter' },
+                            { label: __('Word appearance', 'My-E-Shop'), value: 'fadeInWords' },
+                            { label: __('Fade in', 'My-E-Shop'), value: 'fadeIn' },
+                            { label: __('Slide up', 'My-E-Shop'), value: 'slideUp' }
                         ],
                         onChange: function(value) { setAttributes({ animationType: value }); }
                     }),
 
                     el(RangeControl, {
-                        label: __('Скорость анимации (мс)', 'My-E-Shop'),
+                        label: __('Animation speed (ms)', 'My-E-Shop'),
                         value: animationSpeed,
                         onChange: function(value) { setAttributes({ animationSpeed: value }); },
                         min: 10,
@@ -99,7 +99,7 @@
                 ),
 
                 el(PanelBody, { 
-                    title: __('Цвета', 'My-E-Shop'), 
+                    title: __('Colors', 'My-E-Shop'),
                     initialOpen: false 
                 },
                     templateTheme === 'dark' && el('div', { 
@@ -111,11 +111,11 @@
                             fontSize: '12px' 
                         } 
                     },
-                        __('ℹ️ Для тёмного шаблона автоматически установлен светлый цвет текста #F4F0EB', 'My-E-Shop')
+                        __('ℹ️ A light text color #F4F0EB is set automatically for the dark template', 'My-E-Shop')
                     ),
 
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет текста', 'My-E-Shop')),
+                        el('label', {}, __('Text color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: templateTheme === 'dark' ? '#F4F0EB' : textColor,
                             onChange: function(value) { 
@@ -129,7 +129,7 @@
                     ),
 
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет фона', 'My-E-Shop')),
+                        el('label', {}, __('Background color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: backgroundColor,
                             onChange: function(value) { setAttributes({ backgroundColor: value }); },
@@ -166,7 +166,7 @@
                             tagName: 'div',
                             value: content,
                             onChange: function(value) { setAttributes({ content: value }); },
-                            placeholder: __('Введите ваш текст...', 'My-E-Shop'),
+                            placeholder: __('Enter your text...', 'My-E-Shop'),
                             allowedFormats: ['core/bold', 'core/italic']
                         })
                     )
@@ -182,12 +182,12 @@
                     borderRadius: '4px'
                 } 
             },
-                el('strong', {}, __('Предпросмотр настроек:', 'My-E-Shop')),
+                el('strong', {}, __('Settings preview:', 'My-E-Shop')),
                 el('br'),
-                __('Тема:', 'My-E-Shop') + ' ' + (templateTheme === 'dark' ? __('Тёмная', 'My-E-Shop') : __('Светлая', 'My-E-Shop')) + ', ',
-                __('Анимация:', 'My-E-Shop') + ' ' + animationType + ', ',
-                __('Скорость:', 'My-E-Shop') + ' ' + animationSpeed + 'мс, ',
-                __('Размер:', 'My-E-Shop') + ' ' + fontSize
+                __('Theme:', 'My-E-Shop') + ' ' + (templateTheme === 'dark' ? __('Dark', 'My-E-Shop') : __('Light', 'My-E-Shop')) + ', ',
+                __('Animation:', 'My-E-Shop') + ' ' + animationType + ', ',
+                __('Speed:', 'My-E-Shop') + ' ' + animationSpeed + 'ms, ',
+                __('Size:', 'My-E-Shop') + ' ' + fontSize
             )
         );
     };
@@ -205,9 +205,9 @@
             templateTheme 
         } = attributes;
         
-        // Автоматически устанавливаем цвет текста для тёмного шаблона
+        // Automatically set the text color for the dark template
         const effectiveTextColor = templateTheme === 'dark' ? '#F4F0EB' : textColor;
-        
+
         const blockProps = useBlockProps.save({
             className: `animated-text-block align-${textAlign} font-${fontSize} theme-${templateTheme}`
         });
@@ -238,7 +238,7 @@
                             display: 'block',
                             color: effectiveTextColor + ' !important'
                         },
-                        // Сохраняем чистый текст без HTML тегов для корректной работы анимаций
+                        // Store plain text without HTML tags so the animations work correctly
                         'data-text': content ? content.replace(/<[^>]*>/g, '') : ''
                     },
                         el(RichText.Content, {
@@ -254,7 +254,7 @@
         title: __('Animated Text Block', 'My-E-Shop'),
         icon: 'format-quote',
         category: 'my-e-shop',
-        description: __('Блок с анимированным текстом для создания эффектных заголовков и описаний', 'My-E-Shop'),
+        description: __('Animated text block for eye-catching headings and descriptions', 'My-E-Shop'),
         keywords: [__('text', 'My-E-Shop'), __('animated', 'My-E-Shop'), __('quote', 'My-E-Shop')],
         supports: {
             html: false,

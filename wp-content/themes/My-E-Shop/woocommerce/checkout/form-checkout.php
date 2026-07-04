@@ -329,33 +329,33 @@ jQuery(document).ready(function($) {
             var $method = $(this);
             var $radio = $method.find('input[type="radio"]');
             
-            // Клик по всему блоку метода оплаты
+            // Click on the entire payment method block
             $method.on('click', function(e) {
-                // Если клик не был напрямую по радио-кнопке
+                // If the click was not directly on the radio button
                 if (!$(e.target).is('input[type="radio"]')) {
                     $radio.prop('checked', true).trigger('click');
                 }
             });
-            
-            // Обработка изменения радио-кнопки
+
+            // Handle radio button change
             $radio.on('change click', function() {
                 $('.wc_payment_methods .wc_payment_method').removeClass('selected');
                 if ($(this).is(':checked')) {
                     $method.addClass('selected');
                 }
             });
-            
-            // Проверяем выбранный метод при загрузке
+
+            // Check the selected method on load
             if ($radio.is(':checked')) {
                 $method.addClass('selected');
             }
         });
     }
-    
-    // Инициализируем при загрузке
+
+    // Initialize on load
     initPaymentMethods();
-    
-    // Переинициализируем после обновления checkout
+
+    // Reinitialize after checkout update
     $(document.body).on('updated_checkout payment_method_selected', function() {
         initPaymentMethods();
     });

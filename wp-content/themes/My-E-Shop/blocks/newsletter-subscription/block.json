@@ -6,7 +6,7 @@
 	"title": "Newsletter Subscription",
 	"category": "my-e-shop",
 	"icon": "email",
-	"description": "Блок формы подписки на рассылку с возможностью получения скидки",
+	"description": "Newsletter subscription form block with a discount option",
 	"keywords": [
 		"newsletter",
 		"subscription",

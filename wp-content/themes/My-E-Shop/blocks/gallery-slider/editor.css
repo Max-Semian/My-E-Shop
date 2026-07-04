@@ -70,7 +70,7 @@
     transform: scale(1.1) !important;
 }
 
-/* Стили для панели настроек */
+/* Styles for the settings panel */
 .components-panel__body .components-base-control__label {
     font-weight: 600;
     margin-bottom: 8px;
@@ -80,12 +80,12 @@
     margin-top: 8px;
 }
 
-/* Анимация в редакторе отключена для производительности */
+/* Animation is disabled in the editor for performance */
 .gallery-slider-block-editor .collections-smooth-track {
     animation: none !important;
 }
 
-/* Скроллбар для горизонтальной прокрутки */
+/* Scrollbar for horizontal scrolling */
 .gallery-slider-block-editor .collections-horizontal-carousel::-webkit-scrollbar {
     height: 6px;
 }

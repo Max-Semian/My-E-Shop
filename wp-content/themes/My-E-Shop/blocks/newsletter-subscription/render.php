@@ -30,14 +30,14 @@ $wrapper_attributes = get_block_wrapper_attributes(array(
 <div <?php echo $wrapper_attributes; ?>>
     <div class="my-e-shop-newsletter-subscription-container">
         
-        <!-- Левая часть - изображение -->
+        <!-- Left part - image -->
         <div class="my-e-shop-newsletter-left">
             <?php if ($background_image) : ?>
                 <img src="<?php echo esc_url($background_image); ?>" alt="Newsletter" class="my-e-shop-newsletter-image">
             <?php endif; ?>
         </div>
         
-        <!-- Правая часть - форма -->
+        <!-- Right part - form -->
         <div class="my-e-shop-newsletter-right">
             <?php if (!empty($offer_title)) : ?>
                 <h3 class="my-e-shop-newsletter-offer-title">

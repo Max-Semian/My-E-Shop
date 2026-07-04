@@ -18,7 +18,7 @@
         <div class="main-header-bar">
             <div class="container">
                 <div class="header-content">
-                    <!-- Логотип слева -->
+                    <!-- Logo on the left -->
                     <a class="navbar-brand" href="<?php echo home_url('/')?>">
                         <?php 
                         $custom_logo_id = get_theme_mod( 'custom_logo' );
@@ -31,7 +31,7 @@
                         ?>
                     </a>
                     
-                    <!-- Навигация по центру -->
+                    <!-- Navigation in the center -->
                     <nav class="navbar-nav d-none d-lg-flex">
                         <?php
                         wp_nav_menu(array(
@@ -44,7 +44,7 @@
                         ?>
                     </nav>
                     
-                    <!-- Иконки справа -->
+                    <!-- Icons on the right -->
                     <div class="header-icons">
                         <a href="#" class="header-icon" onclick="openSearchModal(); return false;">
                             <img src="<?php echo get_template_directory_uri(); ?>/assets/img/Search.svg" alt="Search" />

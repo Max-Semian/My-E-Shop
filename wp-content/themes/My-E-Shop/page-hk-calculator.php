@@ -3,8 +3,8 @@
  * Template Name: HK Company Cost Calculator
  * Template Post Type: page
  *
- * Калькулятор стоимости открытия и обслуживания компании в Гонконге
- * Данные: statrys.com/terms-and-conditions/non-standard-fees
+ * Calculator for the cost of opening and maintaining a company in Hong Kong
+ * Data: statrys.com/terms-and-conditions/non-standard-fees
  *         statrys.com/hk/pricing
  */
 
@@ -17,111 +17,111 @@ get_header();
 
   <div class="hk-calc-hero">
     <div class="hk-calc-hero__inner">
-      <div class="hk-calc-hero__badge">Гонконг · HKD</div>
-      <h1 class="hk-calc-hero__title">Калькулятор стоимости<br>открытия компании в Гонконге</h1>
-      <p class="hk-calc-hero__sub">Рассчитайте полную картину расходов: регистрация, счёт, транзакции, FX и нестандартные комиссии — на основе тарифов <a href="https://statrys.com" target="_blank" rel="noopener">Statrys</a></p>
+      <div class="hk-calc-hero__badge">Hong Kong · HKD</div>
+      <h1 class="hk-calc-hero__title">Cost calculator<br>for opening a company in Hong Kong</h1>
+      <p class="hk-calc-hero__sub">Calculate the full picture of costs: registration, account, transactions, FX and non-standard fees — based on <a href="https://statrys.com" target="_blank" rel="noopener">Statrys</a> pricing</p>
     </div>
   </div>
 
   <div class="hk-calc-layout">
 
     <!-- ══════════════════════════════
-         ЛЕВАЯ КОЛОНКА — ВВОД ДАННЫХ
+         LEFT COLUMN — DATA ENTRY
     ══════════════════════════════ -->
     <div class="hk-calc-inputs">
 
-      <!-- ─── СЕКЦИЯ 1: Регистрация ─── -->
+      <!-- ─── SECTION 1: Registration ─── -->
       <div class="hk-card" id="section-registration">
         <button class="hk-section-toggle" data-target="reg-body" aria-expanded="true">
           <span class="hk-section-toggle__icon">🏢</span>
-          <span>Регистрация компании <em>(единовременно)</em></span>
+          <span>Company registration <em>(one-time)</em></span>
           <span class="hk-chevron">▼</span>
         </button>
         <div class="hk-section-body" id="reg-body">
 
-          <p class="hk-hint">Обязательные государственные сборы при регистрации компании с ограниченной ответственностью в Гонконге.</p>
+          <p class="hk-hint">Mandatory government fees for registering a limited liability company in Hong Kong.</p>
 
           <div class="hk-field">
             <label class="hk-label hk-label--check">
               <input type="checkbox" id="cr_fee" checked>
-              <span>Государственная пошлина за регистрацию (Companies Registry)</span>
+              <span>Government registration fee (Companies Registry)</span>
             </label>
             <span class="hk-tag hk-tag--fixed">HKD 1&nbsp;720</span>
-            <p class="hk-hint-sm">Фиксированная пошлина Реестра компаний Гонконга за регистрацию private limited company.</p>
+            <p class="hk-hint-sm">Fixed fee of the Hong Kong Companies Registry for registering a private limited company.</p>
           </div>
 
           <div class="hk-field">
-            <label class="hk-label">Свидетельство о регистрации бизнеса (Business Registration Certificate)</label>
+            <label class="hk-label">Business Registration Certificate</label>
             <div class="hk-radio-group">
               <label class="hk-radio-item">
                 <input type="radio" name="br_period" value="1year" checked>
-                <span>1 год — HKD 2&nbsp;150</span>
+                <span>1 year — HKD 2&nbsp;150</span>
               </label>
               <label class="hk-radio-item">
                 <input type="radio" name="br_period" value="3years">
-                <span>3 года — HKD 3&nbsp;950</span>
+                <span>3 years — HKD 3&nbsp;950</span>
               </label>
               <label class="hk-radio-item">
                 <input type="radio" name="br_period" value="none">
-                <span>Не включать</span>
+                <span>Do not include</span>
               </label>
             </div>
-            <p class="hk-hint-sm">Обязателен для ведения бизнеса в Гонконге. Первый год может быть освобождён от оплаты — уточните на официальном сайте IRD.</p>
+            <p class="hk-hint-sm">Required to conduct business in Hong Kong. The first year may be exempt from payment — check on the official IRD website.</p>
           </div>
 
           <div class="hk-divider"></div>
-          <p class="hk-label--section">Пакет услуг Statrys (необязательно)</p>
+          <p class="hk-label--section">Statrys service package (optional)</p>
 
           <div class="hk-field">
             <label class="hk-label hk-label--check">
               <input type="checkbox" id="use_statrys" checked>
-              <span>Использовать Statrys для регистрации и обслуживания</span>
+              <span>Use Statrys for registration and maintenance</span>
             </label>
           </div>
 
           <div id="statrys-fields">
             <div class="hk-field">
-              <label class="hk-label" for="statrys_package">Стоимость пакета 1-й год (регистрация + секретарь + адрес)</label>
+              <label class="hk-label" for="statrys_package">Package cost, year 1 (registration + secretary + address)</label>
               <div class="hk-input-row">
                 <span class="hk-prefix">HKD</span>
                 <input type="number" id="statrys_package" class="hk-input" value="7800" min="0" step="100">
               </div>
-              <p class="hk-hint-sm">🔗 Актуальную цену уточните на <a href="https://statrys.com/hk/company-registration" target="_blank" rel="noopener">statrys.com/hk/company-registration</a>. В сумму входят: услуги инкорпорации, секретарь компании (год 1), зарегистрированный адрес (год 1), сканирование почты.</p>
+              <p class="hk-hint-sm">🔗 Check the current price at <a href="https://statrys.com/hk/company-registration" target="_blank" rel="noopener">statrys.com/hk/company-registration</a>. The amount includes: incorporation services, company secretary (year 1), registered address (year 1), mail scanning.</p>
             </div>
 
             <div class="hk-field">
-              <label class="hk-label" for="statrys_renewal">Ежегодное продление (секретарь + адрес, год 2+)</label>
+              <label class="hk-label" for="statrys_renewal">Annual renewal (secretary + address, year 2+)</label>
               <div class="hk-input-row">
                 <span class="hk-prefix">HKD</span>
                 <input type="number" id="statrys_renewal" class="hk-input" value="4990" min="0" step="100">
               </div>
-              <p class="hk-hint-sm">Ежегодная подписка автоматически продлевается за 2 месяца до истечения.</p>
+              <p class="hk-hint-sm">The annual subscription renews automatically 2 months before expiry.</p>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- ─── СЕКЦИЯ 2: Бизнес-счёт ─── -->
+      <!-- ─── SECTION 2: Business account ─── -->
       <div class="hk-card" id="section-account">
         <button class="hk-section-toggle" data-target="acc-body" aria-expanded="true">
           <span class="hk-section-toggle__icon">🏦</span>
-          <span>Бизнес-счёт <em>(настройка)</em></span>
+          <span>Business account <em>(setup)</em></span>
           <span class="hk-chevron">▼</span>
         </button>
         <div class="hk-section-body" id="acc-body">
 
           <div class="hk-info-row">
-            <span>Мульти-валютный счёт (11 валют)</span>
-            <span class="hk-tag hk-tag--free">Бесплатно</span>
+            <span>Multi-currency account (11 currencies)</span>
+            <span class="hk-tag hk-tag--free">Free</span>
           </div>
           <div class="hk-info-row">
-            <span>Ежемесячная плата</span>
-            <span class="hk-tag hk-tag--free">Нет</span>
+            <span>Monthly fee</span>
+            <span class="hk-tag hk-tag--free">None</span>
           </div>
           <div class="hk-info-row">
-            <span>Минимальный депозит</span>
-            <span class="hk-tag hk-tag--free">Нет</span>
+            <span>Minimum deposit</span>
+            <span class="hk-tag hk-tag--free">None</span>
           </div>
 
           <div class="hk-divider"></div>
@@ -129,37 +129,37 @@ get_header();
           <div class="hk-field">
             <label class="hk-label hk-label--check">
               <input type="checkbox" id="special_company">
-              <span>«Особая» компания (Special Company)</span>
+              <span>"Special" company (Special Company)</span>
             </label>
-            <p class="hk-hint-sm">Компании, зарегистрированные не в Гонконге / Сингапуре, или имеющие сложную структуру / определённый профиль бизнеса. Влияет на KYC и Volume Fee.</p>
+            <p class="hk-hint-sm">Companies registered outside Hong Kong / Singapore, or with a complex structure / a specific business profile. Affects KYC and Volume Fee.</p>
           </div>
 
           <div id="special-fields" class="hk-hidden">
             <div class="hk-field hk-field--indent">
-              <label class="hk-label">KYC Fee (единовременно)</label>
+              <label class="hk-label">KYC Fee (one-time)</label>
               <div class="hk-radio-group">
                 <label class="hk-radio-item">
                   <input type="radio" name="kyc_fee" value="1500" checked>
-                  <span>Стандартный — HKD 1&nbsp;500</span>
+                  <span>Standard — HKD 1&nbsp;500</span>
                 </label>
                 <label class="hk-radio-item">
                   <input type="radio" name="kyc_fee" value="3900">
-                  <span>Расширенный — HKD 3&nbsp;900</span>
+                  <span>Enhanced — HKD 3&nbsp;900</span>
                 </label>
               </div>
             </div>
 
             <div class="hk-field hk-field--indent">
-              <label class="hk-label" for="volume_fee_pct">Volume Fee (% от объёма платежей в месяц)</label>
+              <label class="hk-label" for="volume_fee_pct">Volume Fee (% of monthly payment volume)</label>
               <div class="hk-input-row">
                 <input type="number" id="volume_fee_pct" class="hk-input" value="0.04" min="0.04" step="0.01">
                 <span class="hk-suffix">%</span>
               </div>
-              <p class="hk-hint-sm">Минимальная ставка — 0.04%. Применяется только к «особым» компаниям.</p>
+              <p class="hk-hint-sm">Minimum rate — 0.04%. Applies only to "special" companies.</p>
             </div>
 
             <div class="hk-field hk-field--indent">
-              <label class="hk-label" for="monthly_volume_special">Ежемесячный объём платежей (для расчёта Volume Fee)</label>
+              <label class="hk-label" for="monthly_volume_special">Monthly payment volume (for calculating Volume Fee)</label>
               <div class="hk-input-row">
                 <span class="hk-prefix">HKD</span>
                 <input type="number" id="monthly_volume_special" class="hk-input" value="0" min="0" step="1000">
@@ -170,278 +170,278 @@ get_header();
           <div class="hk-divider"></div>
 
           <div class="hk-field">
-            <label class="hk-label" for="inactive_months">Месяцев с неактивностью (<5 исходящих платежей)</label>
+            <label class="hk-label" for="inactive_months">Months of inactivity (<5 outgoing payments)</label>
             <div class="hk-input-row">
               <input type="number" id="inactive_months" class="hk-input hk-input--sm" value="0" min="0" max="12" step="1">
-              <span class="hk-suffix">мес/год × HKD 88</span>
+              <span class="hk-suffix">mo/year × HKD 88</span>
             </div>
-            <p class="hk-hint-sm">Комиссия за неактивность: HKD 88 за каждый месяц, в котором совершено менее 5 исходящих платежей.</p>
+            <p class="hk-hint-sm">Inactivity fee: HKD 88 for each month with fewer than 5 outgoing payments.</p>
           </div>
 
         </div>
       </div>
 
-      <!-- ─── СЕКЦИЯ 3: Транзакции ─── -->
+      <!-- ─── SECTION 3: Transactions ─── -->
       <div class="hk-card" id="section-transactions">
         <button class="hk-section-toggle" data-target="tx-body" aria-expanded="true">
           <span class="hk-section-toggle__icon">💳</span>
-          <span>Транзакции <em>(ежемесячный объём)</em></span>
+          <span>Transactions <em>(monthly volume)</em></span>
           <span class="hk-chevron">▼</span>
         </button>
         <div class="hk-section-body" id="tx-body">
 
-          <p class="hk-hint">Введите среднее количество транзакций каждого типа <strong>в месяц</strong>.</p>
+          <p class="hk-hint">Enter the average number of transactions of each type <strong>per month</strong>.</p>
 
-          <p class="hk-label--section">🇭🇰 Внутренние платежи (HKD / CNY)</p>
+          <p class="hk-label--section">🇭🇰 Domestic payments (HKD / CNY)</p>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
-              <span>Получение (Collect)</span>
+              <span>Receive (Collect)</span>
               <span class="hk-tag hk-tag--free">HKD 0</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="domestic_receive" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
-              <span>Отправка (Send)</span>
-              <span class="hk-tag">HKD 5 / шт</span>
+              <span>Send</span>
+              <span class="hk-tag">HKD 5 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="domestic_send" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-field">
             <label class="hk-label hk-label--check">
               <input type="checkbox" id="large_domestic_toggle">
-              <span>Крупные внутренние платежи (&gt;HKD 500&#8239;000 или эквивалент CNY)</span>
+              <span>Large domestic payments (&gt;HKD 500&#8239;000 or CNY equivalent)</span>
             </label>
           </div>
           <div id="large-domestic-field" class="hk-hidden">
             <div class="hk-tx-row hk-field--indent">
               <div class="hk-tx-label">
-                <span>Крупный исходящий платёж&nbsp;&gt;&nbsp;HKD 500k</span>
-                <span class="hk-tag">HKD 75 / шт</span>
+                <span>Large outgoing payment&nbsp;&gt;&nbsp;HKD 500k</span>
+                <span class="hk-tag">HKD 75 / pc</span>
               </div>
               <div class="hk-tx-input">
                 <input type="number" id="large_domestic" class="hk-input hk-input--sm" value="0" min="0" step="1">
-                <span class="hk-suffix">шт/мес</span>
+                <span class="hk-suffix">pcs/mo</span>
               </div>
             </div>
           </div>
 
           <div class="hk-divider"></div>
-          <p class="hk-label--section">🌍 Международные SWIFT-платежи</p>
+          <p class="hk-label--section">🌍 International SWIFT payments</p>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
-              <span>Получение SWIFT</span>
-              <span class="hk-tag">HKD 60 / шт</span>
+              <span>Receive SWIFT</span>
+              <span class="hk-tag">HKD 60 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="swift_receive" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
-              <span>Отправка SWIFT</span>
-              <span class="hk-tag">HKD 85 / шт</span>
+              <span>Send SWIFT</span>
+              <span class="hk-tag">HKD 85 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="swift_send" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-field">
             <label class="hk-label hk-label--check">
               <input type="checkbox" id="usd_swift_toggle">
-              <span>Входящие USD SWIFT (банк-корреспондент снимает посредническую комиссию)</span>
+              <span>Incoming USD SWIFT (correspondent bank charges an intermediary fee)</span>
             </label>
-            <p class="hk-hint-sm">Дополнительная комиссия до HKD 60 за входящий USD SWIFT-перевод (сверх стандартного HKD 60 за получение).</p>
+            <p class="hk-hint-sm">Additional fee of up to HKD 60 per incoming USD SWIFT transfer (on top of the standard HKD 60 for receiving).</p>
           </div>
           <div id="usd-swift-field" class="hk-hidden">
             <div class="hk-tx-row hk-field--indent">
               <div class="hk-tx-label">
-                <span>Входящие USD SWIFT</span>
-                <span class="hk-tag">до HKD 60 / шт</span>
+                <span>Incoming USD SWIFT</span>
+                <span class="hk-tag">up to HKD 60 / pc</span>
               </div>
               <div class="hk-tx-input">
                 <input type="number" id="usd_swift_receive" class="hk-input hk-input--sm" value="0" min="0" step="1">
-                <span class="hk-suffix">шт/мес</span>
+                <span class="hk-suffix">pcs/mo</span>
               </div>
             </div>
           </div>
 
           <div class="hk-divider"></div>
-          <p class="hk-label--section">📡 Локальные платежи в иностранной валюте</p>
-          <p class="hk-hint-sm">США, Канада, Великобритания, ЕС, Австралия, Индия, Индонезия, Филиппины, Таиланд, Вьетнам, Корея, Турция</p>
+          <p class="hk-label--section">📡 Local payments in foreign currency</p>
+          <p class="hk-hint-sm">USA, Canada, UK, EU, Australia, India, Indonesia, Philippines, Thailand, Vietnam, Korea, Turkey</p>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
               <span>USD, AUD, INR, EUR, GBP, SGD, IDR, PHP</span>
-              <span class="hk-tag">HKD 25 / шт</span>
+              <span class="hk-tag">HKD 25 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="local_major_send" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
               <span>THB, TRY, KRW</span>
-              <span class="hk-tag">HKD 35 / шт</span>
+              <span class="hk-tag">HKD 35 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="local_mid_send" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
           <div class="hk-tx-row">
             <div class="hk-tx-label">
               <span>VND</span>
-              <span class="hk-tag">HKD 50 / шт</span>
+              <span class="hk-tag">HKD 50 / pc</span>
             </div>
             <div class="hk-tx-input">
               <input type="number" id="local_vnd_send" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт/мес</span>
+              <span class="hk-suffix">pcs/mo</span>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- ─── СЕКЦИЯ 4: FX / Конвертация ─── -->
+      <!-- ─── SECTION 4: FX / Conversion ─── -->
       <div class="hk-card" id="section-fx">
         <button class="hk-section-toggle" data-target="fx-body" aria-expanded="false">
           <span class="hk-section-toggle__icon">💱</span>
-          <span>Валютный обмен (FX) <em>(необязательно)</em></span>
+          <span>Currency exchange (FX) <em>(optional)</em></span>
           <span class="hk-chevron">▼</span>
         </button>
         <div class="hk-section-body hk-hidden" id="fx-body">
 
-          <p class="hk-hint">Введите ежемесячный объём FX-конвертаций для расчёта примерных расходов на курсовую разницу.</p>
+          <p class="hk-hint">Enter the monthly volume of FX conversions to estimate approximate exchange-rate costs.</p>
 
-          <p class="hk-label--section">Основные валюты (from 0.1%)</p>
+          <p class="hk-label--section">Major currencies (from 0.1%)</p>
           <p class="hk-hint-sm">HKD, USD, EUR, CNY, GBP, SGD, JPY, AUD, CHF, NZD, CAD</p>
 
           <div class="hk-field">
-            <label class="hk-label" for="fx_major_volume">Объём конвертации в месяц</label>
+            <label class="hk-label" for="fx_major_volume">Conversion volume per month</label>
             <div class="hk-input-row">
               <span class="hk-prefix">HKD</span>
               <input type="number" id="fx_major_volume" class="hk-input" value="0" min="0" step="1000">
             </div>
           </div>
           <div class="hk-field">
-            <label class="hk-label" for="fx_major_rate">Применяемая ставка (%)</label>
+            <label class="hk-label" for="fx_major_rate">Applied rate (%)</label>
             <div class="hk-input-row">
               <input type="number" id="fx_major_rate" class="hk-input hk-input--sm" value="0.10" min="0.10" max="1" step="0.01">
-              <span class="hk-suffix">% (мин. 0.10%)</span>
+              <span class="hk-suffix">% (min. 0.10%)</span>
             </div>
           </div>
 
           <div class="hk-divider"></div>
-          <p class="hk-label--section">Прочие валюты (from 0.15%)</p>
+          <p class="hk-label--section">Other currencies (from 0.15%)</p>
           <p class="hk-hint-sm">INR, IDR, PHP, KRW, THB, TRY, VND</p>
 
           <div class="hk-field">
-            <label class="hk-label" for="fx_other_volume">Объём конвертации в месяц</label>
+            <label class="hk-label" for="fx_other_volume">Conversion volume per month</label>
             <div class="hk-input-row">
               <span class="hk-prefix">HKD</span>
               <input type="number" id="fx_other_volume" class="hk-input" value="0" min="0" step="1000">
             </div>
           </div>
           <div class="hk-field">
-            <label class="hk-label" for="fx_other_rate">Применяемая ставка (%)</label>
+            <label class="hk-label" for="fx_other_rate">Applied rate (%)</label>
             <div class="hk-input-row">
               <input type="number" id="fx_other_rate" class="hk-input hk-input--sm" value="0.15" min="0.15" max="1" step="0.01">
-              <span class="hk-suffix">% (мин. 0.15%)</span>
+              <span class="hk-suffix">% (min. 0.15%)</span>
             </div>
           </div>
 
         </div>
       </div>
 
-      <!-- ─── СЕКЦИЯ 5: Нестандартные комиссии ─── -->
+      <!-- ─── SECTION 5: Non-standard fees ─── -->
       <div class="hk-card" id="section-nonstandard">
         <button class="hk-section-toggle" data-target="ns-body" aria-expanded="false">
           <span class="hk-section-toggle__icon">⚡</span>
-          <span>Нестандартные комиссии <em>(разовые/редкие)</em></span>
+          <span>Non-standard fees <em>(one-off/rare)</em></span>
           <span class="hk-chevron">▼</span>
         </button>
         <div class="hk-section-body hk-hidden" id="ns-body">
 
-          <p class="hk-hint">Добавьте разовые или периодические нестандартные расходы. Источник: <a href="https://statrys.com/terms-and-conditions/non-standard-fees" target="_blank" rel="noopener">statrys.com/terms-and-conditions/non-standard-fees</a></p>
+          <p class="hk-hint">Add one-off or occasional non-standard costs. Source: <a href="https://statrys.com/terms-and-conditions/non-standard-fees" target="_blank" rel="noopener">statrys.com/terms-and-conditions/non-standard-fees</a></p>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Справка о закрытии счёта</strong>
-              <em>HKD 450 / шт</em>
-              <small>Подтверждение, что счёт закрыт и не имеет обязательств</small>
+              <strong>Account closure certificate</strong>
+              <em>HKD 450 / pc</em>
+              <small>Confirmation that the account is closed and has no liabilities</small>
             </div>
             <div class="hk-ns-input">
               <input type="number" id="ns_closure_cert" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт</span>
+              <span class="hk-suffix">pcs</span>
             </div>
           </div>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Справка об активном статусе (Good Standing Certificate)</strong>
-              <em>HKD 450 / шт</em>
-              <small>Подтверждение, что счёт активен и не имеет обременений</small>
+              <strong>Good Standing Certificate</strong>
+              <em>HKD 450 / pc</em>
+              <small>Confirmation that the account is active and has no encumbrances</small>
             </div>
             <div class="hk-ns-input">
               <input type="number" id="ns_gsc" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт</span>
+              <span class="hk-suffix">pcs</span>
             </div>
           </div>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Письмо для аудиторов (Audit Confirmation Letter)</strong>
-              <em>HKD 500 (электронное) / HKD 600 (физическое)</em>
+              <strong>Audit Confirmation Letter</strong>
+              <em>HKD 500 (electronic) / HKD 600 (physical)</em>
             </div>
             <div class="hk-ns-input hk-ns-input--flex">
               <div class="hk-radio-group hk-radio-group--inline">
                 <label class="hk-radio-item">
                   <input type="radio" name="audit_type" value="500" checked>
-                  <span>Эл.</span>
+                  <span>Elec.</span>
                 </label>
                 <label class="hk-radio-item">
                   <input type="radio" name="audit_type" value="600">
-                  <span>Физ.</span>
+                  <span>Phys.</span>
                 </label>
               </div>
               <input type="number" id="ns_audit" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт</span>
+              <span class="hk-suffix">pcs</span>
             </div>
           </div>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Банковская выписка с ручной обработкой</strong>
-              <em>HKD 250 / шт</em>
+              <strong>Bank statement with manual processing</strong>
+              <em>HKD 250 / pc</em>
             </div>
             <div class="hk-ns-input">
               <input type="number" id="ns_statement" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт</span>
+              <span class="hk-suffix">pcs</span>
             </div>
           </div>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Отмена / изменение транзакции</strong>
-              <em>HKD 200–500 / шт</em>
+              <strong>Transaction cancellation / amendment</strong>
+              <em>HKD 200–500 / pc</em>
             </div>
             <div class="hk-ns-input hk-ns-input--flex">
               <div class="hk-radio-group hk-radio-group--inline">
@@ -459,14 +459,14 @@ get_header();
                 </label>
               </div>
               <input type="number" id="ns_amendment" class="hk-input hk-input--sm" value="0" min="0" step="1">
-              <span class="hk-suffix">шт</span>
+              <span class="hk-suffix">pcs</span>
             </div>
           </div>
 
           <div class="hk-ns-row">
             <div class="hk-ns-info">
-              <strong>Дополнительные услуги (прочее)</strong>
-              <em>Введите сумму вручную</em>
+              <strong>Additional services (other)</strong>
+              <em>Enter the amount manually</em>
             </div>
             <div class="hk-ns-input">
               <span class="hk-prefix">HKD</span>
@@ -480,18 +480,18 @@ get_header();
     </div><!-- /.hk-calc-inputs -->
 
     <!-- ══════════════════════════════
-         ПРАВАЯ КОЛОНКА — РЕЗУЛЬТАТ
+         RIGHT COLUMN — RESULT
     ══════════════════════════════ -->
     <div class="hk-calc-summary">
       <div class="hk-summary-card" id="summary-sticky">
 
         <div class="hk-summary-header">
           <span>📊</span>
-          <h2>Итоговый расчёт</h2>
+          <h2>Total calculation</h2>
         </div>
 
         <div class="hk-summary-block hk-summary-block--highlight">
-          <p class="hk-summary-label">Первый год (всего)</p>
+          <p class="hk-summary-label">First year (total)</p>
           <p class="hk-summary-amount" id="result_firstyear">HKD 0</p>
         </div>
 
@@ -499,19 +499,19 @@ get_header();
 
         <div class="hk-summary-breakdown">
           <div class="hk-summary-row">
-            <span>Единовременно (организация)</span>
+            <span>One-time (setup)</span>
             <strong id="result_onetime">HKD 0</strong>
           </div>
           <div class="hk-summary-row">
-            <span>Ежегодные расходы</span>
+            <span>Annual costs</span>
             <strong id="result_annual">HKD 0</strong>
           </div>
           <div class="hk-summary-row">
-            <span>Ежемесячные транзакции × 12</span>
+            <span>Monthly transactions × 12</span>
             <strong id="result_tx_annual">HKD 0</strong>
           </div>
           <div class="hk-summary-row">
-            <span>FX-конвертация × 12</span>
+            <span>FX conversion × 12</span>
             <strong id="result_fx_annual">HKD 0</strong>
           </div>
         </div>
@@ -519,19 +519,19 @@ get_header();
         <div class="hk-summary-divider"></div>
 
         <div class="hk-summary-block">
-          <p class="hk-summary-label">Ежегодно (год 2+)</p>
+          <p class="hk-summary-label">Annually (year 2+)</p>
           <p class="hk-summary-amount hk-summary-amount--sm" id="result_ongoing">HKD 0</p>
         </div>
 
         <div class="hk-summary-block">
-          <p class="hk-summary-label">В среднем в месяц (год 2+)</p>
+          <p class="hk-summary-label">On average per month (year 2+)</p>
           <p class="hk-summary-amount hk-summary-amount--sm" id="result_monthly_avg">HKD 0</p>
         </div>
 
         <div class="hk-summary-divider"></div>
 
         <div class="hk-summary-convert">
-          <p class="hk-summary-label">Курс перевода</p>
+          <p class="hk-summary-label">Conversion rate</p>
           <div class="hk-convert-row">
             <label>
               <span>USD/HKD</span>
@@ -543,13 +543,13 @@ get_header();
             </label>
           </div>
           <div class="hk-convert-result">
-            <div>Первый год ≈ <strong id="result_usd">$0</strong> USD</div>
-            <div>Первый год ≈ <strong id="result_eur">€0</strong> EUR</div>
+            <div>First year ≈ <strong id="result_usd">$0</strong> USD</div>
+            <div>First year ≈ <strong id="result_eur">€0</strong> EUR</div>
           </div>
         </div>
 
         <div class="hk-summary-footer">
-          <p>📌 Данные из <a href="https://statrys.com/terms-and-conditions/non-standard-fees" target="_blank" rel="noopener">Statrys Non-Standard Fees</a> и <a href="https://statrys.com/hk/pricing" target="_blank" rel="noopener">Statrys Pricing</a>. Тарифы могут меняться. Актуальные цены — на сайте Statrys.</p>
+          <p>📌 Data from <a href="https://statrys.com/terms-and-conditions/non-standard-fees" target="_blank" rel="noopener">Statrys Non-Standard Fees</a> and <a href="https://statrys.com/hk/pricing" target="_blank" rel="noopener">Statrys Pricing</a>. Rates may change. Current prices are on the Statrys website.</p>
         </div>
 
       </div>

@@ -18,7 +18,7 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
 <section class="tshirt-designer-block" id="<?php echo esc_attr($block_id); ?>" style="background-color: <?php echo esc_attr($background_color); ?>;">
     <div class="container py-5">
         <div class="tshirt-designer-wrapper">
-            <!-- Левая панель инструментов -->
+            <!-- Left tools panel -->
             <div class="designer-tools-sidebar">
                 <div class="tools-header">
                     <h4>Tools</h4>
@@ -107,7 +107,7 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
                 </div>
             </div>
 
-            <!-- Центральная область с футболкой -->
+            <!-- Central area with the T-shirt -->
             <div class="designer-canvas-area">
                 <div class="canvas-controls">
                     <div class="zoom-controls">
@@ -133,20 +133,20 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
 
                 <div class="tshirt-canvas" data-tshirt-color="<?php echo esc_attr($tshirt_color); ?>">
                     <div class="tshirt-view" data-side="front">
-                        <!-- SVG футболки -->
+                        <!-- T-shirt SVG -->
                         <svg class="tshirt-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Тело футболки -->
+                            <!-- T-shirt body -->
                             <path class="tshirt-body" d="M 100,80 Q 80,85 75,100 L 75,400 Q 75,440 100,470 L 300,470 Q 325,440 325,400 L 325,100 Q 320,85 300,80 L 300,80 Q 280,75 250,70 Q 230,50 200,45 Q 170,50 150,70 Q 120,75 100,80 Z" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
                             
-                            <!-- Рукава -->
+                            <!-- Sleeves -->
                             <path class="tshirt-sleeve-left" d="M 100,80 L 50,100 L 50,180 L 75,165 L 75,100" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
                             <path class="tshirt-sleeve-right" d="M 300,80 L 350,100 L 350,180 L 325,165 L 325,100" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
                             
-                            <!-- Горловина -->
+                            <!-- Neckline -->
                             <ellipse class="tshirt-neck" cx="200" cy="60" rx="35" ry="20" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
                         </svg>
 
-                        <!-- Область для печати -->
+                        <!-- Print area -->
                         <div class="print-area" style="
                             width: <?php echo esc_attr($print_area_width); ?>px;
                             height: <?php echo esc_attr($print_area_height); ?>px;
@@ -157,7 +157,7 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
                     </div>
 
                     <div class="tshirt-view" data-side="back" style="display: none;">
-                        <!-- Задняя сторона - такая же структура -->
+                        <!-- Back side - same structure -->
                         <svg class="tshirt-svg" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
                             <path class="tshirt-body" d="M 100,80 Q 80,85 75,100 L 75,400 Q 75,440 100,470 L 300,470 Q 325,440 325,400 L 325,100 Q 320,85 300,80 L 300,80 Q 280,75 250,70 Q 230,50 200,45 Q 170,50 150,70 Q 120,75 100,80 Z" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
                             <path class="tshirt-sleeve-left" d="M 100,80 L 50,100 L 50,180 L 75,165 L 75,100" fill="<?php echo esc_attr($tshirt_color); ?>" stroke="#e0e0e0" stroke-width="2"/>
@@ -174,19 +174,19 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
                     </div>
                 </div>
 
-                <!-- Переключатель сторон -->
+                <!-- Side switcher -->
                 <div class="side-switcher">
                     <button class="side-btn active" data-side="front">Front side</button>
                     <button class="side-btn" data-side="back">Back side</button>
                 </div>
 
-                <!-- Кнопка сохранения -->
+                <!-- Save button -->
                 <div class="designer-actions">
                     <button class="btn-save-design">Save product</button>
                 </div>
             </div>
 
-            <!-- Панель с графикой (показывается при выборе инструмента Graphics) -->
+            <!-- Graphics panel (shown when the Graphics tool is selected) -->
             <?php if ($enable_graphics && !empty($allowed_graphics)): ?>
             <div class="graphics-panel" style="display: none;">
                 <div class="graphics-header">
@@ -205,7 +205,7 @@ $block_id = 'tshirt-designer-' . wp_rand(1000, 9999);
         </div>
     </div>
 
-    <!-- Скрытые данные для JS -->
+    <!-- Hidden data for JS -->
     <script>
     if (typeof window.tshirtDesignerData === 'undefined') {
         window.tshirtDesignerData = {};

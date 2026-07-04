@@ -1,18 +1,18 @@
 <?php
 /**
- * Пользовательская функция для обработки WooCommerce шорткодов
+ * Custom function for handling WooCommerce shortcodes
  */
 function force_woocommerce_shortcodes_init() {
     if (!class_exists('WooCommerce')) {
         return;
     }
     
-    // Инициализируем WooCommerce если еще не инициализирован
+    // Initialize WooCommerce if not already initialized
     if (function_exists('WC') && WC()) {
-        // Подключаем все необходимые файлы WooCommerce
+        // Include all required WooCommerce files
         WC()->frontend_includes();
-        
-        // Подключаем дополнительные файлы если они не подключены
+
+        // Include additional files if they are not included
         $wc_path = WP_PLUGIN_DIR . '/woocommerce/';
         
         if (!function_exists('wc_get_default_products_per_row')) {
@@ -36,7 +36,7 @@ function force_woocommerce_shortcodes_init() {
             }
         }
         
-        // Инициализируем необходимые компоненты
+        // Initialize required components
         if (!WC()->query) {
             WC()->query = new WC_Query();
         }
@@ -44,13 +44,13 @@ function force_woocommerce_shortcodes_init() {
             WC()->customer = new WC_Customer();
         }
         
-        // Убеждаемся что основные хуки WooCommerce активированы
+        // Make sure the core WooCommerce hooks are activated
         if (!did_action('woocommerce_init')) {
             do_action('woocommerce_init');
         }
     }
     
-    // Принудительно подключаем файл шорткодов
+    // Force-include the shortcodes file
     if (!class_exists('WC_Shortcodes')) {
         $shortcodes_file = WP_PLUGIN_DIR . '/woocommerce/includes/class-wc-shortcodes.php';
         if (file_exists($shortcodes_file)) {
@@ -58,12 +58,12 @@ function force_woocommerce_shortcodes_init() {
         }
     }
     
-    // Инициализируем шорткоды
+    // Initialize shortcodes
     if (class_exists('WC_Shortcodes')) {
         WC_Shortcodes::init();
     }
     
-    // Принудительно регистрируем все основные шорткоды WooCommerce
+    // Force-register all core WooCommerce shortcodes
     if (class_exists('WC_Shortcodes')) {
         $shortcodes_to_register = array(
             'woocommerce_products' => 'products',
@@ -94,7 +94,7 @@ function force_woocommerce_shortcodes_init() {
         }
     }
     
-    // Если все равно не работает, регистрируем собственную функцию
+    // If it still does not work, register our own function
     if (!shortcode_exists('woocommerce_products')) {
         add_shortcode('woocommerce_products', 'custom_woocommerce_products_shortcode');
     }
@@ -104,19 +104,19 @@ function force_woocommerce_shortcodes_init() {
 }
 
 /**
- * Пользовательская функция-обработчик для шорткода товаров
+ * Custom handler function for the products shortcode
  */
 function custom_woocommerce_products_shortcode($atts) {
     if (!class_exists('WooCommerce')) {
-        return '<p>WooCommerce не активен</p>';
+        return '<p>WooCommerce is not active</p>';
     }
     
-    // Если стандартный метод существует, используем его
+    // If the standard method exists, use it
     if (class_exists('WC_Shortcodes') && method_exists('WC_Shortcodes', 'products')) {
         return WC_Shortcodes::products($atts);
     }
     
-    // Иначе создаем простую замену
+    // Otherwise create a simple replacement
     $atts = shortcode_atts(array(
         'category' => '',
         'columns' => 4,
@@ -137,7 +137,7 @@ function custom_woocommerce_products_shortcode($atts) {
         'meta_query' => WC()->query->get_meta_query()
     );
     
-    // Добавляем фильтр по видимости товаров
+    // Add filter by product visibility
     $args['tax_query'] = WC()->query->get_tax_query();
     
     if (!empty($atts['category'])) {
@@ -152,7 +152,7 @@ function custom_woocommerce_products_shortcode($atts) {
         $args['post__in'] = array_map('trim', explode(',', $atts['ids']));
     }
     
-    // Убираем товары не в наличии если нужно
+    // Remove out-of-stock products if needed
     if ($atts['visibility'] === 'visible') {
         $args['meta_query'][] = array(
             'key' => '_visibility',
@@ -164,17 +164,17 @@ function custom_woocommerce_products_shortcode($atts) {
     $products = new WP_Query($args);
     
     if (!$products->have_posts()) {
-        return '<div class="woocommerce"><p class="woocommerce-info">Товары не найдены.</p></div>';
+        return '<div class="woocommerce"><p class="woocommerce-info">No products found.</p></div>';
     }
     
     ob_start();
     
-    // Добавляем классы WooCommerce для правильного отображения
+    // Add WooCommerce classes for proper display
     echo '<div class="woocommerce">';
     echo '<div class="woocommerce-products-shortcode">';
     echo '<ul class="products columns-' . esc_attr($atts['columns']) . '">';
     
-    // Устанавливаем глобальную переменную для колонок
+    // Set the global variable for columns
     global $woocommerce_loop;
     $woocommerce_loop['columns'] = intval($atts['columns']);
     
@@ -192,28 +192,28 @@ function custom_woocommerce_products_shortcode($atts) {
     return ob_get_clean();
 }
 
-// Запускаем инициализацию на хуке template_redirect для категорий товаров
+// Run initialization on the template_redirect hook for product categories
 add_action('template_redirect', function() {
     if (is_product_category()) {
         force_woocommerce_shortcodes_init();
     }
 });
 
-// Также запускаем инициализацию на хуке wp_loaded для всех страниц
+// Also run initialization on the wp_loaded hook for all pages
 add_action('wp_loaded', function() {
     if (class_exists('WooCommerce')) {
         force_woocommerce_shortcodes_init();
     }
 });
 
-// И еще один хук на случай если нужно для админки
+// And one more hook in case it is needed for the admin area
 add_action('init', function() {
     if (class_exists('WooCommerce')) {
         force_woocommerce_shortcodes_init();
     }
 }, 20);
 
-// Фильтр для выбора правильного шаблона категории
+// Filter for selecting the correct category template
 add_filter('template_include', function($template) {
     if (is_product_category()) {
         $current_category = get_queried_object();
@@ -236,7 +236,7 @@ function mytheme_add_woocommerce_support() {
     add_theme_support( 'woocommerce' );
     add_theme_support( 'title-tag' );
     
-    // Добавляем поддержку custom logo
+    // Add custom logo support
     add_theme_support( 'custom-logo', array(
         'height'      => 100,
         'width'       => 400,
@@ -425,7 +425,7 @@ class My_E_Shop_Header_Walker extends Walker_Nav_Menu {
     }
 }
 
-// Отключаем стандартный WooCommerce скрипт для вариаций - используем свой AJAX
+// Disable the standard WooCommerce variations script - we use our own AJAX
 add_action('wp_enqueue_scripts', function() {
     if (is_product()) {
         $product = wc_get_product(get_the_ID());
@@ -436,7 +436,7 @@ add_action('wp_enqueue_scripts', function() {
 }, 100);
 
 add_action('wp_enqueue_scripts', function () {
-    // Подключаем Google Fonts
+    // Enqueue Google Fonts
     wp_enqueue_style('google-fonts-playfair', 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap', array(), null);
     
     wp_enqueue_style('My-E-Shop-bootstrap', get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css');
@@ -445,7 +445,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('My-E-Shop-owlcarousel-theme', get_template_directory_uri() . '/assets/owlcarousel2/owl.theme.default.min.css');
     wp_enqueue_style('My-E-Shop-fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css');
     
-    // Модульные CSS файлы (вместо main.css)
+    // Modular CSS files (instead of main.css)
     wp_enqueue_style('My-E-Shop-base', get_template_directory_uri() . '/assets/css/base.css');
     wp_enqueue_style('My-E-Shop-header', get_template_directory_uri() . '/assets/css/header.css');
     wp_enqueue_style('My-E-Shop-footer', get_template_directory_uri() . '/assets/css/footer.css');
@@ -455,40 +455,40 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('My-E-Shop-modals', get_template_directory_uri() . '/assets/css/modals.css');
     wp_enqueue_style('My-E-Shop-responsive', get_template_directory_uri() . '/assets/css/responsive.css');
     
-    // Основной main.css (для стилей, которые ещё не вынесены)
+    // Main main.css (for styles not yet extracted)
     wp_enqueue_style('My-E-Shop-main', get_template_directory_uri() . '/assets/css/main.css');
     wp_enqueue_style('My-E-Shop-media', get_template_directory_uri() . '/assets/css/media.css');
     
-    // Подключаем стили для страниц категорий
+    // Enqueue styles for category pages
     if (is_product_category() || is_shop() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
         wp_enqueue_style('My-E-Shop-category-page', get_template_directory_uri() . '/assets/css/category-page.css');
         wp_enqueue_style('My-E-Shop-category-pages', get_template_directory_uri() . '/assets/css/category-pages.css');
     }
     
-    // Подключаем стили для страницы товара
+    // Enqueue styles for the product page
     if (is_product()) {
         wp_enqueue_style('My-E-Shop-single-product', get_template_directory_uri() . '/assets/css/single-product.css', array(), '1.0.1');
     }
     
-    // Подключаем стили для корзины и оформления
+    // Enqueue styles for the cart and checkout
     if (is_cart() || is_checkout() || is_account_page()) {
         wp_enqueue_style('My-E-Shop-woocommerce', get_template_directory_uri() . '/assets/css/woocommerce.css');
     }
     
-    // Подключаем стили для страницы "О нас"
+    // Enqueue styles for the "About us" page
     if (is_page_template('page-about.php')) {
         wp_enqueue_style('My-E-Shop-page-about', get_template_directory_uri() . '/assets/css/page-about.css');
     }
 
-    // Подключаем jQuery первым
+    // Enqueue jQuery first
     wp_deregister_script('jquery');
     wp_enqueue_script('jquery', 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js', array(), '3.7.1', false);
     
-    // Подключаем GSAP библиотеки для анимаций (загружаем в head для доступности)
+    // Enqueue GSAP libraries for animations (loaded in head for availability)
     wp_enqueue_script('gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', array(), '3.12.5', false);
     wp_enqueue_script('gsap-scramble-text', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrambleTextPlugin.min.js', array('gsap'), '3.12.5', false);
     
-    // Затем основные скрипты
+    // Then the core scripts
     wp_enqueue_script('My-E-Shop-owlcarousel',get_template_directory_uri() . '/assets/owlcarousel2/owl.carousel.min.js', array('jquery'), false, true);
     wp_enqueue_script('My-E-Shop-bootstrap', get_template_directory_uri() . '/assets/bootstrap/js/bootstrap.bundle.min.js', array('jquery'), false, true);
     wp_enqueue_script('My-E-Shop-fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js', array('jquery'), false, true);
@@ -497,15 +497,15 @@ add_action('wp_enqueue_scripts', function () {
         'ajax_url' => admin_url('admin-ajax.php'),
     ));
     
-    // Подключаем скрипты для страницы товара
+    // Enqueue scripts for the product page
     if (is_product()) {
-        // Определяем тему по мета-полю _product_template
+        // Determine the theme from the _product_template meta field
         $product_template = get_post_meta(get_the_ID(), '_product_template', true);
-        
-        // Зависимости с WooCommerce скриптами для вариативных продуктов
+
+        // Dependencies on WooCommerce scripts for variable products
         $script_deps = array('jquery', 'My-E-Shop-bootstrap', 'wc-add-to-cart-variation');
-        
-        // Подключаем соответствующий скрипт
+
+        // Enqueue the appropriate script
         if ($product_template === 'dark') {
             wp_enqueue_script('single-product-dark', get_template_directory_uri() . '/assets/js/single-product-dark.js', $script_deps, '1.0.1', true);
             wp_localize_script('single-product-dark', 'singleProductData', array(
@@ -521,10 +521,10 @@ add_action('wp_enqueue_scripts', function () {
         }
     }
     
-    // Подключаем Fabric.js для T-Shirt Designer
+    // Enqueue Fabric.js for T-Shirt Designer
     wp_enqueue_script('fabricjs', 'https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js', array('jquery'), '5.3.0', true);
     
-    // Подключаем скрипт T-Shirt Designer
+    // Enqueue the T-Shirt Designer script
     wp_enqueue_script(
         'tshirt-designer-script',
         get_template_directory_uri() . '/blocks/tshirt-designer/script.js',
@@ -533,13 +533,13 @@ add_action('wp_enqueue_scripts', function () {
         true
     );
     
-    // Подключаем jQuery UI только на страницах магазина
+    // Enqueue jQuery UI only on shop pages
     if (is_shop() || is_product_category() || is_product_tag()) {
-        // jQuery UI из CDN для надежности
+        // jQuery UI from CDN for reliability
         wp_enqueue_script('jquery-ui-core', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js', array('jquery'), '1.13.2', false);
         wp_enqueue_style('jquery-ui-theme', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/themes/ui-lightness/jquery-ui.min.css', array(), '1.13.2');
         
-        // WooCommerce скрипты
+        // WooCommerce scripts
         if (function_exists('is_woocommerce')) {
             wp_enqueue_script('wc-price-slider', WC()->plugin_url() . '/assets/js/frontend/price-slider.min.js', array('jquery', 'jquery-ui-core'), WC()->version, true);
             wp_enqueue_style('woocommerce-layout');
@@ -547,7 +547,7 @@ add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('woocommerce-general');
         }
     }
-}, 20); // Повышаем приоритет
+}, 20); // Raise the priority
 
 require_once get_template_directory() . '/incs/woocommerce-hooks.php';
 require_once get_template_directory() . '/incs/class-my-e-shop-header-menu.php';
@@ -644,10 +644,10 @@ function add_product_description_styles() {
     <?php
 }
 
-// Предотвращаем двойное добавление вариативного товара
+// Prevent double-adding of a variable product
 $GLOBALS['products_added_in_request'] = array();
 
-// Отслеживаем что добавляется
+// Track what is being added
 add_action('woocommerce_add_to_cart', function($cart_item_key, $product_id, $quantity, $variation_id) {
     $GLOBALS['products_added_in_request'][] = array(
         'product_id' => $product_id,
@@ -656,13 +656,13 @@ add_action('woocommerce_add_to_cart', function($cart_item_key, $product_id, $qua
     );
 }, 5, 4);
 
-// После добавления всех товаров удаляем дубликаты
+// After adding all products, remove duplicates
 add_action('woocommerce_ajax_added_to_cart', function($product_id) {
     if (empty($GLOBALS['products_added_in_request'])) {
         return;
     }
     
-    // Группируем по product_id
+    // Group by product_id
     $by_product = array();
     foreach ($GLOBALS['products_added_in_request'] as $item) {
         $pid = $item['product_id'];
@@ -672,10 +672,10 @@ add_action('woocommerce_ajax_added_to_cart', function($product_id) {
         $by_product[$pid][] = $item;
     }
     
-    // Для каждого product_id если есть дубликаты
+    // For each product_id if there are duplicates
     foreach ($by_product as $pid => $items) {
         if (count($items) > 1) {
-            // Находим вариативный и простой
+            // Find the variable and the simple one
             $variation_key = null;
             $simple_key = null;
             
@@ -687,7 +687,7 @@ add_action('woocommerce_ajax_added_to_cart', function($product_id) {
                 }
             }
             
-            // Если есть оба, удаляем простой
+            // If both exist, remove the simple one
             if ($variation_key && $simple_key) {
                 WC()->cart->remove_cart_item($simple_key);
             }
@@ -1038,7 +1038,7 @@ function multistep_checkout_styles() {
     if (!is_checkout()) {
         return;
     }
-    // Ваши существующие стили checkout остаются без изменений
+    // Your existing checkout styles remain unchanged
 }
 
 add_action('wp_footer', 'multistep_checkout_scripts');
@@ -1046,14 +1046,14 @@ function multistep_checkout_scripts() {
     if (!is_checkout()) {
         return;
     }
-    // Ваши существующие скрипты checkout остаются без изменений
+    // Your existing checkout scripts remain unchanged
 }
 
 /**
  * SHOP FILTERS FUNCTIONALITY - CONSOLIDATED
  */
 
-// Единая функция обработки всех фильтров
+// Single function for handling all filters
 add_action('pre_get_posts', 'handle_all_shop_filters', 20);
 function handle_all_shop_filters($query) {
     if (!is_admin() && $query->is_main_query() && (is_shop() || is_product_category() || is_product_tag())) {
@@ -1061,7 +1061,7 @@ function handle_all_shop_filters($query) {
         $meta_query = $query->get('meta_query') ?: array();
         $tax_query = $query->get('tax_query') ?: array();
         
-        // Фильтр по цене
+        // Price filter
         if (isset($_GET['min_price']) && !empty($_GET['min_price'])) {
             $meta_query[] = array(
                 'key' => '_price',
@@ -1080,7 +1080,7 @@ function handle_all_shop_filters($query) {
             );
         }
         
-        // Фильтр распродажи
+        // Sale filter
         if (isset($_GET['on_sale']) && $_GET['on_sale'] == '1') {
             $meta_query[] = array(
                 'key' => '_sale_price',
@@ -1089,7 +1089,7 @@ function handle_all_shop_filters($query) {
             );
         }
         
-        // Фильтр по наличию
+        // Stock filter
         if (isset($_GET['stock_status']) && !empty($_GET['stock_status'])) {
             $stock_statuses = explode(',', sanitize_text_field($_GET['stock_status']));
             $meta_query[] = array(
@@ -1099,7 +1099,7 @@ function handle_all_shop_filters($query) {
             );
         }
         
-        // Фильтры по атрибутам
+        // Attribute filters
         foreach ($_GET as $key => $value) {
             if (strpos($key, 'filter_') === 0 && !empty($value)) {
                 $attribute = str_replace('filter_', '', $key);
@@ -1115,13 +1115,13 @@ function handle_all_shop_filters($query) {
             }
         }
         
-        // Применяем мета-запросы
+        // Apply meta queries
         if (!empty($meta_query)) {
             $meta_query['relation'] = 'AND';
             $query->set('meta_query', $meta_query);
         }
         
-        // Применяем таксономические запросы
+        // Apply taxonomy queries
         if (!empty($tax_query)) {
             $tax_query['relation'] = 'AND';
             $query->set('tax_query', $tax_query);
@@ -1129,21 +1129,21 @@ function handle_all_shop_filters($query) {
     }
 }
 
-// JavaScript для работы фильтров
+// JavaScript for the filters
 
-// JavaScript для работы фильтров - ИСПРАВЛЕННАЯ ВЕРСИЯ
+// JavaScript for the filters - FIXED VERSION
 add_action('wp_footer', 'shop_filters_scripts');
 function shop_filters_scripts() {
     if (is_shop() || is_product_category() || is_product_tag()) {
         ?>
         <script type="text/javascript">
         jQuery(document).ready(function($) {
-            // Проверяем доступность jQuery UI
+            // Check jQuery UI availability
             console.log('jQuery version:', $.fn.jquery);
             console.log('jQuery UI available:', typeof $.ui !== 'undefined');
             console.log('Slider available:', typeof $.fn.slider !== 'undefined');
             
-            // Обработка всех фильтров (кроме цены)
+            // Handle all filters (except price)
             $('.attribute-filter, .stock-filter, .sale-filter').change(function() {
                 applyFilters();
             });
@@ -1151,7 +1151,7 @@ function shop_filters_scripts() {
             function applyFilters() {
                 var url = new URL(window.location.href);
                 
-                // Фильтры атрибутов
+                // Attribute filters
                 var attributeFilters = {};
                 $('.attribute-filter:checked').each(function() {
                     var attribute = $(this).data('attribute');
@@ -1161,21 +1161,21 @@ function shop_filters_scripts() {
                     attributeFilters[attribute].push($(this).val());
                 });
                 
-                // Очищаем старые фильтры атрибутов
+                // Clear old attribute filters
                 for (var [key, value] of url.searchParams.entries()) {
                     if (key.startsWith('filter_')) {
                         url.searchParams.delete(key);
                     }
                 }
                 
-                // Добавляем новые фильтры атрибутов
+                // Add new attribute filters
                 for (var attribute in attributeFilters) {
                     if (attributeFilters[attribute].length > 0) {
                         url.searchParams.set('filter_' + attribute, attributeFilters[attribute].join(','));
                     }
                 }
                 
-                // Фильтр наличия
+                // Stock filter
                 var stockStatuses = [];
                 $('.stock-filter:checked').each(function() {
                     stockStatuses.push($(this).val());
@@ -1187,7 +1187,7 @@ function shop_filters_scripts() {
                     url.searchParams.delete('stock_status');
                 }
                 
-                // Фильтр распродажи
+                // Sale filter
                 if ($('.sale-filter:checked').length > 0) {
                     url.searchParams.set('on_sale', '1');
                 } else {
@@ -1197,16 +1197,16 @@ function shop_filters_scripts() {
                 window.location.href = url.toString();
             }
             
-            // Инициализация ползунка цены - УЛУЧШЕННАЯ ВЕРСИЯ
+            // Price slider initialization - IMPROVED VERSION
             function initPriceSlider() {
-                // Пробуем WooCommerce встроенный ползунок
+                // Try the WooCommerce built-in slider
                 if (typeof woocommerce_price_slider_params !== 'undefined') {
                     console.log('WooCommerce price slider params found');
                     $('body').trigger('init_price_filter');
                     return;
                 }
                 
-                // Если есть jQuery UI, используем его
+                // If jQuery UI is available, use it
                 if (typeof $.fn.slider !== 'undefined') {
                     $('.price_slider').each(function() {
                         var $slider = $(this);
@@ -1244,15 +1244,15 @@ function shop_filters_scripts() {
                 }
             }
             
-            // Простой HTML5 ползунок как fallback
+            // Simple HTML5 slider as a fallback
             function fallbackToSimpleSlider() {
                 if ($('.simple-price-slider').length === 0 && $('.price-filter-form').length > 0) {
                     
-                    // Получаем текущие значения
+                    // Get current values
                     var current_min = parseInt($('input[name="min_price"]').val()) || 0;
                     var current_max = parseInt($('input[name="max_price"]').val()) || 1000;
                     
-                    // Получаем диапазон цен через AJAX
+                    // Get the price range via AJAX
                     $.ajax({
                         url: my_e_shop_params.ajax_url,
                         type: 'POST',
@@ -1278,7 +1278,7 @@ function shop_filters_scripts() {
             }
             
             function createSimpleSlider(min, max, current_min, current_max) {
-                // Создаем простой HTML5 range slider
+                // Create a simple HTML5 range slider
                 var sliderHtml = '<div class="simple-price-slider">' +
                     '<div class="price-range-display">Price: $<span id="min-price-display">' + current_min + '</span> - $<span id="max-price-display">' + current_max + '</span></div>' +
                     '<div class="dual-range-slider">' +
@@ -1289,7 +1289,7 @@ function shop_filters_scripts() {
                 
                 $('.price-filter-inputs').before(sliderHtml);
                 
-                // Обработчики для ползунков
+                // Handlers for the sliders
                 $('#min-range, #max-range').on('input', function() {
                     var min_val = parseInt($('#min-range').val());
                     var max_val = parseInt($('#max-range').val());
@@ -1317,12 +1317,12 @@ function shop_filters_scripts() {
                 $('#max-price-display').text(max);
             }
             
-            // Инициализируем ползунок с задержкой для загрузки всех скриптов
+            // Initialize the slider with a delay to let all scripts load
             setTimeout(function() {
                 initPriceSlider();
             }, 500);
             
-            // Обработка формы фильтра цены
+            // Handle the price filter form
             $(document).on('click', '.price_slider_amount button, .filter-btn', function(e) {
                 e.preventDefault();
                 
@@ -1353,7 +1353,7 @@ function shop_filters_scripts() {
     }
 }
 
-// AJAX функция для получения диапазона цен
+// AJAX function to get the price range
 add_action('wp_ajax_get_price_range', 'get_product_price_range');
 add_action('wp_ajax_nopriv_get_price_range', 'get_product_price_range');
 function get_product_price_range() {
@@ -1381,29 +1381,29 @@ function get_product_price_range() {
 }
 
 
-// Добавляем поля на страницу редактирования категории
+// Add fields to the category edit page
 add_action( 'product_cat_add_form_fields', 'add_category_custom_fields', 10, 2 );
 add_action( 'product_cat_edit_form_fields', 'edit_category_custom_fields', 10, 2 );
 
 function add_category_custom_fields() {
     ?>
     <div class="form-field term-template-wrap">
-        <label for="category_template"><?php esc_html_e( 'Шаблон категории', 'my-shop' ); ?></label>
+        <label for="category_template"><?php esc_html_e( 'Category template', 'my-shop' ); ?></label>
         <select name="category_template" id="category_template">
-            <option value="default"><?php esc_html_e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
-            <option value="dark"><?php esc_html_e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+            <option value="default"><?php esc_html_e( 'Light template (default)', 'my-shop' ); ?></option>
+            <option value="dark"><?php esc_html_e( 'Dark template', 'my-shop' ); ?></option>
         </select>
-        <p class="description"><?php esc_html_e( 'Выберите шаблон для отображения страницы категории.', 'my-shop' ); ?></p>
+        <p class="description"><?php esc_html_e( 'Select the template for displaying the category page.', 'my-shop' ); ?></p>
     </div>
     <div class="form-field term-color-wrap">
-        <label for="category_button_color"><?php esc_html_e( 'Цвет кнопки категории', 'my-shop' ); ?></label>
+        <label for="category_button_color"><?php esc_html_e( 'Category button color', 'my-shop' ); ?></label>
         <input type="text" name="category_button_color" id="category_button_color" value="" class="color-field" data-default-color="#4a4a4a" />
-        <p class="description"><?php esc_html_e( 'Введите HEX-код цвета для фона кнопки.', 'my-shop' ); ?></p>
+        <p class="description"><?php esc_html_e( 'Enter the HEX color code for the button background.', 'my-shop' ); ?></p>
     </div>
     <div class="form-field term-icon-wrap">
-        <label for="category_button_icon"><?php esc_html_e( 'Иконка кнопки категории', 'my-shop' ); ?></label>
+        <label for="category_button_icon"><?php esc_html_e( 'Category button icon', 'my-shop' ); ?></label>
         <input type="text" name="category_button_icon" id="category_button_icon" value="" />
-        <p class="description"><?php esc_html_e( 'Введите символ иконки (например: ☆, ♥, ⚡) или класс FontAwesome (например: fa-star).', 'my-shop' ); ?></p>
+        <p class="description"><?php esc_html_e( 'Enter an icon symbol (for example: ☆, ♥, ⚡) or a FontAwesome class (for example: fa-star).', 'my-shop' ); ?></p>
     </div>
     <?php
 }
@@ -1414,33 +1414,33 @@ function edit_category_custom_fields( $term ) {
     $icon = get_term_meta( $term->term_id, 'category_button_icon', true );
     ?>
     <tr class="form-field term-template-wrap">
-        <th scope="row"><label for="category_template"><?php esc_html_e( 'Шаблон категории', 'my-shop' ); ?></label></th>
+        <th scope="row"><label for="category_template"><?php esc_html_e( 'Category template', 'my-shop' ); ?></label></th>
         <td>
             <select name="category_template" id="category_template">
-                <option value="default" <?php selected($template, 'default'); ?>><?php esc_html_e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
-                <option value="dark" <?php selected($template, 'dark'); ?>><?php esc_html_e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+                <option value="default" <?php selected($template, 'default'); ?>><?php esc_html_e( 'Light template (default)', 'my-shop' ); ?></option>
+                <option value="dark" <?php selected($template, 'dark'); ?>><?php esc_html_e( 'Dark template', 'my-shop' ); ?></option>
             </select>
-            <p class="description"><?php esc_html_e( 'Выберите шаблон для отображения страницы категории.', 'my-shop' ); ?></p>
+            <p class="description"><?php esc_html_e( 'Select the template for displaying the category page.', 'my-shop' ); ?></p>
         </td>
     </tr>
     <tr class="form-field term-color-wrap">
-        <th scope="row"><label for="category_button_color"><?php esc_html_e( 'Цвет кнопки категории', 'my-shop' ); ?></label></th>
+        <th scope="row"><label for="category_button_color"><?php esc_html_e( 'Category button color', 'my-shop' ); ?></label></th>
         <td>
             <input type="text" name="category_button_color" id="category_button_color" value="<?php echo esc_attr( $color ); ?>" class="color-field" data-default-color="#4a4a4a" />
-            <p class="description"><?php esc_html_e( 'Введите HEX-код цвета для фона кнопки.', 'my-shop' ); ?></p>
+            <p class="description"><?php esc_html_e( 'Enter the HEX color code for the button background.', 'my-shop' ); ?></p>
         </td>
     </tr>
     <tr class="form-field term-icon-wrap">
-        <th scope="row"><label for="category_button_icon"><?php esc_html_e( 'Иконка кнопки категории', 'my-shop' ); ?></label></th>
+        <th scope="row"><label for="category_button_icon"><?php esc_html_e( 'Category button icon', 'my-shop' ); ?></label></th>
         <td>
             <input type="text" name="category_button_icon" id="category_button_icon" value="<?php echo esc_attr( $icon ); ?>" />
-            <p class="description"><?php esc_html_e( 'Введите символ иконки (например: ☆, ♥, ⚡) или класс FontAwesome (например: fa-star).', 'my-shop' ); ?></p>
+            <p class="description"><?php esc_html_e( 'Enter an icon symbol (for example: ☆, ♥, ⚡) or a FontAwesome class (for example: fa-star).', 'my-shop' ); ?></p>
         </td>
     </tr>
     <?php
 }
 
-// Сохраняем значения полей
+// Save field values
 add_action( 'create_product_cat', 'save_category_custom_fields', 10, 2 );
 add_action( 'edited_product_cat', 'save_category_custom_fields', 10, 2 );
 
@@ -1456,7 +1456,7 @@ function save_category_custom_fields( $term_id ) {
     }
 }
 
-// Добавляем выбор цвета (опционально, требуется enqueue скрипта)
+// Add a color picker (optional, requires enqueuing the script)
 add_action( 'admin_enqueue_scripts', 'enqueue_category_color_picker' );
 function enqueue_category_color_picker( $hook_suffix ) {
     if ( 'edit-tags.php' == $hook_suffix || 'term.php' == $hook_suffix ) {
@@ -1466,7 +1466,7 @@ function enqueue_category_color_picker( $hook_suffix ) {
     }
 }
 
-// Создайте файл js/category-color-picker.js в вашей теме со следующим содержимым:
+// Create the file js/category-color-picker.js in your theme with the following content:
 /*
 jQuery(document).ready(function($){
     $('.color-field').wpColorPicker();
@@ -1474,16 +1474,16 @@ jQuery(document).ready(function($){
 */
 
 /**
- * Добавляем выбор шаблона для товаров (аналогично категориям)
+ * Add template selection for products (similar to categories)
  */
 
-// Добавляем мета-бокс для выбора шаблона товара
+// Add a meta box for selecting the product template
 add_action( 'add_meta_boxes', 'add_product_template_meta_box' );
 
 function add_product_template_meta_box() {
     add_meta_box(
         'product_template_selection',
-        __( 'Настройки шаблона товара', 'my-shop' ),
+        __( 'Product template settings', 'my-shop' ),
         'product_template_meta_box_callback',
         'product',
         'side',
@@ -1492,35 +1492,35 @@ function add_product_template_meta_box() {
 }
 
 function product_template_meta_box_callback( $post ) {
-    // Добавляем nonce для безопасности
+    // Add a nonce for security
     wp_nonce_field( 'product_template_meta_box', 'product_template_meta_box_nonce' );
-    
-    // Получаем текущее значение
+
+    // Get the current value
     $template = get_post_meta( $post->ID, '_product_template', true );
     
     ?>
     <table class="form-table">
         <tr>
             <th scope="row">
-                <label for="product_template"><?php _e( 'Шаблон товара', 'my-shop' ); ?></label>
+                <label for="product_template"><?php _e( 'Product template', 'my-shop' ); ?></label>
             </th>
             <td>
                 <select name="product_template" id="product_template" style="width: 100%;">
-                    <option value="default" <?php selected( $template, 'default' ); ?>><?php _e( 'Светлый шаблон (по умолчанию)', 'my-shop' ); ?></option>
-                    <option value="dark" <?php selected( $template, 'dark' ); ?>><?php _e( 'Тёмный шаблон', 'my-shop' ); ?></option>
+                    <option value="default" <?php selected( $template, 'default' ); ?>><?php _e( 'Light template (default)', 'my-shop' ); ?></option>
+                    <option value="dark" <?php selected( $template, 'dark' ); ?>><?php _e( 'Dark template', 'my-shop' ); ?></option>
                 </select>
-                <p class="description"><?php _e( 'Выберите шаблон для отображения страницы товара.', 'my-shop' ); ?></p>
+                <p class="description"><?php _e( 'Select the template for displaying the product page.', 'my-shop' ); ?></p>
             </td>
         </tr>
     </table>
     <?php
 }
 
-// Сохраняем значение мета-поля
+// Save the meta field value
 add_action( 'save_post', 'save_product_template_meta_box' );
 
 function save_product_template_meta_box( $post_id ) {
-    // Проверяем nonce
+    // Check the nonce
     if ( ! isset( $_POST['product_template_meta_box_nonce'] ) ) {
         return;
     }
@@ -1529,35 +1529,35 @@ function save_product_template_meta_box( $post_id ) {
         return;
     }
     
-    // Проверяем автосохранение
+    // Check for autosave
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
-    
-    // Проверяем права пользователя
+
+    // Check user permissions
     if ( isset( $_POST['post_type'] ) && 'product' == $_POST['post_type'] ) {
         if ( ! current_user_can( 'edit_product', $post_id ) ) {
             return;
         }
     }
     
-    // Сохраняем данные
+    // Save the data
     if ( isset( $_POST['product_template'] ) ) {
         update_post_meta( $post_id, '_product_template', sanitize_text_field( $_POST['product_template'] ) );
     }
 }
 
 /**
- * Добавляем выбор темы для страниц
+ * Add theme selection for pages
  */
 
-// Добавляем мета-бокс для выбора темы страницы
+// Add a meta box for selecting the page theme
 add_action( 'add_meta_boxes', 'add_page_theme_meta_box' );
 
 function add_page_theme_meta_box() {
     add_meta_box(
         'page_theme_selection',
-        __( 'Тема страницы', 'my-e-shop' ),
+        __( 'Page theme', 'my-e-shop' ),
         'page_theme_meta_box_callback',
         'page',
         'side',
@@ -1566,36 +1566,36 @@ function add_page_theme_meta_box() {
 }
 
 function page_theme_meta_box_callback( $post ) {
-    // Добавляем nonce для безопасности
+    // Add a nonce for security
     wp_nonce_field( 'page_theme_meta_box', 'page_theme_meta_box_nonce' );
-    
-    // Получаем текущее значение
+
+    // Get the current value
     $theme = get_post_meta( $post->ID, '_page_theme', true );
     if ( empty( $theme ) ) {
-        $theme = 'light'; // По умолчанию светлая тема
+        $theme = 'light'; // Light theme by default
     }
     
     ?>
     <p>
-        <label for="page_theme"><?php _e( 'Выберите тему оформления:', 'my-e-shop' ); ?></label>
+        <label for="page_theme"><?php _e( 'Select the design theme:', 'my-e-shop' ); ?></label>
     </p>
     <p>
         <select name="page_theme" id="page_theme" style="width: 100%;">
-            <option value="light" <?php selected( $theme, 'light' ); ?>><?php _e( 'Светлая тема', 'my-e-shop' ); ?></option>
-            <option value="dark" <?php selected( $theme, 'dark' ); ?>><?php _e( 'Темная тема', 'my-e-shop' ); ?></option>
+            <option value="light" <?php selected( $theme, 'light' ); ?>><?php _e( 'Light theme', 'my-e-shop' ); ?></option>
+            <option value="dark" <?php selected( $theme, 'dark' ); ?>><?php _e( 'Dark theme', 'my-e-shop' ); ?></option>
         </select>
     </p>
     <p class="description">
-        <?php _e( 'Светлая тема: #F4F0EB<br>Темная тема: #2C2C2C', 'my-e-shop' ); ?>
+        <?php _e( 'Light theme: #F4F0EB<br>Dark theme: #2C2C2C', 'my-e-shop' ); ?>
     </p>
     <?php
 }
 
-// Сохраняем значение мета-поля темы страницы
+// Save the page theme meta field value
 add_action( 'save_post', 'save_page_theme_meta_box' );
 
 function save_page_theme_meta_box( $post_id ) {
-    // Проверяем nonce
+    // Check the nonce
     if ( ! isset( $_POST['page_theme_meta_box_nonce'] ) ) {
         return;
     }
@@ -1604,19 +1604,19 @@ function save_page_theme_meta_box( $post_id ) {
         return;
     }
     
-    // Проверяем автосохранение
+    // Check for autosave
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
-    
-    // Проверяем права пользователя
+
+    // Check user permissions
     if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
         if ( ! current_user_can( 'edit_page', $post_id ) ) {
             return;
         }
     }
     
-    // Сохраняем данные
+    // Save the data
     if ( isset( $_POST['page_theme'] ) ) {
         $theme = sanitize_text_field( $_POST['page_theme'] );
         if ( in_array( $theme, array( 'light', 'dark' ) ) ) {
@@ -1626,7 +1626,7 @@ function save_page_theme_meta_box( $post_id ) {
 }
 
 /**
- * Функция для получения hex цвета по названию
+ * Function to get a hex color by name
  */
 function get_color_hex_by_name($color_name) {
     $color_map = array(
@@ -1664,59 +1664,59 @@ function get_color_hex_by_name($color_name) {
     
     $color_name_lower = strtolower(trim($color_name));
     
-    // Если цвет найден в карте
+    // If the color is found in the map
     if (isset($color_map[$color_name_lower])) {
         return $color_map[$color_name_lower];
     }
     
-    // Если цвет уже в hex формате
+    // If the color is already in hex format
     if (preg_match('/^#[a-f0-9]{6}$/i', $color_name)) {
         return $color_name;
     }
     
-    // По умолчанию возвращаем серый
+    // Return gray by default
     return '#808080';
 }
 
 /**
- * Настройка размеров изображений WooCommerce
+ * WooCommerce image size configuration
  */
 function my_e_shop_custom_image_sizes() {
-    // Переопределяем размер thumbnail для WooCommerce
+    // Override the thumbnail size for WooCommerce
     update_option('woocommerce_thumbnail_image_width', 202);
     update_option('woocommerce_thumbnail_image_height', 290);
     update_option('woocommerce_thumbnail_cropping', 'custom');
     update_option('woocommerce_thumbnail_cropping_custom_width', 202);
     update_option('woocommerce_thumbnail_cropping_custom_height', 290);
     
-    // Добавляем свой кастомный размер изображения
+    // Add our own custom image size
     add_image_size('product_thumbnail_202x290', 202, 290, true);
 }
 add_action('after_setup_theme', 'my_e_shop_custom_image_sizes');
 
 /**
- * Временный код для принудительного обновления размеров (удалить через неделю)
+ * Temporary code to force-update sizes (remove in a week)
  */
 function force_update_woocommerce_image_sizes() {
-    // Удаляем старые опции
+    // Remove old options
     delete_option('woocommerce_thumbnail_image_width');
     delete_option('woocommerce_thumbnail_image_height');
     delete_option('woocommerce_thumbnail_cropping');
     delete_option('woocommerce_thumbnail_cropping_custom_width');
     delete_option('woocommerce_thumbnail_cropping_custom_height');
     
-    // Принудительно устанавливаем новые
+    // Force-set the new ones
     update_option('woocommerce_thumbnail_image_width', 202);
     update_option('woocommerce_thumbnail_image_height', 290);
     update_option('woocommerce_thumbnail_cropping', 'custom');
     update_option('woocommerce_thumbnail_cropping_custom_width', 202);
     update_option('woocommerce_thumbnail_cropping_custom_height', 290);
 }
-// РАСКОММЕНТИРОВАТЬ СТРОКУ НИЖЕ НА 1 ЗАГРУЗКУ СТРАНИЦЫ, ЗАТЕМ ЗАКОММЕНТИРОВАТЬ ОБРАТНО
+// UNCOMMENT THE LINE BELOW FOR 1 PAGE LOAD, THEN COMMENT IT BACK
 // add_action('init', 'force_update_woocommerce_image_sizes');
 
 /**
- * Фильтр для использования кастомного размера изображений в WooCommerce
+ * Filter to use the custom image size in WooCommerce
  */
 function my_e_shop_woocommerce_get_image_size_thumbnail($size) {
     return array(
@@ -1774,7 +1774,7 @@ function advanced_blog_posts_shortcode($atts) {
             $output .= '<div class="post-excerpt">' . $excerpt . '</div>';
         }
         
-        $output .= '<a href="' . get_permalink($post_id) . '" class="read-more-btn">Подробнее →</a>';
+        $output .= '<a href="' . get_permalink($post_id) . '" class="read-more-btn">Read more →</a>';
         $output .= '</div></div>';
     }
 
@@ -1785,7 +1785,7 @@ function advanced_blog_posts_shortcode($atts) {
 }
 add_shortcode('blog_grid', 'advanced_blog_posts_shortcode');
 
-// 1. Шорткод для блока подписки
+// 1. Shortcode for the subscription block
 function newsletter_subscription_shortcode($atts) {
     $atts = shortcode_atts(array(
         'title' => 'Join our world and get 5% off your first order',
@@ -1805,13 +1805,13 @@ function newsletter_subscription_shortcode($atts) {
 }
 add_shortcode('newsletter_block', 'newsletter_subscription_shortcode');
 
-// 2. Обработка формы подписки
+// 2. Handle the subscription form
 function handle_newsletter_subscription() {
     if (isset($_POST['newsletter_submit']) && wp_verify_nonce($_POST['newsletter_nonce'], 'newsletter_subscription')) {
         $email = sanitize_email($_POST['newsletter_email']);
         
         if (is_email($email)) {
-            // Сохраняем email в базу данных
+            // Save the email to the database
             global $wpdb;
             $table_name = $wpdb->prefix . 'newsletter_subscribers';
             
@@ -1830,7 +1830,7 @@ function handle_newsletter_subscription() {
                     )
                 );
                 
-                // Отправляем welcome email (опционально)
+                // Send a welcome email (optional)
                 wp_mail(
                     $email,
                     'Welcome to our newsletter!',
@@ -1846,7 +1846,7 @@ function handle_newsletter_subscription() {
 }
 add_action('wp_loaded', 'handle_newsletter_subscription');
 
-// 3. Создание таблицы для подписчиков
+// 3. Create the subscribers table
 function create_newsletter_table() {
     global $wpdb;
     
@@ -1869,7 +1869,7 @@ function create_newsletter_table() {
 register_activation_hook(__FILE__, 'create_newsletter_table');
 
 
-// 4. Админ страница для просмотра подписчиков
+// 4. Admin page for viewing subscribers
 function newsletter_admin_menu() {
     add_menu_page(
         'Newsletter Subscribers',
@@ -1910,7 +1910,7 @@ add_action('admin_page', 'newsletter_admin_page');
 
 /**
  * ===================================================================
- * GUTENBERG BLOCKS СИСТЕМА
+ * GUTENBERG BLOCKS SYSTEM
  * ===================================================================
  */
 
@@ -2380,7 +2380,7 @@ function my_e_shop_register_blocks() {
             array('in_footer' => false)
         );
         
-        // Передать AJAX URL для блока category-products
+        // Pass the AJAX URL for the category-products block
         wp_localize_script(
             'my-e-shop-category-products-script',
             'categoryProductsAjax',
@@ -2454,7 +2454,7 @@ function my_e_shop_register_blocks() {
     register_block_type(get_template_directory() . '/blocks/fashion-hero/block.json');
     register_block_type(get_template_directory() . '/blocks/animated-text/block.json', array(
         'render_callback' => function($attributes, $content, $block) {
-            // Заменяем старые inline стили на новые
+            // Replace the old inline styles with new ones
             $content = preg_replace(
                 '/style="([^"]*?)font-size:\s*\d+px;?([^"]*?)"/i',
                 'style="$1font-size: 40px; font-family: Playfair Display; font-weight: 500; line-height: 60px; letter-spacing: 1px; vertical-align: middle;$2"',
@@ -2507,7 +2507,7 @@ function my_e_shop_register_blocks() {
 }
 add_action('init', 'my_e_shop_register_blocks', 5);
 
-// Шорткод для вывода двух постов блога
+// Shortcode for displaying two blog posts
 function blog_trends_shortcode($atts) {
     $atts = shortcode_atts(array(
         'title' => 'Trends',
@@ -2515,7 +2515,7 @@ function blog_trends_shortcode($atts) {
         'posts_count' => 2
     ), $atts);
 
-    // Получаем последние посты
+    // Get the latest posts
     $posts = get_posts(array(
         'post_type' => 'post',
         'posts_per_page' => intval($atts['posts_count']),
@@ -2589,7 +2589,7 @@ function blog_trends_shortcode($atts) {
 }
 add_shortcode('blog_trends', 'blog_trends_shortcode');
 
-// Скрыть заголовки на всех страницах
+// Hide titles on all pages
 add_filter('the_title', function($title, $id) {
     if (is_page() && in_the_loop()) {
         return '';
@@ -2597,14 +2597,14 @@ add_filter('the_title', function($title, $id) {
     return $title;
 }, 10, 2);
 
-// Подключаем функционал кастомных страниц категорий
+// Include the custom category pages functionality
 require_once get_template_directory() . '/includes/category-pages.php';
 
-// УДАЛЕНО: Кастомные AJAX обработчики add_to_cart дублировали стандартный функционал WooCommerce
+// REMOVED: Custom add_to_cart AJAX handlers duplicated the standard WooCommerce functionality
 
-// AJAX обработчик для загрузки товаров категории
+// AJAX handler for loading category products
 function load_category_products_ajax() {
-    // Проверка безопасности
+    // Security check
     if (!wp_verify_nonce($_POST['nonce'], 'category_products_nonce')) {
         wp_send_json_error('Invalid nonce');
     }
@@ -2632,7 +2632,7 @@ function load_category_products_ajax() {
         ),
     );
     
-    // Добавляем поиск если указан
+    // Add search if specified
     if (!empty($search)) {
         $args['s'] = $search;
     }
@@ -2661,7 +2661,7 @@ function load_category_products_ajax() {
             echo '<h3 class="product-title"><a href="' . get_permalink() . '">' . get_the_title() . '</a></h3>';
             echo '<div class="product-price">' . $product->get_price_html() . '</div>';
             
-            // Кнопка добавления в корзину
+            // Add to cart button
             if ($product->is_purchasable() && $product->is_in_stock()) {
                 echo '<button class="add-to-cart-btn" data-product-id="' . get_the_ID() . '">Add to Cart</button>';
             }
@@ -2687,7 +2687,7 @@ function load_category_products_ajax() {
 add_action('wp_ajax_load_category_products', 'load_category_products_ajax');
 add_action('wp_ajax_nopriv_load_category_products', 'load_category_products_ajax');
 
-// ПОЛНОЕ ПЕРЕОПРЕДЕЛЕНИЕ миниатюр в корзине - используем оригинальные изображения
+// FULL OVERRIDE of cart thumbnails - we use the original images
 add_filter('woocommerce_cart_item_thumbnail', 'custom_cart_item_thumbnail_full', 10, 3);
 function custom_cart_item_thumbnail_full($product_image, $cart_item, $cart_item_key) {
     $_product = apply_filters('woocommerce_cart_item_product', $cart_item['data'], $cart_item, $cart_item_key);
@@ -2696,15 +2696,15 @@ function custom_cart_item_thumbnail_full($product_image, $cart_item, $cart_item_
         $thumbnail_id = $_product->get_image_id();
         
         if ($thumbnail_id) {
-            // Получаем метаданные изображения
+            // Get the image metadata
             $image_meta = wp_get_attachment_metadata($thumbnail_id);
             $image_url = wp_get_attachment_image_url($thumbnail_id, 'full');
             
-            // Определяем реальные размеры изображения
+            // Determine the real image dimensions
             $width = isset($image_meta['width']) ? $image_meta['width'] : 400;
             $height = isset($image_meta['height']) ? $image_meta['height'] : 400;
             
-            // Вычисляем пропорциональные размеры с max-width 240px
+            // Calculate proportional dimensions with a max-width of 240px
             $max_width = 240;
             if ($width > $max_width) {
                 $ratio = $max_width / $width;
@@ -2728,13 +2728,13 @@ function custom_cart_item_thumbnail_full($product_image, $cart_item, $cart_item_
     return $product_image;
 }
 
-// Увеличение размера миниатюр WooCommerce
+// Increase the size of WooCommerce thumbnails
 add_filter('woocommerce_get_image_size_thumbnail', 'custom_woocommerce_thumbnail_size');
 function custom_woocommerce_thumbnail_size($size) {
     return array(
         'width'  => 600,
         'height' => 600,
-        'crop'   => 0, // Не обрезаем, сохраняем пропорции
+        'crop'   => 0, // Do not crop, keep proportions
     );
 }
 
@@ -2961,11 +2961,11 @@ function custom_woocommerce_breadcrumbs($defaults) {
 
 add_filter('woocommerce_get_breadcrumb', 'custom_woocommerce_breadcrumb_links', 10, 2);
 function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
-    // Категории товаров (product_cat), чья страница-коллекция называется иначе,
-    // чем сам термин. Слаг категории → слаг страницы /collection/{slug}/ + подпись.
-    // Пример: товары лежат в product_cat "Witch teaser", а публичная коллекция —
-    // страница "Witch Core" (/collection/witch-core/). Без ремапа крошка вела бы
-    // на несуществующий /collection/witch-teaser/ (резолвится в картинку).
+    // Product categories (product_cat) whose collection page is named differently
+    // from the term itself. Category slug → /collection/{slug}/ page slug + label.
+    // Example: products live in product_cat "Witch teaser", but the public collection
+    // is the "Witch Core" page (/collection/witch-core/). Without the remap the crumb
+    // would point to a non-existent /collection/witch-teaser/ (resolves to an image).
     $collection_map = array(
         'witch-teaser' => array('slug' => 'witch-core', 'label' => 'Witch Core'),
     );
@@ -2989,7 +2989,7 @@ function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
                 $path_parts = explode('/', trim($path, '/'));
                 $category_slug = end($path_parts);
 
-                // Ремап на страницу-коллекцию, если её слаг отличается от слага категории
+                // Remap to the collection page if its slug differs from the category slug
                 if (isset($collection_map[$category_slug])) {
                     if (!empty($collection_map[$category_slug]['label'])) {
                         $crumb[0] = $collection_map[$category_slug]['label'];
@@ -3008,7 +3008,7 @@ function custom_woocommerce_breadcrumb_links($crumbs, $breadcrumb) {
     return $new_crumbs;
 }
 
-// Подключаем стили для single post
+// Enqueue styles for the single post
 add_action('wp_enqueue_scripts', 'enqueue_single_post_styles');
 function enqueue_single_post_styles() {
     if (is_single()) {
@@ -3017,15 +3017,15 @@ function enqueue_single_post_styles() {
 }
 
 // ============================================
-// Мета-боксы для Hero блока поста
+// Meta boxes for the post Hero block
 // ============================================
 
-// Добавляем мета-бокс для настроек Hero блока
+// Add a meta box for Hero block settings
 add_action('add_meta_boxes', 'add_post_hero_meta_box');
 function add_post_hero_meta_box() {
     add_meta_box(
         'post_hero_settings',
-        'Настройки Hero блока',
+        'Hero block settings',
         'post_hero_meta_box_callback',
         'post',
         'side',
@@ -3033,7 +3033,7 @@ function add_post_hero_meta_box() {
     );
 }
 
-// Отображение полей мета-бокса
+// Render the meta box fields
 function post_hero_meta_box_callback($post) {
     wp_nonce_field('post_hero_meta_box', 'post_hero_meta_box_nonce');
     
@@ -3044,13 +3044,13 @@ function post_hero_meta_box_callback($post) {
     
     <div class="post-hero-fields">
         <p>
-            <label><strong>Hero изображение:</strong></label><br>
+            <label><strong>Hero image:</strong></label><br>
             <input type="hidden" id="hero_image" name="hero_image" value="<?php echo esc_attr($hero_image); ?>" />
             <button type="button" class="button hero-image-upload" data-target="hero_image">
-                <?php echo $hero_image ? 'Изменить изображение' : 'Выбрать изображение'; ?>
+                <?php echo $hero_image ? 'Change image' : 'Select image'; ?>
             </button>
             <button type="button" class="button hero-image-remove" data-target="hero_image" style="<?php echo $hero_image ? '' : 'display:none;'; ?>">
-                Удалить
+                Remove
             </button>
             <div class="hero-image-preview" style="margin-top:10px;">
                 <?php if ($hero_image) : 
@@ -3065,45 +3065,45 @@ function post_hero_meta_box_callback($post) {
         </p>
         
         <p>
-            <label><strong>Hero заголовок:</strong></label><br>
-            <input type="text" name="hero_title" value="<?php echo esc_attr($hero_title); ?>" style="width:100%;" 
-                   placeholder="Оставьте пустым для использования заголовка поста" />
+            <label><strong>Hero title:</strong></label><br>
+            <input type="text" name="hero_title" value="<?php echo esc_attr($hero_title); ?>" style="width:100%;"
+                   placeholder="Leave empty to use the post title" />
         </p>
         
         <p>
-            <label><strong>Hero описание:</strong></label><br>
-            <textarea name="hero_description" rows="4" style="width:100%;" 
-                      placeholder="Краткое описание для hero блока"><?php echo esc_textarea($hero_description); ?></textarea>
+            <label><strong>Hero description:</strong></label><br>
+            <textarea name="hero_description" rows="4" style="width:100%;"
+                      placeholder="Short description for the hero block"><?php echo esc_textarea($hero_description); ?></textarea>
         </p>
     </div>
     
     <script>
     jQuery(document).ready(function($) {
-        // Загрузка изображения
+        // Image upload
         $('.hero-image-upload').on('click', function(e) {
             e.preventDefault();
             var button = $(this);
             var targetInput = button.data('target');
             var customUploader = wp.media({
-                title: 'Выберите Hero изображение',
-                button: { text: 'Использовать это изображение' },
+                title: 'Select a Hero image',
+                button: { text: 'Use this image' },
                 multiple: false
             }).on('select', function() {
                 var attachment = customUploader.state().get('selection').first().toJSON();
                 $('#' + targetInput).val(attachment.id);
-                button.text('Изменить изображение');
+                button.text('Change image');
                 button.siblings('.hero-image-remove').show();
                 button.siblings('.hero-image-preview').html('<img src="' + attachment.url + '" style="max-width:100%;height:auto;" />');
             }).open();
         });
         
-        // Удаление изображения
+        // Image removal
         $('.hero-image-remove').on('click', function(e) {
             e.preventDefault();
             var button = $(this);
             var targetInput = button.data('target');
             $('#' + targetInput).val('');
-            button.siblings('.hero-image-upload').text('Выбрать изображение');
+            button.siblings('.hero-image-upload').text('Select image');
             button.hide();
             button.siblings('.hero-image-preview').html('');
         });
@@ -3122,7 +3122,7 @@ function post_hero_meta_box_callback($post) {
     <?php
 }
 
-// Сохранение данных мета-бокса
+// Save the meta box data
 add_action('save_post', 'save_post_hero_meta_box_data');
 function save_post_hero_meta_box_data($post_id) {
     if (!isset($_POST['post_hero_meta_box_nonce'])) {
@@ -3141,32 +3141,32 @@ function save_post_hero_meta_box_data($post_id) {
         return;
     }
     
-    // Сохраняем Hero изображение
+    // Save the Hero image
     if (isset($_POST['hero_image'])) {
         update_post_meta($post_id, '_hero_image', sanitize_text_field($_POST['hero_image']));
     }
     
-    // Сохраняем Hero заголовок
+    // Save the Hero title
     if (isset($_POST['hero_title'])) {
         update_post_meta($post_id, '_hero_title', sanitize_text_field($_POST['hero_title']));
     }
     
-    // Сохраняем Hero описание
+    // Save the Hero description
     if (isset($_POST['hero_description'])) {
         update_post_meta($post_id, '_hero_description', sanitize_textarea_field($_POST['hero_description']));
     }
 }
 
 // ============================================
-// Мета-бокс: CTA-футер статьи
-// Вариант (тёмный/светлый), заголовок, подзаголовок, кнопка со ссылкой на коллекцию.
-// Для статей вместо стандартного футера выводится этот CTA-футер (см. footer.php).
+// Meta box: article CTA footer
+// Variant (dark/light), title, subtitle, button with a link to a collection.
+// For articles, this CTA footer is shown instead of the standard footer (see footer.php).
 // ============================================
 add_action('add_meta_boxes', 'add_post_footer_cta_meta_box');
 function add_post_footer_cta_meta_box() {
     add_meta_box(
         'post_footer_cta_settings',
-        'Футер статьи (CTA)',
+        'Article footer (CTA)',
         'post_footer_cta_meta_box_callback',
         'post',
         'side',
@@ -3185,7 +3185,7 @@ function post_footer_cta_meta_box_callback($post) {
     if ($button_text === '') { $button_text = 'EXPLORE THE COLLECTION'; }
     $button_page = (int) get_post_meta($post->ID, '_footer_cta_button_page', true);
 
-    // Страницы-коллекции (дети страницы "collection"); фолбэк — все страницы
+    // Collection pages (children of the "collection" page); fallback - all pages
     $collection_parent = get_page_by_path('collection');
     $pages = $collection_parent
         ? get_pages(array('child_of' => $collection_parent->ID, 'sort_column' => 'post_title'))
@@ -3193,28 +3193,28 @@ function post_footer_cta_meta_box_callback($post) {
     ?>
     <div class="footer-cta-fields">
         <p>
-            <label><strong>Вариант футера:</strong></label><br>
+            <label><strong>Footer variant:</strong></label><br>
             <select name="footer_cta_theme" style="width:100%;">
-                <option value="dark"  <?php selected($theme, 'dark'); ?>>Тёмный</option>
-                <option value="light" <?php selected($theme, 'light'); ?>>Светлый</option>
+                <option value="dark"  <?php selected($theme, 'dark'); ?>>Dark</option>
+                <option value="light" <?php selected($theme, 'light'); ?>>Light</option>
             </select>
         </p>
         <p>
-            <label><strong>Заголовок:</strong></label><br>
+            <label><strong>Title:</strong></label><br>
             <input type="text" name="footer_cta_title" value="<?php echo esc_attr($title); ?>" style="width:100%;">
         </p>
         <p>
-            <label><strong>Подзаголовок:</strong></label><br>
+            <label><strong>Subtitle:</strong></label><br>
             <textarea name="footer_cta_subtitle" rows="3" style="width:100%;"><?php echo esc_textarea($subtitle); ?></textarea>
         </p>
         <p>
-            <label><strong>Текст кнопки:</strong></label><br>
+            <label><strong>Button text:</strong></label><br>
             <input type="text" name="footer_cta_button_text" value="<?php echo esc_attr($button_text); ?>" style="width:100%;">
         </p>
         <p>
-            <label><strong>Кнопка ведёт на коллекцию:</strong></label><br>
+            <label><strong>Button links to collection:</strong></label><br>
             <select name="footer_cta_button_page" style="width:100%;">
-                <option value="0"><?php esc_html_e('— не выбрано —', 'my-e-shop'); ?></option>
+                <option value="0"><?php esc_html_e('— not selected —', 'my-e-shop'); ?></option>
                 <?php foreach ($pages as $pg) : ?>
                     <option value="<?php echo (int) $pg->ID; ?>" <?php selected($button_page, $pg->ID); ?>>
                         <?php echo esc_html($pg->post_title); ?>
@@ -3254,7 +3254,7 @@ function save_post_footer_cta_meta_box_data($post_id) {
     }
 }
 
-// Функция для расчета времени чтения поста
+// Function to calculate the post reading time
 function get_reading_time($post_id = null) {
     if (!$post_id) {
         $post_id = get_the_ID();
@@ -3262,15 +3262,15 @@ function get_reading_time($post_id = null) {
 
     $content = get_post_field('post_content', $post_id);
     $word_count = str_word_count(strip_tags($content));
-    $reading_time = ceil($word_count / 200); // Средняя скорость чтения 200 слов в минуту
+    $reading_time = ceil($word_count / 200); // Average reading speed 200 words per minute
 
     return $reading_time;
 }
 
 // ============================================
-// Авто cache-busting ассетов темы по mtime файла.
-// Заменяет статичные ?ver=x.x.x на метку изменения файла, чтобы правки
-// CSS/JS сразу подхватывались браузером и CDN без ручной чистки кэша.
+// Auto cache-busting of theme assets by file mtime.
+// Replaces static ?ver=x.x.x with the file modification timestamp so that
+// CSS/JS edits are picked up by the browser and CDN immediately without manual cache clearing.
 // ============================================
 function my_e_shop_asset_cachebust( $src ) {
     $theme_uri = get_template_directory_uri();

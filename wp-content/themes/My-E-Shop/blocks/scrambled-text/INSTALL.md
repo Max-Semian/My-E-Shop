@@ -1,150 +1,150 @@
-# 🎉 Scrambled Text Block - Успешно создан!
+# 🎉 Scrambled Text Block - Successfully created!
 
-## ✅ Что было сделано
+## ✅ What was done
 
-### 1. Структура блока
+### 1. Block structure
 ```
 blocks/scrambled-text/
-├── block.json          ✅ Конфигурация блока
-├── index.js            ✅ WordPress редактор (Edit & Save)
-├── script.js           ✅ Frontend GSAP анимация
-├── style.css           ✅ Стили для фронтенда
-├── editor.css          ✅ Стили для редактора
-└── README.md           ✅ Полная документация
+├── block.json          ✅ Block configuration
+├── index.js            ✅ WordPress editor (Edit & Save)
+├── script.js           ✅ Frontend GSAP animation
+├── style.css           ✅ Frontend styles
+├── editor.css          ✅ Editor styles
+└── README.md           ✅ Full documentation
 ```
 
-### 2. Регистрация в WordPress
-✅ Добавлен `register_block_type` в functions.php  
-✅ Зарегистрированы editor скрипты и стили  
-✅ Зарегистрированы frontend скрипты и стили  
-✅ Указаны зависимости: GSAP + ScrambleTextPlugin
+### 2. Registration in WordPress
+✅ Added `register_block_type` in functions.php  
+✅ Registered editor scripts and styles  
+✅ Registered frontend scripts and styles  
+✅ Specified dependencies: GSAP + ScrambleTextPlugin
 
-### 3. Функциональность
-✅ Интерактивный эффект зашифровки при наведении курсора  
-✅ Настраиваемые параметры в Inspector Controls  
-✅ Адаптивный дизайн для всех устройств  
-✅ Fallback анимация если ScrambleTextPlugin недоступен  
-✅ Подробное логирование в консоли для отладки
+### 3. Functionality
+✅ Interactive scramble effect on cursor hover  
+✅ Configurable parameters in Inspector Controls  
+✅ Responsive design for all devices  
+✅ Fallback animation if ScrambleTextPlugin is unavailable  
+✅ Detailed console logging for debugging
 
-## 🚀 Как использовать
+## 🚀 How to use
 
-### Шаг 1: Очистите кеш
-Обязательно очистите кеш WordPress и браузера после добавления нового блока.
+### Step 1: Clear the cache
+Be sure to clear the WordPress and browser cache after adding a new block.
 
-### Шаг 2: Откройте редактор
-1. Перейдите в **Страницы** > **Добавить новую** (или редактируйте существующую)
-2. Нажмите `+` для добавления блока
-3. Найдите **"Scrambled Text (GSAP)"**
+### Step 2: Open the editor
+1. Go to **Pages** > **Add New** (or edit an existing one)
+2. Click `+` to add a block
+3. Find **"Scrambled Text (GSAP)"**
 
-### Шаг 3: Добавьте текст
-Введите ваш текст в блоке. По умолчанию используется Lorem ipsum.
+### Step 3: Add text
+Enter your text in the block. Lorem ipsum is used by default.
 
-### Шаг 4: Настройте параметры
-В правой панели настроек:
-- **Размер шрифта**: Small / Medium / Large
-- **Радиус эффекта**: 50-300px (по умолчанию 100)
-- **Длительность**: 0.3-3.0 сек (по умолчанию 1.2)
-- **Скорость**: 0.1-1.0 (по умолчанию 0.5)
-- **Символы**: Например .: или !@#$
-- **Цвета**: Текст и фон
+### Step 4: Configure the parameters
+In the right settings panel:
+- **Font size**: Small / Medium / Large
+- **Effect radius**: 50-300px (default 100)
+- **Duration**: 0.3-3.0 sec (default 1.2)
+- **Speed**: 0.1-1.0 (default 0.5)
+- **Characters**: For example .: or !@#$
+- **Colors**: Text and background
 
-### Шаг 5: Опубликуйте и протестируйте
-1. Нажмите **Опубликовать** или **Обновить**
-2. Перейдите на страницу
-3. Наведите курсор на текст - символы будут "зашифровываться"!
+### Step 5: Publish and test
+1. Click **Publish** or **Update**
+2. Go to the page
+3. Hover the cursor over the text - the characters will "scramble"!
 
-## 🎯 Рекомендуемые настройки
+## 🎯 Recommended settings
 
-### Для героя на главной странице
+### For a hero on the homepage
 ```
-Размер: Large
-Радиус: 120px
-Длительность: 1.0 сек
-Скорость: 0.6
-Символы: .:
-Цвет текста: #ffffff
-Цвет фона: темный (например #1a1a1a)
-```
-
-### Для акцента на текст
-```
-Размер: Medium
-Радиус: 80px
-Длительность: 0.8 сек
-Скорость: 0.7
-Символы: !@#
-Цвет текста: яркий
+Size: Large
+Radius: 120px
+Duration: 1.0 sec
+Speed: 0.6
+Characters: .:
+Text color: #ffffff
+Background color: dark (for example #1a1a1a)
 ```
 
-### Для плавного эффекта
+### For a text accent
 ```
-Размер: Medium
-Радиус: 150px
-Длительность: 2.0 сек
-Скорость: 0.3
-Символы: ░▒▓
+Size: Medium
+Radius: 80px
+Duration: 0.8 sec
+Speed: 0.7
+Characters: !@#
+Text color: bright
 ```
 
-## 🔍 Проверка работы
+### For a smooth effect
+```
+Size: Medium
+Radius: 150px
+Duration: 2.0 sec
+Speed: 0.3
+Characters: ░▒▓
+```
 
-### В консоли браузера должно быть:
+## 🔍 Verifying it works
+
+### In the browser console you should see:
 ```
 🎬 Scrambled Text: Initializing...
-✅ GSAP загружен
-📦 Найдено блоков: 1
-⚙️ Блок 0 настройки: {radius: 100, duration: 1.2, speed: 0.5, scrambleChars: ".:"}
-✨ Блок 0: Создано 67 символов
-🎯 Блок 0: Инициализация завершена
+✅ GSAP loaded
+📦 Blocks found: 1
+⚙️ Block 0 settings: {radius: 100, duration: 1.2, speed: 0.5, scrambleChars: ".:"}
+✨ Block 0: Created 67 characters
+🎯 Block 0: Initialization complete
 ```
 
-### Если видите ошибки:
-- ❌ **GSAP не загружен** → Проверьте что GSAP подключен в functions.php
-- ⚠️ **ScrambleTextPlugin не найден** → Используется fallback анимация (это нормально)
-- ⚠️ **Блоки не найдены** → Пересохраните страницу в редакторе
+### If you see errors:
+- ❌ **GSAP not loaded** → Check that GSAP is included in functions.php
+- ⚠️ **ScrambleTextPlugin not found** → Fallback animation is used (this is normal)
+- ⚠️ **Blocks not found** → Re-save the page in the editor
 
-## 📱 Тестирование
+## 📱 Testing
 
-1. **Desktop**: Наведите курсор → символы зашифровываются
-2. **Mobile**: Проведите пальцем → символы зашифровываются
-3. **Изменение параметров**: Все настройки применяются в реальном времени
+1. **Desktop**: Hover the cursor → characters scramble
+2. **Mobile**: Swipe with your finger → characters scramble
+3. **Changing parameters**: All settings apply in real time
 
-## 🎨 Кастомизация
+## 🎨 Customization
 
-### Изменить стили
-Редактируйте `blocks/scrambled-text/style.css`
+### Change styles
+Edit `blocks/scrambled-text/style.css`
 
-### Изменить поведение
-Редактируйте `blocks/scrambled-text/script.js`
+### Change behavior
+Edit `blocks/scrambled-text/script.js`
 
-### Добавить новые параметры
-1. Добавьте атрибут в `block.json`
-2. Добавьте контрол в `index.js` (Edit функция)
-3. Используйте в `script.js`
+### Add new parameters
+1. Add an attribute in `block.json`
+2. Add a control in `index.js` (Edit function)
+3. Use it in `script.js`
 
-## 🆚 Отличия от Animated Text Block
+## 🆚 Differences from the Animated Text Block
 
-| Функция | Animated Text | Scrambled Text |
+| Function | Animated Text | Scrambled Text |
 |---------|---------------|----------------|
-| Анимации | 5 типов | 1 тип (GSAP) |
-| Интерактивность | ❌ | ✅ |
-| Зависимости | jQuery | GSAP |
-| Сложность | Простой | Продвинутый |
-| Эффект | При загрузке | При наведении |
+| Animations | 5 types | 1 type (GSAP) |
+| Interactivity | ❌ | ✅ |
+| Dependencies | jQuery | GSAP |
+| Complexity | Simple | Advanced |
+| Effect | On load | On hover |
 
-## 📞 Поддержка
+## 📞 Support
 
-Если возникли проблемы:
-1. Проверьте консоль браузера (F12)
-2. Очистите кеш WordPress
-3. Пересохраните страницу
-4. Проверьте что GSAP загружается (Network → gsap.min.js)
+If you run into problems:
+1. Check the browser console (F12)
+2. Clear the WordPress cache
+3. Re-save the page
+4. Check that GSAP loads (Network → gsap.min.js)
 
-## 🎓 Дополнительно
+## 🎓 Additional
 
-- 📖 Полная документация в `README.md`
-- 🔗 GSAP документация: https://greensock.com/docs/
-- 🎨 Оригинальный CodePen: https://codepen.io/creativeocean/pen/NPWLwJM
+- 📖 Full documentation in `README.md`
+- 🔗 GSAP documentation: https://greensock.com/docs/
+- 🎨 Original CodePen: https://codepen.io/creativeocean/pen/NPWLwJM
 
 ---
 
-**Готово к использованию!** 🚀
+**Ready to use!** 🚀

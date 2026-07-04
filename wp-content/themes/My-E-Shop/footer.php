@@ -1,5 +1,5 @@
 <?php if ( is_singular('post') ) :
-    // ===== CTA-футер статьи (настраивается в сайдбаре поста) =====
+    // ===== Article CTA footer (configured in the post sidebar) =====
     $cta_theme = get_post_meta(get_the_ID(), '_footer_cta_theme', true);
     if ($cta_theme === '') { $cta_theme = 'dark'; }
     $cta_title = get_post_meta(get_the_ID(), '_footer_cta_title', true);
@@ -99,7 +99,7 @@
 <?php endif; ?>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Ищем все возможные варианты
+    // Look for all possible variants
     const shopButton1 = document.querySelector('.nav-link.dropdown-toggle');
     const shopButton2 = document.querySelector('a[href*="shop"]');
     const shopButton3 = document.querySelector('.dropdown-toggle');
@@ -117,18 +117,18 @@ document.addEventListener('DOMContentLoaded', function() {
          let hideTimeout;
          
          dropdownParent.addEventListener('mouseenter', function() {
-             // Отменяем скрытие если оно было запланировано
+             // Cancel hiding if it was scheduled
              if (hideTimeout) {
                  clearTimeout(hideTimeout);
                  hideTimeout = null;
              }
              const rect = shopButton.getBoundingClientRect();
-             
-             // Восстанавливаем нужные классы для стилизации внутренних элементов
+
+             // Restore the required classes for styling inner elements
              dropdown.className = 'dropdown-menu shop-dropdown';
              dropdown.removeAttribute('style');
-             
-             // Применяем только наши стили
+
+             // Apply only our styles
              dropdown.style.cssText = `
                  position: fixed !important;
                  top: ${rect.bottom + 5}px !important;
@@ -151,10 +151,10 @@ document.addEventListener('DOMContentLoaded', function() {
                  pointer-events: auto !important;
              `;
              
-             // Перемещаем dropdown в конец body для гарантии правильного z-index
+             // Move the dropdown to the end of body to guarantee the correct z-index
              document.body.appendChild(dropdown);
-             
-             // Добавляем стили для внутренних элементов
+
+             // Add styles for the inner elements
              const dropdownItems = dropdown.querySelectorAll('.dropdown-item');
              dropdownItems.forEach((item, index) => {
                  item.style.cssText = `
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
                      overflow: hidden !important;
                  `;
                  
-                 // Добавляем hover эффект
+                 // Add a hover effect
                  item.addEventListener('mouseenter', function() {
                      this.style.background = 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important';
                      this.style.color = '#D85AFF !important';
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  });
              });
              
-             // Стилизуем иконки
+             // Style the icons
              const dropdownIcons = dropdown.querySelectorAll('.dropdown-icon');
              dropdownIcons.forEach(icon => {
                  icon.style.cssText = `
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                  `;
              });
              
-             // Стилизуем текст
+             // Style the text
              const dropdownTexts = dropdown.querySelectorAll('.dropdown-text');
              dropdownTexts.forEach(text => {
                  text.style.cssText = `
@@ -221,15 +221,15 @@ document.addEventListener('DOMContentLoaded', function() {
          });
         
                  dropdownParent.addEventListener('mouseleave', function(e) {
-             // Устанавливаем задержку перед скрытием
+             // Set a delay before hiding
              hideTimeout = setTimeout(function() {
                  dropdown.style.display = 'none';
              }, 100);
          });
-         
-         // Добавляем события для самого dropdown
+
+         // Add events for the dropdown itself
          dropdown.addEventListener('mouseenter', function() {
-             // Отменяем скрытие если курсор на dropdown
+             // Cancel hiding if the cursor is on the dropdown
              if (hideTimeout) {
                  clearTimeout(hideTimeout);
                  hideTimeout = null;
@@ -237,13 +237,13 @@ document.addEventListener('DOMContentLoaded', function() {
          });
          
          dropdown.addEventListener('mouseleave', function() {
-             // Небольшая задержка для плавности
+             // A small delay for smoothness
              hideTimeout = setTimeout(function() {
                  dropdown.style.display = 'none';
              }, 100);
          });
-        
-        // Также добавим события для самого dropdown
+
+        // Also add events for the dropdown itself
         dropdown.addEventListener('mouseenter', function() {
             dropdown.style.display = 'block';
             dropdown.style.opacity = '1';

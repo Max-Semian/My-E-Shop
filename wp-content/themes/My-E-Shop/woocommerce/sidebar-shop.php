@@ -10,23 +10,23 @@ if (!defined('ABSPATH')) {
 
 <div class="sidebar">
 
-    <!-- WordPress Widgets (если есть) -->
+    <!-- WordPress Widgets (if any) -->
     <?php if (is_active_sidebar('sidebar-1')) : ?>
         <div class="filter-block">
             <?php dynamic_sidebar('sidebar-1'); ?>
         </div>
     <?php endif; ?>
 
-    <!-- Фильтр по цене - ОБНОВЛЕННАЯ ВЕРСИЯ -->
+    <!-- Filter by price - UPDATED VERSION -->
     <div class="filter-block">
         <h3 class="section-title"><span><?php _e('Filter by Price', 'My-E-Shop'); ?></span></h3>
         
         <?php 
-        // Пробуем использовать виджет WooCommerce
+        // Try to use the WooCommerce widget
         if (class_exists('WC_Widget_Price_Filter')) {
             echo '<div class="woocommerce-price-filter-widget">';
             
-            // Создаем экземпляр виджета
+            // Create a widget instance
             $price_filter_widget = new WC_Widget_Price_Filter();
             $args = array(
                 'before_widget' => '<div class="widget woocommerce widget_price_filter">',
@@ -36,12 +36,12 @@ if (!defined('ABSPATH')) {
             );
             $instance = array('title' => '');
             
-            // Выводим виджет
+            // Output the widget
             $price_filter_widget->widget($args, $instance);
             
             echo '</div>';
         } else {
-            // Простой HTML фильтр цены как fallback
+            // Simple HTML price filter as a fallback
             ?>
             <form method="get" class="price-filter-form">
                 <div class="price-filter-inputs">
@@ -63,7 +63,7 @@ if (!defined('ABSPATH')) {
                     <i class="fas fa-filter"></i> <?php _e('Filter', 'My-E-Shop'); ?>
                 </button>
                 <?php
-                // Сохраняем другие параметры поиска
+                // Preserve other search parameters
                 foreach ($_GET as $key => $value) {
                     if (!in_array($key, ['min_price', 'max_price'])) {
                         echo '<input type="hidden" name="' . esc_attr($key) . '" value="' . esc_attr($value) . '">';
@@ -76,7 +76,7 @@ if (!defined('ABSPATH')) {
         ?>
     </div>
 
-    <!-- Категории товаров -->
+    <!-- Product categories -->
     <?php if (!is_product_category()): ?>
     <div class="filter-block">
         <h3 class="section-title"><span><?php _e('Categories', 'My-E-Shop'); ?></span></h3>
@@ -106,7 +106,7 @@ if (!defined('ABSPATH')) {
     </div>
     <?php endif; ?>
 
-    <!-- Фильтры по атрибутам товаров -->
+    <!-- Filters by product attributes -->
     <?php
     $attribute_taxonomies = wc_get_attribute_taxonomies();
     if (!empty($attribute_taxonomies)) {
@@ -150,7 +150,7 @@ if (!defined('ABSPATH')) {
     }
     ?>
 
-    <!-- Фильтр по наличию -->
+    <!-- Filter by availability -->
     <div class="filter-block">
         <h3 class="section-title"><span><?php _e('Availability', 'My-E-Shop'); ?></span></h3>
         <?php
@@ -181,7 +181,7 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <!-- Фильтр "Распродажа" -->
+    <!-- "Sale" filter -->
     <div class="filter-block">
         <h3 class="section-title"><span><?php _e('Special Offers', 'My-E-Shop'); ?></span></h3>
         <div class="form-check">
@@ -197,7 +197,7 @@ if (!defined('ABSPATH')) {
         </div>
     </div>
 
-    <!-- Кнопка очистки фильтров -->
+    <!-- Clear filters button -->
     <?php 
     $has_filters = false;
     foreach ($_GET as $key => $value) {
@@ -217,7 +217,7 @@ if (!defined('ABSPATH')) {
     </div>
     <?php endif; ?>
 
-    <!-- Рекомендуемые товары (только на страницах категорий) -->
+    <!-- Recommended products (category pages only) -->
     <?php if (is_product_category()) : ?>
     <div class="recommend-section">
         <h3 class="section-title"><span><?php _e('Recommended', 'My-E-Shop'); ?></span></h3>

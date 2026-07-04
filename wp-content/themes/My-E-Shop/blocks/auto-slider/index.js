@@ -51,7 +51,7 @@
                 setAttributes({ images: newImages });
             }
 
-            // Список изображений в инспекторе
+            // List of images in the inspector
             var imageControls = images.map(function(image, index) {
                 return el(
                     'div',
@@ -99,7 +99,7 @@
                                 isSmall: true,
                                 onClick: function() { removeImage(index); }
                             },
-                            __('Удалить', 'My-E-Shop')
+                            __('Remove', 'My-E-Shop')
                         )
                     )
                 );
@@ -113,11 +113,11 @@
                     null,
                     el(
                         PanelBody,
-                        { title: __('Настройки слайдера', 'My-E-Shop'), initialOpen: true },
+                        { title: __('Slider settings', 'My-E-Shop'), initialOpen: true },
                         el(
                             'p',
                             { style: { marginBottom: '12px', fontSize: '13px', color: '#666' } },
-                            __('Изображений: ', 'My-E-Shop') + images.length
+                            __('Images: ', 'My-E-Shop') + images.length
                         ),
                         el(
                             MediaUploadCheck,
@@ -136,7 +136,7 @@
                                             onClick: obj.open,
                                             style: { width: '100%', marginBottom: '15px' }
                                         },
-                                        images.length > 0 ? __('Изменить изображения', 'My-E-Shop') : __('Добавить изображения', 'My-E-Shop')
+                                        images.length > 0 ? __('Change images', 'My-E-Shop') : __('Add images', 'My-E-Shop')
                                     );
                                 }
                             })
@@ -166,7 +166,7 @@
                         el(
                             'p',
                             { style: { textAlign: 'center', padding: '60px 20px', color: '#999' } },
-                            __('Добавьте изображения для слайдера через боковую панель →', 'My-E-Shop')
+                            __('Add images for the slider using the sidebar →', 'My-E-Shop')
                         )
                 )
             );

@@ -35,7 +35,7 @@
     letter-spacing: 1px;
 }
 
-/* Размеры шрифта */
+/* Font sizes */
 .fade-in-words-block.font-small .text-block p {
     font-size: 24px;
 }
@@ -48,7 +48,7 @@
     font-size: clamp(32px, 5vw, 56px);
 }
 
-/* Анимация появления слов */
+/* Word fade-in animation */
 .text-content {
     visibility: hidden;
 }
@@ -76,7 +76,7 @@
     }
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .fade-in-words-wrapper {
         padding: 40px 15px;

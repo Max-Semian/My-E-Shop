@@ -41,10 +41,10 @@
         width: 240px !important;
         max-width: 240px !important;
         flex: none !important;
-        margin: 0 20px !important; /* Отступы между карточками в карусели */
+        margin: 0 20px !important; /* Gaps between cards in the carousel */
     }
 
-    /* Предотвращение дублирования в карусели */
+    /* Prevent duplication in the carousel */
     .woocommerce .owl-carousel .owl-stage {
         display: flex !important;
     }
@@ -166,7 +166,7 @@
 /* Make sure offcanvas displays correctly on mobile */
 @media all and (max-width: 991.98px) {
     .main-dark-bar {
-        display: none; /* Скрываем нижнюю панель на мобильных */
+        display: none; /* Hide the bottom bar on mobile */
     }
     
     .main-header-bar {
@@ -309,7 +309,7 @@
         padding-left: 20px;
     }
     
-    /* Ширина карточки товара - 50% для двух в ряд */
+    /* Product card width - 50% for two per row */
     .category-products-container .col-md-3.col-sm-6.mb-3 {
         width: 50% !important;
         flex: 0 0 50% !important;
@@ -319,21 +319,21 @@
         box-sizing: border-box;
     }
     
-    /* Оптимизация отображения карточек товаров */
+    /* Optimize product card display */
     .category-products-container .col-md-3.col-sm-6.mb-3 .card,
     .category-products-container .col-md-3.col-sm-6.mb-3 .product-item {
         height: 100%;
         margin-bottom: 20px;
     }
     
-    /* Если у товаров есть изображения, настраиваем их оптимальное отображение */
+    /* If products have images, tune their optimal display */
     .category-products-container .col-md-3.col-sm-6.mb-3 img {
         max-width: 100%;
         height: auto;
         object-fit: contain;
     }
     
-    /* Настройка названия товара для мобильных экранов */
+    /* Adjust the product name for mobile screens */
     .category-products-container .col-md-3.col-sm-6.mb-3 .product-title,
     .category-products-container .col-md-3.col-sm-6.mb-3 h3 {
         font-size: 14px;
@@ -344,7 +344,7 @@
         text-overflow: ellipsis;
     }
     
-    /* Настройка цены товара для мобильных экранов */
+    /* Adjust the product price for mobile screens */
     .category-products-container .col-md-3.col-sm-6.mb-3 .price {
         font-size: 14px;
         font-weight: bold;
@@ -565,7 +565,7 @@
         padding: 0 15px !important;
         display: flex !important;
         flex-wrap: wrap !important;
-        justify-content: center !important; /* Центрируем на мобильных */
+        justify-content: center !important; /* Center on mobile */
         margin: -20px !important;
     }
 
@@ -573,17 +573,17 @@
         flex: 0 0 240px !important;
         width: 240px !important;
         max-width: 240px !important;
-        margin: 20px !important; /* Увеличиваем отступы между карточками до 40px */
+        margin: 20px !important; /* Increase gaps between cards to 40px */
     }
 
     .woocommerce .owl-carousel li.product {
         width: 240px !important;
         max-width: 240px !important;
         flex: none !important;
-        margin: 0 20px !important; /* Отступы между карточками в карусели */
+        margin: 0 20px !important; /* Gaps between cards in the carousel */
     }
 
-    /* Предотвращение дублирования в карусели на мобильных */
+    /* Prevent duplication in the carousel on mobile */
     .woocommerce .owl-carousel .owl-stage {
         display: flex !important;
         touch-action: pan-y pinch-zoom;
@@ -690,7 +690,7 @@
     .card-body .card-title,
     h5.card-title {
         font-size: 11px !important;
-        line-height: 1.3 !important; /* Улучшает читаемость при маленьком размере шрифта */
+        line-height: 1.3 !important; /* Improves readability at small font size */
     }
     .woocommerce.columns-4 {
         padding-left: 10px;
@@ -812,7 +812,7 @@
     }
 
     .fashion-hero-section .fashion-image-card:nth-child(n+7) {
-        display: none !important; /* Скрываем 7-е изображение, показываем только 6 */
+        display: none !important; /* Hide the 7th image, show only 6 */
         visibility: hidden !important;
         opacity: 0 !important;
         position: absolute !important;
@@ -821,7 +821,7 @@
     }
 
     .fashion-hero-section .fashion-image-card:nth-child(7) {
-        display: none !important; /* Конкретно скрываем 7-й элемент */
+        display: none !important; /* Specifically hide the 7th element */
         visibility: hidden !important;
         opacity: 0 !important;
         position: absolute !important;
@@ -830,7 +830,7 @@
     }
 
     .fashion-hero-section .fashion-image-card:last-child {
-        display: none !important; /* Скрываем последний элемент */
+        display: none !important; /* Hide the last element */
         visibility: hidden !important;
         opacity: 0 !important;
         position: absolute !important;
@@ -871,9 +871,9 @@
     }
 }
 
-/* Дополнительные стили для крошечных экранов */
+/* Additional styles for tiny screens */
 @media (max-width: 359px) {
-    /* На очень маленьких экранах делаем карточки товаров компактнее */
+    /* On very small screens make product cards more compact */
     .category-products-container .col-md-3.col-sm-6.mb-3 .product-title,
     .category-products-container .col-md-3.col-sm-6.mb-3 h3 {
         font-size: 12px;
@@ -1022,7 +1022,7 @@
     }
 }
 
-/* Мобильная адаптация */
+/* Mobile adaptation */
         @media (max-width: 768px) {
             .animated-text-section {
                 padding: 30px 0;

@@ -1,87 +1,87 @@
 // Animated Text Block Frontend JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Находим все блоки анимированного текста
+    // Find all animated text blocks
     const animatedTextBlocks = document.querySelectorAll('.animated-text-section');
     console.log('Found animated text blocks:', animatedTextBlocks.length);
     
-    // Функция для очистки HTML тегов и получения чистого текста
+    // Function to strip HTML tags and get plain text
     function getCleanText(element) {
         let text = element.getAttribute('data-text');
         if (!text) {
-            // Если нет data-text, получаем из innerHTML и очищаем
+            // If there is no data-text, get it from innerHTML and clean it
             text = element.innerHTML;
-            // Сохраняем переносы строк, заменяя <br> на \n
+            // Preserve line breaks by replacing <br> with \n
             text = text.replace(/<br\s*\/?>/gi, '\n');
-            // Убираем все HTML теги кроме содержимого
+            // Remove all HTML tags except the content
             text = text.replace(/<[^>]*>/g, '');
-            // Декодируем HTML сущности
+            // Decode HTML entities
             text = text.replace(/&nbsp;/g, ' ')
                       .replace(/&amp;/g, '&')
                       .replace(/&lt;/g, '<')
                       .replace(/&gt;/g, '>')
                       .replace(/&quot;/g, '"')
                       .replace(/&#39;/g, "'");
-            // Убираем лишние пробелы, но сохраняем переносы строк
+            // Remove extra spaces but preserve line breaks
             text = text.replace(/[ \t]+/g, ' ').replace(/\n\s+/g, '\n').trim();
-            // Сохраняем очищенный текст в data-атрибут
+            // Store the cleaned text in a data attribute
             element.setAttribute('data-text', text);
         }
         return text;
     }
     
-    // Функция для анимации печатной машинки
+    // Function for the typewriter animation
     function typewriterAnimation(element, speed = 50) {
         const cleanText = getCleanText(element);
-        
-        // Проверяем размер экрана для адаптивности
+
+        // Check the screen size for responsiveness
         const isMobile = window.innerWidth <= 768;
-        
+
         if (isMobile) {
-            // На мобильных устройствах показываем весь текст сразу
+            // On mobile devices show the whole text at once
             element.style.visibility = 'visible';
             element.innerHTML = cleanText.replace(/\n/g, '<br>');
             element.style.opacity = '1';
             return;
         }
         
-        // Вставляем весь текст невидимо для измерения
+        // Insert the whole text invisibly for measurement
         element.innerHTML = cleanText.replace(/\n/g, '<br>');
         element.style.visibility = 'hidden';
-        
-        // Даем браузеру обновить Layout
+
+        // Let the browser update the layout
         const fullHeight = element.offsetHeight;
-        
-        // Показываем элемент и фиксируем высоту
+
+        // Show the element and fix the height
         element.style.visibility = 'visible';
         element.style.height = fullHeight + 'px';
         element.style.borderRight = '3px solid';
-        
-        // Очищаем содержимое
+
+        // Clear the content
         element.innerHTML = '';
-        
-        // Постепенно добавляем символы
+
+        // Gradually add characters
         const chars = cleanText.split('');
         let currentIndex = 0;
         let animationActive = true;
-        
-        // MutationObserver для защиты от внешних изменений
+
+        // MutationObserver to guard against external changes
         const observer = new MutationObserver(function(mutations) {
             if (!animationActive) return;
-            
-            // Если кто-то добавил контент, восстанавливаем наше
+
+            // If someone added content, restore ours
             for (let mutation of mutations) {
                 if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                    // Проверяем не наши ли это ноды
+                    // Check whether these are our nodes
                     let isOurNode = false;
                     for (let i = 0; i < currentIndex; i++) {
                         if (element.childNodes.length > i) {
-                            // Если есть наши ноды, значит это нормально
+                            // If our nodes exist, this is fine
                             isOurNode = true;
                             break;
                         }
                     }
-                    
-                    // Если это чужие ноды, удаляем их
+
+                    // If these are foreign nodes, remove them
                     if (!isOurNode && mutation.addedNodes.length > 0) {
                         for (let node of mutation.addedNodes) {
                             if (node.parentNode === element) {
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentIndex++;
                 setTimeout(animate, speed);
             } else {
-                // Анимация завершена
+                // Animation finished
                 animationActive = false;
                 observer.disconnect();
                 setTimeout(function() {
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animate();
     }
     
-    // Функция для анимации появления слов
+    // Function for the word appearance animation
     function fadeInWordsAnimation(element, speed = 100) {
         console.log('fadeInWordsAnimation called');
         const cleanText = getCleanText(element);
@@ -146,37 +146,37 @@ document.addEventListener('DOMContentLoaded', function() {
             span.style.opacity = '0';
             span.style.transform = 'translateY(20px)';
             span.style.display = 'inline-block';
-            // Задержку кладём прямо в шорткат animation (4-е значение = delay),
-            // иначе отдельный animationDelay затирается этим же шорткатом и слова
-            // проявляются все разом, а не по очереди.
+            // Put the delay directly into the animation shorthand (4th value = delay),
+            // otherwise a separate animationDelay gets overwritten by this shorthand and the words
+            // appear all at once instead of one by one.
             span.style.animation = 'fadeInWord 0.6s ease ' + (index * 0.1) + 's forwards';
             element.appendChild(span);
         });
     }
     
-    // Функция для плавного появления
+    // Function for the fade in
     function fadeInAnimation(element) {
         console.log('fadeInAnimation called');
         element.style.visibility = 'visible';
         element.classList.add('fadeIn');
     }
     
-    // Функция для скольжения снизу
+    // Function for the slide up
     function slideUpAnimation(element) {
         console.log('slideUpAnimation called');
         element.style.visibility = 'visible';
         element.classList.add('slideUp');
     }
     
-    // Intersection Observer для запуска анимаций при появлении в поле зрения
+    // Intersection Observer to start animations when they come into view
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 const section = entry.target;
                 const textContent = section.querySelector('.text-content');
 
-                // Снимаем opacity:0 с обёртки (.text-block { opacity:0 } → .visible { opacity:1 }).
-                // Без этого блок остаётся невидимым, даже когда текст «loaded».
+                // Remove opacity:0 from the wrapper (.text-block { opacity:0 } → .visible { opacity:1 }).
+                // Without this the block stays invisible even when the text is "loaded".
                 const textBlock = section.querySelector('.text-block');
                 if (textBlock) {
                     textBlock.classList.add('visible');
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     console.log('Starting animation:', animationType, 'for', textContent);
                     
-                    // Запускаем анимацию в зависимости от типа
+                    // Start the animation depending on the type
                     switch (animationType) {
                         case 'typewriter':
                             typewriterAnimation(textContent, speed);
@@ -213,9 +213,9 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     });
     
-    // Наблюдаем за всеми блоками анимированного текста
+    // Observe all animated text blocks
     animatedTextBlocks.forEach(function(block) {
-        // Инициализируем очистку текста для каждого блока
+        // Initialize text cleanup for each block
         const textContent = block.querySelector('.text-content');
         if (textContent) {
             getCleanText(textContent);
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(block);
     });
     
-    // Функция для повторного запуска анимации (для разработки)
+    // Function to restart the animation (for development)
     function restartAnimations() {
         animatedTextBlocks.forEach(function(block) {
             const textContent = block.querySelector('.text-content');
@@ -233,12 +233,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 textContent.style.transform = 'translateY(30px)';
                 textContent.style.borderRight = '';
                 
-                // Восстанавливаем оригинальный текст
+                // Restore the original text
                 const originalText = textContent.getAttribute('data-text');
                 if (originalText) {
                     textContent.innerHTML = originalText;
                 } else {
-                    // Очищаем spans от предыдущей анимации fadeInWords
+                    // Clear spans from the previous fadeInWords animation
                     const words = textContent.querySelectorAll('.word');
                     if (words.length > 0) {
                         const originalText = Array.from(words).map(word => word.textContent).join('');
@@ -252,10 +252,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Добавляем функцию в глобальную область видимости для отладки
+    // Add the function to the global scope for debugging
     window.restartTextAnimations = restartAnimations;
     
-    // Добавляем функцию для отладки текста
+    // Add a function to debug the text
     window.debugTextContent = function() {
         animatedTextBlocks.forEach(function(block, index) {
             const textContent = block.querySelector('.text-content');
@@ -270,12 +270,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
     
-    // Обработчик изменения размера окна для адаптивности
+    // Window resize handler for responsiveness
     let resizeTimeout;
     window.addEventListener('resize', function() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(function() {
-            // Проверяем, нужно ли перезапустить анимации на мобильных устройствах
+            // Check whether the animations need to be restarted on mobile devices
             if (window.innerWidth <= 768) {
                 animatedTextBlocks.forEach(function(block) {
                     const textContent = block.querySelector('.text-content');

@@ -201,9 +201,9 @@ jQuery(document).ready(function($) {
         }
     });
     
-    // Полностью отключаем стандартные обработчики WooCommerce для вариативных товаров
+    // Completely disable the standard WooCommerce handlers for variable products
     if ($('.custom-variation-add-to-cart').length > 0) {
-        // Отключаем все обработчики submit на форме вариаций
+        // Disable all submit handlers on the variations form
         $('form.variations_form').off('submit');
         $('form.variations_form').on('submit', function(e) {
             e.preventDefault();
@@ -211,7 +211,7 @@ jQuery(document).ready(function($) {
             return false;
         });
         
-        // Отключаем обработчики клика на стандартной кнопке WooCommerce внутри формы
+        // Disable click handlers on the standard WooCommerce button inside the form
         $('form.variations_form .single_add_to_cart_button').off('click');
         $('form.variations_form .single_add_to_cart_button').on('click', function(e) {
             e.preventDefault();
@@ -222,7 +222,7 @@ jQuery(document).ready(function($) {
     
     // Form validation before submit
     $('form.cart').on('submit', function(e) {
-        // Пропускаем обработку для вариативных товаров с кастомной кнопкой
+        // Skip processing for variable products with a custom button
         if ($('.custom-variation-add-to-cart').length > 0) {
             e.preventDefault();
             e.stopImmediatePropagation();
@@ -402,9 +402,9 @@ jQuery(document).ready(function($) {
     });
     
     // WooCommerce variations image switching for custom carousel
-    // Инициализация дефолтных значений для вариативных продуктов
+    // Initialize default values for variable products
     function initializeDefaultVariations() {
-        // Для цветных кружочков - находим checked элемент и синхронизируем
+        // For color circles - find the checked element and synchronize
         var checkedColorInput = $('.variation-color-input:checked');
         if (checkedColorInput.length) {
             var selectedColor = checkedColorInput.val();
@@ -414,7 +414,7 @@ jQuery(document).ready(function($) {
             }
         }
         
-        // Для размеров - находим selected элемент и синхронизируем
+        // For sizes - find the selected element and synchronize
         var selectedSizeOption = $('.variation-size-select option:selected');
         if (selectedSizeOption.length && selectedSizeOption.val() !== '') {
             var selectedSize = selectedSizeOption.val();
@@ -423,12 +423,12 @@ jQuery(document).ready(function($) {
             if (hiddenSelect.length) {
                 hiddenSelect.val(selectedSize).trigger('change');
             }
-            // Добавляем класс для стилизации
+            // Add class for styling
             sizeSelect.addClass('has-value');
         }
     }
     
-    // Функция для обновления визуального состояния селектов
+    // Function to update the visual state of the selects
     function updateSelectState() {
         $('.variation-size-select').each(function() {
             if ($(this).val() !== '') {
@@ -439,35 +439,35 @@ jQuery(document).ready(function($) {
         });
     }
     
-    // Запускаем инициализацию после загрузки страницы
+    // Run initialization after the page loads
     setTimeout(function() {
         initializeDefaultVariations();
         updateSelectState();
     }, 500);
     
-    // Если это вариативный продукт, слушаем изменения формы вариаций
+    // If this is a variable product, listen for variation form changes
     $('form.variations_form').on('found_variation', function(event, variation) {
         
-        // Получаем изображение вариации
+        // Get the variation image
         if (variation.image && variation.image.src) {
-            // Находим активный слайд карусели
+            // Find the active carousel slide
             var activeSlide = $('#carouselExampleFade .carousel-item.active img');
             
-            // Плавно меняем изображение
+            // Smoothly change the image
             activeSlide.fadeOut(200, function() {
                 $(this).attr('src', variation.image.src)
                        .attr('alt', variation.image.alt || '')
                        .fadeIn(200);
             });
             
-            // Также обновляем изображения в fancybox если используется
+            // Also update images in fancybox if used
             activeSlide.attr('data-fancybox', 'gallery');
         }
     });
     
-    // Сброс к оригинальному изображению при сбросе вариации
+    // Reset to the original image when the variation is reset
     $('form.variations_form').on('reset_data', function() {
-        // Возвращаем основное изображение продукта
+        // Restore the main product image
         var activeSlide = $('#carouselExampleFade .carousel-item.active img');
         var originalImage = $('#carouselExampleFade .carousel-item:first-child img').attr('src');
         
@@ -479,14 +479,14 @@ jQuery(document).ready(function($) {
         }
     });
     
-    // Синхронизация кастомных селектов с WooCommerce формой
+    // Synchronize custom selects with the WooCommerce form
     function syncAttributesToWooForm() {
         var $form = $('form.variations_form');
         if (!$form.length) {
             return;
         }
         
-        // Синхронизируем цвет
+        // Synchronize color
         var $colorInput = $('.variation-color-input:checked');
         if ($colorInput.length) {
             var colorAttrName = $colorInput.attr('name');
@@ -496,7 +496,7 @@ jQuery(document).ready(function($) {
             }
         }
         
-        // Синхронизируем размер
+        // Synchronize size
         var $sizeSelect = $('.variation-size-select');
         if ($sizeSelect.length && $sizeSelect.val()) {
             var sizeAttrName = $sizeSelect.attr('name');
@@ -506,7 +506,7 @@ jQuery(document).ready(function($) {
             }
         }
         
-        // Синхронизируем fit (style)
+        // Synchronize fit (style)
         var $fitSelect = $('.variation-fit-select');
         if ($fitSelect.length && $fitSelect.val()) {
             var fitAttrName = $fitSelect.attr('name');
@@ -517,7 +517,7 @@ jQuery(document).ready(function($) {
         }
     }
     
-    // Функция поиска variation_id по выбранным атрибутам
+    // Function to find variation_id by the selected attributes
     function findVariationId() {
         var $form = $('form.variations_form');
         if (!$form.length) return null;
@@ -527,7 +527,7 @@ jQuery(document).ready(function($) {
             return null;
         }
         
-        // Собираем выбранные атрибуты из СКРЫТОЙ WooCommerce формы (она синхронизирована)
+        // Collect the selected attributes from the HIDDEN WooCommerce form (it is synchronized)
         var selectedAttrs = {};
         
         $form.find('select[name^="attribute_"]').each(function() {
@@ -538,7 +538,7 @@ jQuery(document).ready(function($) {
             }
         });
         
-        // Ищем подходящую вариацию
+        // Look for a matching variation
         for (var i = 0; i < variationsJson.length; i++) {
             var variation = variationsJson[i];
             var match = true;
@@ -547,9 +547,9 @@ jQuery(document).ready(function($) {
                 var selectedVal = selectedAttrs[attrName].toLowerCase();
                 var variationVal = variation.attributes[attrName];
                 
-                // WooCommerce может хранить пустое значение для "any"
+                // WooCommerce may store an empty value for "any"
                 if (variationVal === undefined || variationVal === '') {
-                    continue; // "any" значение - подходит
+                    continue; // "any" value - matches
                 }
                 
                 variationVal = variationVal.toLowerCase();
@@ -568,7 +568,7 @@ jQuery(document).ready(function($) {
         return null;
     }
     
-    // Слушаем изменения кастомных селектов и синхронизируем
+    // Listen for custom select changes and synchronize
     $('.variation-color-input').on('change', function() {
         syncAttributesToWooForm();
     });
@@ -577,24 +577,24 @@ jQuery(document).ready(function($) {
         syncAttributesToWooForm();
     });
     
-    // Слушаем когда WooCommerce находит вариацию
+    // Listen for when WooCommerce finds a variation
     $('form.variations_form').on('found_variation', function(event, variation) {
         // Variation found
     });
     
-    // Инициализация при загрузке страницы
+    // Initialization on page load
     $(document).ready(function() {
         setTimeout(function() {
             syncAttributesToWooForm();
         }, 500);
     });
     
-    // Кастомная кнопка Add to Cart
+    // Custom Add to Cart button
     $('.custom-variation-add-to-cart').on('click', function(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
         
-        // Проверяем глобальный флаг (общий с sticky плагином)
+        // Check the global flag (shared with the sticky plugin)
         if (window.wpcsb_adding_to_cart) {
             return false;
         }
@@ -606,24 +606,24 @@ jQuery(document).ready(function($) {
             return;
         }
         
-        // Проверяем что все кастомные опции выбраны
+        // Check that all custom options are selected
         var $sizeSelect = $('.variation-size-select');
         if ($sizeSelect.length && !$sizeSelect.val()) {
             alert('Please select a size.');
             return;
         }
         
-        // Синхронизируем все атрибуты
+        // Synchronize all attributes
         syncAttributesToWooForm();
         
-        // Устанавливаем глобальный флаг
+        // Set the global flag
         window.wpcsb_adding_to_cart = true;
         
-        // Отключаем кнопку и форму
+        // Disable the button and the form
         $button.prop('disabled', true).addClass('disabled loading');
         $form.addClass('processing');
         
-        // Находим variation_id самостоятельно
+        // Find variation_id ourselves
         var variationId = findVariationId();
         var productId = $form.find('input[name="product_id"]').val() || $button.data('product-id');
         
@@ -634,14 +634,14 @@ jQuery(document).ready(function($) {
             return;
         }
         
-        // Собираем данные для AJAX запроса
+        // Collect data for the AJAX request
         var formData = new FormData();
         formData.append('add-to-cart', variationId);
         formData.append('product_id', productId);
         formData.append('variation_id', variationId);
         formData.append('quantity', 1);
         
-        // Добавляем атрибуты
+        // Add attributes
         var $colorInput = $('.variation-color-input:checked');
         if ($colorInput.length) {
             formData.append($colorInput.attr('name'), $colorInput.val());
@@ -655,7 +655,7 @@ jQuery(document).ready(function($) {
             formData.append($fitSelect.attr('name'), $fitSelect.val());
         }
         
-        // Отправляем через AJAX
+        // Send via AJAX
         $.ajax({
             type: 'POST',
             url: wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'),
@@ -669,15 +669,15 @@ jQuery(document).ready(function($) {
                     return;
                 }
                 
-                // Триггерим событие добавления в корзину
+                // Trigger the add-to-cart event
                 $(document.body).trigger('added_to_cart', [response.fragments, response.cart_hash, $button]);
                 
-                // Заменяем POST в истории на GET
+                // Replace POST with GET in the history
                 if (window.history.replaceState) {
                     window.history.replaceState(null, null, window.location.href);
                 }
                 
-                // Сбрасываем глобальный флаг
+                // Reset the global flag
                 setTimeout(function() {
                     window.wpcsb_adding_to_cart = false;
                 }, 2000);
@@ -693,12 +693,12 @@ jQuery(document).ready(function($) {
         return false;
     });
     
-    // Обновляем UI после добавления в корзину
+    // Update the UI after adding to cart
     $(document.body).on('added_to_cart', function() {
         var $button = $('.custom-variation-add-to-cart');
         $button.html('<span class="success">✓ Added!</span>');
         
-        // Заменяем POST-запрос в истории на GET, чтобы избежать повторной отправки при обновлении
+        // Replace the POST request in the history with GET to avoid resubmission on reload
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
@@ -710,22 +710,22 @@ jQuery(document).ready(function($) {
         }, 2000);
     });
     
-    // Обработка для простых продуктов
+    // Handling for simple products
     $('.color-picker-item input[type="radio"]:not(.variation-color-input)').on('change', function() {
         var selectedColor = $(this).val();
         
-        // Триггерим изменение в стандартной форме WooCommerce если она есть
+        // Trigger a change in the standard WooCommerce form if present
         var wooSelect = $('select[name="attribute_pa_color"], select[name="attribute_color"]');
         if (wooSelect.length) {
             wooSelect.val(selectedColor.toLowerCase()).trigger('change');
         }
     });
     
-    // Обработка для кастомного селекта размеров (простые продукты)
+    // Handling for the custom size select (simple products)
     $('.custom-select:not(.variation-size-select)').on('change', function() {
         var selectedSize = $(this).val();
         
-        // Триггерим изменение в стандартной форме WooCommerce если она есть
+        // Trigger a change in the standard WooCommerce form if present
         var wooSelect = $('select[name="attribute_pa_size"], select[name="attribute_size"]');
         if (wooSelect.length) {
             wooSelect.val(selectedSize.toLowerCase()).trigger('change');

@@ -15,7 +15,7 @@
             var setAttributes = props.setAttributes;
             var items = attributes.items;
 
-            // Добавляем уникальные ID если их нет
+            // Add unique IDs if they don't exist
             if (!items[0] || !items[0].id) {
                 var itemsWithIds = items.map(function(item, idx) {
                     return {
@@ -91,7 +91,7 @@
                 setAttributes({ items: newItems });
             }
 
-            // Создаем панели для бокового меню
+            // Create panels for the sidebar
             var inspectorPanels = items.map(function (item, index) {
                 var itemId = item.id;
                 
@@ -99,28 +99,28 @@
                     PanelBody,
                     {
                         key: itemId,
-                        title: __('Вопрос', 'My-E-Shop') + ' ' + (index + 1) + ': ' + (item.question || __('Без заголовка', 'My-E-Shop')),
+                        title: __('Question', 'My-E-Shop') + ' ' + (index + 1) + ': ' + (item.question || __('Untitled', 'My-E-Shop')),
                         initialOpen: false
                     },
                     el(TextControl, {
-                        label: __('Вопрос', 'My-E-Shop'),
+                        label: __('Question', 'My-E-Shop'),
                         value: item.question || '',
                         onChange: (function(id) {
-                            return function(value) { 
-                                updateQuestion(id, value); 
+                            return function(value) {
+                                updateQuestion(id, value);
                             };
                         })(itemId),
-                        placeholder: __('Введите вопрос...', 'My-E-Shop')
+                        placeholder: __('Enter a question...', 'My-E-Shop')
                     }),
                     el(TextareaControl, {
-                        label: __('Ответ', 'My-E-Shop'),
+                        label: __('Answer', 'My-E-Shop'),
                         value: item.answer || '',
                         onChange: (function(id) {
-                            return function(value) { 
-                                updateAnswer(id, value); 
+                            return function(value) {
+                                updateAnswer(id, value);
                             };
                         })(itemId),
-                        placeholder: __('Введите ответ...', 'My-E-Shop'),
+                        placeholder: __('Enter an answer...', 'My-E-Shop'),
                         rows: 6
                     }),
                     el(
@@ -133,7 +133,7 @@
                                 isSmall: true,
                                 onClick: function () { moveItemUp(index); }
                             },
-                            __('↑ Вверх', 'My-E-Shop')
+                            __('↑ Up', 'My-E-Shop')
                         ),
                         index < items.length - 1 && el(
                             Button,
@@ -142,7 +142,7 @@
                                 isSmall: true,
                                 onClick: function () { moveItemDown(index); }
                             },
-                            __('↓ Вниз', 'My-E-Shop')
+                            __('↓ Down', 'My-E-Shop')
                         ),
                         el(
                             Button,
@@ -151,13 +151,13 @@
                                 isSmall: true,
                                 onClick: function () { removeItem(index); }
                             },
-                            __('🗑 Удалить', 'My-E-Shop')
+                            __('🗑 Delete', 'My-E-Shop')
                         )
                     )
                 );
             });
 
-            // Превью в редакторе
+            // Preview in the editor
             var previewItems = items.map(function (item, index) {
                 var answerLines = item.answer ? item.answer.split('\n') : [];
                 var answerElements = answerLines.map(function(line, i) {
@@ -170,12 +170,12 @@
                     el(
                         'div',
                         { className: 'faq-question' },
-                        item.question || __('Вопрос', 'My-E-Shop') + ' ' + (index + 1)
+                        item.question || __('Question', 'My-E-Shop') + ' ' + (index + 1)
                     ),
                     el(
                         'div',
                         { className: 'faq-answer' },
-                        answerElements.length > 0 ? answerElements : el('p', null, __('Ответ не заполнен', 'My-E-Shop'))
+                        answerElements.length > 0 ? answerElements : el('p', null, __('Answer is empty', 'My-E-Shop'))
                     )
                 );
             });
@@ -188,11 +188,11 @@
                     null,
                     el(
                         PanelBody,
-                        { title: __('FAQ - Управление', 'My-E-Shop'), initialOpen: true },
+                        { title: __('FAQ - Management', 'My-E-Shop'), initialOpen: true },
                         el(
                             'p',
                             { style: { marginBottom: '12px', fontSize: '13px', color: '#666' } },
-                            __('Всего вопросов: ', 'My-E-Shop') + items.length
+                            __('Total questions: ', 'My-E-Shop') + items.length
                         ),
                         el(
                             Button,
@@ -201,7 +201,7 @@
                                 onClick: addItem,
                                 style: { width: '100%' }
                             },
-                            __('+ Добавить новый вопрос', 'My-E-Shop')
+                            __('+ Add new question', 'My-E-Shop')
                         )
                     ),
                     inspectorPanels
@@ -212,7 +212,7 @@
                     previewItems.length > 0 ? previewItems : el(
                         'p',
                         { style: { textAlign: 'center', padding: '40px', color: '#999' } },
-                        __('FAQ блок пустой. Добавьте вопросы в боковой панели →', 'My-E-Shop')
+                        __('FAQ block is empty. Add questions in the sidebar →', 'My-E-Shop')
                     )
                 )
             );

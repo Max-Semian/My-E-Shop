@@ -81,7 +81,7 @@
     border-radius: 50% !important;
 }
 
-/* Стили для панели настроек */
+/* Settings panel styles */
 .components-panel__body .components-base-control__label {
     font-weight: 600;
     margin-bottom: 8px;
@@ -95,12 +95,12 @@
     margin-bottom: 16px;
 }
 
-/* Анимация в редакторе */
+/* Animation in the editor */
 .why-choose-us-block-editor .accordion-header-editor span:last-child {
     transition: transform 0.2s ease;
 }
 
-/* Стили для кнопки добавления */
+/* Add button styles */
 .why-choose-us-block-editor .button-primary {
     background: #0073aa !important;
     border-color: #0073aa !important;
@@ -115,7 +115,7 @@
     border-color: #005a87 !important;
 }
 
-/* Подсказки */
+/* Hints */
 .why-choose-us-block-editor .accordion-content-editor > div:first-child {
     font-size: 12px;
     color: #666;
@@ -124,7 +124,7 @@
     letter-spacing: 0.5px;
 }
 
-/* Улучшенная видимость полей */
+/* Improved field visibility */
 .why-choose-us-block-editor .components-text-control__input[value=""] {
     border: 1px dashed #ccc !important;
     background: rgba(0, 0, 0, 0.02) !important;
@@ -135,7 +135,7 @@
     background: rgba(0, 0, 0, 0.02) !important;
 }
 
-/* Стили для MediaUpload компонентов */
+/* MediaUpload component styles */
 .why-choose-us-block-editor .components-button.button-primary {
     background: #0073aa !important;
     border-color: #0073aa !important;
@@ -158,7 +158,7 @@
     background: #f6f7f7 !important;
 }
 
-/* Стили для SelectControl */
+/* SelectControl styles */
 .why-choose-us-block-editor .components-select-control__input {
     border: 1px solid #ddd !important;
     border-radius: 4px !important;
@@ -172,7 +172,7 @@
     box-shadow: 0 0 0 1px #0073aa !important;
 }
 
-/* Стили для превью изображений */
+/* Image preview styles */
 .why-choose-us-block-editor .accordion-icon-preview {
     display: inline-block;
     margin-bottom: 10px;

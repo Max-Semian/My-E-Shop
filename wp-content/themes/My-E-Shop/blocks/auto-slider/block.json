@@ -6,7 +6,7 @@
 	"title": "Auto Slider",
 	"category": "my-e-shop",
 	"icon": "images-alt2",
-	"description": "Слайдер с автоматической прокруткой",
+	"description": "Slider with automatic scrolling",
 	"supports": {
 		"html": false
 	},

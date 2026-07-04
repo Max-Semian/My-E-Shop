@@ -6,7 +6,7 @@
 	"title": "Icon Cards",
 	"category": "my-e-shop",
 	"icon": "grid-view",
-	"description": "Карточки с иконками из медиатеки",
+	"description": "Cards with icons from the media library",
 	"supports": {
 		"html": false
 	},

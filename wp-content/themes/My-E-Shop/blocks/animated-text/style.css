@@ -9,8 +9,8 @@
     overflow: hidden;
 }
 
-/* Фон секции по выбранной теме шаблона.
-   Кастомный backgroundColor (если задан) приходит inline и перекрывает это. */
+/* Section background based on the selected template theme.
+   A custom backgroundColor (if set) comes inline and overrides this. */
 .animated-text-block.theme-dark .animated-text-section {
     background-color: #2C2C2C;
 }
@@ -47,7 +47,7 @@
     word-wrap: break-word;
 }
 
-/* Выравнивание текста */
+/* Text alignment */
 .align-left .text-content {
     text-align: left;
 }
@@ -60,13 +60,13 @@
     text-align: right;
 }
 
-/* Анимация печатной машинки */
+/* Typewriter animation */
 .text-content.typewriter {
     opacity: 1;
     transform: translateY(0);
     overflow: hidden;
     border-right: 2px solid #333;
-    white-space: pre-wrap; /* Позволяем перенос строк */
+    white-space: pre-wrap; /* Allow line breaks */
     margin: 0 auto;
     animation: typing 3s steps(100, end), blink-caret 0.75s step-end infinite;
     word-wrap: break-word;
@@ -75,7 +75,7 @@
     line-height: 1.6;
 }
 
-/* Улучшенная поддержка переносов строк */
+/* Improved line-break support */
 @media (max-width: 1200px) {
     .text-content.typewriter {
         white-space: pre-wrap;
@@ -100,7 +100,7 @@
     50% { border-color: #333; }
 }
 
-/* Анимация появления слов */
+/* Word appearance animation */
 .text-content.fadeInWords {
     opacity: 1;
     transform: translateY(0);
@@ -120,7 +120,7 @@
     }
 }
 
-/* Плавное появление */
+/* Fade in */
 .text-content.fadeIn {
     animation: fadeInText 2s ease forwards;
 }
@@ -132,7 +132,7 @@
     }
 }
 
-/* Скольжение снизу */
+/* Slide up */
 .text-content.slideUp {
     animation: slideUpText 1.5s ease forwards;
 }
@@ -144,14 +144,14 @@
     }
 }
 
-/* Эффект свечения для текста */
+/* Glow effect for text */
 .text-content.glow {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
                  0 0 20px rgba(255, 255, 255, 0.3),
                  0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .animated-text-section {
         padding: 40px 15px;
@@ -159,10 +159,10 @@
     }
     
     .text-content {
-        white-space: pre-line; /* Сохраняем переносы строк */
+        white-space: pre-line; /* Preserve line breaks */
         word-wrap: break-word;
         overflow-wrap: break-word;
-        line-height: 1.7; /* Увеличиваем межстрочный интервал */
+        line-height: 1.7; /* Increase line spacing */
     }
     
     .font-small .text-content {
@@ -182,7 +182,7 @@
     }
     
     .text-content.typewriter {
-        white-space: pre-wrap; /* Переносы строк с сохранением пробелов */
+        white-space: pre-wrap; /* Line breaks while preserving spaces */
         border-right: 3px solid;
         word-break: break-word;
         overflow-wrap: anywhere;
@@ -195,7 +195,7 @@
     }
     
     .text-content {
-        line-height: 1.8; /* Еще больше межстрочный интервал для очень маленьких экранов */
+        line-height: 1.8; /* Even more line spacing for very small screens */
         white-space: pre-line;
         word-wrap: break-word;
         overflow-wrap: break-word;
@@ -218,7 +218,7 @@
     }
 }
 
-/* Состояние загружен */
+/* Loaded state */
 .text-content.loaded {
     opacity: 1;
     transform: translateY(0);

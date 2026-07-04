@@ -3,19 +3,19 @@
  * Newsletter Simple Block Template
  */
 
-// Извлекаем атрибуты
+// Extract attributes
 $title = $attributes['title'] ?? 'Join our world and get 5% off your first order';
 $subtitle = $attributes['subtitle'] ?? 'Stay updated with new drops, visual stories & rare finds before anyone else.';
 $button_text = $attributes['buttonText'] ?? 'JOIN NOW';
 $placeholder_text = $attributes['placeholderText'] ?? 'Enter your email';
 $disclaimer_text = $attributes['disclaimerText'] ?? 'We only send thoughtful emails - no spam, just style. By subscribing, you agree to receive inspiration and exclusive privileges. Your data is safe with us.';
 
-// Получаем атрибуты блока
+// Get the block attributes
 $wrapper_attributes = get_block_wrapper_attributes(array(
     'class' => 'newsletter-simple-block'
 ));
 
-// Генерируем уникальный ID для формы
+// Generate a unique ID for the form
 $form_id = 'newsletter-simple-' . wp_rand(1000, 9999);
 ?>
 

@@ -1,5 +1,5 @@
 /* ============================================
-   Стили для Hero блока single post
+   Styles for the single post Hero block
    ============================================ */
 
 .post-hero {
@@ -128,7 +128,7 @@
     opacity: 0.95;
 }
 
-/* Хлебные крошки */
+/* Breadcrumbs */
 .post-breadcrumbs {
     background-color: #FFFFFF;
     padding: 20px 0;
@@ -198,7 +198,7 @@
     color: #2C2C2C !important;
 }
 
-/* Цитата в контенте статьи */
+/* Quote in the article content */
 .single-post-container .post-content blockquote,
 .single-post-container .post-content .wp-block-quote {
     border-left: 4px solid #681AE6;
@@ -208,7 +208,7 @@
     font-weight: 500;
     font-style: italic;
     font-size: 20px;
-    /* по макету 100%, но для многострочных цитат ставим 1.4 ради читаемости */
+    /* 100% per the design, but for multi-line quotes we use 1.4 for readability */
     line-height: 1.4;
     letter-spacing: 0;
     color: #444444;
@@ -216,7 +216,7 @@
     quotes: none;
 }
 
-/* Вложенный blockquote (в разметке их два) — без второго бордера/отступа */
+/* Nested blockquote (there are two in the markup) — without a second border/indent */
 .single-post-container .post-content .wp-block-quote .wp-block-quote {
     border: none;
     margin: 0;
@@ -259,7 +259,7 @@
 }
 
 /* ============================================
-   Навигация между постами (Previous / Next)
+   Navigation between posts (Previous / Next)
    ============================================ */
 .single-post-container .post-navigation {
     margin: 48px 0;
@@ -309,7 +309,7 @@
 }
 
 /* ============================================
-   Секция комментариев
+   Comments section
    ============================================ */
 .single-post-container .comments-area {
     margin-top: 48px;
@@ -333,7 +333,7 @@
     margin-left: 10px;
 }
 
-/* Список комментариев */
+/* Comments list */
 .single-post-container .comment-list {
     list-style: none;
     margin: 0 0 40px;
@@ -408,7 +408,7 @@
     color: #9333ea;
 }
 
-/* Форма комментария */
+/* Comment form */
 .single-post-container .comment-respond {
     background: #FFFFFF;
     border: 1px solid #E5E7EB;
@@ -527,9 +527,9 @@
     transform: translateY(-2px);
 }
 
-/* Адаптив */
+/* Responsive */
 
-/* Планшеты */
+/* Tablets */
 @media (max-width: 1024px) {
     .post-hero .post-hero-content .post-container {
         padding: 0 60px;
@@ -540,7 +540,7 @@
     }
 }
 
-/* Мобильные устройства */
+/* Mobile devices */
 @media (max-width: 768px) {
     .post-hero {
         height: 450px;
@@ -576,12 +576,12 @@
         gap: 15px;
     }
     
-    /* Хлебные крошки */
+    /* Breadcrumbs */
     .post-breadcrumbs {
         display: none;
     }
     
-    /* Контент поста */
+    /* Post content */
     .single-post-container .post-container {
         padding: 0;
     }
@@ -591,7 +591,7 @@
         line-height: 32px !important;
     }
     
-    /* Навигация */
+    /* Navigation */
     .single-post-container .post-navigation .nav-title {
         font-size: 20px;
         line-height: 28px;
@@ -608,7 +608,7 @@
     }
 }
 
-/* Маленькие мобильные устройства */
+/* Small mobile devices */
 @media (max-width: 480px) {
     .post-hero {
         height: 400px;
@@ -648,7 +648,7 @@
 }
 
 /* ============================================
-   CTA-футер статьи (тёмный / светлый вариант)
+   Article CTA footer (dark / light variant)
    ============================================ */
 .footer.article-footer {
     background: none;
@@ -660,7 +660,7 @@
 .article-footer.article-footer--dark  { background-color: #2C2C2C; }
 .article-footer.article-footer--light { background-color: #F4F0EB; }
 
-/* CTA-блок */
+/* CTA block */
 .article-footer .article-cta {
     max-width: 720px;
     margin: 0 auto;
@@ -690,7 +690,7 @@
 .article-footer--light .article-cta-title    { color: #2C2C2C; }
 .article-footer--light .article-cta-subtitle { color: #555555; }
 
-/* Кнопка "EXPLORE THE COLLECTION" */
+/* "EXPLORE THE COLLECTION" button */
 .article-footer .article-cta-btn {
     display: inline-block;
     font-family: 'Montserrat', sans-serif;
@@ -728,7 +728,7 @@
     transform: translateY(-2px);
 }
 
-/* Нижняя строка футера: копирайт, ссылки, соцсети */
+/* Footer bottom row: copyright, links, social */
 .article-footer .article-footer-bottom {
     text-align: center;
     padding: 30px 20px 50px;

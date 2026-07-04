@@ -87,7 +87,7 @@
     margin: 0 !important;
 }
 
-/* Адаптив */
+/* Responsive */
 @media (max-width: 768px) {
     .icon-cards-wrapper {
         margin: 40px auto;

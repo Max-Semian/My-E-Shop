@@ -1,96 +1,96 @@
-# Кастомные страницы категорий с Gutenberg
+# Custom category pages with Gutenberg
 
-Эта система позволяет создавать индивидуальные страницы для каждой категории WooCommerce с возможностью редактирования в редакторе Gutenberg.
+This system lets you create individual pages for each WooCommerce category, editable in the Gutenberg editor.
 
-## Возможности
+## Features
 
-- ✅ Автоматическое создание кастомных страниц для категорий
-- ✅ Полная поддержка редактора Gutenberg
-- ✅ Управление из админ-панели WordPress
-- ✅ Автоматическая синхронизация с изменениями категорий
-- ✅ Красивый дизайн и адаптивность
-- ✅ Быстрые ссылки для редактирования
+- ✅ Automatic creation of custom category pages
+- ✅ Full Gutenberg editor support
+- ✅ Management from the WordPress admin panel
+- ✅ Automatic synchronization with category changes
+- ✅ Clean design and responsiveness
+- ✅ Quick edit links
 
-## Как использовать
+## How to use
 
-### 1. Автоматическое создание
-При первом посещении страницы категории система автоматически создаст кастомную страницу с базовым содержимым.
+### 1. Automatic creation
+On the first visit to a category page, the system automatically creates a custom page with default content.
 
-### 2. Создание через админ-панель
-1. Перейдите в **Товары → Категории**
-2. Нажмите **Изменить** на нужной категории
-3. В разделе "Кастомная страница категории" нажмите **Создать кастомную страницу**
-4. Страница будет создана и вы сможете её редактировать
+### 2. Creating from the admin panel
+1. Go to **Products → Categories**
+2. Click **Edit** on the desired category
+3. In the "Custom category page" section, click **Create custom page**
+4. The page will be created and you'll be able to edit it
 
-### 3. Управление из списка категорий
-В списке категорий появилась новая колонка "Кастомная страница" с кнопками:
-- **Редактировать** - открывает страницу в редакторе Gutenberg
-- **Просмотр** - открывает страницу на сайте
+### 3. Managing from the category list
+A new "Custom page" column appears in the category list with buttons:
+- **Edit** — opens the page in the Gutenberg editor
+- **View** — opens the page on the site
 
-### 4. Редактирование содержимого
-1. Найдите нужную категорию и нажмите "Редактировать" в колонке "Кастомная страница"
-2. Используйте полный функционал редактора Gutenberg:
-   - Добавляйте блоки текста, изображений, видео
-   - Используйте готовые блоки WooCommerce
-   - Создавайте сложные макеты с колонками
-   - Добавляйте шорткоды и виджеты
+### 4. Editing the content
+1. Find the desired category and click "Edit" in the "Custom page" column
+2. Use the full power of the Gutenberg editor:
+   - Add text, image, and video blocks
+   - Use ready-made WooCommerce blocks
+   - Build complex layouts with columns
+   - Add shortcodes and widgets
 
-## Структура файлов
+## File structure
 
 ```
 wp-content/themes/My-E-Shop/
 ├── woocommerce/
-│   └── taxonomy-product-cat.php     # Шаблон категории
+│   └── taxonomy-product-cat.php     # Category template
 ├── includes/
-│   └── category-pages.php           # Основная логика
+│   └── category-pages.php           # Core logic
 ├── assets/css/
-│   └── category-pages.css          # Стили
-└── functions.php                    # Подключение функционала
+│   └── category-pages.css          # Styles
+└── functions.php                    # Feature registration
 ```
 
-## Особенности
+## Details
 
-### Автоматическая синхронизация
-- При изменении названия категории - обновляется заголовок страницы
-- При изменении slug категории - обновляется URL страницы  
-- При удалении категории - удаляется связанная страница
+### Automatic synchronization
+- When a category name changes — the page title is updated
+- When a category slug changes — the page URL is updated
+- When a category is deleted — the linked page is deleted
 
-### SEO-оптимизация
-- URL страницы: `/category-{slug-категории}/`
-- Заголовок: `Категория: {Название категории}`
-- Мета-данные автоматически наследуются от WordPress
+### SEO optimization
+- Page URL: `/category-{category-slug}/`
+- Title: `Category: {Category name}`
+- Metadata is inherited automatically from WordPress
 
-### Шорткоды WooCommerce
-В редакторе можно использовать:
+### WooCommerce shortcodes
+You can use these in the editor:
 ```
-[woocommerce_products category="slug-категории" columns="4" limit="12"]
-[woocommerce_products category="slug-категории" columns="4" limit="12" paginate="true"]
+[woocommerce_products category="category-slug" columns="4" limit="12"]
+[woocommerce_products category="category-slug" columns="4" limit="12" paginate="true"]
 ```
 
-## Техническая информация
+## Technical information
 
-### Мета-поля
-Каждая кастомная страница имеет мета-поле `_category_page_for` со значением ID категории для связи.
+### Meta fields
+Each custom page has a `_category_page_for` meta field holding the category ID for linking.
 
-### AJAX обработчики
-- `create_category_page` - создание новой страницы категории
-- Защита через nonce и проверка прав пользователя
+### AJAX handlers
+- `create_category_page` — creates a new category page
+- Protected via nonce and user capability check
 
-### Хуки WordPress
-- `product_cat_edit_form_fields` - добавление поля в редактор категории
-- `manage_edit-product_cat_columns` - добавление колонки в список
-- `delete_product_cat` - удаление страницы при удалении категории
-- `edited_product_cat` - синхронизация изменений
+### WordPress hooks
+- `product_cat_edit_form_fields` — adds a field to the category editor
+- `manage_edit-product_cat_columns` — adds a column to the list
+- `delete_product_cat` — deletes the page when a category is deleted
+- `edited_product_cat` — synchronizes changes
 
-## Стилизация
+## Styling
 
-Все стили находятся в `assets/css/category-pages.css` и включают:
-- Современный дизайн с градиентами и тенями
-- Полную адаптивность для мобильных устройств
-- Стили для кнопок и интерактивных элементов
-- Совместимость с WooCommerce
+All styles live in `assets/css/category-pages.css` and include:
+- Modern design with gradients and shadows
+- Full responsiveness for mobile devices
+- Styles for buttons and interactive elements
+- WooCommerce compatibility
 
-## Права доступа
+## Access rights
 
-Для создания и редактирования кастомных страниц требуется право `edit_pages`.
-Кнопки управления видны только пользователям с соответствующими правами.
+Creating and editing custom pages requires the `edit_pages` capability.
+The management buttons are only visible to users with the appropriate rights.

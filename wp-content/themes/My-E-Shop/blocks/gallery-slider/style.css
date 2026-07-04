@@ -44,7 +44,7 @@
     overflow: hidden;
     width: 100%;
     position: relative;
-    /* Переопределяем маску с правильным цветом фона - минимальная ширина оверлея */
+    /* Override the mask with the correct background color - minimal overlay width */
     mask: linear-gradient(90deg, transparent, var(--gallery-bg-color, #ffffff) 3%, var(--gallery-bg-color, #ffffff) 97%, transparent);
     -webkit-mask: linear-gradient(90deg, transparent, var(--gallery-bg-color, #ffffff) 3%, var(--gallery-bg-color, #ffffff) 97%, transparent);
 }
@@ -84,7 +84,7 @@
     transform: scale(1.05);
 }
 
-/* Анимация бесконечной прокрутки */
+/* Infinite scroll animation */
 @keyframes scrollLeft {
     0% {
         transform: translateX(0);
@@ -94,12 +94,12 @@
     }
 }
 
-/* Пауза анимации при наведении */
+/* Pause the animation on hover */
 .gallery-slider-block .collections-horizontal-carousel:hover .collections-smooth-track {
     animation-play-state: paused;
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .gallery-slider-block {
         padding: 40px 0;
@@ -136,7 +136,7 @@
     }
 }
 
-/* Улучшенная производительность */
+/* Improved performance */
 .gallery-slider-block .collections-smooth-track {
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -147,7 +147,7 @@
     transform: translateZ(0);
 }
 
-/* Плавность загрузки изображений */
+/* Smooth image loading */
 .gallery-slider-block .collections-square-image {
     opacity: 0;
     transition: opacity 0.3s ease, transform 0.3s ease;

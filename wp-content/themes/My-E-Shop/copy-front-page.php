@@ -200,7 +200,7 @@
                         <h4 class="collections-slider-title">INTERIOR SOLUTIONS</h4>
                         <div class="collections-horizontal-carousel">
                             <div class="collections-smooth-track">
-                                <!-- Оригинальные карточки -->
+                                <!-- Original cards -->
                                 <div class="collections-square-card">
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-1.jpg" alt="Living Room" class="collections-square-image">
                                 </div>
@@ -226,7 +226,7 @@
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-8.jpg" alt="Decor" class="collections-square-image">
                                 </div>
                                 
-                                <!-- Дублированные карточки для бесшовной петли -->
+                                <!-- Duplicated cards for a seamless loop -->
                                 <div class="collections-square-card">
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-1.jpg" alt="Living Room" class="collections-square-image">
                                 </div>

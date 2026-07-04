@@ -3,7 +3,7 @@
  * Newsletter Section Block Template
  */
 
-// Извлекаем атрибуты
+// Extract attributes
 $title = $attributes['title'] ?? 'Join our world and get 5% off your first order';
 $subtitle = $attributes['subtitle'] ?? 'Stay up to date with our news and get exclusive promotional content';
 $button_text = $attributes['buttonText'] ?? 'SUBSCRIBE';
@@ -13,12 +13,12 @@ $background_color = $attributes['backgroundColor'] ?? '#2c2c2c';
 $text_color = $attributes['textColor'] ?? '#ffffff';
 $overlay = $attributes['overlay'] ?? 0.7;
 
-// Получаем атрибуты блока
+// Get the block attributes
 $wrapper_attributes = get_block_wrapper_attributes(array(
     'class' => 'newsletter-section'
 ));
 
-// Генерируем уникальный ID для формы
+// Generate a unique ID for the form
 $form_id = 'newsletter-form-' . wp_rand(1000, 9999);
 ?>
 
@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const formData = new FormData(form);
             formData.append('action', 'newsletter_subscription');
             
-            // Показываем загрузку
+            // Show loading state
             messageDiv.innerHTML = '<div class="newsletter-loading">Subscribing...</div>';
-            
-            // Отправляем AJAX запрос
+
+            // Send the AJAX request
             fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
                 method: 'POST',
                 body: formData

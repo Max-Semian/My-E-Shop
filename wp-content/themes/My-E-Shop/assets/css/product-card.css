@@ -5,16 +5,16 @@
     border: 1px solid var(--grey-color);
     background-color: #FFF;
     position: relative;
-    width: 240px !important; /* Фиксированная ширина карточки */
-    flex: 0 0 240px !important; /* Фиксированная ширина в flex-контейнере */
+    width: 240px !important; /* Fixed card width */
+    flex: 0 0 240px !important; /* Fixed width in the flex container */
     max-width: 240px !important;
-    margin: 20px; /* Увеличиваем отступы между карточками до 40px (20px с каждой стороны) */
+    margin: 20px; /* Increase gaps between cards to 40px (20px on each side) */
 }
 .product-card:hover {
     box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.75);
 }
 
-/* Убираем адаптивные изменения ширины - карточки остаются 240px на всех экранах */
+/* Remove responsive width changes - cards stay 240px on all screens */
 .product-card-offer {
     color: #FFF;
     position: absolute;
@@ -39,9 +39,9 @@
 }
 .product-thumb {
     text-align: center;
-    width: 202px !important; /* Фиксированная ширина */
-    height: 290px !important; /* Фиксированная высота */
-    overflow: hidden !important; /* Обрезаем все, что выходит за рамки */
+    width: 202px !important; /* Fixed width */
+    height: 290px !important; /* Fixed height */
+    overflow: hidden !important; /* Clip everything that overflows */
     position: relative !important;
     display: block !important;
     margin-left: 17px;
@@ -50,7 +50,7 @@
 .product-thumb img {
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important; /* Масштабируем изображение с сохранением пропорций */
+    object-fit: contain !important; /* Scale the image while keeping proportions */
     position: absolute !important;
     top: 0 !important;
     left: 0 !important;

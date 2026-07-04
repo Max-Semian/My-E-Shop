@@ -11,7 +11,7 @@
     margin-right: auto;
 }
 
-/* Обеспечиваем правильную работу Bootstrap сетки */
+/* Ensure the Bootstrap grid works correctly */
 .why-choose-us .row {
     display: flex;
     flex-wrap: nowrap;
@@ -279,7 +279,7 @@
     margin-bottom: 0;
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .why-choose-us-block {
         padding: 40px 0;
@@ -354,7 +354,7 @@
     outline-offset: 2px;
 }
 
-/* Анимация появления блока */
+/* Block appearance animation */
 .why-choose-us-block {
     opacity: 0;
     transform: translateY(20px);
@@ -368,7 +368,7 @@
     }
 }
 
-/* Улучшенная производительность */
+/* Improved performance */
 .why-choose-us-block .accordion-content {
     will-change: max-height;
 }

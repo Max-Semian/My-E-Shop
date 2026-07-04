@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Collection Page
- * Description: Шаблон для страницы Collection без выбора темы
+ * Description: Template for the Collection page without theme selection
  */
 
 get_header(); ?>
@@ -12,38 +12,38 @@ get_header(); ?>
     while (have_posts()) :
         the_post();
         
-        // Получаем контент страницы
+        // Get the page content
         $content = get_the_content();
-        
-        // Разделяем контент на блоки
+
+        // Split the content into blocks
         $blocks = parse_blocks($content);
-        
+
         $hero_blocks = [];
         $content_blocks = [];
-        
+
         foreach ($blocks as $block) {
-            // Проверяем на hero блоки (например, fashion-hero или другие hero блоки)
+            // Check for hero blocks (e.g. fashion-hero or other hero blocks)
             if (strpos($block['blockName'], 'hero') !== false) {
                 $hero_blocks[] = $block;
             } else {
-                // Остальные блоки идут в контейнер
+                // The remaining blocks go into the container
                 $content_blocks[] = $block;
             }
         }
-        
-        // Выводим hero блоки на всю ширину
+
+        // Output the hero blocks full width
         foreach ($hero_blocks as $hero_block) {
             echo render_block($hero_block);
         }
         ?>
         <?php
-        // Выводим остальной контент в контейнере, если есть не-hero блоки
+        // Output the remaining content in the container if there are non-hero blocks
         if (!empty($content_blocks)) :
         ?>
         <div class="page-content-wrapper">
             <div class="container">
-                <?php 
-                // Если это страница WooCommerce или содержит другие шорткоды, используем the_content()
+                <?php
+                // If this is a WooCommerce page or contains other shortcodes, use the_content()
                 if (has_shortcode($content, 'woocommerce_my_account') || 
                     has_shortcode($content, 'woocommerce_checkout') || 
                     has_shortcode($content, 'woocommerce_cart') ||
@@ -58,13 +58,13 @@ get_header(); ?>
                 
                 <?php
                 wp_link_pages(array(
-                    'before' => '<div class="page-links">' . __('Страницы:', 'my-e-shop'),
+                    'before' => '<div class="page-links">' . __('Pages:', 'my-e-shop'),
                     'after'  => '</div>',
                 ));
                 ?>
                 
                 <?php
-                // Если комментарии открыты или есть хотя бы один комментарий
+                // If comments are open or there is at least one comment
                 if (comments_open() || get_comments_number()) :
                     comments_template();
                 endif;

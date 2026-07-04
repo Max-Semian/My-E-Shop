@@ -1,19 +1,19 @@
 (function($) {
     'use strict';
     
-    // Инициализация функций для блока карточек категорий
+    // Initialize functions for the category cards block
     function initCategoryCards() {
         $('.category-cards-block').each(function() {
             var $block = $(this);
             
-            // Добавляем эффекты hover
+            // Add hover effects
             $block.find('.category-card-item').on('mouseenter', function() {
                 $(this).addClass('hovered');
             }).on('mouseleave', function() {
                 $(this).removeClass('hovered');
             });
             
-            // Lazy loading для изображений
+            // Lazy loading for images
             $block.find('.category-card-image').each(function() {
                 var $img = $(this);
                 
@@ -23,12 +23,12 @@
                 }
             });
             
-            // Трекинг кликов (если нужна аналитика)
+            // Click tracking (if analytics is needed)
             $block.find('.category-card-link').on('click', function() {
                 var categoryTitle = $(this).find('.category-card-title').text();
                 var categorySubtitle = $(this).find('.category-card-subtitle').text();
                 
-                // Можно добавить Google Analytics или другую аналитику
+                // You can add Google Analytics or other analytics here
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'category_card_click', {
                         'category_title': categoryTitle,
@@ -39,12 +39,12 @@
         });
     }
     
-    // Инициализация при загрузке страницы
+    // Initialize on page load
     $(document).ready(function() {
         initCategoryCards();
     });
     
-    // Реинициализация после AJAX загрузки (если используется)
+    // Reinitialize after AJAX load (if used)
     $(document).on('category-cards-loaded', function() {
         initCategoryCards();
     });

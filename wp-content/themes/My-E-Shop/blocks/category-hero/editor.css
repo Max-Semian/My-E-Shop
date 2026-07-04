@@ -1,4 +1,4 @@
-/* Стили для редактора блока Category Hero */
+/* Editor styles for the Category Hero block */
 
 .category-hero-block .category-hero-container {
     position: relative;
@@ -11,7 +11,7 @@
     border: 2px dashed #ccc;
 }
 
-/* В редакторе показываем полную ширину для понимания как будет выглядеть */
+/* In the editor, show full width to preview how it will look */
 .editor-styles-wrapper .category-hero-block .category-hero-container {
     margin: 0 auto;
 }
@@ -60,7 +60,7 @@
     outline-offset: 2px;
 }
 
-/* Медиа-запросы для адаптивности в редакторе */
+/* Media queries for responsiveness in the editor */
 @media (max-width: 768px) {
     .category-hero-block .category-hero-container {
         height: 500px;
@@ -89,7 +89,7 @@
     }
 }
 
-/* Стили для панели настроек */
+/* Settings panel styles */
 .media-upload-container {
     margin-bottom: 20px;
 }

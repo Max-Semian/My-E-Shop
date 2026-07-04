@@ -141,10 +141,10 @@ html {
     height: 100%;
 }
 
-/* min-height (не height!) — иначе body фиксируется на высоту вьюпорта,
-   а контент выше экрана «вываливается» и появляется пустое пространство
-   под футером. min-height держит футер внизу на коротких страницах и
-   даёт body расти вместе с контентом на длинных. */
+/* min-height (not height!) — otherwise body is fixed to the viewport height,
+   and content above the screen "spills out" and empty space appears
+   under the footer. min-height keeps the footer at the bottom on short pages and
+   lets body grow together with the content on long ones. */
 body {
     min-height: 100%;
 }

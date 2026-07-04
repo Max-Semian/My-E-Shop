@@ -55,7 +55,7 @@
                 createElement(InspectorControls, { key: 'inspector' }, [
                     createElement(PanelBody, {
                         key: 'settings',
-                        title: __('Настройки блока', 'My-E-Shop'),
+                        title: __('Block settings', 'My-E-Shop'),
                         initialOpen: true
                     }, [
                         createElement(MediaUploadCheck, { key: 'media-check' },
@@ -73,9 +73,9 @@
                                             onClick: obj.open,
                                             variant: 'secondary',
                                             style: { marginBottom: '10px' }
-                                        }, backgroundImage.url ? 
-                                            __('Изменить фоновое изображение', 'My-E-Shop') : 
-                                            __('Выбрать фоновое изображение', 'My-E-Shop')
+                                        }, backgroundImage.url ?
+                                            __('Change background image', 'My-E-Shop') :
+                                            __('Select background image', 'My-E-Shop')
                                         ),
                                         backgroundImage.url ? createElement('div', { key: 'image-preview' }, [
                                             createElement('img', {
@@ -94,7 +94,7 @@
                                                 onClick: removeImage,
                                                 variant: 'secondary',
                                                 isDestructive: true
-                                            }, __('Удалить изображение', 'My-E-Shop'))
+                                            }, __('Remove image', 'My-E-Shop'))
                                         ]) : null
                                     ]);
                                 }
@@ -105,7 +105,7 @@
                             key: 'color-picker-container',
                             style: { marginTop: '20px' }
                         }, [
-                            createElement('label', { key: 'color-label' }, __('Цвет текста', 'My-E-Shop')),
+                            createElement('label', { key: 'color-label' }, __('Text color', 'My-E-Shop')),
                             createElement(ColorPicker, {
                                 key: 'color-picker',
                                 color: textColor,
@@ -117,7 +117,7 @@
 
                         createElement(RangeControl, {
                             key: 'opacity-range',
-                            label: __('Прозрачность наложения', 'My-E-Shop'),
+                            label: __('Overlay opacity', 'My-E-Shop'),
                             value: overlayOpacity,
                             onChange: function(value) {
                                 setAttributes({ overlayOpacity: value });
@@ -130,22 +130,22 @@
 
                     createElement(PanelBody, {
                         key: 'button-settings',
-                        title: __('Настройки кнопки', 'My-E-Shop'),
+                        title: __('Button settings', 'My-E-Shop'),
                         initialOpen: true
                     }, [
                         createElement(TextControl, {
                             key: 'button-text',
-                            label: __('Текст кнопки', 'My-E-Shop'),
+                            label: __('Button text', 'My-E-Shop'),
                             value: buttonText,
                             onChange: function(value) {
                                 setAttributes({ buttonText: value });
                             },
-                            placeholder: __('Узнать больше', 'My-E-Shop')
+                            placeholder: __('Learn more', 'My-E-Shop')
                         }),
 
                         createElement(TextControl, {
                             key: 'button-url',
-                            label: __('Ссылка кнопки', 'My-E-Shop'),
+                            label: __('Button URL', 'My-E-Shop'),
                             value: buttonUrl,
                             onChange: function(value) {
                                 setAttributes({ buttonUrl: value });
@@ -189,7 +189,7 @@
                                 onChange: function(value) {
                                     setAttributes({ title: value });
                                 },
-                                placeholder: __('О НАС', 'My-E-Shop'),
+                                placeholder: __('ABOUT US', 'My-E-Shop'),
                                 style: {
                                     color: textColor
                                 }
@@ -207,7 +207,7 @@
                                     onChange: function(value) {
                                         setAttributes({ buttonText: value });
                                     },
-                                    placeholder: __('Узнать больше', 'My-E-Shop')
+                                    placeholder: __('Learn more', 'My-E-Shop')
                                 })
                             ])
                         ])

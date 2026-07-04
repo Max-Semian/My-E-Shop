@@ -48,7 +48,7 @@
                     el(
                         'div',
                         { className: 'row-header' },
-                        el('span', null, __('Ряд', 'My-E-Shop') + ' ' + (rowIndex + 1)),
+                        el('span', null, __('Row', 'My-E-Shop') + ' ' + (rowIndex + 1)),
                         rows.length > 1 && el(
                             Button,
                             {
@@ -56,7 +56,7 @@
                                 isSmall: true,
                                 onClick: function () { removeRow(rowIndex); }
                             },
-                            __('Удалить ряд', 'My-E-Shop')
+                            __('Delete row', 'My-E-Shop')
                         )
                     ),
                     el(
@@ -84,13 +84,13 @@
                                                     el(
                                                         Button,
                                                         { isSecondary: true, onClick: obj.open },
-                                                        __('Изменить', 'My-E-Shop')
+                                                        __('Change', 'My-E-Shop')
                                                     )
                                                 ) :
                                                 el(
                                                     Button,
                                                     { isPrimary: true, onClick: obj.open },
-                                                    __('Выбрать изображение 1', 'My-E-Shop')
+                                                    __('Select image 1', 'My-E-Shop')
                                                 )
                                         );
                                     }
@@ -119,13 +119,13 @@
                                                     el(
                                                         Button,
                                                         { isSecondary: true, onClick: obj.open },
-                                                        __('Изменить', 'My-E-Shop')
+                                                        __('Change', 'My-E-Shop')
                                                     )
                                                 ) :
                                                 el(
                                                     Button,
                                                     { isPrimary: true, onClick: obj.open },
-                                                    __('Выбрать изображение 2', 'My-E-Shop')
+                                                    __('Select image 2', 'My-E-Shop')
                                                 )
                                         );
                                     }
@@ -144,23 +144,23 @@
                     null,
                     el(
                         PanelBody,
-                        { title: __('Настройки галереи', 'My-E-Shop') },
+                        { title: __('Gallery settings', 'My-E-Shop') },
                         el(
                             Button,
                             { isPrimary: true, onClick: addRow },
-                            __('Добавить ряд', 'My-E-Shop')
+                            __('Add row', 'My-E-Shop')
                         )
                     )
                 ),
                 el(
                     'div',
                     { className: 'image-gallery-editor' },
-                    el('h3', null, __('Галерея изображений', 'My-E-Shop')),
+                    el('h3', null, __('Image gallery', 'My-E-Shop')),
                     rowElements,
                     el(
                         Button,
                         { isPrimary: true, onClick: addRow, style: { marginTop: '20px' } },
-                        __('+ Добавить еще один ряд', 'My-E-Shop')
+                        __('+ Add another row', 'My-E-Shop')
                     )
                 )
             );

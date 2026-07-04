@@ -26,27 +26,27 @@
             var cardStyle = attributes.cardStyle || 'classic';
             var customImages = attributes.customImages || [];
 
-            // Функция добавления изображения
+            // Function to add an image
             var addImage = function() {
                 var newImages = customImages.slice();
                 newImages.push({
                     id: Date.now(),
                     url: '',
                     alt: '',
-                    title: 'Новый товар ' + (customImages.length + 1),
+                    title: 'New product ' + (customImages.length + 1),
                     price: '$0.00',
                     link: '#'
                 });
                 setAttributes({ customImages: newImages });
             };
 
-            // Функция добавления карточки с шаблоном
+            // Function to add a card from a template
             var addImageWithTemplate = function(template) {
                 var templates = {
-                    clothing: { title: 'Стильная одежда', price: '$29.99', alt: 'Модная одежда' },
-                    accessories: { title: 'Аксессуар', price: '$19.99', alt: 'Стильный аксессуар' },
-                    shoes: { title: 'Обувь', price: '$79.99', alt: 'Удобная обувь' },
-                    bags: { title: 'Сумка', price: '$49.99', alt: 'Стильная сумка' }
+                    clothing: { title: 'Stylish clothing', price: '$29.99', alt: 'Fashionable clothing' },
+                    accessories: { title: 'Accessory', price: '$19.99', alt: 'Stylish accessory' },
+                    shoes: { title: 'Shoes', price: '$79.99', alt: 'Comfortable shoes' },
+                    bags: { title: 'Bag', price: '$49.99', alt: 'Stylish bag' }
                 };
                 
                 var selectedTemplate = templates[template] || templates.clothing;
@@ -62,7 +62,7 @@
                 setAttributes({ customImages: newImages });
             };
 
-            // Функция обновления изображения
+            // Function to update an image
             var updateImage = function(index, field, value) {
                 var newImages = customImages.slice();
                 newImages[index] = Object.assign({}, newImages[index]);
@@ -70,17 +70,17 @@
                 setAttributes({ customImages: newImages });
             };
 
-            // Функция удаления изображения
+            // Function to remove an image
             var removeImage = function(index) {
                 var newImages = customImages.filter(function(_, i) { return i !== index; });
                 setAttributes({ customImages: newImages });
             };
 
-            // Функция дублирования карточки
+            // Function to duplicate a card
             var duplicateImage = function(index) {
                 var imageToDuplicate = Object.assign({}, customImages[index]);
                 imageToDuplicate.id = Date.now();
-                imageToDuplicate.title = imageToDuplicate.title + ' (копия)';
+                imageToDuplicate.title = imageToDuplicate.title + ' (copy)';
                 var newImages = customImages.slice();
                 newImages.splice(index + 1, 0, imageToDuplicate);
                 setAttributes({ customImages: newImages });
@@ -88,37 +88,37 @@
 
             return createElement(Fragment, {},
                 createElement(InspectorControls, {},
-                    createElement(PanelBody, { title: 'Настройки блока', initialOpen: true },
+                    createElement(PanelBody, { title: 'Block Settings', initialOpen: true },
                         createElement(TextControl, {
-                            label: 'Заголовок',
+                            label: 'Title',
                             value: title,
                             onChange: function(value) { setAttributes({ title: value }); }
                         }),
                         createElement(TextControl, {
-                            label: 'Подзаголовок',
+                            label: 'Subtitle',
                             value: subtitle,
                             onChange: function(value) { setAttributes({ subtitle: value }); }
                         }),
                         createElement(RangeControl, {
-                            label: 'Количество колонок',
+                            label: 'Number of columns',
                             value: columns,
                             onChange: function(value) { setAttributes({ columns: value }); },
                             min: 1,
                             max: 6
                         }),
                         createElement(SelectControl, {
-                            label: 'Стиль карточек',
+                            label: 'Card style',
                             value: cardStyle,
                             onChange: function(value) { setAttributes({ cardStyle: value }); },
                             options: [
-                                { label: 'Классический', value: 'classic' },
-                                { label: 'Минималистичный', value: 'minimal' },
-                                { label: 'Современный', value: 'modern' },
-                                { label: 'Элегантный', value: 'elegant' }
+                                { label: 'Classic', value: 'classic' },
+                                { label: 'Minimal', value: 'minimal' },
+                                { label: 'Modern', value: 'modern' },
+                                { label: 'Elegant', value: 'elegant' }
                             ]
                         })
                     ),
-                    createElement(PanelBody, { title: 'Управление карточками товаров', initialOpen: true },
+                    createElement(PanelBody, { title: 'Manage product cards', initialOpen: true },
                         createElement('div', { 
                             style: { 
                                 textAlign: 'center', 
@@ -139,7 +139,7 @@
                                     marginBottom: '10px',
                                     width: '100%'
                                 }
-                            }, '➕ Добавить пустую карточку'),
+                            }, '➕ Add empty card'),
                             createElement('div', { 
                                 style: { 
                                     marginTop: '10px',
@@ -147,7 +147,7 @@
                                     fontSize: '12px',
                                     color: '#666'
                                 }
-                            }, 'или выберите шаблон:'),
+                            }, 'or choose a template:'),
                             createElement('div', { 
                                 style: { 
                                     display: 'grid',
@@ -161,25 +161,25 @@
                                     onClick: function() { addImageWithTemplate('clothing'); },
                                     isSmall: true,
                                     style: { fontSize: '11px' }
-                                }, '👕 Одежда'),
+                                }, '👕 Clothing'),
                                 createElement(Button, {
                                     isSecondary: true,
                                     onClick: function() { addImageWithTemplate('accessories'); },
                                     isSmall: true,
                                     style: { fontSize: '11px' }
-                                }, '💍 Аксессуары'),
+                                }, '💍 Accessories'),
                                 createElement(Button, {
                                     isSecondary: true,
                                     onClick: function() { addImageWithTemplate('shoes'); },
                                     isSmall: true,
                                     style: { fontSize: '11px' }
-                                }, '👟 Обувь'),
+                                }, '👟 Shoes'),
                                 createElement(Button, {
                                     isSecondary: true,
                                     onClick: function() { addImageWithTemplate('bags'); },
                                     isSmall: true,
                                     style: { fontSize: '11px' }
-                                }, '👜 Сумки')
+                                }, '👜 Bags')
                             ),
                             createElement('p', { 
                                 style: { 
@@ -188,7 +188,7 @@
                                     color: '#666',
                                     fontStyle: 'italic'
                                 }
-                            }, 'Всего карточек: ' + customImages.length)
+                            }, 'Total cards: ' + customImages.length)
                         ),
                         customImages.map(function(image, index) {
                             return createElement('div', { 
@@ -212,22 +212,22 @@
                                         borderBottom: '1px solid #f0f0f0'
                                     }
                                 },
-                                    createElement('h4', { style: { margin: '0', color: '#1e1e1e' } }, '📦 Карточка ' + (index + 1)),
+                                    createElement('h4', { style: { margin: '0', color: '#1e1e1e' } }, '📦 Card ' + (index + 1)),
                                     createElement('div', { style: { display: 'flex', gap: '5px' } },
                                         createElement(Button, {
                                             isSecondary: true,
                                             onClick: function() { duplicateImage(index); },
                                             isSmall: true,
                                             style: { fontSize: '12px' },
-                                            title: 'Дублировать карточку'
-                                        }, '📋 Копировать'),
+                                            title: 'Duplicate card'
+                                        }, '📋 Copy'),
                                         createElement(Button, {
                                             isDestructive: true,
                                             onClick: function() { removeImage(index); },
                                             isSmall: true,
                                             style: { fontSize: '12px' },
-                                            title: 'Удалить карточку'
-                                        }, '🗑️ Удалить')
+                                            title: 'Remove card'
+                                        }, '🗑️ Remove')
                                     )
                                 ),
                                 createElement('div', {
@@ -239,13 +239,13 @@
                                     }
                                 },
                                     createElement(TextControl, {
-                                        label: '📝 Название товара',
+                                        label: '📝 Product name',
                                         value: image.title,
                                         onChange: function(value) { updateImage(index, 'title', value); },
-                                        placeholder: 'Введите название товара'
+                                        placeholder: 'Enter product name'
                                     }),
                                     createElement(TextControl, {
-                                        label: '💰 Цена',
+                                        label: '💰 Price',
                                         value: image.price,
                                         onChange: function(value) { updateImage(index, 'price', value); },
                                         placeholder: '$29.99'
@@ -259,7 +259,7 @@
                                             fontWeight: '600',
                                             fontSize: '13px'
                                         }
-                                    }, '🖼️ Изображение товара'),
+                                    }, '🖼️ Product image'),
                                     createElement(MediaUploadCheck, {},
                                         createElement(MediaUpload, {
                                             onSelect: function(media) {
@@ -300,7 +300,7 @@
                                                                     onClick: obj.open,
                                                                     style: { marginRight: '10px' },
                                                                     isSmall: true
-                                                                }, '🔄 Заменить'),
+                                                                }, '🔄 Replace'),
                                                                 createElement(Button, {
                                                                     isDestructive: true,
                                                                     onClick: function() {
@@ -308,7 +308,7 @@
                                                                         updateImage(index, 'id', '');
                                                                     },
                                                                     isSmall: true
-                                                                }, '❌ Удалить')
+                                                                }, '❌ Remove')
                                                             )
                                                         ) :
                                                         createElement('div', {},
@@ -322,7 +322,7 @@
                                                             createElement(Button, {
                                                                 isPrimary: true,
                                                                 onClick: obj.open
-                                                            }, 'Выбрать изображение')
+                                                            }, 'Choose image')
                                                         )
                                                 );
                                             }
@@ -337,16 +337,16 @@
                                     }
                                 },
                                     createElement(TextControl, {
-                                        label: '🔗 Ссылка на товар',
+                                        label: '🔗 Product link',
                                         value: image.link,
                                         onChange: function(value) { updateImage(index, 'link', value); },
                                         placeholder: 'https://example.com/product'
                                     }),
                                     createElement(TextControl, {
-                                        label: '🏷️ Alt текст',
+                                        label: '🏷️ Alt text',
                                         value: image.alt,
                                         onChange: function(value) { updateImage(index, 'alt', value); },
-                                        placeholder: 'Описание изображения'
+                                        placeholder: 'Image description'
                                     })
                                 )
                             );
@@ -362,14 +362,14 @@
                             className: 'product-cards-title',
                             value: title,
                             onChange: function(value) { setAttributes({ title: value }); },
-                            placeholder: 'Введите заголовок...'
+                            placeholder: 'Enter a title...'
                         }),
                         createElement(RichText, {
                             tagName: 'p',
                             className: 'product-cards-subtitle',
                             value: subtitle,
                             onChange: function(value) { setAttributes({ subtitle: value }); },
-                            placeholder: 'Введите подзаголовок...'
+                            placeholder: 'Enter a subtitle...'
                         })
                     ),
                     createElement('div', { className: 'product-cards-section' },
@@ -394,7 +394,7 @@
                                                         textAlign: 'center',
                                                         color: '#666'
                                                     }
-                                                }, 'Нет изображения')
+                                                }, 'No image')
                                         ),
                                         createElement('div', { className: 'product-card-info' },
                                             createElement('h3', { className: 'product-card-title' },
@@ -405,7 +405,7 @@
                                                 createElement('a', { 
                                                     href: image.link,
                                                     className: 'add-to-cart-btn'
-                                                }, 'Подробнее')
+                                                }, 'Learn more')
                                             )
                                         )
                                     );
@@ -417,7 +417,7 @@
                                         padding: '40px',
                                         color: '#666'
                                     }
-                                }, 'Добавьте карточки товаров в настройках блока')
+                                }, 'Add product cards in the block settings')
                         )
                     )
                 )
@@ -425,7 +425,7 @@
         },
 
         save: function() {
-            // Используем серверный рендеринг
+            // Use server-side rendering
             return null;
         }
     });

@@ -1,6 +1,6 @@
 /* ====================Category Page==================== */
 
-/* Breadcrumbs для светлой темы */
+/* Breadcrumbs for the light theme */
 .product-light-breadcrumbs {
     background-color: #F4F0EB !important;
     padding: 30px 0;
@@ -38,7 +38,7 @@
     text-decoration: none;
 }
 
-/* Breadcrumbs для темной темы */
+/* Breadcrumbs for the dark theme */
 .product-dark-breadcrumbs {
     background-color: #2c2c2c !important;
     padding: 30px 0;
@@ -76,7 +76,7 @@
     text-decoration: underline;
 }
 
-/* Breadcrumbs для ul > li структуры (если используется) */
+/* Breadcrumbs for the ul > li structure (if used) */
 .breadcrumbs ul {
     list-style-type: none !important;
     list-style: none !important;
@@ -156,7 +156,7 @@
     text-decoration: none;
 }
 
-/* Переопределение для светлой темы товара */
+/* Override for the light product theme */
 .product-light-breadcrumbs .breadcrumbs a,
 .product-light-breadcrumbs .woocommerce-breadcrumb a {
     color: #A45B00 !important;
@@ -172,7 +172,7 @@
     color: #8A4D00 !important;
 }
 
-/* Темная тема breadcrumbs */
+/* Dark theme breadcrumbs */
 .product-dark-breadcrumbs {
     background-color: #2c2c2c !important;
     padding: 30px 0;

@@ -13,8 +13,8 @@
 		"breadcrumbs",
 		"search",
 		"slider",
-		"категория",
-		"товары"
+		"category",
+		"products"
 	],
 	"supports": {
 		"html": false,

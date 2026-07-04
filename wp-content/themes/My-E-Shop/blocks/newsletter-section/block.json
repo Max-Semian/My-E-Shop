@@ -6,7 +6,7 @@
 	"title": "Newsletter Section",
 	"category": "my-e-shop",
 	"icon": "email-alt",
-	"description": "Блок с формой подписки на рассылку",
+	"description": "Block with a newsletter subscription form",
 	"keywords": [
 		"newsletter",
 		"subscription",

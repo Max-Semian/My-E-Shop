@@ -54,26 +54,26 @@
 
             el(InspectorControls, {},
                 el(PanelBody, { 
-                    title: __('Содержимое', 'My-E-Shop'), 
-                    initialOpen: true 
+                    title: __('Content', 'My-E-Shop'),
+                    initialOpen: true
                 },
                     el(TextareaControl, {
-                        label: __('Текст блока', 'My-E-Shop'),
+                        label: __('Block text', 'My-E-Shop'),
                         value: content,
                         onChange: function(value) { setAttributes({ content: value }); },
-                        placeholder: __('Введите ваш текст...', 'My-E-Shop'),
+                        placeholder: __('Enter your text...', 'My-E-Shop'),
                         rows: 4,
-                        help: __('Каждое слово появится с анимацией', 'My-E-Shop')
+                        help: __('Each word will appear with an animation', 'My-E-Shop')
                     })
                 ),
 
                 el(PanelBody, { 
-                    title: __('Настройки текста', 'My-E-Shop'), 
-                    initialOpen: false 
+                    title: __('Text settings', 'My-E-Shop'),
+                    initialOpen: false
                 },
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', { style: { display: 'block', marginBottom: '8px', fontWeight: '500' } }, 
-                            __('Размер шрифта', 'My-E-Shop')
+                        el('label', { style: { display: 'block', marginBottom: '8px', fontWeight: '500' } },
+                            __('Font size', 'My-E-Shop')
                         ),
                         el('div', { style: { display: 'flex', gap: '8px' } },
                             ['small', 'medium', 'large'].map(size => 
@@ -89,26 +89,26 @@
                 ),
 
                 el(PanelBody, { 
-                    title: __('Настройки анимации', 'My-E-Shop'), 
-                    initialOpen: false 
+                    title: __('Animation settings', 'My-E-Shop'),
+                    initialOpen: false
                 },
                     el(RangeControl, {
-                        label: __('Скорость (мс)', 'My-E-Shop'),
+                        label: __('Speed (ms)', 'My-E-Shop'),
                         value: speed,
                         onChange: function(value) { setAttributes({ speed: value }); },
                         min: 30,
                         max: 300,
                         step: 10,
-                        help: __('Задержка между появлением слов', 'My-E-Shop')
+                        help: __('Delay between words appearing', 'My-E-Shop')
                     })
                 ),
 
                 el(PanelBody, { 
-                    title: __('Цвета', 'My-E-Shop'), 
-                    initialOpen: false 
+                    title: __('Colors', 'My-E-Shop'),
+                    initialOpen: false
                 },
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет текста', 'My-E-Shop')),
+                        el('label', {}, __('Text color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: textColor,
                             onChange: function(value) { setAttributes({ textColor: value }); },
@@ -117,7 +117,7 @@
                     ),
 
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет фона', 'My-E-Shop')),
+                        el('label', {}, __('Background color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: backgroundColor,
                             onChange: function(value) { setAttributes({ backgroundColor: value }); },
@@ -151,7 +151,7 @@
                             textAlign: textAlign,
                             whiteSpace: 'pre-wrap'
                         }
-                    }, content || __('Введите текст в сайдбаре →', 'My-E-Shop'))
+                    }, content || __('Enter text in the sidebar →', 'My-E-Shop'))
                 )
             )
         );

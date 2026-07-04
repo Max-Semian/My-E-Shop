@@ -50,7 +50,7 @@
     border-radius: 10px;
 }
 
-/* Дублируем изображения для бесшовной прокрутки */
+/* Duplicate images for seamless scrolling */
 @keyframes autoSlide {
     0% {
         transform: translateX(0);
@@ -60,7 +60,7 @@
     }
 }
 
-/* Адаптив */
+/* Responsive */
 @media (max-width: 1200px) {
     .auto-slider-item {
         width: 350px;

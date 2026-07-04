@@ -8,10 +8,10 @@
         var faqItems = Array.prototype.slice.call(faqBlock.querySelectorAll('.faq-item'));
         var itemStates = {};
         
-        // Переменные для замедления скролла
-        var scrollMultiplier = 0.3; // Коэффициент замедления (чем меньше, тем медленнее)
+        // Variables for slowing down the scroll
+        var scrollMultiplier = 0.3; // Slowdown factor (the smaller, the slower)
 
-        // Инициализируем состояния для каждого элемента
+        // Initialize state for each item
         faqItems.forEach(function(item) {
             var itemId = item.getAttribute('data-faq-id');
             if (!itemId) {
@@ -19,13 +19,13 @@
                 item.setAttribute('data-faq-id', itemId);
             }
             itemStates[itemId] = {
-                progress: 0, // От 0 до 1
+                progress: 0, // From 0 to 1
                 isInView: false,
                 height: 0
             };
         });
 
-        // Функция получения высоты контента
+        // Function to get the content height
         function getContentHeight(item) {
             var answer = item.querySelector('.faq-answer');
             if (!answer) return 0;
@@ -40,7 +40,7 @@
             return height;
         }
 
-        // Функция плавного обновления прогресса
+        // Function for smooth progress update
         function updateItemProgress(item, targetProgress) {
             var itemId = item.getAttribute('data-faq-id');
             var state = itemStates[itemId];
@@ -48,7 +48,7 @@
             
             if (!answer) return;
             
-            // Получаем высоту контента если еще не получили
+            // Get the content height if we haven't yet
             if (state.height === 0) {
                 state.height = getContentHeight(item);
             }
@@ -56,31 +56,31 @@
             var currentProgress = state.progress;
             var diff = targetProgress - currentProgress;
             
-            // Если разница очень маленькая, устанавливаем целевое значение
+            // If the difference is very small, set the target value
             if (Math.abs(diff) < 0.001) {
                 state.progress = targetProgress;
             } else {
-                // Плавное изменение прогресса (lerp)
+                // Smooth progress change (lerp)
                 state.progress += diff * 0.1;
             }
             
             var progress = state.progress;
             
-            // Применяем стили только если прогресс больше 0
+            // Apply styles only if progress is greater than 0
             if (progress > 0.001) {
                 answer.style.maxHeight = (state.height * progress) + 'px';
                 answer.style.opacity = progress.toString();
                 answer.style.paddingTop = (25 * progress) + 'px';
                 answer.style.paddingBottom = (25 * progress) + 'px';
             } else {
-                // Полностью сбрасываем стили для закрытого состояния
+                // Fully reset styles for the closed state
                 answer.style.maxHeight = '0px';
                 answer.style.opacity = '0';
                 answer.style.paddingTop = '0px';
                 answer.style.paddingBottom = '0px';
             }
             
-            // Управляем классом active
+            // Manage the active class
             if (progress > 0.5) {
                 item.classList.add('active');
             } else {
@@ -88,7 +88,7 @@
             }
         }
 
-        // Функция проверки позиции относительно середины экрана
+        // Function to check position relative to the middle of the screen
         function getItemViewProgress(item) {
             var question = item.querySelector('.faq-question');
             if (!question) return 0;
@@ -98,60 +98,60 @@
             var questionTop = rect.top;
             var questionMiddle = questionTop + (rect.height / 2);
             
-            // Зона активации: от 20% до 80% высоты экрана
-            var startZone = viewportHeight * 0.2;  // Начало раскрытия
-            var peakStart = viewportHeight * 0.4;  // Начало полного раскрытия
-            var peakEnd = viewportHeight * 0.6;    // Конец полного раскрытия
-            var endZone = viewportHeight * 0.8;    // Начало закрытия
-            
-            // Если вопрос выше зоны активации - закрыт
+            // Activation zone: from 20% to 80% of the screen height
+            var startZone = viewportHeight * 0.2;  // Start of expansion
+            var peakStart = viewportHeight * 0.4;  // Start of full expansion
+            var peakEnd = viewportHeight * 0.6;    // End of full expansion
+            var endZone = viewportHeight * 0.8;    // Start of closing
+
+            // If the question is above the activation zone - closed
             if (questionMiddle < startZone) {
                 return 0;
             }
-            
-            // Если вопрос ниже зоны активации - закрыт
+
+            // If the question is below the activation zone - closed
             if (questionMiddle > endZone) {
                 return 0;
             }
-            
-            // Фаза раскрытия (от 20% до 40% экрана)
+
+            // Expansion phase (from 20% to 40% of the screen)
             if (questionMiddle >= startZone && questionMiddle <= peakStart) {
                 var distance = questionMiddle - startZone;
                 var totalZone = peakStart - startZone;
                 var progress = distance / totalZone;
-                // Плавное раскрытие
+                // Smooth expansion
                 return 0.5 - Math.cos(progress * Math.PI) / 2;
             }
-            
-            // Фаза полного раскрытия (от 40% до 60% экрана) - остается открытым
+
+            // Full expansion phase (from 40% to 60% of the screen) - stays open
             if (questionMiddle >= peakStart && questionMiddle <= peakEnd) {
                 return 1;
             }
-            
-            // Фаза закрытия (от 60% до 80% экрана)
+
+            // Closing phase (from 60% to 80% of the screen)
             if (questionMiddle >= peakEnd && questionMiddle <= endZone) {
                 var distance = questionMiddle - peakEnd;
                 var totalZone = endZone - peakEnd;
                 var progress = distance / totalZone;
-                // Плавное закрытие
+                // Smooth closing
                 return 1 - (0.5 - Math.cos(progress * Math.PI) / 2);
             }
             
             return 0;
         }
 
-        // Обработчик колеса мыши для замедления скролла в пределах блока
+        // Mouse wheel handler for slowing down scroll within the block
         function handleWheel(e) {
             var rect = faqBlock.getBoundingClientRect();
             var viewportHeight = window.innerHeight;
             
-            // Проверяем, находится ли блок в видимой области
+            // Check whether the block is in the visible area
             var isBlockVisible = rect.top < viewportHeight && rect.bottom > 0;
             
             if (isBlockVisible) {
                 e.preventDefault();
                 
-                // Замедляем скролл
+                // Slow down the scroll
                 var scrollAmount = e.deltaY * scrollMultiplier;
                 window.scrollBy({
                     top: scrollAmount,
@@ -160,12 +160,12 @@
             }
         }
         
-        // Добавляем обработчик замедленного скролла
+        // Add the slowed scroll handler
         window.addEventListener('wheel', handleWheel, { passive: false });
 
-        // Функция анимации
+        // Animation function
         var lastUpdateTime = 0;
-        var updateInterval = 16; // Обновление каждые 16мс (~60fps)
+        var updateInterval = 16; // Update every 16ms (~60fps)
         
         function animate(timestamp) {
             if (timestamp - lastUpdateTime >= updateInterval) {
@@ -174,7 +174,7 @@
                     var itemId = item.getAttribute('data-faq-id');
                     var state = itemStates[itemId];
                     
-                    // Обновляем только если есть изменение больше порога
+                    // Update only if the change is larger than the threshold
                     if (Math.abs(targetProgress - state.progress) > 0.01) {
                         updateItemProgress(item, targetProgress);
                     }
@@ -185,10 +185,10 @@
             requestAnimationFrame(animate);
         }
 
-        // Запускаем анимацию
+        // Start the animation
         requestAnimationFrame(animate);
 
-        // Обработчик клика для ручного управления
+        // Click handler for manual control
         faqItems.forEach(function(item) {
             var question = item.querySelector('.faq-question');
             var itemId = item.getAttribute('data-faq-id');
@@ -197,9 +197,9 @@
                 e.preventDefault();
                 
                 var state = itemStates[itemId];
-                // Переключаем состояние
+                // Toggle the state
                 if (state.progress > 0.5) {
-                    // Закрываем
+                    // Close
                     var closeInterval = setInterval(function() {
                         state.progress -= 0.05;
                         if (state.progress <= 0) {
@@ -209,7 +209,7 @@
                         updateItemProgress(item, state.progress);
                     }, 16);
                 } else {
-                    // Открываем
+                    // Open
                     var openInterval = setInterval(function() {
                         state.progress += 0.05;
                         if (state.progress >= 1) {
@@ -223,7 +223,7 @@
         });
     }
 
-    // Запуск при загрузке DOM
+    // Run on DOM load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initFAQ);
     } else {

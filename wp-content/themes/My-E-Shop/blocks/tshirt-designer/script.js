@@ -33,7 +33,7 @@
         initCanvas() {
             const self = this;
             
-            // Инициализируем canvas для передней стороны
+            // Initialize canvas for the front side
             const frontCanvas = this.$block.find('[data-side="front"] .design-canvas')[0];
             if (frontCanvas && typeof fabric !== 'undefined') {
                 this.canvas.front = new fabric.Canvas(frontCanvas, {
@@ -42,7 +42,7 @@
                 });
             }
 
-            // Инициализируем canvas для задней стороны
+            // Initialize canvas for the back side
             const backCanvas = this.$block.find('[data-side="back"] .design-canvas')[0];
             if (backCanvas && typeof fabric !== 'undefined') {
                 this.canvas.back = new fabric.Canvas(backCanvas, {
@@ -55,19 +55,19 @@
         bindEvents() {
             const self = this;
 
-            // Переключение между сторонами
+            // Switching between sides
             this.$block.find('.side-btn').on('click', function() {
                 const side = $(this).data('side');
                 self.switchSide(side);
             });
 
-            // Инструменты
+            // Tools
             this.$block.find('.tool-item').on('click', function() {
                 const tool = $(this).data('tool');
                 self.activateTool(tool);
             });
 
-            // Зум
+            // Zoom
             this.$block.find('[data-action="zoom-in"]').on('click', function() {
                 self.zoom(0.1);
             });
@@ -80,23 +80,23 @@
                 self.resetZoom();
             });
 
-            // Сохранение дизайна
+            // Save design
             this.$block.find('.btn-save-design').on('click', function() {
                 self.saveDesign();
             });
 
-            // Закрытие панели графики
+            // Close graphics panel
             this.$block.find('.close-panel').on('click', function() {
                 self.$block.find('.graphics-panel').fadeOut(300);
             });
 
-            // Выбор графики
+            // Select graphic
             this.$block.find('.graphic-item').on('click', function() {
                 const url = $(this).data('url');
                 self.addGraphic(url);
             });
 
-            // Клавиатурные сокращения
+            // Keyboard shortcuts
             $(document).on('keydown', function(e) {
                 if (self.$block.is(':visible')) {
                     if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -111,11 +111,11 @@
 
             this.currentSide = side;
             
-            // Обновляем кнопки
+            // Update buttons
             this.$block.find('.side-btn').removeClass('active');
             this.$block.find('.side-btn[data-side="' + side + '"]').addClass('active');
             
-            // Показываем нужную сторону
+            // Show the selected side
             this.$block.find('.tshirt-view').hide();
             this.$block.find('.tshirt-view[data-side="' + side + '"]').fadeIn(300);
         }
@@ -123,7 +123,7 @@
         activateTool(tool) {
             const self = this;
             
-            // Обновляем активный инструмент
+            // Update the active tool
             this.$block.find('.tool-item').removeClass('active');
             this.$block.find('.tool-item[data-tool="' + tool + '"]').addClass('active');
 
@@ -258,7 +258,7 @@
 
             console.log('Saving design:', designs);
             
-            // Здесь можно отправить данные на сервер через AJAX
+            // Here you can send the data to the server via AJAX
             // $.ajax({
             //     url: '/wp-admin/admin-ajax.php',
             //     method: 'POST',
@@ -267,7 +267,7 @@
             //         design: JSON.stringify(designs)
             //     },
             //     success: function(response) {
-            //         alert('Дизайн сохранен!');
+            //         alert('Design saved!');
             //     }
             // });
 
@@ -275,7 +275,7 @@
         }
     }
 
-    // Инициализация при загрузке страницы
+    // Initialize on page load
     $(document).ready(function() {
         if (typeof window.tshirtDesignerData !== 'undefined') {
             $.each(window.tshirtDesignerData, function(blockId, options) {

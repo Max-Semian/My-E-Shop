@@ -731,7 +731,7 @@
     /* Keep Animated Text Block entrance animations (typewriter / word-fade /
        fade-in / slide-up) playing under reduced motion. They run once on scroll
        and are a deliberate brand effect; the global rule above would otherwise
-       flatten them to an instant frame → «статичный текст без анимации».
+       flatten them to an instant frame → "static text without animation".
        Per-word animation-delay is untouched, so the staggered reveal is kept. */
     .animated-text-section .text-block {
         transition-duration: 0.8s !important;

@@ -7,15 +7,15 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем атрибуты блока
-$title = isset($attributes['title']) ? $attributes['title'] : 'О НАС';
-$button_text = isset($attributes['buttonText']) ? $attributes['buttonText'] : 'Узнать больше';
+// Get block attributes
+$title = isset($attributes['title']) ? $attributes['title'] : 'ABOUT US';
+$button_text = isset($attributes['buttonText']) ? $attributes['buttonText'] : 'Learn more';
 $button_url = isset($attributes['buttonUrl']) ? $attributes['buttonUrl'] : '';
 $background_image = isset($attributes['backgroundImage']) ? $attributes['backgroundImage'] : ['id' => 0, 'url' => '', 'alt' => ''];
 $text_color = isset($attributes['textColor']) ? $attributes['textColor'] : '#F4F0EB';
 $overlay_opacity = isset($attributes['overlayOpacity']) ? $attributes['overlayOpacity'] : 0.5;
 
-// Получаем классы блока
+// Get block classes
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'about-hero-block-frontend',
 ]);

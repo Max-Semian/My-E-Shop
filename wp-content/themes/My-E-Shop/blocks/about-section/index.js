@@ -45,12 +45,12 @@
                     createElement(InspectorControls, { key: 'inspector-controls' }, [
                         createElement(PanelBody, {
                             key: 'content-panel',
-                            title: __('Контент', 'my-e-shop'),
+                            title: __('Content', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement(TextControl, {
                                 key: 'title-control',
-                                label: __('Заголовок', 'my-e-shop'),
+                                label: __('Title', 'my-e-shop'),
                                 value: attributes.title || 'About the brand',
                                 onChange: function(value) {
                                     setAttributes({ title: value });
@@ -59,7 +59,7 @@
 
                             createElement(TextareaControl, {
                                 key: 'description-control',
-                                label: __('Описание', 'my-e-shop'),
+                                label: __('Description', 'my-e-shop'),
                                 value: attributes.description || '',
                                 onChange: function(value) {
                                     setAttributes({ description: value });
@@ -69,7 +69,7 @@
 
                             createElement(TextControl, {
                                 key: 'button-text-control',
-                                label: __('Текст кнопки', 'my-e-shop'),
+                                label: __('Button text', 'my-e-shop'),
                                 value: attributes.buttonText || 'Learn more',
                                 onChange: function(value) {
                                     setAttributes({ buttonText: value });
@@ -78,7 +78,7 @@
 
                             createElement(TextControl, {
                                 key: 'button-link-control',
-                                label: __('Ссылка кнопки', 'my-e-shop'),
+                                label: __('Button URL', 'my-e-shop'),
                                 value: attributes.buttonLink || '#',
                                 onChange: function(value) {
                                     setAttributes({ buttonLink: value });
@@ -89,13 +89,13 @@
 
                         createElement(PanelBody, {
                             key: 'design-panel',
-                            title: __('Дизайн', 'my-e-shop'),
+                            title: __('Design', 'my-e-shop'),
                             initialOpen: false
                         }, [
                             createElement('h4', {
                                 key: 'bg-image-title',
                                 style: { marginBottom: '10px' }
-                            }, __('Фоновое изображение', 'my-e-shop')),
+                            }, __('Background image', 'my-e-shop')),
 
                             createElement(MediaUploadCheck, {
                                 key: 'media-upload-check'
@@ -115,7 +115,7 @@
                                         isPrimary: !attributes.backgroundImage,
                                         isSecondary: !!attributes.backgroundImage,
                                         style: { width: '100%', marginBottom: '10px' }
-                                    }, attributes.backgroundImage ? __('Заменить изображение', 'my-e-shop') : __('Выбрать изображение', 'my-e-shop'));
+                                    }, attributes.backgroundImage ? __('Replace image', 'my-e-shop') : __('Select image', 'my-e-shop'));
                                 }
                             })),
                             
@@ -140,7 +140,7 @@
                                         });
                                     },
                                     style: { marginTop: '10px' }
-                                }, __('Удалить изображение', 'my-e-shop'))
+                                }, __('Remove image', 'my-e-shop'))
                             ]),
 
                             createElement('div', {
@@ -150,7 +150,7 @@
                                 createElement('h4', {
                                     key: 'bg-color-label',
                                     style: { marginBottom: '8px' }
-                                }, __('Цвет фона', 'my-e-shop')),
+                                }, __('Background color', 'my-e-shop')),
                                 createElement(ColorPicker, {
                                     key: 'bg-color-picker',
                                     color: attributes.backgroundColor,
@@ -167,7 +167,7 @@
                                 createElement('h4', {
                                     key: 'text-color-label',
                                     style: { marginBottom: '8px' }
-                                }, __('Цвет текста', 'my-e-shop')),
+                                }, __('Text color', 'my-e-shop')),
                                 createElement(ColorPicker, {
                                     key: 'text-color-picker',
                                     color: attributes.textColor,
@@ -179,7 +179,7 @@
 
                             attributes.backgroundImage && createElement(RangeControl, {
                                 key: 'overlay-control',
-                                label: __('Прозрачность наложения', 'my-e-shop'),
+                                label: __('Overlay opacity', 'my-e-shop'),
                                 value: attributes.overlay,
                                 onChange: function(value) {
                                     setAttributes({ overlay: value });
@@ -284,7 +284,7 @@
             }
         });
     } else {
-        // Fallback для старых версий
+        // Fallback for older versions
         console.warn('WordPress Block Editor components not available');
     }
 })();

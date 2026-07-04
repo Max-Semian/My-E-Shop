@@ -66,27 +66,27 @@ global $product;
             <div class="product-dark-content">
                 <?php woocommerce_show_product_sale_flash(); ?>
                 
-                <!-- Название товара -->
+                <!-- Product title -->
                 <h1 class="product-title"><?php the_title(); ?></h1>
                 
-                <!-- Цена товара -->
+                <!-- Product price -->
                 <div class="product-price">
                     <?php echo $product->get_price_html(); ?>
                 </div>
                 
-                <!-- Выбор цвета через кружочки -->
-                <?php 
-                // Для вариативных продуктов не показываем кастомные селекты
+                <!-- Color selection via swatches -->
+                <?php
+                // Do not show custom selects for variable products
                 if ( !$product->is_type( 'variable' ) ) {
-                    // Сначала проверяем атрибуты WooCommerce
+                    // First check WooCommerce attributes
                     $wc_colors = $product->get_attribute('Color');
                     $colors_array = array();
-                    
-                    // Отладочная информация (можно удалить после тестирования)
+
+                    // Debug information (can be removed after testing)
                     // echo '<!-- Debug: WC Colors = ' . $wc_colors . ' -->';
-                    
+
                     if ( !empty($wc_colors) ) {
-                        // Обрабатываем WooCommerce атрибуты
+                        // Process WooCommerce attributes
                         $wc_colors_list = array_map('trim', explode(',', $wc_colors));
                         foreach ($wc_colors_list as $color_name) {
                             $colors_array[] = array(
@@ -95,7 +95,7 @@ global $product;
                             );
                         }
                     } else {
-                        // Fallback на ACF поля
+                        // Fallback to ACF fields
                         $colors = get_post_meta( get_the_ID(), '_product_colors', true );
                         if ( !empty($colors) ) {
                             $colors_array = json_decode($colors, true);
@@ -119,22 +119,22 @@ global $product;
                 </div>
                 <?php } } ?>
                 
-                <!-- Выбор размера выпадающим списком -->
-                <?php 
-                // Для вариативных продуктов не показываем кастомные селекты
+                <!-- Size selection via dropdown -->
+                <?php
+                // Do not show custom selects for variable products
                 if ( !$product->is_type( 'variable' ) ) {
-                    // Сначала проверяем атрибуты WooCommerce для размеров
+                    // First check WooCommerce attributes for sizes
                     $wc_sizes = $product->get_attribute('Size');
                     $sizes_array = array();
-                    
-                    // Отладочная информация (можно удалить после тестирования)
+
+                    // Debug information (can be removed after testing)
                     // echo '<!-- Debug: WC Sizes = ' . $wc_sizes . ' -->';
-                    
+
                     if ( !empty($wc_sizes) ) {
-                        // Обрабатываем WooCommerce атрибуты
+                        // Process WooCommerce attributes
                         $sizes_array = array_map('trim', explode(',', $wc_sizes));
                     } else {
-                        // Fallback на ACF поля
+                        // Fallback to ACF fields
                         $sizes = get_post_meta( get_the_ID(), '_product_sizes', true );
                         if ( !empty($sizes) ) {
                             $sizes_array = array_map('trim', explode(',', $sizes));
@@ -145,7 +145,7 @@ global $product;
                     $size_guide_image = get_field('size_guide_image');
                     
                     if ( !empty($sizes_array) ) {
-                        // Получаем атрибут Fit
+                        // Get the Fit attribute
                         $wc_fit = $product->get_attribute('Fit');
                         $fit_array = array();
                         if ( !empty($wc_fit) ) {
@@ -184,24 +184,24 @@ global $product;
                 </div>
                 <?php } } ?>
                 
-                <!-- Кастомные селекты для вариативных продуктов -->
+                <!-- Custom selects for variable products -->
                 <?php if ( $product->is_type( 'variable' ) ) : ?>
-                
-                <!-- Color Picker для вариативных продуктов -->
-                <?php 
-                // Получаем атрибуты из product data
+
+                <!-- Color Picker for variable products -->
+                <?php
+                // Get attributes from product data
                 $product_attributes = $product->get_attributes();
                 $color_options = array();
                 $color_attribute_name = '';
                 $default_color = '';
-                
-                // Ищем атрибут цвета
+
+                // Look for the color attribute
                 foreach ($product_attributes as $attribute_name => $attribute) {
                     if (strpos(strtolower($attribute_name), 'color') !== false || strpos(strtolower($attribute_name), 'colour') !== false) {
                         if ($attribute->get_variation()) {
                             $color_attribute_name = 'attribute_' . $attribute_name;
-                            
-                            // Получаем дефолтное значение
+
+                            // Get the default value
                             $default_attributes = $product->get_default_attributes();
                             $default_color = isset($default_attributes[str_replace('attribute_', '', $color_attribute_name)]) 
                                 ? $default_attributes[str_replace('attribute_', '', $color_attribute_name)] 
@@ -213,7 +213,7 @@ global $product;
                                     $color_options[] = $term->slug;
                                 }
                             } else {
-                                // Если это кастомный атрибут
+                                // If this is a custom attribute
                                 $color_options = $attribute->get_options();
                             }
                             break;
@@ -229,7 +229,7 @@ global $product;
                             $color_name = ucfirst(str_replace('-', ' ', $color_slug));
                             $color_hex = get_color_hex_by_name($color_name);
                             
-                            // Проверяем, является ли этот цвет дефолтным
+                            // Check whether this color is the default one
                             $is_default = ($default_color === $color_slug) || ($default_color === '' && $index === 0);
                         ?>
                             <div class="color-picker-item" data-color="<?php echo esc_attr($color_hex); ?>" title="<?php echo esc_attr($color_name); ?>">
@@ -243,19 +243,19 @@ global $product;
                 </div>
                 <?php endif; ?>
                 
-                <!-- Size Picker для вариативных продуктов -->
-                <?php 
+                <!-- Size Picker for variable products -->
+                <?php
                 $size_options = array();
                 $size_attribute_name = '';
                 $default_size = '';
-                
-                // Ищем атрибут размера
+
+                // Look for the size attribute
                 foreach ($product_attributes as $attribute_name => $attribute) {
                     if (strpos(strtolower($attribute_name), 'size') !== false) {
                         if ($attribute->get_variation()) {
                             $size_attribute_name = 'attribute_' . $attribute_name;
-                            
-                            // Получаем дефолтное значение для размера
+
+                            // Get the default value for the size
                             $default_attributes = $product->get_default_attributes();
                             $default_size = isset($default_attributes[str_replace('attribute_', '', $size_attribute_name)]) 
                                 ? $default_attributes[str_replace('attribute_', '', $size_attribute_name)] 
@@ -267,7 +267,7 @@ global $product;
                                     $size_options[] = $term->slug;
                                 }
                             } else {
-                                // Если это кастомный атрибут
+                                // If this is a custom attribute
                                 $size_options = $attribute->get_options();
                             }
                             break;
@@ -276,7 +276,7 @@ global $product;
                 }
                 
                 if (!empty($size_options)) : 
-                    // Получаем атрибут Fit для вариативных продуктов
+                    // Get the Fit attribute for variable products
                     $fit_options = array();
                     $fit_attribute_name = '';
                     $default_fit = '';
@@ -344,14 +344,14 @@ global $product;
                 
                 <?php endif; ?>
                 
-                <!-- Форма добавления в корзину -->
+                <!-- Add to cart form -->
                 <?php if ( $product->is_type( 'variable' ) ) : ?>
-                    <!-- Скрытая стандартная WooCommerce форма вариаций для функциональности -->
+                    <!-- Hidden standard WooCommerce variations form for functionality -->
                     <div style="display: none;">
                         <?php woocommerce_variable_add_to_cart(); ?>
                     </div>
-                    
-                    <!-- Кастомная форма с quantity и add to cart для вариативных продуктов -->
+
+                    <!-- Custom form with quantity and add to cart for variable products -->
                     <div class="quantity-add-to-cart">
                         <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>
                         <button type="button" class="button alt custom-variation-add-to-cart custom-atc-btn" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>" data-icon-src="<?php echo esc_url( get_template_directory_uri() . '/assets/img/Cart-icon.svg' ); ?>" data-original-text="Add to cart">
@@ -361,7 +361,7 @@ global $product;
                         <?php do_action( 'woocommerce_after_add_to_cart_button' ); ?>
                     </div>
                 <?php else : ?>
-                    <!-- Для простых продуктов используем кастомную форму -->
+                    <!-- Use a custom form for simple products -->
                 <form class="cart" action="<?php echo esc_url( apply_filters( 'woocommerce_add_to_cart_form_action', $product->get_permalink() ) ); ?>" method="post" enctype='multipart/form-data'>
                     <div class="quantity-add-to-cart">
                         <?php do_action( 'woocommerce_before_add_to_cart_button' ); ?>

@@ -17,7 +17,7 @@
     min-height: 700px;
 }
 
-/* Левая панель инструментов */
+/* Left tools panel */
 .designer-tools-sidebar {
     width: 80px;
     background: #FFFFFF;
@@ -78,7 +78,7 @@
     color: #AA2DD0;
 }
 
-/* Центральная область с футболкой */
+/* Central area with the T-shirt */
 .designer-canvas-area {
     flex: 1;
     display: flex;
@@ -134,7 +134,7 @@
     text-align: center;
 }
 
-/* Canvas с футболкой */
+/* Canvas with the T-shirt */
 .tshirt-canvas {
     width: 600px;
     height: 700px;
@@ -166,7 +166,7 @@
     transition: fill 0.3s ease;
 }
 
-/* Область для печати */
+/* Print area */
 .print-area {
     position: absolute;
     top: 50%;
@@ -193,7 +193,7 @@
     background: rgba(255, 255, 255, 0.02);
 }
 
-/* Переключатель сторон */
+/* Side switcher */
 .side-switcher {
     display: flex;
     gap: 10px;
@@ -222,7 +222,7 @@
     color: #fff;
 }
 
-/* Кнопка сохранения */
+/* Save button */
 .designer-actions {
     margin-top: 20px;
 }
@@ -247,7 +247,7 @@
     box-shadow: 0 6px 16px rgba(170, 45, 208, 0.4);
 }
 
-/* Панель с графикой */
+/* Graphics panel */
 .graphics-panel {
     position: absolute;
     top: 0;

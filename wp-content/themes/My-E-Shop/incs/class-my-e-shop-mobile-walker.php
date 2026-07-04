@@ -17,7 +17,7 @@ class My_E_Shop_Mobile_Walker extends Walker_Nav_Menu {
         $menu_item = $data_object;
         $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
         
-        // Определяем классы для элемента
+        // Determine the classes for the item
         $classes = empty( $menu_item->classes ) ? array() : (array) $menu_item->classes;
         
         if ($depth === 0) {
@@ -28,7 +28,7 @@ class My_E_Shop_Mobile_Walker extends Walker_Nav_Menu {
             $item_class = 'child-item';
         }
         
-        // Проверяем, есть ли у элемента дочерние пункты
+        // Check whether the item has child items
         $has_children = in_array('menu-item-has-children', $classes);
         if ($has_children) {
             $item_class .= ' has-children';
@@ -42,7 +42,7 @@ class My_E_Shop_Mobile_Walker extends Walker_Nav_Menu {
         
         $output .= $indent . '<li class="' . esc_attr($item_class) . '"' . $id . $class_names .'>';
         
-        // Создаем ссылку
+        // Create the link
         $atts = array();
         $atts['title']  = ! empty( $menu_item->attr_title ) ? $menu_item->attr_title : '';
         $atts['target'] = ! empty( $menu_item->target )     ? $menu_item->target     : '';
@@ -77,7 +77,7 @@ class My_E_Shop_Mobile_Walker extends Walker_Nav_Menu {
         $item_output .= '</a>';
         $item_output .= $args->after;
         
-        // Если есть дочерние элементы, добавляем кнопку toggle
+        // If there are child items, add a toggle button
         if ($has_children) {
             $toggle_class = ($depth === 0) ? 'submenu-toggle' : 'child-toggle';
             $item_output .= '<button class="' . $toggle_class . '" aria-expanded="false" aria-label="Toggle submenu"><i class="fas fa-plus"></i></button>';

@@ -3,7 +3,7 @@
  * Category Products Block Template
  */
 
-// Проверяем, что WooCommerce активен
+// Check that WooCommerce is active
 if (!class_exists('WooCommerce')) {
     return;
 }
@@ -18,29 +18,29 @@ $show_pagination = isset($attributes['showPagination']) ? $attributes['showPagin
 $autoplay = isset($attributes['autoplay']) ? $attributes['autoplay'] : false;
 $autoplay_speed = isset($attributes['autoplaySpeed']) ? intval($attributes['autoplaySpeed']) : 3000;
 
-// Цвета с проверкой и значениями по умолчанию
+// Colors with validation and default values
 $background_color = !empty($attributes['backgroundColor']) ? $attributes['backgroundColor'] : '#ffffff';
 $title_color = !empty($attributes['titleColor']) ? $attributes['titleColor'] : '#333333';
 $price_color = !empty($attributes['priceColor']) ? $attributes['priceColor'] : '#e74c3c';
 $product_info_bg_color = !empty($attributes['productInfoBackgroundColor']) ? $attributes['productInfoBackgroundColor'] : '#f8f9fa';
 
-// Отладка цветов (удалить после тестирования)
+// Color debugging (remove after testing)
 // error_log('Category Products Colors: BG=' . $background_color . ', Title=' . $title_color . ', Price=' . $price_color);
 
 if ($category_id === 0) {
     return;
 }
 
-// Получаем категорию
+// Get the category
 $category = get_term($category_id, 'product_cat');
 if (is_wp_error($category) || !$category) {
     return;
 }
 
-// Генерируем уникальный ID для слайдера
+// Generate a unique ID for the slider
 $slider_id = 'category-products-slider-' . uniqid();
 
-// Создаем инлайн стили только для динамических цветов
+// Create inline styles only for dynamic colors
 $custom_styles = '';
 
 if ($background_color && $background_color !== '#ffffff') {
@@ -56,7 +56,7 @@ if ($product_info_bg_color && $product_info_bg_color !== '#f8f9fa') {
     $custom_styles .= '.wp-block-my-e-shop-category-products .category-products-block .product-info { background-color: ' . esc_attr($product_info_bg_color) . '; }';
 }
 
-// Добавляем стили для центрирования поиска
+// Add styles to center the search
 $custom_styles .= '
 .wp-block-my-e-shop-category-products .category-products-content .category-top-section .category-search {
     flex: 1 !important;
@@ -70,11 +70,11 @@ $custom_styles .= '
 }
 ';
 
-// Определяем темную или светлую тему для стилей кнопок
+// Determine dark or light theme for the button styles
 $is_dark_theme = ($background_color === '#2C2C2C' || $background_color === '#2c2c2c');
 $is_light_beige = ($background_color === '#F4F0EB' || $background_color === '#f4f0eb');
 
-// Добавляем стили кнопок в зависимости от темы
+// Add button styles depending on the theme
 if (!$is_dark_theme) {
     $button_bg = $is_light_beige ? '#F4F0EB' : '#ffffff';
     $custom_styles .= '
@@ -93,7 +93,7 @@ if (!$is_dark_theme) {
     ';
 }
 
-// Добавляем анимацию для кнопок навигации слайдера
+// Add animation for the slider navigation buttons
 $custom_styles .= '
 .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-prev,
 .wp-block-my-e-shop-category-products .slider-navigation .swiper-button-next {
@@ -206,9 +206,9 @@ $custom_styles .= '
     <?php if ($show_breadcrumbs || $show_search): ?>
         <div class="category-top-section">
             <?php if ($show_breadcrumbs): ?>
-<!-- Хлебные крошки -->
+<!-- Breadcrumbs -->
 <?php
-// Определяем темную или светлую тему
+// Determine dark or light theme
 $is_dark_theme = ($background_color === '#2C2C2C' || $background_color === '#2c2c2c');
 $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light-breadcrumbs';
 ?>
@@ -279,10 +279,10 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
             <div class="swiper-container">
                 <div class="swiper-wrapper">
                     <?php
-                    // Получаем товары категории
+                    // Get the category products
                     $products = wc_get_products(array(
                         'category' => array($category->slug),
-                        'limit' => 20, // Ограничиваем количество для демо
+                        'limit' => 20, // Limit the number for the demo
                         'status' => 'publish',
                         'orderby' => 'menu_order',
                         'order' => 'ASC'
@@ -306,12 +306,12 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
                                                      class="product-image">
                                             <?php else: ?>
                                                 <div class="product-no-image">
-                                                    <span>Нет изображения</span>
+                                                    <span>No image</span>
                                                 </div>
                                             <?php endif; ?>
                                         </a>
                                         <button class="add-to-wishlist" data-product-id="<?php echo esc_attr($product_id); ?>">
-                                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/HeartFavorit.png" alt="Добавить в избранное">
+                                            <img src="<?php echo get_template_directory_uri(); ?>/assets/img/HeartFavorit.png" alt="Add to wishlist">
                                         </button>
                                     </div>
                                     <div class="product-info">
@@ -326,7 +326,7 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
                                         <button class="add-to-cart-btn" 
                                                 data-product-id="<?php echo esc_attr($product_id); ?>"
                                                 data-product-type="<?php echo esc_attr($product->get_type()); ?>">
-                                            Добавить в корзину
+                                            Add to cart
                                         </button>
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@ $breadcrumb_class = $is_dark_theme ? 'product-dark-breadcrumbs' : 'product-light
                         ?>
                         <div class="swiper-slide">
                             <div class="no-products-message">
-                                <p>В этой категории пока нет товаров</p>
+                                <p>There are no products in this category yet</p>
                             </div>
                         </div>
                         <?php

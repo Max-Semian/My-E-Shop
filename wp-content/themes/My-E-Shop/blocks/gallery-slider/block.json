@@ -6,7 +6,7 @@
 	"title": "Gallery Slider",
 	"category": "my-e-shop",
 	"icon": "images-alt2",
-	"description": "Галерея изображений с бесконечной прокруткой",
+	"description": "Image gallery with infinite scroll",
 	"keywords": [
 		"gallery",
 		"slider",

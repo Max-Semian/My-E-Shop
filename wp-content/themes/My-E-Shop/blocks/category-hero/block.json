@@ -6,7 +6,7 @@
     "title": "Category Hero",
     "category": "my-e-shop",
     "icon": "cover-image",
-    "description": "Полноэкранный заголовок категории с фоновым изображением",
+    "description": "Full-screen category heading with a background image",
     "supports": {
         "html": false,
         "align": ["wide", "full"]
@@ -14,7 +14,7 @@
     "attributes": {
         "categoryTitle": {
             "type": "string",
-            "default": "Название категории"
+            "default": "Category name"
         },
         "backgroundImage": {
             "type": "object",

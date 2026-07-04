@@ -43,12 +43,12 @@
                     createElement(InspectorControls, { key: 'inspector-controls' }, [
                         createElement(PanelBody, {
                             key: 'content-panel',
-                            title: __('Контент', 'my-e-shop'),
+                            title: __('Content', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement(TextControl, {
                                 key: 'main-title',
-                                label: __('Главный заголовок', 'my-e-shop'),
+                                label: __('Main title', 'my-e-shop'),
                                 value: attributes.mainTitle,
                                 onChange: function(value) {
                                     setAttributes({ mainTitle: value });
@@ -57,7 +57,7 @@
                             
                             createElement(TextControl, {
                                 key: 'offer-title',
-                                label: __('Заголовок предложения', 'my-e-shop'),
+                                label: __('Offer title', 'my-e-shop'),
                                 value: attributes.offerTitle,
                                 onChange: function(value) {
                                     setAttributes({ offerTitle: value });
@@ -66,7 +66,7 @@
                             
                             createElement(TextareaControl, {
                                 key: 'description',
-                                label: __('Описание', 'my-e-shop'),
+                                label: __('Description', 'my-e-shop'),
                                 value: attributes.description,
                                 onChange: function(value) {
                                     setAttributes({ description: value });
@@ -75,7 +75,7 @@
                             
                             createElement(TextControl, {
                                 key: 'placeholder-text',
-                                label: __('Текст placeholder', 'my-e-shop'),
+                                label: __('Placeholder text', 'my-e-shop'),
                                 value: attributes.placeholderText,
                                 onChange: function(value) {
                                     setAttributes({ placeholderText: value });
@@ -84,7 +84,7 @@
                             
                             createElement(TextControl, {
                                 key: 'button-text',
-                                label: __('Текст кнопки', 'my-e-shop'),
+                                label: __('Button text', 'my-e-shop'),
                                 value: attributes.buttonText,
                                 onChange: function(value) {
                                     setAttributes({ buttonText: value });
@@ -94,7 +94,7 @@
                         
                         createElement(PanelBody, {
                             key: 'design-panel',
-                            title: __('Дизайн', 'my-e-shop'),
+                            title: __('Design', 'my-e-shop'),
                             initialOpen: false
                         }, [
                             createElement(MediaUploadCheck, {
@@ -115,7 +115,7 @@
                                         isPrimary: !attributes.backgroundImage,
                                         isSecondary: !!attributes.backgroundImage,
                                         style: { width: '100%', marginBottom: '10px' }
-                                    }, attributes.backgroundImage ? __('Заменить фоновое изображение', 'my-e-shop') : __('Выбрать фоновое изображение', 'my-e-shop'));
+                                    }, attributes.backgroundImage ? __('Replace background image', 'my-e-shop') : __('Select background image', 'my-e-shop'));
                                 }
                             })),
                             
@@ -140,7 +140,7 @@
                                         });
                                     },
                                     style: { marginTop: '10px' }
-                                }, __('Удалить изображение', 'my-e-shop'))
+                                }, __('Remove image', 'my-e-shop'))
                             ]),
                             
                             createElement('div', {
@@ -150,7 +150,7 @@
                                 createElement('h4', {
                                     key: 'button-color-title',
                                     style: { marginBottom: '10px' }
-                                }, __('Цвет кнопки', 'my-e-shop')),
+                                }, __('Button color', 'my-e-shop')),
                                 createElement(ColorPicker, {
                                     key: 'button-color-picker',
                                     color: attributes.buttonColor,
@@ -167,7 +167,7 @@
                                 createElement('h4', {
                                     key: 'text-color-title',
                                     style: { marginBottom: '10px' }
-                                }, __('Цвет текста', 'my-e-shop')),
+                                }, __('Text color', 'my-e-shop')),
                                 createElement(ColorPicker, {
                                     key: 'text-color-picker',
                                     color: attributes.textColor,
@@ -261,7 +261,7 @@
             }
         });
     } else {
-        // Fallback для старых версий
+        // Fallback for older versions
         console.warn('WordPress Block Editor components not available');
     }
 })();

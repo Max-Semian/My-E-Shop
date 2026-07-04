@@ -1,4 +1,4 @@
-/* Стили фронтенда для Image Gallery */
+/* Frontend styles for Image Gallery */
 
 .wp-block-my-e-shop-image-gallery {
     max-width: 1100px;
@@ -36,7 +36,7 @@
     transform: scale(1.05);
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 1200px) {
     .image-gallery-row {
         gap: 60px;

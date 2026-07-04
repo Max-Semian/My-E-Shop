@@ -1,9 +1,9 @@
 // Product Cards Frontend JavaScript
 document.addEventListener('DOMContentLoaded', function() {
-    // Находим все блоки карточек товаров
+    // Find all product cards blocks
     const productCardsBlocks = document.querySelectorAll('.product-cards-block');
-    
-    // Обработчик для кнопок "В корзину"
+
+    // Handler for "Add to cart" buttons
     function handleAddToCart(event) {
         event.preventDefault();
         event.stopPropagation();
@@ -15,19 +15,19 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        // Блокируем кнопку во время запроса
+        // Disable the button during the request
         const originalText = button.textContent;
         button.disabled = true;
-        button.textContent = 'Добавление...';
+        button.textContent = 'Adding...';
         button.style.opacity = '0.6';
-        
-        // Данные для AJAX запроса
+
+        // Data for the AJAX request
         const formData = new FormData();
         formData.append('action', 'woocommerce_add_to_cart');
         formData.append('product_id', productId);
         formData.append('quantity', 1);
         
-        // Отправляем AJAX запрос
+        // Send the AJAX request
         fetch(wc_add_to_cart_params.wc_ajax_url.toString().replace('%%endpoint%%', 'add_to_cart'), {
             method: 'POST',
             body: formData
@@ -39,11 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Успешное добавление
-            button.textContent = 'Добавлено!';
+            // Successfully added
+            button.textContent = 'Added!';
             button.style.background = '#27ae60';
-            
-            // Обновляем счетчик корзины если есть
+
+            // Update the cart counter if present
             if (data.fragments) {
                 Object.keys(data.fragments).forEach(function(key) {
                     const element = document.querySelector(key);
@@ -53,10 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
             
-            // Показываем уведомление
-            showNotification('Товар добавлен в корзину!', 'success');
-            
-            // Возвращаем кнопку в исходное состояние через 2 секунды
+            // Show a notification
+            showNotification('Product added to cart!', 'success');
+
+            // Restore the button to its original state after 2 seconds
             setTimeout(() => {
                 button.disabled = false;
                 button.textContent = originalText;
@@ -65,25 +65,25 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         })
         .catch(error => {
-            console.error('Ошибка при добавлении в корзину:', error);
-            
-            // Возвращаем кнопку в исходное состояние
+            console.error('Error adding to cart:', error);
+
+            // Restore the button to its original state
             button.disabled = false;
             button.textContent = originalText;
             button.style.opacity = '1';
-            
-            showNotification('Ошибка при добавлении товара', 'error');
+
+            showNotification('Error adding product', 'error');
         });
     }
     
-    // Функция для показа уведомлений
+    // Function to show notifications
     function showNotification(message, type = 'info') {
-        // Создаем элемент уведомления
+        // Create the notification element
         const notification = document.createElement('div');
         notification.className = `product-notification ${type}`;
         notification.textContent = message;
-        
-        // Стили уведомления
+
+        // Notification styles
         notification.style.cssText = `
             position: fixed;
             top: 20px;
@@ -101,12 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.body.appendChild(notification);
         
-        // Анимация появления
+        // Appearance animation
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
-        // Автоматическое скрытие через 3 секунды
+
+        // Automatically hide after 3 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(400px)';
             setTimeout(() => {
@@ -117,15 +117,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3000);
     }
     
-    // Инициализация для каждого блока
+    // Initialize each block
     productCardsBlocks.forEach(function(block) {
-        // Добавляем обработчики для кнопок "В корзину"
+        // Add handlers for "Add to cart" buttons
         const addToCartButtons = block.querySelectorAll('.add-to-cart-btn');
         addToCartButtons.forEach(function(button) {
             button.addEventListener('click', handleAddToCart);
         });
-        
-        // Lazy loading для изображений
+
+        // Lazy loading for images
         const images = block.querySelectorAll('.product-image img');
         if ('IntersectionObserver' in window) {
             const imageObserver = new IntersectionObserver(function(entries) {
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
         
-        // Анимация появления карточек
+        // Card appearance animation
         const cards = block.querySelectorAll('.product-card');
         if ('IntersectionObserver' in window) {
             const cardObserver = new IntersectionObserver(function(entries) {
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, { threshold: 0.1 });
             
             cards.forEach(function(card, index) {
-                // Устанавливаем начальные стили для анимации
+                // Set initial styles for the animation
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(30px)';
                 card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 cardObserver.observe(card);
             });
         } else {
-            // Fallback для старых браузеров
+            // Fallback for older browsers
             cards.forEach(function(card) {
                 card.style.opacity = '1';
                 card.style.transform = 'translateY(0)';
@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Обработка ошибок загрузки изображений
+    // Handle image loading errors
     document.addEventListener('error', function(event) {
         if (event.target.tagName === 'IMG' && event.target.closest('.product-image')) {
             event.target.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y4ZjlmYSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';

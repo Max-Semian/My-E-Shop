@@ -1,5 +1,5 @@
 .products-carousel-wrapper {
-    margin: 0 -20px; /* Компенсация отступов между карточками */
+    margin: 0 -20px; /* Compensation for gaps between cards */
 }
 
 .products.owl-carousel {
@@ -9,7 +9,7 @@
 
 .carousel-product-card {
     padding: 0;
-    margin: 0 20px; /* Отступы между карточками */
+    margin: 0 20px; /* Gaps between cards */
     width: 240px;
     box-sizing: border-box;
 }

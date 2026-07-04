@@ -94,7 +94,7 @@
     background-color: #fff;
 }
 
-/* Брейкер */
+/* Breaker */
 .product-card-breaker {
     width: 100%;
     height: 1px;
@@ -102,7 +102,7 @@
     margin: 10px 0;
 }
 
-/* Нижняя часть карточки */
+/* Bottom part of the card */
 .product-card-bottom {
     display: flex;
     justify-content: space-between;
@@ -110,7 +110,7 @@
     margin-top: 0;
 }
 
-/* Ценовая секция */
+/* Price section */
 .product-card-price-section {
     display: flex;
     align-items: center;
@@ -131,7 +131,7 @@
     font-weight: 600;
 }
 
-/* Иконка корзины */
+/* Cart icon */
 .product-card-actions {
     flex-shrink: 0;
     margin-left: 8px;

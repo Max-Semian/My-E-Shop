@@ -1,24 +1,24 @@
 <?php get_header(); ?>
 
-<!-- Hero блок -->
+<!-- Hero block -->
 <?php if (have_posts()) : while (have_posts()) : the_post(); ?>
     <?php
-    // Получаем данные hero блока
+    // Get the hero block data
     $hero_image_id = get_post_meta(get_the_ID(), '_hero_image', true);
     $hero_title = get_post_meta(get_the_ID(), '_hero_title', true);
     $hero_description = get_post_meta(get_the_ID(), '_hero_description', true);
 
-    // Если hero заголовок не задан, используем заголовок поста
+    // If the hero title is not set, use the post title
     if (empty($hero_title)) {
         $hero_title = get_the_title();
     }
 
-    // Если подзаголовок не задан вручную — берём краткий отрывок статьи
+    // If the subtitle is not set manually, use a short excerpt of the article
     if (empty($hero_description)) {
         $hero_description = wp_trim_words(get_the_excerpt(), 14, '…');
     }
 
-    // Рубрика статьи для тега над заголовком (кроме «Без рубрики»)
+    // Article category for the tag above the title (except "Uncategorized")
     $hero_category = null;
     $post_cats = get_the_category();
     if (!empty($post_cats)) {
@@ -30,7 +30,7 @@
         }
     }
     
-    // Определяем изображение для hero блока
+    // Determine the image for the hero block
     $hero_image_url = '';
     if ($hero_image_id) {
         $hero_image_url = wp_get_attachment_image_url($hero_image_id, 'full');
@@ -62,14 +62,14 @@
                             <?php printf(__('By %s', 'my-e-shop'), get_the_author()); ?>
                         </span>
                         <span class="meta-date"><?php echo get_the_date(); ?></span>
-                        <span class="meta-reading-time"><?php echo get_reading_time(); ?> мин чтения</span>
+                        <span class="meta-reading-time"><?php echo get_reading_time(); ?> min read</span>
                     </span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Хлебные крошки -->
+    <!-- Breadcrumbs -->
     <div class="post-breadcrumbs">
         <div class="post-breadcrumbs-container">
             <nav class="breadcrumb-nav">
@@ -88,7 +88,7 @@
 
 <div class="single-post-container">
 
-        <!-- Контент поста -->
+        <!-- Post content -->
         <div class="post-container">
             <article id="post-<?php the_ID(); ?>" <?php post_class('single-post'); ?>>
                 <div class="post-content">
@@ -97,7 +97,7 @@
 
                 <?php
                 wp_link_pages(array(
-                    'before' => '<div class="page-links">' . __('Страницы:', 'my-e-shop'),
+                    'before' => '<div class="page-links">' . __('Pages:', 'my-e-shop'),
                     'after'  => '</div>',
                 ));
                 ?>
@@ -110,7 +110,7 @@
             </article>
 
             <?php
-            // Навигация между постами
+            // Navigation between posts
             the_post_navigation(array(
                 'prev_text' => '<span class="nav-subtitle">' . __('Previous:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
                 'next_text' => '<span class="nav-subtitle">' . __('Next:', 'my-e-shop') . '</span> <span class="nav-title">%title</span>',
@@ -118,7 +118,7 @@
             ?>
 
             <?php
-            // Если комментарии открыты или есть хотя бы один комментарий
+            // If comments are open or there is at least one comment
             if (comments_open() || get_comments_number()) :
                 comments_template();
             endif;
@@ -127,7 +127,7 @@
 
     <?php endwhile; else : ?>
         <div class="container">
-            <p><?php _e('Запись не найдена.', 'my-e-shop'); ?></p>
+            <p><?php _e('No posts found.', 'my-e-shop'); ?></p>
         </div>
     <?php endif; ?>
 </div>

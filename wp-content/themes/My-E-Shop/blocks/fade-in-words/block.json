@@ -6,7 +6,7 @@
 	"title": "Fade In Words",
 	"category": "my-e-shop",
 	"icon": "editor-alignleft",
-	"description": "Текстовый блок с анимацией появления слов",
+	"description": "Text block with a word fade-in animation",
 	"keywords": [
 		"text",
 		"animation",

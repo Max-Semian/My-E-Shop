@@ -5,7 +5,7 @@
   "title": "CTA Banner",
   "category": "my-e-shop",
   "icon": "megaphone",
-  "description": "CTA баннер с фоновым изображением и кнопкой",
+  "description": "CTA banner with a background image and a button",
   "keywords": ["cta", "banner", "button"],
   "version": "1.0.0",
   "textdomain": "my-e-shop",

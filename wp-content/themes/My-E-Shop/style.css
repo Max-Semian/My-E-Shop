@@ -14,7 +14,7 @@ Text Domain: my-e-shop
 */
 
 /* ============================================
-   Хлебные крошки для страниц (page.php)
+   Breadcrumbs for pages (page.php)
    ============================================ */
 
 .page-breadcrumbs-wrapper {
@@ -71,11 +71,11 @@ Text Domain: my-e-shop
 }
 
 /* ============================================
-   Хлебные крошки для постов (single.php)
+   Breadcrumbs for posts (single.php)
    ============================================ */
 
 /* ============================================
-   Хлебные крошки
+   Breadcrumbs
    ============================================ */
 
 .post-breadcrumbs {
@@ -133,7 +133,7 @@ Text Domain: my-e-shop
 }
 
 /* ============================================
-   Стили для страниц (page.php)
+   Styles for pages (page.php)
    ============================================ */
 
 .page-default {
@@ -238,7 +238,7 @@ Text Domain: my-e-shop
     color: #666;
 }
 
-/* Адаптивность для страниц */
+/* Responsiveness for pages */
 @media (max-width: 768px) {
     .page-title {
         font-size: 2rem;

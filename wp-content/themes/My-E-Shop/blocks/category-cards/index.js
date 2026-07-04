@@ -39,7 +39,7 @@
                             }
                         ]
                     });
-                    return createElement('div', null, 'Загрузка...');
+                    return createElement('div', null, 'Loading...');
                 }
 
                 // Ensure all categories have titleColor field
@@ -73,8 +73,8 @@
                         imageId: 0,
                         iconUrl: '',
                         iconId: 0,
-                        title: 'Новая категория',
-                        subtitle: 'Описание',
+                        title: 'New category',
+                        subtitle: 'Description',
                         titleColor: '#ffffff',
                         url: '#'
                     });
@@ -97,7 +97,7 @@
                     createElement(InspectorControls, { key: 'inspector-controls' }, [
                         createElement(PanelBody, {
                             key: 'settings-panel',
-                            title: __('Настройки блока', 'my-e-shop'),
+                            title: __('Block settings', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement('div', {
@@ -106,7 +106,7 @@
                                     marginBottom: '8px', 
                                     fontWeight: '600' 
                                 }
-                            }, __('Цвет фона', 'my-e-shop')),
+                            }, __('Background color', 'my-e-shop')),
                             createElement(ColorPicker, {
                                 key: 'bg-color-picker',
                                 color: attributes.backgroundColor,
@@ -117,7 +117,7 @@
                             
                             createElement(TextControl, {
                                 key: 'block-title-control',
-                                label: __('Заголовок блока', 'my-e-shop'),
+                                label: __('Block title', 'my-e-shop'),
                                 value: attributes.blockTitle || 'Collection',
                                 onChange: function(value) {
                                     setAttributes({ blockTitle: value });
@@ -127,7 +127,7 @@
 
                             createElement(TextControl, {
                                 key: 'block-subtitle-control',
-                                label: __('Подзаголовок блока', 'my-e-shop'),
+                                label: __('Block subtitle', 'my-e-shop'),
                                 value: attributes.blockSubtitle || 'Wear your mark. Feel your power',
                                 onChange: function(value) {
                                     setAttributes({ blockSubtitle: value });
@@ -138,7 +138,7 @@
                         
                         createElement(PanelBody, {
                             key: 'categories-panel',
-                            title: __('Карточки категорий', 'my-e-shop'),
+                            title: __('Category cards', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement(Button, {
@@ -146,7 +146,7 @@
                                 isPrimary: true,
                                 onClick: addCategoryCard,
                                 style: { marginBottom: '20px' }
-                            }, __('+ Добавить категорию', 'my-e-shop'))
+                            }, __('+ Add category', 'my-e-shop'))
                         ].concat(
                             attributes.categories.map(function(category, index) {
                                 return createElement('div', {
@@ -161,7 +161,7 @@
                                     createElement('h4', {
                                         key: 'category-title-' + index,
                                         style: { marginTop: '0', marginBottom: '15px' }
-                                    }, __('Категория ', 'my-e-shop') + (index + 1)),
+                                    }, __('Category ', 'my-e-shop') + (index + 1)),
                                     
                                     createElement(MediaUploadCheck, {
                                         key: 'media-upload-check-' + index
@@ -193,7 +193,7 @@
                                                     onClick: obj.open,
                                                     isSecondary: true,
                                                     style: { marginBottom: '10px', marginRight: '10px' }
-                                                }, category.imageUrl ? __('Изменить изображение', 'my-e-shop') : __('Выбрать изображение', 'my-e-shop'))
+                                                }, category.imageUrl ? __('Change image', 'my-e-shop') : __('Select image', 'my-e-shop'))
                                             ]);
                                         }
                                     })),
@@ -215,7 +215,7 @@
                                                 updateCategoryCard(index, 'imageId', 0);
                                             },
                                             style: { marginLeft: '10px' }
-                                        }, __('Удалить изображение', 'my-e-shop'))
+                                        }, __('Remove image', 'my-e-shop'))
                                     ]),
 
                                     createElement('hr', {
@@ -226,7 +226,7 @@
                                     createElement('h5', {
                                         key: 'icon-title-' + index,
                                         style: { marginTop: '0', marginBottom: '10px', fontSize: '14px' }
-                                    }, __('Иконка категории', 'my-e-shop')),
+                                    }, __('Category icon', 'my-e-shop')),
                                     
                                     createElement(MediaUploadCheck, {
                                         key: 'icon-media-upload-check-' + index
@@ -258,7 +258,7 @@
                                                     onClick: obj.open,
                                                     isSecondary: true,
                                                     style: { marginBottom: '10px', marginRight: '10px' }
-                                                }, category.iconUrl ? __('Изменить иконку', 'my-e-shop') : __('Выбрать иконку', 'my-e-shop'))
+                                                }, category.iconUrl ? __('Change icon', 'my-e-shop') : __('Select icon', 'my-e-shop'))
                                             ]);
                                         }
                                     })),
@@ -280,12 +280,12 @@
                                                 updateCategoryCard(index, 'iconId', 0);
                                             },
                                             style: { marginLeft: '10px' }
-                                        }, __('Удалить иконку', 'my-e-shop'))
+                                        }, __('Remove icon', 'my-e-shop'))
                                     ]),
                                     
                                     createElement(TextControl, {
                                         key: 'category-title-input-' + index,
-                                        label: __('Название категории', 'my-e-shop'),
+                                        label: __('Category name', 'my-e-shop'),
                                         value: category.title,
                                         onChange: function(value) {
                                             updateCategoryCard(index, 'title', value);
@@ -294,7 +294,7 @@
                                     
                                     createElement(TextControl, {
                                         key: 'category-subtitle-input-' + index,
-                                        label: __('Подзаголовок', 'my-e-shop'),
+                                        label: __('Subtitle', 'my-e-shop'),
                                         value: category.subtitle,
                                         onChange: function(value) {
                                             updateCategoryCard(index, 'subtitle', value);
@@ -303,7 +303,7 @@
                                     
                                     createElement(TextControl, {
                                         key: 'category-url-input-' + index,
-                                        label: __('Ссылка', 'my-e-shop'),
+                                        label: __('Link', 'my-e-shop'),
                                         value: category.url,
                                         onChange: function(value) {
                                             updateCategoryCard(index, 'url', value);
@@ -322,7 +322,7 @@
                                                 fontWeight: '600',
                                                 fontSize: '13px'
                                             }
-                                        }, __('Цвет названия', 'my-e-shop')),
+                                        }, __('Title color', 'my-e-shop')),
                                         createElement(ColorPicker, {
                                             key: 'title-color-picker-' + index,
                                             color: category.titleColor || '#ffffff',
@@ -339,7 +339,7 @@
                                             removeCategoryCard(index);
                                         },
                                         style: { marginTop: '10px' }
-                                    }, __('Удалить категорию', 'my-e-shop'))
+                                    }, __('Remove category', 'my-e-shop'))
                                 ]);
                             })
                         ))
@@ -466,7 +466,7 @@
             }
         });
     } else {
-        // Fallback для старых версий
+        // Fallback for older versions
         console.warn('WordPress Block Editor components not available');
     }
 })();

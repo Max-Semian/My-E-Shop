@@ -10,8 +10,8 @@
     min-height: 150px;
 }
 
-/* В редакторе нет фронтенд-JS, снимающего visibility/opacity,
-   поэтому принудительно показываем текст и обёртку. */
+/* In the editor there is no frontend JS to remove visibility/opacity,
+   so we force the text and wrapper to be shown. */
 .wp-block-my-e-shop-animated-text .text-block {
     opacity: 1 !important;
     transform: none !important;
@@ -24,7 +24,7 @@
     transform: translateY(0) !important;
 }
 
-/* Фон секции по выбранной теме шаблона (превью как на фронте) */
+/* Section background based on the selected template theme (preview like on the front) */
 .wp-block-my-e-shop-animated-text.theme-dark .animated-text-section {
     background-color: #2C2C2C;
 }
@@ -33,7 +33,7 @@
     background-color: #F4F0EB;
 }
 
-/* Превью-бокс под тёмную тему: тёмная подложка, чтобы светлый текст был читаем */
+/* Preview box for dark theme: dark backing so light text is readable */
 .wp-block-my-e-shop-animated-text.theme-dark .text-content.preview-mode {
     background-color: rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.2);
@@ -50,8 +50,8 @@
     justify-content: center;
 }
 
-/* Превью размеров шрифта в редакторе */
-/* Размеры шрифта - отключены, используются inline стили */
+/* Font size preview in the editor */
+/* Font sizes - disabled, inline styles are used */
 /*
 .wp-block-my-e-shop-animated-text.font-small .text-content {
     font-size: 14px;
@@ -70,7 +70,7 @@
 }
 */
 
-/* Выравнивание в редакторе */
+/* Alignment in the editor */
 .wp-block-my-e-shop-animated-text.align-left .text-content {
     text-align: left;
 }
@@ -83,13 +83,13 @@
     text-align: right;
 }
 
-/* Стили для панели инструментов */
+/* Toolbar styles */
 .components-toolbar-group .components-button.is-active {
     background-color: #007cba;
     color: white;
 }
 
-/* Стили для боковой панели */
+/* Sidebar styles */
 .components-panel__body .components-color-picker {
     margin-top: 10px;
 }
@@ -98,7 +98,7 @@
     margin-bottom: 15px;
 }
 
-/* Индикатор настроек */
+/* Settings indicator */
 .wp-block-my-e-shop-animated-text .settings-preview {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -113,18 +113,18 @@
     color: #333;
 }
 
-/* Стили для RichText в редакторе */
+/* RichText styles in the editor */
 .wp-block-my-e-shop-animated-text .text-content [data-rich-text-placeholder]:after {
     color: #999;
     font-style: italic;
 }
 
-/* Hover эффекты в редакторе */
+/* Hover effects in the editor */
 .wp-block-my-e-shop-animated-text:hover {
     border-color: #007cba;
 }
 
-/* Выделенное состояние */
+/* Selected state */
 .wp-block-my-e-shop-animated-text.is-selected {
     border-color: #007cba;
     box-shadow: 0 0 0 1px #007cba;

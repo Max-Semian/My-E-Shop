@@ -67,18 +67,18 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                            class="product-card-link"
                            target="_blank"
                            rel="noopener noreferrer"
-                           title="<?php echo esc_attr($product['title'] ?? 'Товар'); ?>">
+                           title="<?php echo esc_attr($product['title'] ?? 'Product'); ?>">
                             
                             <div class="product-card-image-container">
                                 <?php if (!empty($product['imageUrl'])) : ?>
                                     <!-- DEBUG: Image URL: <?php echo esc_html($product['imageUrl']); ?> -->
                                     <img src="<?php echo esc_url($product['imageUrl']); ?>" 
-                                         alt="<?php echo esc_attr($product['title'] ?? 'Товар'); ?>" 
+                                         alt="<?php echo esc_attr($product['title'] ?? 'Product'); ?>"
                                          class="product-card-image"
                                          onerror="console.log('Image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div class="product-card-image-placeholder" style="display: none;">
                                         <span>🛍️</span>
-                                        <small>Ошибка загрузки</small>
+                                        <small>Loading error</small>
                                     </div>
                                 <?php else : ?>
                                     <div class="product-card-image-placeholder">
@@ -94,7 +94,7 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                                     </h3>
                                 <?php endif; ?>
                                 
-                                <!-- Брейкер между названием и ценой -->
+                                <!-- Breaker between title and price -->
                                 <div class="product-card-breaker"></div>
                                 
                                 <div class="product-card-bottom">
@@ -129,7 +129,7 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
             <div class="product-cards-grid">
                 <div class="product-card-item">
                     <div class="product-card-placeholder">
-                        Товары еще не добавлены - Debug: <?php echo count($custom_images); ?> товаров
+                        No products added yet - Debug: <?php echo count($custom_images); ?> products
                     </div>
                 </div>
             </div>

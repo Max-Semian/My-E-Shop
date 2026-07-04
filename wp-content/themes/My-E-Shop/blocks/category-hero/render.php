@@ -7,13 +7,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем атрибуты блока
+// Get block attributes
 $category_title = isset($attributes['categoryTitle']) ? $attributes['categoryTitle'] : '';
 $background_image = isset($attributes['backgroundImage']) ? $attributes['backgroundImage'] : ['id' => 0, 'url' => '', 'alt' => ''];
 $text_color = isset($attributes['textColor']) ? $attributes['textColor'] : '#F4F0EB';
 $overlay_opacity = isset($attributes['overlayOpacity']) ? $attributes['overlayOpacity'] : 0.5;
 
-// Если мы на странице категории, получаем данные категории
+// If we are on a category page, get the category data
 if (is_product_category()) {
     $current_category = get_queried_object();
     if ($current_category && empty($category_title)) {
@@ -21,7 +21,7 @@ if (is_product_category()) {
     }
 }
 
-// Получаем классы блока
+// Get block classes
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'category-hero-block-frontend',
 ]);

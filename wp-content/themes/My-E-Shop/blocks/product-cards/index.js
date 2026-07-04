@@ -34,14 +34,14 @@
                             {
                                 imageUrl: '',
                                 imageId: 0,
-                                title: 'Товар 1',
+                                title: 'Product 1',
                                 price: '$30.00',
                                 originalPrice: '',
                                 link: '#'
                             }
                         ]
                     });
-                    return createElement('div', null, 'Загрузка...');
+                    return createElement('div', null, 'Loading...');
                 }
                 
                 var blockProps = useBlockProps ? useBlockProps({
@@ -61,7 +61,7 @@
                     newProducts.push({
                         imageUrl: '',
                         imageId: 0,
-                        title: 'Новый товар',
+                        title: 'New product',
                         price: '$30.00',
                         originalPrice: '',
                         link: '#'
@@ -85,7 +85,7 @@
                     createElement(InspectorControls, { key: 'inspector-controls' }, [
                         createElement(PanelBody, {
                             key: 'settings-panel',
-                            title: __('Настройки блока', 'my-e-shop'),
+                            title: __('Block Settings', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement('div', {
@@ -94,7 +94,7 @@
                                     marginBottom: '8px', 
                                     fontWeight: '600' 
                                 }
-                            }, __('Цвет фона', 'my-e-shop')),
+                            }, __('Background Color', 'my-e-shop')),
                             createElement(ColorPicker, {
                                 key: 'bg-color-picker',
                                 color: attributes.backgroundColor,
@@ -105,7 +105,7 @@
                             
                             createElement(TextControl, {
                                 key: 'block-title-control',
-                                label: __('Заголовок блока', 'my-e-shop'),
+                                label: __('Block Title', 'my-e-shop'),
                                 value: attributes.blockTitle || 'Best Sellers',
                                 onChange: function(value) {
                                     setAttributes({ blockTitle: value });
@@ -115,7 +115,7 @@
 
                             createElement(TextControl, {
                                 key: 'block-subtitle-control',
-                                label: __('Подзаголовок блока', 'my-e-shop'),
+                                label: __('Block Subtitle', 'my-e-shop'),
                                 value: attributes.blockSubtitle || 'Your aura in cotton',
                                 onChange: function(value) {
                                     setAttributes({ blockSubtitle: value });
@@ -125,7 +125,7 @@
 
                             createElement(TextControl, {
                                 key: 'view-all-link-control',
-                                label: __('Ссылка "VIEW ALL"', 'my-e-shop'),
+                                label: __('"VIEW ALL" Link', 'my-e-shop'),
                                 value: attributes.viewAllLink || '#',
                                 onChange: function(value) {
                                     setAttributes({ viewAllLink: value });
@@ -136,7 +136,7 @@
 
                             createElement(RangeControl, {
                                 key: 'columns-control',
-                                label: __('Количество колонок', 'my-e-shop'),
+                                label: __('Number of columns', 'my-e-shop'),
                                 value: attributes.columns || 4,
                                 onChange: function(value) {
                                     setAttributes({ columns: value });
@@ -147,28 +147,28 @@
 
                             createElement(SelectControl, {
                                 key: 'card-style-control',
-                                label: __('Стиль карточек', 'my-e-shop'),
+                                label: __('Card style', 'my-e-shop'),
                                 value: attributes.cardStyle || 'classic',
                                 onChange: function(value) {
                                     setAttributes({ cardStyle: value });
                                 },
                                 options: [
-                                    { label: 'Классический', value: 'classic' },
-                                    { label: 'Минималистичный', value: 'minimal' },
-                                    { label: 'Современный', value: 'modern' },
-                                    { label: 'Элегантный', value: 'elegant' }
+                                    { label: 'Classic', value: 'classic' },
+                                    { label: 'Minimal', value: 'minimal' },
+                                    { label: 'Modern', value: 'modern' },
+                                    { label: 'Elegant', value: 'elegant' }
                                 ]
                             })
                         ]),
                         
                         createElement(PanelBody, {
                             key: 'cart-button-panel',
-                            title: __('Настройки кнопки корзины', 'my-e-shop'),
+                            title: __('Cart Button Settings', 'my-e-shop'),
                             initialOpen: false
                         }, [
                             createElement(ToggleControl, {
                                 key: 'show-cart-button-toggle',
-                                label: __('Показывать кнопку корзины', 'my-e-shop'),
+                                label: __('Show cart button', 'my-e-shop'),
                                 checked: attributes.showCartButton !== false,
                                 onChange: function(value) {
                                     setAttributes({ showCartButton: value });
@@ -177,7 +177,7 @@
                             
                             attributes.showCartButton !== false && createElement(TextControl, {
                                 key: 'cart-button-text-control',
-                                label: __('Текст кнопки', 'my-e-shop'),
+                                label: __('Button Text', 'my-e-shop'),
                                 value: attributes.cartButtonText || 'Add to Cart',
                                 onChange: function(value) {
                                     setAttributes({ cartButtonText: value });
@@ -187,7 +187,7 @@
                             
                             attributes.showCartButton !== false && createElement(TextControl, {
                                 key: 'cart-button-link-control',
-                                label: __('Ссылка кнопки корзины', 'my-e-shop'),
+                                label: __('Cart button link', 'my-e-shop'),
                                 value: attributes.cartButtonLink || '#',
                                 onChange: function(value) {
                                     setAttributes({ cartButtonLink: value });
@@ -199,7 +199,7 @@
                         
                         createElement(PanelBody, {
                             key: 'products-panel',
-                            title: __('Карточки товаров', 'my-e-shop'),
+                            title: __('Product Cards', 'my-e-shop'),
                             initialOpen: true
                         }, [
                             createElement(Button, {
@@ -207,7 +207,7 @@
                                 isPrimary: true,
                                 onClick: addProductCard,
                                 style: { marginBottom: '20px' }
-                            }, __('+ Добавить товар', 'my-e-shop'))
+                            }, __('+ Add product', 'my-e-shop'))
                         ].concat(
                             attributes.customImages.map(function(product, index) {
                                 return createElement('div', {
@@ -222,7 +222,7 @@
                                     createElement('h4', {
                                         key: 'product-title-' + index,
                                         style: { marginTop: '0', marginBottom: '15px' }
-                                    }, __('Товар ', 'my-e-shop') + (index + 1)),
+                                    }, __('Product ', 'my-e-shop') + (index + 1)),
                                     
                                     createElement(MediaUploadCheck, {
                                         key: 'media-upload-check-' + index
@@ -239,7 +239,7 @@
                                                 onClick: obj.open,
                                                 isPrimary: !product.imageUrl,
                                                 isSecondary: !!product.imageUrl
-                                            }, product.imageUrl ? __('Заменить изображение', 'my-e-shop') : __('Выбрать изображение', 'my-e-shop'));
+                                            }, product.imageUrl ? __('Replace image', 'my-e-shop') : __('Choose image', 'my-e-shop'));
                                         }
                                     })),
                                     
@@ -260,12 +260,12 @@
                                                 updateProductCard(index, 'imageId', 0);
                                             },
                                             style: { marginLeft: '10px' }
-                                        }, __('Удалить изображение', 'my-e-shop'))
+                                        }, __('Remove image', 'my-e-shop'))
                                     ]),
                                     
                                     createElement(TextControl, {
                                         key: 'product-name-input-' + index,
-                                        label: __('Название товара', 'my-e-shop'),
+                                        label: __('Product name', 'my-e-shop'),
                                         value: product.title,
                                         onChange: function(value) {
                                             updateProductCard(index, 'title', value);
@@ -274,7 +274,7 @@
                                     
                                     createElement(TextControl, {
                                         key: 'product-price-input-' + index,
-                                        label: __('Цена со скидкой', 'my-e-shop'),
+                                        label: __('Sale price', 'my-e-shop'),
                                         value: product.price,
                                         onChange: function(value) {
                                             updateProductCard(index, 'price', value);
@@ -283,17 +283,17 @@
                                     
                                     createElement(TextControl, {
                                         key: 'product-original-price-input-' + index,
-                                        label: __('Оригинальная цена (без скидки)', 'my-e-shop'),
+                                        label: __('Original price (no discount)', 'my-e-shop'),
                                         value: product.originalPrice || '',
                                         onChange: function(value) {
                                             updateProductCard(index, 'originalPrice', value);
                                         },
-                                        help: __('Оставьте пустым, если скидки нет', 'my-e-shop')
+                                        help: __('Leave empty if there is no discount', 'my-e-shop')
                                     }),
                                     
                                     createElement(TextControl, {
                                         key: 'product-link-input-' + index,
-                                        label: __('Ссылка', 'my-e-shop'),
+                                        label: __('Link', 'my-e-shop'),
                                         value: product.link,
                                         onChange: function(value) {
                                             updateProductCard(index, 'link', value);
@@ -307,7 +307,7 @@
                                             removeProductCard(index);
                                         },
                                         style: { marginTop: '10px' }
-                                    }, __('Удалить товар', 'my-e-shop'))
+                                    }, __('Remove product', 'my-e-shop'))
                                 ]);
                             })
                         ))
@@ -446,7 +446,7 @@
                                                     justifyContent: 'center',
                                                     color: '#6c757d'
                                                 }
-                                            }, '🛍️ Изображение товара')
+                                            }, '🛍️ Product image')
                                     ]),
                                     
                                     createElement('div', {
@@ -492,7 +492,7 @@
             }
         });
     } else {
-        // Fallback для старых версий
+        // Fallback for older versions
         console.warn('WordPress Block Editor components not available');
     }
 })();

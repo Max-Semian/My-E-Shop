@@ -45,12 +45,12 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                     <div class="collection-card-item">
                         <a href="<?php echo esc_url($collection['url'] ?? '#'); ?>" 
                            class="collection-card-link"
-                           title="<?php echo esc_attr($collection['title'] ?? 'Коллекция'); ?>">
+                           title="<?php echo esc_attr($collection['title'] ?? 'Collection'); ?>">
                             
                             <div class="collection-card-image-container">
                                 <?php if (!empty($collection['imageUrl'])) : ?>
                                     <img src="<?php echo esc_url($collection['imageUrl']); ?>" 
-                                         alt="<?php echo esc_attr($collection['title'] ?? 'Коллекция'); ?>" 
+                                         alt="<?php echo esc_attr($collection['title'] ?? 'Collection'); ?>" 
                                          class="collection-card-image">
                                 <?php else : ?>
                                     <div class="collection-card-image-placeholder">
@@ -75,7 +75,7 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                 <?php endforeach; ?>
             </div>
         <?php else : ?>
-            <p class="no-collections-message">Коллекции не добавлены. Добавьте коллекции в редакторе блоков.</p>
+            <p class="no-collections-message">No collections added yet. Add collections in the block editor.</p>
         <?php endif; ?>
     </div>
 </div>

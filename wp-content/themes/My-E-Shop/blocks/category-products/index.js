@@ -33,7 +33,7 @@
             var priceColor = attributes.priceColor;
             var productInfoBackgroundColor = attributes.productInfoBackgroundColor;
 
-            // Отладка атрибутов (удалить после тестирования)
+            // Attribute debugging (remove after testing)
             // console.log('Category Products Attributes:', { backgroundColor, titleColor, priceColor });
 
             var categoriesState = useState([]);
@@ -44,7 +44,7 @@
                 apiFetch({
                     path: '/wp/v2/product_cat?per_page=100'
                 }).then(function(fetchedCategories) {
-                    var categoryOptions = [{ label: 'Выберите категорию', value: 0 }];
+                    var categoryOptions = [{ label: 'Select a category', value: 0 }];
                     fetchedCategories.forEach(function(cat) {
                         categoryOptions.push({
                             label: cat.name,
@@ -56,7 +56,7 @@
                     console.error('Error fetching categories:', error);
                     // Fallback if API is not available
                     setCategories([
-                        { label: 'Выберите категорию', value: 0 }
+                        { label: 'Select a category', value: 0 }
                     ]);
                 });
             }, []);
@@ -66,9 +66,9 @@
                 {},
                 wp.element.createElement(
                     PanelBody,
-                    { title: 'Настройки категории', initialOpen: true },
+                    { title: 'Category settings', initialOpen: true },
                     wp.element.createElement(SelectControl, {
-                        label: 'Выберите категорию',
+                        label: 'Select a category',
                         value: categoryId,
                         options: categories,
                         onChange: function(newCategoryId) {
@@ -84,23 +84,23 @@
                 ),
                 wp.element.createElement(
                     PanelBody,
-                    { title: 'Настройки отображения', initialOpen: false },
+                    { title: 'Display settings', initialOpen: false },
                     wp.element.createElement(ToggleControl, {
-                        label: 'Показать хлебные крошки',
+                        label: 'Show breadcrumbs',
                         checked: showBreadcrumbs,
                         onChange: function(value) {
                             setAttributes({ showBreadcrumbs: value });
                         }
                     }),
                     wp.element.createElement(ToggleControl, {
-                        label: 'Показать поиск',
+                        label: 'Show search',
                         checked: showSearch,
                         onChange: function(value) {
                             setAttributes({ showSearch: value });
                         }
                     }),
                     wp.element.createElement(RangeControl, {
-                        label: 'Товаров на слайде',
+                        label: 'Products per slide',
                         value: productsPerSlide,
                         onChange: function(value) {
                             setAttributes({ productsPerSlide: value });
@@ -111,30 +111,30 @@
                 ),
                 wp.element.createElement(
                     PanelBody,
-                    { title: 'Настройки слайдера', initialOpen: false },
+                    { title: 'Slider settings', initialOpen: false },
                     wp.element.createElement(ToggleControl, {
-                        label: 'Показать навигацию',
+                        label: 'Show navigation',
                         checked: showNavigation,
                         onChange: function(value) {
                             setAttributes({ showNavigation: value });
                         }
                     }),
                     wp.element.createElement(ToggleControl, {
-                        label: 'Показать пагинацию',
+                        label: 'Show pagination',
                         checked: showPagination,
                         onChange: function(value) {
                             setAttributes({ showPagination: value });
                         }
                     }),
                     wp.element.createElement(ToggleControl, {
-                        label: 'Автопрокрутка',
+                        label: 'Autoplay',
                         checked: autoplay,
                         onChange: function(value) {
                             setAttributes({ autoplay: value });
                         }
                     }),
                     autoplay && wp.element.createElement(RangeControl, {
-                        label: 'Скорость автопрокрутки (мс)',
+                        label: 'Autoplay speed (ms)',
                         value: autoplaySpeed,
                         onChange: function(value) {
                             setAttributes({ autoplaySpeed: value });
@@ -146,11 +146,11 @@
                 ),
                 wp.element.createElement(
                     PanelBody,
-                    { title: 'Настройки цветов', initialOpen: false },
+                    { title: 'Color settings', initialOpen: false },
                     wp.element.createElement(
                         'div',
                         { style: { marginBottom: '16px' } },
-                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Цвет фона'),
+                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Background color'),
                         wp.element.createElement(ColorPicker, {
                             color: backgroundColor || '#ffffff',
                             onChange: function(color) {
@@ -162,7 +162,7 @@
                     wp.element.createElement(
                         'div',
                         { style: { marginBottom: '16px' } },
-                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Цвет названий товаров'),
+                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Product title color'),
                         wp.element.createElement(ColorPicker, {
                             color: titleColor || '#333333',
                             onChange: function(color) {
@@ -174,7 +174,7 @@
                     wp.element.createElement(
                         'div',
                         { style: { marginBottom: '16px' } },
-                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Цвет цены'),
+                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Price color'),
                         wp.element.createElement(ColorPicker, {
                             color: priceColor || '#e74c3c',
                             onChange: function(color) {
@@ -186,7 +186,7 @@
                     wp.element.createElement(
                         'div',
                         { style: { marginBottom: '16px' } },
-                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Цвет фона информации о товаре'),
+                        wp.element.createElement('label', { style: { display: 'block', marginBottom: '8px', fontWeight: 'bold' } }, 'Product info background color'),
                         wp.element.createElement(ColorPicker, {
                             color: productInfoBackgroundColor || '#f8f9fa',
                             onChange: function(color) {
@@ -209,7 +209,7 @@
                     wp.element.createElement(
                         'p',
                         {},
-                        'Выберите категорию в настройках блока'
+                        'Select a category in the block settings'
                     )
                 );
             } else {
@@ -228,7 +228,7 @@
                     previewContent = wp.element.createElement(
                         Placeholder,
                         { label: 'Category Products' },
-                        'ServerSideRender недоступен'
+                        'ServerSideRender is not available'
                     );
                 } else {
                     previewContent = wp.element.createElement(

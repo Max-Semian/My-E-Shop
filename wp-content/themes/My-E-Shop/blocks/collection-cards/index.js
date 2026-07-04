@@ -54,7 +54,7 @@
                             }
                         ]
                     });
-                    return createElement('div', null, 'Загрузка...');
+                    return createElement('div', null, 'Loading...');
                 }
                 
                 var blockProps = useBlockProps ? useBlockProps({
@@ -68,7 +68,7 @@
                     newCollections.push({
                         imageUrl: '',
                         imageId: 0,
-                        title: 'Новая коллекция',
+                        title: 'New collection',
                         subtitle: 'Everything you need here',
                         url: '#'
                     });
@@ -106,14 +106,14 @@
                         null,
                         createElement(
                             PanelBody,
-                            { title: 'Настройки заголовка', initialOpen: true },
+                            { title: 'Header settings', initialOpen: true },
                             createElement(TextControl, {
-                                label: 'Заголовок блока',
+                                label: 'Block title',
                                 value: attributes.blockTitle || '',
                                 onChange: function(value) { setAttributes({ blockTitle: value }); }
                             }),
                             createElement(TextControl, {
-                                label: 'Подзаголовок блока',
+                                label: 'Block subtitle',
                                 value: attributes.blockSubtitle || '',
                                 onChange: function(value) { setAttributes({ blockSubtitle: value }); }
                             })
@@ -122,7 +122,7 @@
                             return createElement(
                                 PanelBody,
                                 { 
-                                    title: 'Коллекция ' + (index + 1) + ': ' + (collection.title || 'Без названия'),
+                                    title: 'Collection ' + (index + 1) + ': ' + (collection.title || 'Untitled'),
                                     initialOpen: false,
                                     key: index
                                 },
@@ -142,7 +142,7 @@
                                                     className: collection.imageUrl ? 'editor-post-featured-image__preview' : 'editor-post-featured-image__toggle',
                                                     onClick: obj.open
                                                 },
-                                                !collection.imageUrl && 'Загрузить изображение',
+                                                !collection.imageUrl && 'Upload image',
                                                 collection.imageUrl && createElement('img', {
                                                     src: collection.imageUrl,
                                                     alt: collection.title,
@@ -161,21 +161,21 @@
                                             isDestructive: true,
                                             style: { marginTop: '10px' }
                                         },
-                                        'Удалить изображение'
+                                        'Remove image'
                                     )
                                 ),
                                 createElement(TextControl, {
-                                    label: 'Заголовок коллекции',
+                                    label: 'Collection title',
                                     value: collection.title,
                                     onChange: function(value) { updateCollection(index, 'title', value); }
                                 }),
                                 createElement(TextControl, {
-                                    label: 'Подзаголовок',
+                                    label: 'Subtitle',
                                     value: collection.subtitle,
                                     onChange: function(value) { updateCollection(index, 'subtitle', value); }
                                 }),
                                 createElement(TextControl, {
-                                    label: 'Ссылка (URL)',
+                                    label: 'Link (URL)',
                                     value: collection.url,
                                     onChange: function(value) { updateCollection(index, 'url', value); },
                                     placeholder: 'https://example.com'
@@ -187,20 +187,20 @@
                                         isDestructive: true,
                                         style: { marginTop: '10px' }
                                     },
-                                    'Удалить коллекцию'
+                                    'Remove collection'
                                 )
                             );
                         }),
                         createElement(
                             PanelBody,
-                            { title: 'Добавить коллекцию', initialOpen: false },
+                            { title: 'Add collection', initialOpen: false },
                             createElement(
                                 Button,
                                 {
                                     onClick: addCollection,
                                     isPrimary: true
                                 },
-                                'Добавить новую коллекцию'
+                                'Add new collection'
                             )
                         )
                     ),
@@ -239,7 +239,7 @@
                                                 createElement(
                                                     'div',
                                                     { className: 'collection-card-image-placeholder' },
-                                                    '📁 Изображение не выбрано'
+                                                    '📁 No image selected'
                                                 ),
                                             createElement('div', { className: 'collection-card-overlay' }),
                                             createElement(

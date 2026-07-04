@@ -20,7 +20,7 @@
     overflow: hidden;
 }
 
-/* Левая часть - изображение */
+/* Left part - image */
 .my-e-shop-newsletter-left {
     flex: 0 0 587px;
     position: relative;
@@ -38,7 +38,7 @@
     left: 0;
 }
 
-/* Правая часть - форма */
+/* Right part - form */
 .my-e-shop-newsletter-right {
     flex: 1;
     background-color: #F4F3F5;
@@ -186,7 +186,7 @@
 
 /* Responsive Design */
 
-/* Tablets and small desktops (до 1024px) */
+/* Tablets and small desktops (up to 1024px) */
 @media (max-width: 1024px) {
     .my-e-shop-newsletter-subscription-block {
         padding-bottom: 80px;
@@ -214,7 +214,7 @@
     }
 }
 
-/* Tablets (до 768px) */
+/* Tablets (up to 768px) */
 @media (max-width: 768px) {
     .my-e-shop-newsletter-subscription-block {
         margin-bottom: -20px;
@@ -251,7 +251,7 @@
     }
 }
 
-/* Mobile devices (до 576px) */
+/* Mobile devices (up to 576px) */
 @media (max-width: 576px) {
     .my-e-shop-newsletter-subscription-block {
         margin-bottom: 0;
@@ -306,7 +306,7 @@
     }
 }
 
-/* Extra small devices (до 400px) */
+/* Extra small devices (up to 400px) */
 @media (max-width: 400px) {
     .my-e-shop-newsletter-subscription-container {
         max-width: 98%;

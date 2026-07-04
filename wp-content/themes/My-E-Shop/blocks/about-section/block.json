@@ -6,7 +6,7 @@
 	"title": "About Section",
 	"category": "my-e-shop",
 	"icon": "format-quote",
-	"description": "Блок с фоном, заголовком, текстом и кнопкой",
+	"description": "Block with a background, title, text and button",
 	"keywords": [
 		"about",
 		"section",

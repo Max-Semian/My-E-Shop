@@ -57,18 +57,18 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
                            class="category-card-link"
                            target="_blank"
                            rel="noopener noreferrer"
-                           title="<?php echo esc_attr($category['title'] ?? 'Категория'); ?>">
+                           title="<?php echo esc_attr($category['title'] ?? 'Category'); ?>">
                             
                             <div class="category-card-image-container">
                                 <?php if (!empty($category['imageUrl'])) : ?>
                                     <!-- DEBUG: Image URL: <?php echo esc_html($category['imageUrl']); ?> -->
                                     <img src="<?php echo esc_url($category['imageUrl']); ?>" 
-                                         alt="<?php echo esc_attr($category['title'] ?? 'Категория'); ?>" 
+                                         alt="<?php echo esc_attr($category['title'] ?? 'Category'); ?>" 
                                          class="category-card-image"
                                          onerror="console.log('Image failed to load:', this.src); this.style.display='none'; this.nextElementSibling.style.display='flex';">
                                     <div class="category-card-image-placeholder" style="display: none;">
                                         <span>📁</span>
-                                        <small>Ошибка загрузки</small>
+                                        <small>Loading error</small>
                                     </div>
                                 <?php else : ?>
                                     <div class="category-card-image-placeholder">
@@ -103,7 +103,7 @@ $wrapper_attributes = get_block_wrapper_attributes($anchor_attr);
             <div class="category-cards-grid">
                 <div class="category-card-item">
                     <div class="category-card-placeholder">
-                        Категории еще не добавлены - Debug: <?php echo count($categories); ?> категорий
+                        No categories added yet - Debug: <?php echo count($categories); ?> categories
                     </div>
                 </div>
             </div>

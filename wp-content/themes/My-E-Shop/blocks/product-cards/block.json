@@ -6,12 +6,12 @@
 	"title": "Product Cards",
 	"category": "my-e-shop",
 	"icon": "products",
-	"description": "Блок с карточками товаров",
+	"description": "Block with product cards",
 	"keywords": [
 		"product",
 		"cards",
 		"shop",
-		"товар"
+		"product"
 	],
 	"supports": {
 		"html": false,

@@ -4,7 +4,7 @@
     "name": "my-e-shop/category-cards",
     "version": "1.0.0",
     "title": "Category Cards Block",
-    "description": "Отображение карточек категорий в сетке",
+    "description": "Display category cards in a grid",
     "category": "my-e-shop",
     "icon": "grid-view",
     "keywords": ["category", "cards", "shop", "categories", "grid"],

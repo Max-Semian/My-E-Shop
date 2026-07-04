@@ -20,7 +20,7 @@
             var setAttributes = props.setAttributes;
             var blockProps = useBlockProps();
 
-            // Функция для установки отдельного изображения
+            // Function to set an individual image
             function setImage(index, media) {
                 var newImages = Object.assign({}, attributes.images);
                 newImages['image' + (index + 1)] = {
@@ -31,7 +31,7 @@
                 setAttributes({ images: newImages });
             }
 
-            // Функция для удаления отдельного изображения
+            // Function to remove an individual image
             function removeImage(index) {
                 var newImages = Object.assign({}, attributes.images);
                 delete newImages['image' + (index + 1)];
@@ -173,7 +173,7 @@
                         title: __('Background Images (7 positions)', 'My-E-Shop'),
                         initialOpen: false
                     }, 
-                    // Создаем 7 отдельных MediaUpload для каждой позиции
+                    // Create 7 separate MediaUpload controls for each position
                     [1, 2, 3, 4, 5, 6, 7].map(function(position, index) {
                         var imageKey = 'image' + position;
                         var currentImage = attributes.images[imageKey];
@@ -257,7 +257,7 @@
                         borderRadius: '8px'
                     }
                 }, [
-                    // Фоновое изображение (самый нижний слой, если загружено)
+                    // Background image (bottommost layer, if uploaded)
                     (attributes.backgroundImage && attributes.backgroundImage.url) && createElement('div', {
                         key: 'background-layer',
                         style: {
@@ -273,7 +273,7 @@
                             zIndex: 0
                         }
                     }),
-                    // Отображаем 7 позиций для изображений (всегда, поверх фона)
+                    // Display 7 image positions (always, on top of the background)
                     createElement('div', {
                         key: 'images-grid',
                         style: {

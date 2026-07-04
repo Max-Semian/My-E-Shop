@@ -4,22 +4,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-// Принудительная инициализация WooCommerce шорткодов
+// Force WooCommerce shortcodes initialization
 force_woocommerce_shortcodes_init();
 
-// Получаем текущую категорию
+// Get the current category
 $current_category = get_queried_object();
 $category_id = $current_category->term_id;
 
-// Проверяем выбранный шаблон категории
+// Check the selected category template
 $selected_template = get_term_meta($category_id, '_category_template', true);
 $selected_template = !empty($selected_template) ? $selected_template : 'default';
 
-// Ищем страницу с соответствующим slug категории
+// Look for a page with the matching category slug
 $category_page_slug = 'category-' . $current_category->slug;
 $category_page = get_page_by_path($category_page_slug);
 
-// Если нет кастомной страницы, создаем её автоматически
+// If there is no custom page, create it automatically
 if (!$category_page) {
     $page_content = '<!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group">
@@ -28,7 +28,7 @@ if (!$category_page) {
     <!-- /wp:heading -->
     
     <!-- wp:paragraph -->
-    <p>' . esc_html($current_category->description ?: 'Добро пожаловать в категорию ' . $current_category->name) . '</p>
+    <p>' . esc_html($current_category->description ?: 'Welcome to the ' . $current_category->name . ' category') . '</p>
     <!-- /wp:paragraph -->
     
     <!-- wp:separator -->
@@ -36,7 +36,7 @@ if (!$category_page) {
     <!-- /wp:separator -->
     
     <!-- wp:heading {"level":2} -->
-    <h2>Товары в категории</h2>
+    <h2>Products in this category</h2>
     <!-- /wp:heading -->
     
     <!-- wp:paragraph -->
@@ -44,7 +44,7 @@ if (!$category_page) {
     <!-- /wp:paragraph -->
 </div>
 <!-- /wp:group -->';    $page_id = wp_insert_post([
-        'post_title'   => 'Категория: ' . $current_category->name,
+        'post_title'   => 'Category: ' . $current_category->name,
         'post_name'    => $category_page_slug,
         'post_status'  => 'publish',
         'post_type'    => 'page',
@@ -64,39 +64,38 @@ get_header( 'shop' ); ?>
 <div class="woocommerce-category-page woocommerce-category-page--<?php echo esc_attr($selected_template); ?>">
     <?php if ($category_page): ?>
         <?php
-        // Устанавливаем правильный контекст для WooCommerce
+        // Set the correct context for WooCommerce
         global $wp_query, $woocommerce_loop;
-        
-        // Проверяем, есть ли блок category-hero в контенте
+
+        // Check whether the content contains a category-hero block
         $content = $category_page->post_content;
         $has_hero_block = strpos($content, 'wp:my-e-shop/category-hero') !== false;
-        
-        // Если есть пустой блок category-hero, убираем его
+
+        // If the category-hero block is empty, remove it
         if ($has_hero_block) {
-            // Проверяем, есть ли контент в блоке hero
+            // Check whether the hero block has content
             preg_match('/<!-- wp:my-e-shop\/category-hero[^>]*-->(.*)<!-- \/wp:my-e-shop\/category-hero -->/s', $content, $matches);
             if (isset($matches[1])) {
                 $hero_content = trim($matches[1]);
-                // Если блок пустой, удаляем его
+                // If the block is empty, remove it
                 if (empty($hero_content) || $hero_content === '\n') {
                     $content = preg_replace('/<!-- wp:my-e-shop\/category-hero[^>]*-->.*?<!-- \/wp:my-e-shop\/category-hero -->/s', '', $content);
                 }
             }
         }
-        
-        // Выводим кастомный контент страницы с обработкой шорткодов
-        
 
-        
-        // Принудительно обрабатываем шорткоды
+        // Output the custom page content with shortcode processing
+
+
+        // Force shortcode processing
         $content = do_shortcode($content);
-        
-        // Отладочная информация после обработки
+
+        // Debug information after processing
         if (current_user_can('manage_options')) {
             echo '<!-- DEBUG DARK: Content after do_shortcode: ' . esc_html(substr($content, 0, 200)) . '... -->';
         }
         
-        // Затем применяем остальные фильтры контента  
+        // Then apply the remaining content filters
         $content = apply_filters('the_content', $content);
         
         echo $content;
@@ -104,11 +103,11 @@ get_header( 'shop' ); ?>
         
         <div class="category-edit-link">
             <?php if (current_user_can('edit_pages')): ?>
-                <p><a href="<?php echo admin_url('post.php?post=' . $category_page->ID . '&action=edit'); ?>" class="button">Редактировать содержимое категории</a></p>
+                <p><a href="<?php echo admin_url('post.php?post=' . $category_page->ID . '&action=edit'); ?>" class="button">Edit category content</a></p>
             <?php endif; ?>
         </div>
     <?php else: ?>
-        <!-- Fallback к стандартному шаблону WooCommerce -->
+        <!-- Fallback to the standard WooCommerce template -->
         <?php wc_get_template( 'archive-product.php' ); ?>
     <?php endif; ?>
 </div>

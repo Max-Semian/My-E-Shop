@@ -3,17 +3,17 @@
  * Why Choose Us Block Template
  */
 
-// Получаем атрибуты блока
+// Get block attributes
 $title = !empty($attributes['title']) ? $attributes['title'] : 'Why choose us';
 $items = !empty($attributes['items']) ? $attributes['items'] : [];
 $icon_size = !empty($attributes['iconSize']) ? $attributes['iconSize'] : 24;
 
-// Временная отладка (удалить после проверки)
+// Temporary debug (remove after checking)
 if (current_user_can('administrator')) {
     echo '<!-- DEBUG: ' . json_encode($items) . ' -->';
 }
 
-// Если нет элементов, не выводим блок
+// If there are no items, do not render the block
 if (empty($items)) {
     return;
 }
@@ -37,10 +37,10 @@ if (empty($items)) {
                 <div class="feature-item text-center">
                     <div class="feature-icon">
                         <?php 
-                        // Проверяем разные варианты изображений
+                        // Check different image options
                         $image_displayed = false;
                         
-                        // Вариант 1: Используем ID изображения
+                        // Option 1: Use image ID
                         if ($icon_type === 'image' && $icon_image_id) {
                             $image_url = wp_get_attachment_image_url($icon_image_id, 'thumbnail');
                             if ($image_url) {
@@ -49,13 +49,13 @@ if (empty($items)) {
                             }
                         }
                         
-                        // Вариант 2: Используем прямую ссылку на изображение
+                        // Option 2: Use direct image link
                         if (!$image_displayed && $icon_type === 'image' && $icon_image) {
                             echo '<img src="' . esc_url($icon_image) . '" alt="' . esc_attr($question) . '" style="width: ' . esc_attr($icon_size) . 'px; height: auto; object-fit: cover; border-radius: 4px;">';
                             $image_displayed = true;
                         }
                         
-                        // Вариант 3: Fallback к тексту/emoji
+                        // Option 3: Fallback to text/emoji
                         if (!$image_displayed) {
                             $fallback_icon = !empty($icon) ? $icon : '🔧';
                             echo '<span style="font-size: ' . esc_attr($icon_size) . 'px; display: inline-block;">' . esc_html($fallback_icon) . '</span>';

@@ -10,13 +10,13 @@
             
             if (!originalTrack || items.length === 0) return;
             
-            // Создаем контейнер для бесшовной петли
+            // Create a container for the seamless loop
             var container = document.createElement('div');
             container.className = 'auto-slider-container';
             container.style.display = 'flex';
             container.style.height = '100%';
             
-            // Дублируем track 3 раза для плавной бесшовной петли
+            // Duplicate the track 3 times for a smooth seamless loop
             var clone1 = originalTrack.cloneNode(true);
             var clone2 = originalTrack.cloneNode(true);
             
@@ -28,7 +28,7 @@
             
             var allTracks = [originalTrack, clone1, clone2];
             
-            // Пауза при наведении для всех треков
+            // Pause on hover for all tracks
             slider.addEventListener('mouseenter', function() {
                 allTracks.forEach(function(track) {
                     track.style.animationPlayState = 'paused';
@@ -43,7 +43,7 @@
         });
     }
 
-    // Запуск при загрузке
+    // Start on load
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initAutoSlider);
     } else {

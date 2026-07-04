@@ -3,7 +3,7 @@
  * Fashion Hero Block Template
  */
 
-// Извлекаем атрибуты
+// Extract attributes
 $title = $attributes['title'] ?? 'Fashioned for Your Energy';
 $subtitle = $attributes['subtitle'] ?? 'Designer T-shirts inspired by the catwalk and made for self-expression';
 $button_text = $attributes['buttonText'] ?? 'Shop Now';
@@ -12,17 +12,17 @@ $images_data = $attributes['images'] ?? array();
 $background_image = $attributes['backgroundImage'] ?? array();
 $overlay_opacity = isset($attributes['overlayOpacity']) ? $attributes['overlayOpacity'] : 50;
 
-// Проверяем, есть ли фоновое изображение
+// Check whether a background image exists
 $has_background_image = !empty($background_image['url']);
 
-// Строим массив изображений для 7 позиций (всегда показываем их)
+// Build the image array for 7 positions (always show them)
 $images = array();
 for ($i = 1; $i <= 7; $i++) {
     $image_key = 'image' . $i;
     if (isset($images_data[$image_key]) && !empty($images_data[$image_key])) {
         $images[] = $images_data[$image_key];
     } else {
-        // Изображения по умолчанию
+        // Default images
         $images[] = array(
             'url' => get_template_directory_uri() . '/assets/img/fashion-' . $i . '.jpg',
             'alt' => 'Fashion Model ' . $i
@@ -30,12 +30,12 @@ for ($i = 1; $i <= 7; $i++) {
     }
 }
 
-// Если URL кнопки не задан, используем URL магазина WooCommerce
+// If the button URL is not set, use the WooCommerce shop URL
 if ($button_url === '#' && function_exists('wc_get_page_id')) {
     $button_url = get_permalink(wc_get_page_id('shop'));
 }
 
-// Получаем атрибуты блока
+// Get the block attributes
 $wrapper_attributes = get_block_wrapper_attributes();
 ?>
 
@@ -51,7 +51,7 @@ $wrapper_attributes = get_block_wrapper_attributes();
         <div class="fashion-images-grid">
             <?php foreach ($images as $index => $image) : ?>
                 <?php 
-                // На мобильных устройствах показываем только первые 6 изображений
+                // On mobile devices show only the first 6 images
                 $mobile_class = ($index >= 6) ? 'fashion-mobile-hidden' : '';
                 ?>
                 <div class="fashion-image-card fashion-image-<?php echo ($index + 1); ?> <?php echo $mobile_class; ?>">

@@ -6,7 +6,7 @@
 	"title": "FAQ",
 	"category": "my-e-shop",
 	"icon": "editor-help",
-	"description": "FAQ блок с автоматическим раскрытием при скролле",
+	"description": "FAQ block with automatic expansion on scroll",
 	"supports": {
 		"html": false
 	},

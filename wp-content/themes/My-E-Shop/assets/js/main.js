@@ -348,16 +348,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Collections Slider with Image Modal - FIXED HOVER
 $(document).ready(function() {
-    // Отключаем Owl Carousel для слайдеров коллекций
+    // Disable Owl Carousel for collection sliders
     $('.collections-horizontal-carousel').removeClass('owl-carousel owl-theme');
     
-    // Проверяем, существует ли слайдер на странице
+    // Check whether the slider exists on the page
     if ($('.collections-slider-section').length > 0) {
         
-        // Убираем все возможные дублированные слайдеры, оставляем только первый
+        // Remove all possible duplicated sliders, keep only the first
         $('.collections-slider-section').not(':first').remove();
         
-        // Создаем модальное окно (добавляем в DOM только один раз)
+        // Create the modal window (add to the DOM only once)
         if (!$('.collections-modal-overlay').length) {
             $('body').append(`
                 <div class="collections-modal-overlay">
@@ -371,61 +371,61 @@ $(document).ready(function() {
             `);
         }
         
-        // Переменные для модального окна
+        // Variables for the modal window
         const $modalOverlay = $('.collections-modal-overlay');
         const $modalImage = $('.collections-modal-image');
         const $modalTitle = $('.collections-modal-title');
         const $sliderTrack = $('.collections-smooth-track');
         const $carousel = $('.collections-horizontal-carousel');
         
-        // Данные для изображений
+        // Data for the images
         const imageData = {
             'Living Room': {
                 title: 'Living Room Collection',
-                description: 'Создайте уютную атмосферу с нашей коллекцией мебели для гостиной'
+                description: 'Create a cozy atmosphere with our living room furniture collection'
             },
             'Bedroom': {
                 title: 'Bedroom Collection',
-                description: 'Превратите вашу спальню в место отдыха и релаксации'
+                description: 'Turn your bedroom into a place of rest and relaxation'
             },
             'Kitchen': {
                 title: 'Kitchen Collection',
-                description: 'Современные решения для функциональной кухни'
+                description: 'Modern solutions for a functional kitchen'
             },
             'Office': {
                 title: 'Office Collection',
-                description: 'Продуктивная работа в стильном офисном пространстве'
+                description: 'Productive work in a stylish office space'
             },
             'Storage': {
                 title: 'Storage Solutions',
-                description: 'Умные решения для хранения и организации пространства'
+                description: 'Smart solutions for storage and space organization'
             },
             'Decor': {
                 title: 'Decor Collection',
-                description: 'Добавьте индивидуальности с помощью декоративных элементов'
+                description: 'Add personality with decorative elements'
             }
         };
         
-        // ИСПРАВЛЕНО: Обработка hover для паузы анимации
+        // FIXED: Handle hover to pause the animation
         $('.collections-slider-section:first .collections-square-card').on('mouseenter', function() {
             if (!$modalOverlay.hasClass('active')) {
-                // Останавливаем анимацию
+                // Stop the animation
                 $sliderTrack.css('animation-play-state', 'paused');
-                // Затемняем другие карточки
+                // Dim the other cards
                 $(this).siblings('.collections-square-card').css('opacity', '0.7');
             }
         });
 
         $('.collections-slider-section:first .collections-square-card').on('mouseleave', function() {
             if (!$modalOverlay.hasClass('active')) {
-                // Возобновляем анимацию
+                // Resume the animation
                 $sliderTrack.css('animation-play-state', 'running');
-                // Восстанавливаем прозрачность
+                // Restore opacity
                 $(this).siblings('.collections-square-card').css('opacity', '1');
             }
         });
         
-        // Дополнительный обработчик hover для контейнера
+        // Additional hover handler for the container
         $carousel.on('mouseenter', function() {
             if (!$modalOverlay.hasClass('active')) {
                 $sliderTrack.css('animation-play-state', 'paused');
@@ -439,7 +439,7 @@ $(document).ready(function() {
             }
         });
         
-        // Обработчик клика на карточку
+        // Click handler for the card
         $('.collections-slider-section:first .collections-square-card').on('click', function(e) {
             e.stopPropagation();
             
@@ -448,68 +448,68 @@ $(document).ready(function() {
             const imgSrc = $img.attr('src');
             const imgAlt = $img.attr('alt');
             
-            // Останавливаем анимацию слайдера
+            // Stop the slider animation
             $sliderTrack.css('animation-play-state', 'paused');
             
-            // Добавляем класс для анимации карточки
+            // Add class for the card animation
             $card.addClass('modal-opening');
             
-            // Заполняем модальное окно данными
+            // Fill the modal window with data
             $modalImage.attr('src', imgSrc).attr('alt', imgAlt);
             
-            // Устанавливаем информацию об изображении
+            // Set the image information
             const data = imageData[imgAlt] || {
                 title: imgAlt,
-                description: 'Откройте для себя нашу эксклюзивную коллекцию'
+                description: 'Discover our exclusive collection'
             };
             
             $modalTitle.text(data.title);
             
-            // Показываем модальное окно
+            // Show the modal window
             setTimeout(() => {
                 $modalOverlay.addClass('active');
                 $('body').addClass('modal-open').css('overflow', 'hidden');
             }, 100);
             
-            // Убираем класс анимации через некоторое время
+            // Remove the animation class after a while
             setTimeout(() => {
                 $card.removeClass('modal-opening');
             }, 400);
         });
         
-        // Функция закрытия модального окна
+        // Function to close the modal window
         function closeModal() {
             $modalOverlay.removeClass('active');
             $('body').removeClass('modal-open').css('overflow', '');
             
-            // Возобновляем анимацию слайдера
+            // Resume the slider animation
             setTimeout(() => {
                 $sliderTrack.css('animation-play-state', 'running');
                 $('.collections-square-card').css('opacity', '1');
             }, 400);
         }
         
-        // Обработчики закрытия модального окна
+        // Handlers to close the modal window
         $('.collections-modal-close').on('click', closeModal);
         
-        // Клик по изображению в модальном окне закрывает его
+        // Clicking the image in the modal closes it
         $modalImage.on('click', closeModal);
         
-        // Клик по оверлею закрывает модальное окно
+        // Clicking the overlay closes the modal window
         $modalOverlay.on('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
         
-        // Закрытие по клавише Escape
+        // Close with the Escape key
         $(document).on('keydown', function(e) {
             if (e.keyCode === 27 && $modalOverlay.hasClass('active')) {
                 closeModal();
             }
         });
         
-        // Предотвращаем hover эффекты когда модальное окно открыто
+        // Prevent hover effects when the modal window is open
         $modalOverlay.on('transitionend', function() {
             if ($modalOverlay.hasClass('active')) {
                 $('.collections-square-card').css('opacity', '1');
@@ -519,18 +519,18 @@ $(document).ready(function() {
     }
 });
 
-// ==================== МОБИЛЬНОЕ МЕНЮ ====================
-// Мобильное меню - поддержка Bootstrap и кастомная реализация
+// ==================== MOBILE MENU ====================
+// Mobile menu - Bootstrap support and custom implementation
 $(document).ready(function() {
-    // ========== МОБИЛЬНОЕ МЕНЮ ==========
-    // Получаем элементы
+    // ========== MOBILE MENU ==========
+    // Get the elements
     const $toggleButton = $('.navbar-toggler');
     const $offcanvas = $('#offcanvasNavbar');
     const $closeButton = $('.btn-close');
     
-    // Проверяем есть ли Bootstrap 5
+    // Check whether Bootstrap 5 is present
     if (typeof bootstrap === 'undefined') {
-        // Кастомная реализация для мобильного меню
+        // Custom implementation for the mobile menu
         $toggleButton.on('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -547,7 +547,7 @@ $(document).ready(function() {
             closeCustomMenu();
         });
         
-        // Закрытие при клике на ссылку
+        // Close on link click
         $('.mobile-nav-item a').on('click', function() {
             setTimeout(closeCustomMenu, 150);
         });
@@ -556,7 +556,7 @@ $(document).ready(function() {
             $offcanvas.addClass('show');
             $offcanvas.css('visibility', 'visible');
             
-            // Создаем backdrop
+            // Create the backdrop
             $('<div class="offcanvas-backdrop fade show"></div>')
                 .appendTo('body')
                 .on('click', closeCustomMenu);
@@ -576,7 +576,7 @@ $(document).ready(function() {
             }, 300);
         }
         
-        // Закрытие по Escape
+        // Close on Escape
         $(document).on('keydown', function(e) {
             if (e.key === 'Escape' && $offcanvas.hasClass('show')) {
                 closeCustomMenu();
@@ -584,11 +584,11 @@ $(document).ready(function() {
         });
     }
     
-    // ========== SHOP DROPDOWN МЕНЮ ==========
-    // Для мобильных - клик
+    // ========== SHOP DROPDOWN MENU ==========
+    // For mobile - click
     $('.custom-dropdown .nav-link').on('click', function(e) {
         if ($(window).width() >= 992) {
-            return true; // На desktop разрешаем переход
+            return true; // On desktop allow navigation
         }
         
         e.preventDefault();
@@ -602,7 +602,7 @@ $(document).ready(function() {
         }
     });
     
-    // Закрытие по клику вне меню
+    // Close on click outside the menu
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.custom-dropdown').length) {
             $('.shop-dropdown').removeClass('show');
@@ -621,7 +621,7 @@ $(document).ready(function() {
                     return;
                 }
                 
-                // Разбиваем текст на слова
+                // Split the text into words
                 function splitTextIntoWords() {
                     const text = textContent.textContent;
                     const words = text.split(' ');
@@ -634,27 +634,27 @@ $(document).ready(function() {
                         span.style.transitionDelay = `${index * 0.1}s`;
                         textContent.appendChild(span);
                         
-                        // Добавляем пробел после каждого слова (кроме последнего)
+                        // Add a space after each word (except the last)
                         if (index < words.length - 1) {
                             textContent.appendChild(document.createTextNode(' '));
                         }
                     });
                 }
                 
-                // Проверяем видимость элемента
+                // Check element visibility
                 function isElementVisible(element) {
                     const rect = element.getBoundingClientRect();
                     const windowHeight = window.innerHeight;
                     return rect.top < windowHeight * 0.75 && rect.bottom > 0;
                 }
                 
-                // Главная функция анимации
+                // Main animation function
                 function handleScroll() {
                     if (isElementVisible(textBlock)) {
-                        // Показываем блок
+                        // Show the block
                         textBlock.classList.add('visible');
                         
-                        // Через небольшую задержку анимируем слова
+                        // After a short delay animate the words
                         setTimeout(() => {
                             const words = textContent.querySelectorAll('.word');
                             words.forEach(word => {
@@ -662,29 +662,29 @@ $(document).ready(function() {
                             });
                         }, 400);
                         
-                        // Убираем обработчик после первой анимации
+                        // Remove the handler after the first animation
                         window.removeEventListener('scroll', handleScroll);
                     }
                 }
                 
-                // Инициализация
+                // Initialization
                 splitTextIntoWords();
                 
-                // Проверяем сразу при загрузке
+                // Check immediately on load
                 setTimeout(handleScroll, 100);
                 
-                // Добавляем обработчик прокрутки
+                // Add scroll handler
                 window.addEventListener('scroll', handleScroll);
             }
             
-            // Инициализация когда DOM готов
+            // Initialize when the DOM is ready
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initTextAnimation);
             } else {
                 initTextAnimation();
             }
             
-            // Дополнительная проверка через jQuery если доступен
+            // Additional check via jQuery if available
             if (typeof jQuery !== 'undefined') {
                 jQuery(document).ready(function($) {
                     setTimeout(initTextAnimation, 500);

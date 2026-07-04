@@ -58,12 +58,12 @@
 
             el(InspectorControls, {},
                 el(PanelBody, { 
-                    title: __('Настройки текста', 'My-E-Shop'), 
+                    title: __('Text settings', 'My-E-Shop'),
                     initialOpen: true 
                 },
                     el('div', { style: { marginBottom: '15px' } },
                         el('label', { style: { display: 'block', marginBottom: '8px', fontWeight: '500' } }, 
-                            __('Размер шрифта', 'My-E-Shop')
+                            __('Font size', 'My-E-Shop')
                         ),
                         el('div', { style: { display: 'flex', gap: '8px' } },
                             ['small', 'medium', 'large'].map(size => 
@@ -79,53 +79,53 @@
                 ),
 
                 el(PanelBody, { 
-                    title: __('GSAP анимация', 'My-E-Shop'), 
+                    title: __('GSAP animation', 'My-E-Shop'),
                     initialOpen: true 
                 },
                     el(RangeControl, {
-                        label: __('Радиус эффекта (px)', 'My-E-Shop'),
+                        label: __('Effect radius (px)', 'My-E-Shop'),
                         value: radius,
                         onChange: function(value) { setAttributes({ radius: value }); },
                         min: 50,
                         max: 300,
                         step: 10,
-                        help: __('Расстояние от курсора для активации эффекта', 'My-E-Shop')
+                        help: __('Distance from the cursor to activate the effect', 'My-E-Shop')
                     }),
 
                     el(RangeControl, {
-                        label: __('Длительность (сек)', 'My-E-Shop'),
+                        label: __('Duration (sec)', 'My-E-Shop'),
                         value: duration,
                         onChange: function(value) { setAttributes({ duration: value }); },
                         min: 0.3,
                         max: 3.0,
                         step: 0.1,
-                        help: __('Время анимации зашифровки', 'My-E-Shop')
+                        help: __('Scramble animation time', 'My-E-Shop')
                     }),
 
                     el(RangeControl, {
-                        label: __('Скорость зашифровки', 'My-E-Shop'),
+                        label: __('Scramble speed', 'My-E-Shop'),
                         value: speed,
                         onChange: function(value) { setAttributes({ speed: value }); },
                         min: 0.1,
                         max: 1.0,
                         step: 0.1,
-                        help: __('Скорость смены символов', 'My-E-Shop')
+                        help: __('Character change speed', 'My-E-Shop')
                     }),
 
                     el(TextControl, {
-                        label: __('Символы зашифровки', 'My-E-Shop'),
+                        label: __('Scramble characters', 'My-E-Shop'),
                         value: scrambleChars,
                         onChange: function(value) { setAttributes({ scrambleChars: value }); },
-                        help: __('Символы для эффекта (например: .:!@#)', 'My-E-Shop')
+                        help: __('Characters for the effect (for example: .:!@#)', 'My-E-Shop')
                     })
                 ),
 
                 el(PanelBody, { 
-                    title: __('Цвета', 'My-E-Shop'), 
+                    title: __('Colors', 'My-E-Shop'),
                     initialOpen: false 
                 },
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет текста', 'My-E-Shop')),
+                        el('label', {}, __('Text color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: textColor,
                             onChange: function(value) { setAttributes({ textColor: value }); },
@@ -134,7 +134,7 @@
                     ),
 
                     el('div', { style: { marginBottom: '15px' } },
-                        el('label', {}, __('Цвет фона', 'My-E-Shop')),
+                        el('label', {}, __('Background color', 'My-E-Shop')),
                         el(ColorPicker, {
                             color: backgroundColor,
                             onChange: function(value) { setAttributes({ backgroundColor: value }); },
@@ -170,7 +170,7 @@
                         tagName: 'p',
                         value: content,
                         onChange: function(value) { setAttributes({ content: value }); },
-                        placeholder: __('Введите ваш текст...', 'My-E-Shop'),
+                        placeholder: __('Enter your text...', 'My-E-Shop'),
                         allowedFormats: []
                     })
                 )
@@ -185,9 +185,9 @@
                     borderRadius: '4px'
                 } 
             },
-                el('strong', {}, __('💡 Совет:', 'My-E-Shop')),
+                el('strong', {}, __('💡 Tip:', 'My-E-Shop')),
                 ' ',
-                __('Наведите курсор на текст на фронтенде, чтобы увидеть эффект зашифровки', 'My-E-Shop')
+                __('Hover the cursor over the text on the frontend to see the scramble effect', 'My-E-Shop')
             )
         );
     };

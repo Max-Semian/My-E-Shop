@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    // Простая реализация Swiper для слайдера
+    // Simple Swiper implementation for the slider
     function initCategoryProductsSlider() {
         var sliders = document.querySelectorAll('.category-products-slider');
         
@@ -10,7 +10,7 @@
             var wrapper = sliderElement.querySelector('.swiper-wrapper');
             var slides = sliderElement.querySelectorAll('.swiper-slide');
             
-            // Ищем кнопки навигации в родительском контейнере
+            // Find navigation buttons in the parent container
             var sliderWrapper = sliderElement.closest('.category-products-slider-wrapper');
             var prevBtn = sliderWrapper ? sliderWrapper.querySelector('.swiper-button-prev') : null;
             var nextBtn = sliderWrapper ? sliderWrapper.querySelector('.swiper-button-next') : null;
@@ -25,10 +25,10 @@
             var currentIndex = 0;
             var autoplayInterval;
 
-            // Добавляем плавную анимацию к wrapper
+            // Add a smooth animation to the wrapper
             wrapper.style.transition = 'transform 0.3s ease-in-out';
 
-            // Функция определения количества видимых слайдов на текущем разрешении
+            // Function that determines the number of visible slides at the current resolution
             function getCurrentSlidesPerView() {
                 if (window.innerWidth <= 576) {
                     return 2;
@@ -41,24 +41,24 @@
                 }
             }
             
-            // Вычисляем maxIndex с учетом текущего разрешения
+            // Calculate maxIndex taking the current resolution into account
             var maxIndex = Math.max(0, slides.length - getCurrentSlidesPerView());
 
-            // Функция обновления позиции слайдера
+            // Function to update the slider position
             function updateSliderPosition() {
                 var currentSlidesPerView = getCurrentSlidesPerView();
                 
-                // Динамически получаем ширину слайда из DOM
+                // Dynamically get the slide width from the DOM
                 var slideWidth = slides.length > 0 ? slides[0].offsetWidth : 250;
                 
-                // Определяем gap в зависимости от разрешения
+                // Determine gap depending on the resolution
                 var gap = window.innerWidth <= 576 ? 20 : 36;
                 
                 var translateX = -(currentIndex * (slideWidth + gap));
                 
                 wrapper.style.transform = 'translateX(' + translateX + 'px)';
                 
-                // Обновляем состояние кнопок навигации
+                // Update the state of the navigation buttons
                 if (prevBtn) {
                     prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
                     prevBtn.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
@@ -69,11 +69,11 @@
                     nextBtn.style.pointerEvents = currentIndex >= maxIndex ? 'none' : 'auto';
                 }
                 
-                // Обновляем пагинацию
+                // Update the pagination
                 updatePagination();
             }
 
-            // Функция создания пагинации
+            // Function to create the pagination
             function createPagination() {
                 if (!pagination || !showPagination) return;
                 
@@ -95,7 +95,7 @@
                 }
             }
 
-            // Функция обновления активной пагинации
+            // Function to update the active pagination
             function updatePagination() {
                 if (!pagination) return;
                 
@@ -105,7 +105,7 @@
                 });
             }
 
-            // Функция следующего слайда
+            // Next slide function
             function nextSlide() {
                 if (currentIndex < maxIndex) {
                     currentIndex++;
@@ -113,7 +113,7 @@
                 }
             }
 
-            // Функция предыдущего слайда
+            // Previous slide function
             function prevSlide() {
                 if (currentIndex > 0) {
                     currentIndex--;
@@ -121,7 +121,7 @@
                 }
             }
 
-            // Функция автопрокрутки
+            // Autoplay function
             function startAutoplay() {
                 if (!autoplay) return;
                 
@@ -135,7 +135,7 @@
                 }, autoplaySpeed);
             }
 
-            // Функция сброса автопрокрутки
+            // Function to reset autoplay
             function resetAutoplay() {
                 if (autoplayInterval) {
                     clearInterval(autoplayInterval);
@@ -143,7 +143,7 @@
                 startAutoplay();
             }
 
-            // Обработчики событий навигации
+            // Navigation event handlers
             if (prevBtn && showNavigation) {
                 prevBtn.addEventListener('click', function() {
                     prevSlide();
@@ -158,7 +158,7 @@
                 });
             }
 
-            // Touch события для мобильных устройств
+            // Touch events for mobile devices
             var startX = 0;
             var endX = 0;
 
@@ -180,7 +180,7 @@
                 }
             });
 
-            // Остановка автопрокрутки при наведении
+            // Stop autoplay on hover
             sliderElement.addEventListener('mouseenter', function() {
                 if (autoplayInterval) {
                     clearInterval(autoplayInterval);
@@ -191,17 +191,17 @@
                 startAutoplay();
             });
 
-            // Инициализация
+            // Initialization
             createPagination();
             updateSliderPosition();
             startAutoplay();
 
-            // Обработка изменения размера окна
+            // Handle window resize
             var resizeTimeout;
             window.addEventListener('resize', function() {
                 clearTimeout(resizeTimeout);
                 resizeTimeout = setTimeout(function() {
-                    // Пересчитываем максимальный индекс для нового размера экрана
+                    // Recalculate the maximum index for the new screen size
                     var currentSlidesPerView = getCurrentSlidesPerView();
                     maxIndex = Math.max(0, slides.length - currentSlidesPerView);
                     
@@ -216,7 +216,7 @@
         });
     }
 
-    // Функция поиска товаров
+    // Product search function
     function initCategorySearch() {
         var searchForms = document.querySelectorAll('.category-search-form');
         
@@ -230,17 +230,17 @@
                 var searchTerm = input.value.trim();
                 if (!searchTerm) return;
                 
-                // Здесь можно реализовать AJAX поиск
-                console.log('Поиск товаров:', searchTerm, 'в категории:', categoryId);
-                
-                // Пример перенаправления на страницу поиска
+                // AJAX search can be implemented here
+                console.log('Product search:', searchTerm, 'in category:', categoryId);
+
+                // Example of redirecting to the search page
                 var searchUrl = window.location.origin + '/?s=' + encodeURIComponent(searchTerm) + '&product_cat=' + categoryId;
                 window.location.href = searchUrl;
             });
         });
     }
 
-    // Функция добавления в корзину
+    // Add to cart function
     function initAddToCart() {
         var addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
         
@@ -251,12 +251,12 @@
                 var productId = this.dataset.productId;
                 var productType = this.dataset.productType;
                 
-                // Показываем состояние загрузки
+                // Show the loading state
                 var originalText = this.textContent;
-                this.textContent = 'Добавляем...';
+                this.textContent = 'Adding...';
                 this.disabled = true;
                 
-                // AJAX запрос добавления в корзину
+                // AJAX request to add to cart
                 var formData = new FormData();
                 formData.append('action', 'woocommerce_add_to_cart');
                 formData.append('product_id', productId);
@@ -271,10 +271,10 @@
                 })
                 .then(function(data) {
                     if (data.error) {
-                        alert('Ошибка добавления в корзину');
+                        alert('Error adding to cart');
                     } else {
-                        // Успешно добавлено
-                        btn.textContent = 'Добавлено!';
+                        // Successfully added
+                        btn.textContent = 'Added!';
                         btn.style.background = '#27ae60';
                         
                         setTimeout(function() {
@@ -283,12 +283,12 @@
                             btn.disabled = false;
                         }, 2000);
                         
-                        // Обновляем счетчик корзины
+                        // Update the cart counter
                         document.dispatchEvent(new CustomEvent('wc_fragment_refresh'));
                     }
                 })
                 .catch(function() {
-                    alert('Ошибка добавления в корзину');
+                    alert('Error adding to cart');
                     btn.textContent = originalText;
                     btn.disabled = false;
                 });
@@ -296,7 +296,7 @@
         });
     }
 
-    // Функция добавления в избранное
+    // Add to wishlist function
     function initWishlist() {
         var wishlistBtns = document.querySelectorAll('.add-to-wishlist');
         
@@ -306,20 +306,20 @@
                 
                 var productId = this.dataset.productId;
                 
-                // Переключаем состояние кнопки
+                // Toggle the button state
                 this.classList.toggle('active');
                 
-                // Здесь можно реализовать сохранение в избранное
-                console.log('Добавить/удалить из избранного:', productId);
-                
-                // Показываем уведомление
-                var message = this.classList.contains('active') ? 'Добавлено в избранное' : 'Удалено из избранного';
+                // Saving to the wishlist can be implemented here
+                console.log('Add/remove from wishlist:', productId);
+
+                // Show a notification
+                var message = this.classList.contains('active') ? 'Added to wishlist' : 'Removed from wishlist';
                 showNotification(message);
             });
         });
     }
 
-    // Функция показа уведомлений
+    // Notification display function
     function showNotification(message) {
         var notification = document.createElement('div');
         notification.className = 'category-products-notification';
@@ -352,7 +352,7 @@
         }, 3000);
     }
 
-    // Инициализация при загрузке DOM
+    // Initialization on DOM load
     document.addEventListener('DOMContentLoaded', function() {
         initCategoryProductsSlider();
         initCategorySearch();
@@ -360,7 +360,7 @@
         initWishlist();
     });
 
-    // Инициализация для динамически загруженного контента
+    // Initialization for dynamically loaded content
     document.addEventListener('block-rendered', function() {
         initCategoryProductsSlider();
         initCategorySearch();

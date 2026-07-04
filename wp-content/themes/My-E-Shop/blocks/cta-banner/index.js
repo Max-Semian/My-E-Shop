@@ -47,7 +47,7 @@
 
             return [
                 el(InspectorControls, {},
-                    el(PanelBody, { title: 'Настройки баннера', initialOpen: true },
+                    el(PanelBody, { title: 'Banner settings', initialOpen: true },
                         el(MediaUploadCheck, {},
                             el(MediaUpload, {
                                 onSelect: onSelectImage,
@@ -57,7 +57,7 @@
                                     return el(Button, {
                                         onClick: obj.open,
                                         variant: 'secondary'
-                                    }, attributes.backgroundImage ? 'Изменить фон' : 'Загрузить фон');
+                                    }, attributes.backgroundImage ? 'Change background' : 'Upload background');
                                 }
                             })
                         ),
@@ -66,24 +66,24 @@
                             variant: 'link',
                             isDestructive: true,
                             style: { marginTop: '10px' }
-                        }, 'Удалить фон'),
+                        }, 'Remove background'),
                         el(TextControl, {
-                            label: 'Заголовок',
+                            label: 'Title',
                             value: attributes.title,
                             onChange: updateTitle
                         }),
                         el(TextControl, {
-                            label: 'Подзаголовок',
+                            label: 'Subtitle',
                             value: attributes.subtitle,
                             onChange: updateSubtitle
                         }),
                         el(TextControl, {
-                            label: 'Текст кнопки',
+                            label: 'Button text',
                             value: attributes.buttonText,
                             onChange: updateButtonText
                         }),
                         el(TextControl, {
-                            label: 'Ссылка кнопки',
+                            label: 'Button URL',
                             value: attributes.buttonLink,
                             onChange: updateButtonLink,
                             placeholder: '#'

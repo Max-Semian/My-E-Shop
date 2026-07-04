@@ -16,7 +16,7 @@ body.single-product #primary {
 
 /* ==================== Dark Theme ==================== */
 
-/* Breadcrumbs для темной темы */
+/* Breadcrumbs for the dark theme */
 .product-dark-breadcrumbs {
     background-color: #2c2c2c !important;
     padding: 30px 0;
@@ -105,13 +105,13 @@ body.single-product #primary {
     text-decoration: none;
 }
 
-/* Основные стили для темной темы товара */
+/* Main styles for the dark product theme */
 .product-dark-theme {
     background-color: #2C2C2C !important;
     color: #ffffff !important;
 }
 
-/* Лейаут товара */
+/* Product layout */
 .product-layout {
     display: flex;
     flex-wrap: wrap;
@@ -183,7 +183,7 @@ body.single-product #primary {
     padding: 50px 0;
 }
 
-/* Контейнер для товаров */
+/* Container for products */
 .category-products-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -201,14 +201,14 @@ body.single-product #primary {
     padding-right: 15px;
 }
 
-/* Темная обертка изображений */
+/* Dark image wrapper */
 .product-dark-image-wrapper {
     border-radius: 8px;
     height: 100%;
     position: relative;
 }
 
-/* Карусель продукта */
+/* Product carousel */
 .product-dark-image-wrapper .carousel {
     border-radius: 8px;
     overflow: visible;
@@ -245,7 +245,7 @@ body.single-product #primary {
     border-radius: 8px !important;
 }
 
-/* Кнопки карусели для темной темы */
+/* Carousel buttons for the dark theme */
 .product-dark-carousel-control {
     width: 50px;
     height: 80px;
@@ -303,7 +303,7 @@ body.single-product #primary {
     pointer-events: none;
 }
 
-/* Темный контент товара */
+/* Dark product content */
 .product-dark-content {
     background-color: #2c2c2c !important;
     color: #ffffff !important;
@@ -342,7 +342,7 @@ body.single-product #primary {
     max-width: 606px;
 }
 
-/* Выбор цвета через кружочки */
+/* Color selection via circles */
 .product-color-picker {
     margin-bottom: 25px;
 }
@@ -422,7 +422,7 @@ body.single-product #primary {
     text-shadow: none;
 }
 
-/* Выбор размера выпадающим списком */
+/* Size selection via dropdown */
 .product-size-picker {
     margin-top: 28px;
     margin-bottom: 15px;
@@ -520,7 +520,7 @@ body.single-product #primary {
     transform: translateY(-50%) rotate(180deg);
 }
 
-/* Форма добавления в корзину */
+/* Add to cart form */
 .quantity-add-to-cart {
     display: flex;
     justify-content: space-between;
@@ -648,7 +648,7 @@ body.single-product #primary {
     filter: brightness(0) invert(1);
 }
 
-/* Дополнительные опции */
+/* Additional options */
 .product-extra-options {
     border-top: 1px solid #4c4c4c;
     padding-top: 0;
@@ -724,7 +724,7 @@ body.single-product #primary {
     fill: #ff6b9d;
 }
 
-/* Modal для Size Guide */
+/* Modal for Size Guide */
 .product-dark-modal .modal-content {
     background-color: #2c2c2c !important;
     border: 1px solid #4c4c4c;
@@ -843,7 +843,7 @@ body.single-product #primary {
     color: #ffffff !important;
 }
 
-/* Темное описание товара */
+/* Dark product description */
 .product-dark-description {
     background-color: #2c2c2c;
     color: #ffffff;
@@ -1019,7 +1019,7 @@ body.single-product #primary {
     stroke: #D85AFF;
 }
 
-/* Темная секция похожих товаров */
+/* Dark related products section */
 .product-dark-theme .category-products-section {
     background-color: #2c2c2c !important;
 }
@@ -1043,7 +1043,7 @@ body.single-product #primary {
     margin-right: auto;
 }
 
-/* Сетка похожих товаров */
+/* Related products grid */
 .related-products-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1061,7 +1061,7 @@ body.single-product #primary {
     margin: 0 auto;
 }
 
-/* Темные карточки товаров */
+/* Dark product cards */
 .product-dark-card {
     overflow: hidden;
     transition: all 0.3s ease;
@@ -1114,7 +1114,7 @@ body.single-product #primary {
     background-color: #2C2C2C;
 }
 
-/* Светлые карточки товаров */
+/* Light product cards */
 .product-light-card {
     overflow: hidden;
     transition: all 0.3s ease;
@@ -1168,7 +1168,7 @@ body.single-product #primary {
     color: #2C2C2C !important;
 }
 
-/* Темные карточки товаров */
+/* Dark product cards */
 .product-card-title-dark {
     font-family: 'Montserrat', sans-serif;
     font-size: 17px;
@@ -1223,7 +1223,7 @@ body.single-product #primary {
     font-style: italic;
 }
 
-/* Светлая секция отзывов */
+/* Light reviews section */
 .product-light-reviews {
     color: #2c2c2c !important;
     padding: 0;
@@ -1241,7 +1241,7 @@ body.single-product #primary {
     color: #666666 !important;
 }
 
-/* Темная секция отзывов */
+/* Dark reviews section */
 .product-dark-reviews {
     color: #ffffff !important;
     padding: 0;
@@ -1267,7 +1267,7 @@ body.single-product #primary {
     border-left: 4px solid #ff6b6b;
 }
 
-/* Формы в темной теме */
+/* Forms in the dark theme */
 .product-dark-content input[type="number"],
 .product-dark-content select,
 .product-dark-content textarea {
@@ -1287,7 +1287,7 @@ body.single-product #primary {
     box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25) !important;
 }
 
-/* Теги и метки в темной теме */
+/* Tags and labels in the dark theme */
 .product-dark-content .product_meta {
     color: #e0e0e0 !important;
     margin-top: 20px;
@@ -1303,7 +1303,7 @@ body.single-product #primary {
     text-decoration: underline;
 }
 
-/* Звездочки рейтинга в темной теме */
+/* Rating stars in the dark theme */
 .product-dark-content .star-rating span {
     color: #ffd700 !important;
 }
@@ -1316,7 +1316,7 @@ body.single-product #primary {
     display: none;
 }
 
-/* Responsive стили для планшетов */
+/* Responsive styles for tablets */
 @media (max-width: 1024px) and (min-width: 769px) {
     .related-products-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -1328,7 +1328,7 @@ body.single-product #primary {
     }
 }
 
-/* Responsive стили для темной темы */
+/* Responsive styles for the dark theme */
 @media (max-width: 768px) {
     .product-layout {
         flex-direction: column;
@@ -1421,7 +1421,7 @@ body.single-product #primary {
 
 /* ==================== Light Theme ==================== */
 
-/* Breadcrumbs для светлой темы */
+/* Breadcrumbs for the light theme */
 .product-light-breadcrumbs {
     background-color: #F4F0EB !important;
     padding: 30px 0;
@@ -1510,13 +1510,13 @@ body.single-product #primary {
     text-decoration: none;
 }
 
-/* Основные стили для светлой темы товара */
+/* Main styles for the light product theme */
 .product-light-theme {
     background-color: #F4F0EB !important;
     color: #2C2C2C !important;
 }
 
-/* Светлая обертка изображений */
+/* Light image wrapper */
 .product-light-image-wrapper {
     background-color: #F4F0EB !important;
     padding: 0;
@@ -1550,7 +1550,7 @@ body.single-product #primary {
     display: none !important;
 }
 
-/* Кнопки карусели для светлой темы */
+/* Carousel buttons for the light theme */
 .product-light-carousel-control {
     width: 50px;
     height: 80px;
@@ -1605,7 +1605,7 @@ body.single-product #primary {
     filter: brightness(0) saturate(100%) invert(42%) sepia(89%) saturate(1168%) hue-rotate(16deg) brightness(93%) contrast(101%);
 }
 
-/* Светлый контент товара */
+/* Light product content */
 .product-light-content {
     background-color: #F4F0EB !important;
     color: #2C2C2C !important;
@@ -1638,7 +1638,7 @@ body.single-product #primary {
     margin-bottom: 15px;
 }
 
-/* Описание продукта светлое */
+/* Light product description */
 .product-light-section {
     background-color: #F4F0EB !important;
     color: #2C2C2C !important;
@@ -1669,7 +1669,7 @@ body.single-product #primary {
     border-radius: 8px;
 }
 
-/* Светлая секция похожих товаров */
+/* Light related products section */
 .product-light-theme .category-products-section {
     background-color: #F4F0EB !important;
 }
@@ -1693,7 +1693,7 @@ body.single-product #primary {
     margin-right: auto;
 }
 
-/* Color picker и size picker для светлой темы */
+/* Color picker and size picker for the light theme */
 .product-light-content .product-color-picker {
     margin-bottom: 20px;
 }
@@ -1715,7 +1715,7 @@ body.single-product #primary {
     font-size: 14px;
 }
 
-/* Кнопки и формы в светлой теме */
+/* Buttons and forms in the light theme */
 .product-light-content input[type="number"],
 .product-light-content select,
 .product-light-content textarea {
@@ -1735,7 +1735,7 @@ body.single-product #primary {
     box-shadow: 0 0 0 3px rgba(164, 91, 0, 0.15) !important;
 }
 
-/* Теги и метки в светлой теме */
+/* Tags and labels in the light theme */
 .product-light-content .product_meta {
     color: #666666 !important;
     margin-top: 20px;
@@ -1751,7 +1751,7 @@ body.single-product #primary {
     text-decoration: underline;
 }
 
-/* Звездочки рейтинга в светлой теме */
+/* Rating stars in the light theme */
 .product-light-content .star-rating span {
     color: #ffd700 !important;
 }
@@ -1760,7 +1760,7 @@ body.single-product #primary {
     color: #ffd700 !important;
 }
 
-/* Фиксированная высота для карусели светлой темы */
+/* Fixed height for the light theme carousel */
 .product-light-theme .product-light-image-wrapper {
     height: 672px;
     position: relative;
@@ -1810,7 +1810,7 @@ body.single-product #primary {
     background-color: #F4F0EB;
 }
 
-/* Quantity и size селекты светлой темы */
+/* Quantity and size selects for the light theme */
 .product-light-theme .custom-select-wrapper {
     width: 100%;
     max-width: 176px;
@@ -2147,7 +2147,7 @@ body.single-product #primary {
         height: 560px;
     }
     
-    /* Исправление высоты карусели на мобильных устройствах */
+    /* Fix carousel height on mobile devices */
     .product-light-image-wrapper .carousel,
     .product-light-image-wrapper .carousel-inner,
     .product-light-image-wrapper .carousel-item,
@@ -2199,7 +2199,7 @@ body.single-product #primary {
     }
 }
 
-/* Для средних мобильных устройств */
+/* For medium mobile devices */
 @media (max-width: 480px) {
     .product-light-theme .product-light-image-wrapper {
         height: 420px;
@@ -2226,7 +2226,7 @@ body.single-product #primary {
     }
 }
 
-/* Для маленьких мобильных устройств */
+/* For small mobile devices */
 @media (max-width: 375px) {
     .product-light-theme .product-light-image-wrapper {
         height: 360px;

@@ -7,10 +7,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Получаем атрибуты блока
+// Get the block attributes
 $rows = isset($attributes['rows']) ? $attributes['rows'] : [];
 
-// Получаем классы блока
+// Get the block classes
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'image-gallery-frontend',
 ]);

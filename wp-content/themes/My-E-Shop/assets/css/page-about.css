@@ -1,4 +1,4 @@
-/* Стили для страницы "О нас" */
+/* Styles for the "About Us" page */
 
 body.page-template-page-about {
     overflow-x: hidden;
@@ -9,7 +9,7 @@ body.page-template-page-about {
     overflow-x: hidden;
 }
 
-/* Хлебные крошки после hero блока */
+/* Breadcrumbs after the hero block */
 .about-page-breadcrumbs-wrapper {
     background-color: #FFFFFF;
     padding: 10px 0;
@@ -64,7 +64,7 @@ body.page-template-page-about {
 
 }
 
-/* Обёртка для контента после hero блока */
+/* Wrapper for content after the hero block */
 .about-page-content-wrapper {
     background-color: #FFFFFF;
 }
@@ -75,7 +75,7 @@ body.page-template-page-about {
     padding: 0 !important;
 }
 
-/* Стили для параграфов */
+/* Styles for paragraphs */
 .about-page-content-wrapper p {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -85,7 +85,7 @@ body.page-template-page-about {
     margin-bottom: 30px;
 }
 
-/* Стили для изображений */
+/* Styles for images */
 .about-page-content-wrapper .wp-block-image {
     display: block !important;
     margin: 0 0 50px 0 !important;
@@ -122,7 +122,7 @@ body.page-template-page-about {
     color: #333333;
 }
 
-/* Стили для цитат */
+/* Styles for quotes */
 .about-page-content-wrapper .wp-block-quote p {
     font-family: 'Montserrat', sans-serif;
     font-weight: 600;
@@ -133,14 +133,14 @@ body.page-template-page-about {
     margin-bottom: 20px;
 }
 
-/* Контейнер для блоков контента после хлебных крошек */
+/* Container for content blocks after the breadcrumbs */
 .about-page .entry-content {
     max-width: 1200px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-/* Стили для заголовков H2 на странице About */
+/* Styles for H2 headings on the About page */
 .about-page-content-wrapper h2,
 h2.wp-block-heading {
     font-family: 'Playfair Display';
@@ -155,7 +155,7 @@ h2.wp-block-heading {
     margin-bottom: 30px;
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .about-page .breadcrumbs-wrapper {
         padding: 15px 20px;

@@ -6,7 +6,7 @@
 	"title": "Scrambled Text (GSAP)",
 	"category": "my-e-shop",
 	"icon": "text",
-	"description": "Интерактивный текстовый блок с эффектом зашифровки при наведении курсора (GSAP ScrambleTextPlugin)",
+	"description": "Interactive text block with a scramble effect on hover (GSAP ScrambleTextPlugin)",
 	"keywords": [
 		"text",
 		"gsap",

@@ -3,7 +3,7 @@
  * Gallery Slider Block Template
  */
 
-// Получаем атрибуты блока
+// Get the block attributes
 $title = !empty($attributes['title']) ? $attributes['title'] : 'Gallery of Inspiration';
 $subtitle = !empty($attributes['subtitle']) ? $attributes['subtitle'] : 'Create your own archetype lookbook';
 $images = !empty($attributes['images']) ? $attributes['images'] : [];
@@ -14,10 +14,10 @@ $animation_speed = !empty($attributes['animationSpeed']) ? $attributes['animatio
 $card_width = !empty($attributes['cardWidth']) ? $attributes['cardWidth'] : 280;
 $card_height = !empty($attributes['cardHeight']) ? $attributes['cardHeight'] : 492;
 
-// Генерируем уникальный ID для блока
+// Generate a unique ID for the block
 $block_id = 'gallery-slider-' . wp_rand(1000, 9999);
 
-// Если нет изображений, не выводим блок
+// If there are no images, don't render the block
 if (empty($images)) {
     return;
 }
@@ -51,26 +51,26 @@ if (empty($images)) {
                         --track-width: <?php echo esc_attr(count($images) * 2 * ($card_width + 15)); ?>px;
                     ">
                         <?php 
-                        // Выводим оригинальные изображения
-                        foreach ($images as $image) : 
-                            // Используем URL из атрибутов, если есть, иначе получаем из медиабиблиотеки
+                        // Output the original images
+                        foreach ($images as $image) :
+                            // Use the URL from attributes if present, otherwise get it from the media library
                             $image_url = !empty($image['url']) ? $image['url'] : wp_get_attachment_image_url($image['id'], 'medium_large');
                             $image_alt = !empty($image['alt']) ? $image['alt'] : '';
-                            
+
                             if ($image_url) :
                         ?>
                         <div class="collections-square-card">
-                            <img src="<?php echo esc_url($image_url); ?>" 
-                                 alt="<?php echo esc_attr($image_alt); ?>" 
+                            <img src="<?php echo esc_url($image_url); ?>"
+                                 alt="<?php echo esc_attr($image_alt); ?>"
                                  class="collections-square-image">
                         </div>
-                        <?php 
+                        <?php
                             endif;
-                        endforeach; 
-                        
-                        // Выводим дублированные изображения для бесшовной петли
-                        foreach ($images as $image) : 
-                            // Используем URL из атрибутов, если есть, иначе получаем из медиабиблиотеки
+                        endforeach;
+
+                        // Output the duplicated images for a seamless loop
+                        foreach ($images as $image) :
+                            // Use the URL from attributes if present, otherwise get it from the media library
                             $image_url = !empty($image['url']) ? $image['url'] : wp_get_attachment_image_url($image['id'], 'medium_large');
                             $image_alt = !empty($image['alt']) ? $image['alt'] : '';
                             

@@ -11,18 +11,18 @@
 .fashion-hero-container {
     position: relative;
     width: 100%;
-    /* Высота блока. Фото (2:3) показываются целиком (object-fit: contain) и
-       прижаты к низу, поэтому разница между высотой блока и высотой фото
-       (~21.4vw) остаётся полосой фона-подиума над головами моделей.
-       При 34vw полоса фона над головами ≈ 12.5vw. Регулируйте высоту этим
-       значением: больше 34vw → больше фона сверху, меньше → плотнее к головам.
-       min-height не ставим — иначе на узких экранах полоса фона раздувается. */
+    /* Block height. Photos (2:3) are shown in full (object-fit: contain) and
+       pinned to the bottom, so the difference between the block height and the
+       photo height (~21.4vw) leaves a strip of runway background above the models' heads.
+       At 34vw the background strip above the heads is approximately 12.5vw. Adjust the
+       height with this value: larger than 34vw -> more background on top, smaller -> tighter to the heads.
+       We don't set min-height - otherwise the background strip expands on narrow screens. */
     height: 34vw;
     max-height: 88vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Подтягиваем блок вплотную к шапке, чтобы не было светлой полосы между ними */
+    /* Pull the block flush with the header so there is no light strip between them */
     margin-top: -50px;
 }
 
@@ -46,7 +46,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    /* Фото прижаты к низу; свободное место сверху занимает фон-подиум */
+    /* Photos are pinned to the bottom; the free space on top is filled by the runway background */
     display: flex;
     align-items: flex-end;
     z-index: 1;
@@ -213,7 +213,7 @@
         height: auto;
     }
     
-    /* Показываем только первые 3 изображения */
+    /* Show only the first 3 images */
     .fashion-image-card {
         display: none !important;
         height: auto;

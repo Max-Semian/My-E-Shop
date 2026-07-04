@@ -1,17 +1,17 @@
 <?php
 /**
  * Front Page Template
- * 
- * Если в настройках WordPress выбрана статическая страница как главная,
- * этот шаблон будет отображать её контент.
- * В противном случае показывается дефолтный контент темы.
+ *
+ * If a static page is set as the front page in WordPress settings,
+ * this template will display its content.
+ * Otherwise the theme's default content is shown.
  */
 
 get_header();
 
-// Проверяем, установлена ли статическая страница как главная
+// Check whether a static page is set as the front page
 if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) {
-    // Показываем контент выбранной статической страницы
+    // Display the content of the selected static page
     while ( have_posts() ) : the_post();
         ?>
         <main class="main">
@@ -24,7 +24,7 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
         <?php
     endwhile;
 } else {
-    // Показываем дефолтный контент темы (старый front-page)
+    // Display the theme's default content (old front-page)
     ?>
 <main class="main">
         <!-- Fashion Hero Section -->
@@ -66,8 +66,8 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
             </div>
         </section> -->
 
-        <!-- Эта секция заменена на Gutenberg блок "Animated Text Block" -->
-        <!-- Теперь вы можете добавить блок через редактор WordPress -->
+        <!-- This section has been replaced by the Gutenberg "Animated Text Block" -->
+        <!-- You can now add the block through the WordPress editor -->
         <!-- <section class="animated-text-section">
             <div class="text-block" id="textBlock">
                 <div class="text-content" id="textContent">
@@ -83,7 +83,7 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                 <div class="row mb-5">
                     <div class="col-12">
                         <h2 class="section-title">
-                            <span><?php _e('Сollection', 'My-E-Shop' )?></span>
+                            <span><?php _e('Collection', 'My-E-Shop' )?></span>
                         </h2>
                         <p class="section-description">
                             Wear your mark. Feel your power
@@ -93,21 +93,21 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                 
             <div class="category-grid">
                 <?php
-                // Определяем массив ID категорий, которые нужно вывести
-                $specific_category_ids = array(21, 39, 40, 36); // Замени на реальные ID твоих категорий
+                // Define the array of category IDs to output
+                $specific_category_ids = array(21, 39, 40, 36); // Replace with the real IDs of your categories
 
-                // Получаем объекты категорий по их ID
+                // Get category objects by their IDs
                 $categories_to_display = get_terms([
                     'taxonomy'   => 'product_cat',
-                    'hide_empty' => false, // Всегда показываем, даже если нет товаров
-                    'include'    => $specific_category_ids, // Включаем только указанные ID
-                    'orderby'    => 'include', // Важно: сохраняет порядок, как в массиве $specific_category_ids
+                    'hide_empty' => false, // Always show, even if there are no products
+                    'include'    => $specific_category_ids, // Include only the specified IDs
+                    'orderby'    => 'include', // Important: preserves the order from the $specific_category_ids array
                 ]);
 
-                // Проверяем, что категории найдены и нет ошибок
+                // Check that categories were found and there are no errors
                 if (!empty($categories_to_display) && !is_wp_error($categories_to_display)) {
 
-                    // Добавляем проверку и сортировку, чтобы категории отображались в заданном порядке
+                    // Add a check and sort so categories display in the given order
                     $ordered_categories = [];
                     foreach ($specific_category_ids as $cat_id) {
                         foreach ($categories_to_display as $category) {
@@ -128,17 +128,17 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                             $image = wc_placeholder_img_src('medium');
                         }
 
-                        // Если вы добавили поля через functions.php:
+                        // If you added fields via functions.php:
                          $button_color = get_term_meta($category->term_id, 'category_button_color', true);
                          $button_icon = get_term_meta($category->term_id, 'category_button_icon', true);
 
-                        // Устанавливаем значения по умолчанию, если поля не заполнены
+                        // Set default values if the fields are not filled in
                         if (empty($button_color)) {
-                            $button_color = '#4a4a4a'; // Дефолтный цвет фона
+                            $button_color = '#4a4a4a'; // Default background color
                         }
-                        $button_shadow_color = '#c58aff'; // Цвет тени (можно сделать отдельным полем или фиксированным)
+                        $button_shadow_color = '#c58aff'; // Shadow color (can be a separate field or fixed)
 
-                        // --- Конец блока для получения кастомных полей ---
+                        // --- End of the block for retrieving custom fields ---
                         ?>
 
                         <div class="category-card">
@@ -150,8 +150,8 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                                     <span
                                         class="category-title"
                                         style="
-                                            color: <?php echo esc_attr($button_color); ?>; /* Цвет текста берется из мета-поля */
-                                            text-shadow: 0 0 5px <?php echo esc_attr($button_color); ?>; /* Свечение берется из того же мета-поля */
+                                            color: <?php echo esc_attr($button_color); ?>; /* Text color is taken from the meta field */
+                                            text-shadow: 0 0 5px <?php echo esc_attr($button_color); ?>; /* Glow is taken from the same meta field */
                                         "
                                     >
                                         <i class="<?php echo esc_attr($button_icon); ?>"></i> <?php echo esc_html($category->name); ?>
@@ -280,7 +280,7 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                         <!-- <h4 class="collections-slider-title">INTERIOR SOLUTIONS</h4> -->
                         <div class="collections-horizontal-carousel">
                             <div class="collections-smooth-track">
-                                <!-- Оригинальные карточки -->
+                                <!-- Original cards -->
                                 <div class="collections-square-card">
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-1.jpg" alt="Living Room" class="collections-square-image">
                                 </div>
@@ -305,8 +305,8 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
                                 <div class="collections-square-card">
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-8.jpg" alt="Decor" class="collections-square-image">
                                 </div>
-                                
-                                <!-- Дублированные карточки для бесшовной петли -->
+
+                                <!-- Duplicated cards for a seamless loop -->
                                 <div class="collections-square-card">
                                     <img src="<?php echo get_template_directory_uri() ?>/assets/img/card-1.jpg" alt="Living Room" class="collections-square-image">
                                 </div>
@@ -456,6 +456,6 @@ if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_on_front' ) ) 
         </section>
     </main>
     <?php
-} // Закрываем else для дефолтного контента
+} // Close the else for the default content
 ?>
 <?php get_footer(); ?>

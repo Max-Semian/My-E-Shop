@@ -1,13 +1,13 @@
 <?php get_header(); ?>
 
 <?php
-// Получаем тему страницы
+// Get the page theme
 $page_theme = get_post_meta(get_the_ID(), '_page_theme', true);
 if (empty($page_theme)) {
-    $page_theme = 'light'; // По умолчанию светлая тема
+    $page_theme = 'light'; // Light theme by default
 }
 
-// Определяем цвет фона в зависимости от темы
+// Determine the background color depending on the theme
 $bg_color = ($page_theme === 'dark') ? '#2C2C2C' : '#F4F0EB';
 $text_color = ($page_theme === 'dark') ? '#ffffff' : '#000000';
 ?>
@@ -18,38 +18,38 @@ $text_color = ($page_theme === 'dark') ? '#ffffff' : '#000000';
     while (have_posts()) :
         the_post();
         
-        // Получаем контент страницы
+        // Get the page content
         $content = get_the_content();
-        
-        // Разделяем контент на блоки
+
+        // Split the content into blocks
         $blocks = parse_blocks($content);
-        
+
         $hero_blocks = [];
         $content_blocks = [];
-        
+
         foreach ($blocks as $block) {
-            // Проверяем на hero блоки (например, fashion-hero или другие hero блоки)
+            // Check for hero blocks (e.g. fashion-hero or other hero blocks)
             if (strpos($block['blockName'], 'hero') !== false) {
                 $hero_blocks[] = $block;
             } else {
-                // Остальные блоки идут в контейнер
+                // The remaining blocks go into the container
                 $content_blocks[] = $block;
             }
         }
-        
-        // Выводим hero блоки на всю ширину
+
+        // Output the hero blocks full width
         foreach ($hero_blocks as $hero_block) {
             echo render_block($hero_block);
         }
         ?>
         <?php
-        // Выводим остальной контент в контейнере, если есть не-hero блоки
+        // Output the remaining content in the container if there are non-hero blocks
         if (!empty($content_blocks)) :
         ?>
         <div class="page-content-wrapper">
             <div class="container">
-                <?php 
-                // Если это страница WooCommerce или содержит другие шорткоды, используем the_content()
+                <?php
+                // If this is a WooCommerce page or contains other shortcodes, use the_content()
                 if (has_shortcode($content, 'woocommerce_my_account') || 
                     has_shortcode($content, 'woocommerce_checkout') || 
                     has_shortcode($content, 'woocommerce_cart') ||
@@ -64,13 +64,13 @@ $text_color = ($page_theme === 'dark') ? '#ffffff' : '#000000';
                 
                 <?php
                 wp_link_pages(array(
-                    'before' => '<div class="page-links">' . __('Страницы:', 'my-e-shop'),
+                    'before' => '<div class="page-links">' . __('Pages:', 'my-e-shop'),
                     'after'  => '</div>',
                 ));
                 ?>
                 
                 <?php
-                // Если комментарии открыты или есть хотя бы один комментарий
+                // If comments are open or there is at least one comment
                 if (comments_open() || get_comments_number()) :
                     comments_template();
                 endif;

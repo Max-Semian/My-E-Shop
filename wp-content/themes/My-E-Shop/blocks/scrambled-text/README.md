@@ -1,111 +1,111 @@
 # Scrambled Text Block (GSAP)
 
-Интерактивный текстовый блок WordPress Gutenberg с эффектом зашифровки при наведении курсора, основанный на GSAP ScrambleTextPlugin.
+An interactive WordPress Gutenberg text block with a scramble effect on cursor hover, based on the GSAP ScrambleTextPlugin.
 
-## 🎨 Описание
+## 🎨 Description
 
-Этот блок создает интерактивный текстовый эффект, где символы "зашифровываются" при приближении курсора мыши. Основан на работе Tom Miller из сообщества GSAP.
+This block creates an interactive text effect where characters "scramble" as the mouse cursor approaches. Based on the work of Tom Miller from the GSAP community.
 
-**Источник вдохновения:** [CodePen - Tom Miller](https://codepen.io/creativeocean/pen/NPWLwJM)
+**Inspiration source:** [CodePen - Tom Miller](https://codepen.io/creativeocean/pen/NPWLwJM)
 
-## ✨ Особенности
+## ✨ Features
 
-- 🎯 **Интерактивность**: Реагирует на движение курсора
-- 🎛️ **Настраиваемые параметры**: Радиус, длительность, скорость, символы
-- 🎨 **Полная кастомизация**: Цвета текста и фона, размеры шрифта
-- 📱 **Адаптивный**: Работает на десктопе и мобильных устройствах
-- ⚡ **GSAP анимация**: Плавная, производительная анимация
-- 🔤 **Моноширинный шрифт**: Для лучшего визуального эффекта
+- 🎯 **Interactivity**: Reacts to cursor movement
+- 🎛️ **Configurable parameters**: Radius, duration, speed, characters
+- 🎨 **Full customization**: Text and background colors, font sizes
+- 📱 **Responsive**: Works on desktop and mobile devices
+- ⚡ **GSAP animation**: Smooth, performant animation
+- 🔤 **Monospace font**: For a better visual effect
 
-## 📦 Структура файлов
+## 📦 File structure
 
 ```
 blocks/scrambled-text/
-├── block.json          # Конфигурация блока
-├── index.js            # Редактор WordPress (Edit & Save)
-├── script.js           # Frontend JavaScript с GSAP
-├── style.css           # Стили для фронтенда
-├── editor.css          # Стили для редактора
-└── README.md           # Документация
+├── block.json          # Block configuration
+├── index.js            # WordPress editor (Edit & Save)
+├── script.js           # Frontend JavaScript with GSAP
+├── style.css           # Frontend styles
+├── editor.css          # Editor styles
+└── README.md           # Documentation
 ```
 
-## 🚀 Использование
+## 🚀 Usage
 
-### В редакторе WordPress
+### In the WordPress editor
 
-1. Откройте редактор страницы/поста
-2. Добавьте блок **"Scrambled Text (GSAP)"**
-3. Введите ваш текст
-4. Настройте параметры в правой панели
+1. Open the page/post editor
+2. Add the **"Scrambled Text (GSAP)"** block
+3. Enter your text
+4. Configure the parameters in the right panel
 
-### Настройки блока
+### Block settings
 
-#### Текст
-- **Размер шрифта**: Small / Medium / Large
-- **Выравнивание**: Left / Center / Right
+#### Text
+- **Font size**: Small / Medium / Large
+- **Alignment**: Left / Center / Right
 
-#### GSAP Анимация
-- **Радиус эффекта** (50-300px): Расстояние от курсора для активации эффекта
-- **Длительность** (0.3-3.0 сек): Время анимации зашифровки
-- **Скорость зашифровки** (0.1-1.0): Скорость смены символов
-- **Символы зашифровки**: Набор символов для эффекта (по умолчанию: `.:`)
+#### GSAP Animation
+- **Effect radius** (50-300px): Distance from the cursor to activate the effect
+- **Duration** (0.3-3.0 sec): Scramble animation time
+- **Scramble speed** (0.1-1.0): Character change speed
+- **Scramble characters**: Set of characters for the effect (default: `.:`)
 
-#### Цвета
-- **Цвет текста**: Белый по умолчанию (#ffffff)
-- **Цвет фона**: Прозрачный по умолчанию
+#### Colors
+- **Text color**: White by default (#ffffff)
+- **Background color**: Transparent by default
 
-## 🎯 Примеры использования
+## 🎯 Usage examples
 
-### Базовый пример
+### Basic example
 ```
-Текст: "Lorem ipsum dolor sit amet"
-Радиус: 100px
-Длительность: 1.2 сек
-Скорость: 0.5
-Символы: .:
-```
-
-### Быстрый эффект
-```
-Радиус: 80px
-Длительность: 0.5 сек
-Скорость: 0.8
-Символы: !@#$%
+Text: "Lorem ipsum dolor sit amet"
+Radius: 100px
+Duration: 1.2 sec
+Speed: 0.5
+Characters: .:
 ```
 
-### Медленный эффект
+### Fast effect
 ```
-Радиус: 150px
-Длительность: 2.0 сек
-Скорость: 0.3
-Символы: ░▒▓█
+Radius: 80px
+Duration: 0.5 sec
+Speed: 0.8
+Characters: !@#$%
 ```
 
-## 🔧 Технические детали
+### Slow effect
+```
+Radius: 150px
+Duration: 2.0 sec
+Speed: 0.3
+Characters: ░▒▓█
+```
 
-### Зависимости
+## 🔧 Technical details
 
-**GSAP библиотеки** (уже подключены в `functions.php`):
+### Dependencies
+
+**GSAP libraries** (already included in `functions.php`):
 - GSAP Core 3.12.5+
 - ScrambleTextPlugin
 
-### Атрибуты блока
+### Block attributes
 
-| Атрибут | Тип | По умолчанию | Описание |
+| Attribute | Type | Default | Description |
 |---------|-----|--------------|----------|
-| `content` | string | Lorem ipsum... | Текстовое содержимое |
-| `radius` | number | 100 | Радиус эффекта в пикселях |
-| `duration` | number | 1.2 | Длительность анимации в секундах |
-| `speed` | number | 0.5 | Скорость зашифровки (0.1-1.0) |
-| `scrambleChars` | string | .: | Символы для эффекта |
-| `textColor` | string | #ffffff | Цвет текста |
-| `backgroundColor` | string | "" | Цвет фона |
-| `fontSize` | string | medium | Размер: small/medium/large |
-| `textAlign` | string | left | Выравнивание: left/center/right |
+| `content` | string | Lorem ipsum... | Text content |
+| `radius` | number | 100 | Effect radius in pixels |
+| `duration` | number | 1.2 | Animation duration in seconds |
+| `speed` | number | 0.5 | Scramble speed (0.1-1.0) |
+| `scrambleChars` | string | .: | Characters for the effect |
+| `textColor` | string | #ffffff | Text color |
+| `backgroundColor` | string | "" | Background color |
+| `fontSize` | string | medium | Size: small/medium/large |
+| `textAlign` | string | left | Alignment: left/center/right |
 
-### Data-атрибуты
+### Data attributes
 
-Блок передает параметры через data-атрибуты:
+The block passes parameters via data attributes:
 ```html
 <div class="scrambled-text-wrapper"
      data-radius="100"
@@ -116,93 +116,93 @@ blocks/scrambled-text/
 
 ### JavaScript API
 
-Функция для ручной реинициализации:
+Function for manual re-initialization:
 ```javascript
 window.reinitScrambledText();
 ```
 
-## 📱 Адаптивность
+## 📱 Responsiveness
 
-- **Desktop**: Полная интерактивность с курсором мыши
-- **Tablet**: Поддержка touch-событий
-- **Mobile**: Оптимизированные размеры шрифтов, подсказка для touch-управления
+- **Desktop**: Full interactivity with the mouse cursor
+- **Tablet**: Support for touch events
+- **Mobile**: Optimized font sizes, hint for touch control
 
 ### Breakpoints
-- `< 768px`: Мобильные устройства
-- `< 480px`: Маленькие экраны
+- `< 768px`: Mobile devices
+- `< 480px`: Small screens
 
-## 🎨 CSS Классы
+## 🎨 CSS Classes
 
-- `.scrambled-text-block` - Корневой контейнер
-- `.scrambled-text-wrapper` - Обертка с data-атрибутами
-- `.text-block` - Текстовый блок
-- `.char` - Отдельный символ
-- `.font-small`, `.font-medium`, `.font-large` - Размеры шрифта
-- `.align-left`, `.align-center`, `.align-right` - Выравнивание
+- `.scrambled-text-block` - Root container
+- `.scrambled-text-wrapper` - Wrapper with data attributes
+- `.text-block` - Text block
+- `.char` - Individual character
+- `.font-small`, `.font-medium`, `.font-large` - Font sizes
+- `.align-left`, `.align-center`, `.align-right` - Alignment
 
-## ⚠️ Важные замечания
+## ⚠️ Important notes
 
 ### GSAP ScrambleTextPlugin
-- Требуется для полного эффекта зашифровки
-- Доступен в GSAP 3.x
-- Для коммерческого использования может потребоваться лицензия
+- Required for the full scramble effect
+- Available in GSAP 3.x
+- A license may be required for commercial use
 
 ### Fallback
-Если ScrambleTextPlugin недоступен, блок использует упрощенную анимацию:
-- Случайная замена символов
-- Анимация opacity и scale
-- Без плавной зашифровки
+If ScrambleTextPlugin is unavailable, the block uses a simplified animation:
+- Random character replacement
+- Opacity and scale animation
+- Without smooth scrambling
 
-### Производительность
-- Оптимизирован для современных браузеров
-- Использует `will-change` для GPU-ускорения
-- Ограничен радиусом действия для экономии ресурсов
+### Performance
+- Optimized for modern browsers
+- Uses `will-change` for GPU acceleration
+- Limited by the action radius to save resources
 
 ## 🐛 Troubleshooting
 
-**Проблема**: Анимация не работает
-- ✅ Проверьте консоль браузера на ошибки
-- ✅ Убедитесь что GSAP загружен (проверьте Network в DevTools)
-- ✅ Проверьте что `viewScript` указан в block.json
+**Problem**: Animation does not work
+- ✅ Check the browser console for errors
+- ✅ Make sure GSAP is loaded (check Network in DevTools)
+- ✅ Check that `viewScript` is specified in block.json
 
-**Проблема**: Текст не отображается
-- ✅ Очистите кеш WordPress
-- ✅ Пересохраните страницу в редакторе
-- ✅ Проверьте что файл `script.js` загружается
+**Problem**: Text does not display
+- ✅ Clear the WordPress cache
+- ✅ Re-save the page in the editor
+- ✅ Check that the `script.js` file loads
 
-**Проблема**: Эффект слабый или не заметен
-- ✅ Увеличьте радиус эффекта
-- ✅ Уменьшите скорость зашифровки
-- ✅ Увеличьте длительность анимации
-- ✅ Используйте более контрастные символы
+**Problem**: The effect is weak or not noticeable
+- ✅ Increase the effect radius
+- ✅ Decrease the scramble speed
+- ✅ Increase the animation duration
+- ✅ Use more contrasting characters
 
-## 📋 Регистрация блока
+## 📋 Block registration
 
-Блок автоматически регистрируется в `functions.php`:
+The block is automatically registered in `functions.php`:
 
 ```php
-// Регистрация блока
+// Block registration
 register_block_type(get_template_directory() . '/blocks/scrambled-text/block.json');
 
-// Editor скрипты и стили
+// Editor scripts and styles
 wp_enqueue_script('my-e-shop-scrambled-text-editor', ...);
 wp_enqueue_style('my-e-shop-scrambled-text-editor-style', ...);
 
-// Frontend скрипты и стили
+// Frontend scripts and styles
 wp_enqueue_style('my-e-shop-scrambled-text-style', ...);
 wp_enqueue_script('my-e-shop-scrambled-text-script', ['gsap', 'gsap-scramble-text'], ...);
 ```
 
-## 🔄 Версия
+## 🔄 Version
 
-**v1.0.0** - Первый релиз
+**v1.0.0** - First release
 
-## 📄 Лицензия
+## 📄 License
 
-GPL v2 или позже
+GPL v2 or later
 
 ---
 
-**Автор**: My-E-Shop Theme  
-**Вдохновлено**: Tom Miller (GSAP Community)  
-**Технологии**: WordPress Gutenberg, GSAP 3.x, ScrambleTextPlugin
+**Author**: My-E-Shop Theme  
+**Inspired by**: Tom Miller (GSAP Community)  
+**Technologies**: WordPress Gutenberg, GSAP 3.x, ScrambleTextPlugin

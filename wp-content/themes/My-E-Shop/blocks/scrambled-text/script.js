@@ -1,22 +1,22 @@
 // Scrambled Text Block - Frontend JavaScript
-// Адаптация React компонента для vanilla JavaScript с GSAP
+// Adaptation of the React component for vanilla JavaScript with GSAP
 
 (function() {
     'use strict';
     
     function initScrambledBlocks() {
-        // Проверяем наличие GSAP
+        // Check for GSAP
         if (typeof gsap === 'undefined') {
             setTimeout(initScrambledBlocks, 500);
             return;
         }
         
-        // Регистрируем ScrambleTextPlugin если он доступен
+        // Register ScrambleTextPlugin if it is available
         if (typeof ScrambleTextPlugin !== 'undefined') {
             gsap.registerPlugin(ScrambleTextPlugin);
         }
 
-        // Находим все блоки scrambled text
+        // Find all scrambled text blocks
         const scrambledBlocks = document.querySelectorAll('.scrambled-text-wrapper');
         
         if (!scrambledBlocks.length) {
@@ -28,7 +28,7 @@
         });
     }
     
-    // Запускаем инициализацию когда DOM готов
+    // Start initialization when the DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initScrambledBlocks);
     } else {
@@ -44,34 +44,34 @@ function initScrambledText(wrapper, blockIndex) {
         return;
     }
 
-    // Получаем параметры из data-атрибутов
+    // Get parameters from data attributes
     const radius = parseFloat(wrapper.getAttribute('data-radius')) || 100;
     const duration = parseFloat(wrapper.getAttribute('data-duration')) || 1.2;
     const speed = parseFloat(wrapper.getAttribute('data-speed')) || 0.5;
     const scrambleChars = wrapper.getAttribute('data-scramble-chars') || '.:';
 
-    // Получаем текст
+    // Get the text
     const originalText = textContent.textContent || textContent.innerText;
     
     if (!originalText || !originalText.trim()) {
         return;
     }
 
-    // Очищаем и разбиваем текст на символы
+    // Clear and split the text into characters
     textContent.innerHTML = '';
     const chars = [];
     
-    // Разбиваем текст на слова, сохраняя пробелы
+    // Split the text into words, preserving spaces
     const words = originalText.split(/(\s+)/);
     
     words.forEach(function(word) {
-        // Если это пробелы - добавляем как есть
+        // If these are spaces - add them as is
         if (/^\s+$/.test(word)) {
             textContent.appendChild(document.createTextNode(word));
             return;
         }
         
-        // Оборачиваем слово в span для предотвращения разрыва слова
+        // Wrap the word in a span to prevent word breaking
         const wordSpan = document.createElement('span');
         wordSpan.className = 'word';
         wordSpan.style.whiteSpace = 'nowrap';
@@ -85,7 +85,7 @@ function initScrambledText(wrapper, blockIndex) {
             span.textContent = char;
             span.setAttribute('data-content', char);
             
-            // Фиксируем ширину символа чтобы избежать скачков
+            // Fix the character width to avoid jumps
             span.style.display = 'inline-block';
             span.style.textAlign = 'center';
             
@@ -96,7 +96,7 @@ function initScrambledText(wrapper, blockIndex) {
         textContent.appendChild(wordSpan);
     });
     
-    // Фиксируем ширину каждого символа после рендеринга
+    // Fix the width of each character after rendering
     requestAnimationFrame(function() {
         chars.forEach(function(charEl) {
             const width = charEl.offsetWidth;
@@ -104,7 +104,7 @@ function initScrambledText(wrapper, blockIndex) {
         });
     });
 
-    // Функция обработки движения мыши
+    // Mouse movement handler function
     const handleMove = function(e) {
         chars.forEach(function(charEl) {
             const rect = charEl.getBoundingClientRect();
@@ -118,9 +118,9 @@ function initScrambledText(wrapper, blockIndex) {
             if (dist < radius) {
                 const originalChar = charEl.getAttribute('data-content') || '';
                 
-                // Проверяем наличие ScrambleTextPlugin
+                // Check for ScrambleTextPlugin
                 if (typeof ScrambleTextPlugin !== 'undefined' && gsap.plugins && gsap.plugins.scrambleText) {
-                    // Используем ScrambleTextPlugin
+                    // Use ScrambleTextPlugin
                     gsap.to(charEl, {
                         duration: duration * (1 - dist / radius),
                         scrambleText: {
@@ -132,14 +132,14 @@ function initScrambledText(wrapper, blockIndex) {
                         overwrite: true
                     });
                 } else {
-                    // Fallback: простая анимация без ScrambleTextPlugin
-                    // Случайный символ из набора
+                    // Fallback: simple animation without ScrambleTextPlugin
+                    // Random character from the set
                     const randomChars = scrambleChars.split('');
                     const randomChar = randomChars[Math.floor(Math.random() * randomChars.length)];
                     
                     charEl.textContent = randomChar;
                     
-                    // Анимация возврата (без scale чтобы избежать скачков)
+                    // Return animation (without scale to avoid jumps)
                     gsap.to(charEl, {
                         duration: duration * (1 - dist / radius) * 0.5,
                         opacity: 0.5,
@@ -158,10 +158,10 @@ function initScrambledText(wrapper, blockIndex) {
         });
     };
 
-    // Добавляем обработчик движения мыши
+    // Add a mouse movement handler
     wrapper.addEventListener('pointermove', handleMove);
     
-    // Для touch устройств
+    // For touch devices
     wrapper.addEventListener('touchmove', function(e) {
         if (e.touches.length > 0) {
             const touch = e.touches[0];
@@ -170,7 +170,7 @@ function initScrambledText(wrapper, blockIndex) {
     });
 }
 
-// Функция для повторной инициализации (для динамического контента)
+// Function for re-initialization (for dynamic content)
 window.reinitScrambledText = function() {
     const event = new Event('DOMContentLoaded');
     document.dispatchEvent(event);

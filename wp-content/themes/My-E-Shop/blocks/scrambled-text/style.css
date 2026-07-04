@@ -43,7 +43,7 @@
     letter-spacing: 1px;
 }
 
-/* Размеры шрифта */
+/* Font sizes */
 .scrambled-text-block.font-small .text-block {
     font-size: 14px;
 }
@@ -56,7 +56,7 @@
     font-size: clamp(24px, 5vw, 48px);
 }
 
-/* Символы */
+/* Characters */
 .char {
     will-change: opacity;
     display: inline-block;
@@ -64,18 +64,18 @@
     vertical-align: baseline;
 }
 
-/* Слова */
+/* Words */
 .word {
     display: inline;
     white-space: nowrap;
 }
 
-/* Cursor на интерактивной области */
+/* Cursor over the interactive area */
 .scrambled-text-wrapper {
     cursor: default;
 }
 
-/* Адаптивность */
+/* Responsiveness */
 @media (max-width: 768px) {
     .scrambled-text-wrapper {
         padding: 40px 15px;
@@ -109,12 +109,12 @@
     }
 }
 
-/* Загрузка */
+/* Loading */
 .text-block.loading {
     opacity: 0.5;
 }
 
-/* Анимация появления */
+/* Appearance animation */
 .text-block {
     animation: fadeIn 0.6s ease-out;
 }

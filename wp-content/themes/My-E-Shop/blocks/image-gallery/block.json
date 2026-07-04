@@ -6,7 +6,7 @@
     "title": "Image Gallery",
     "category": "my-e-shop",
     "icon": "images-alt2",
-    "description": "Галерея изображений с повторителем - ряды по 2 изображения",
+    "description": "Image gallery with a repeater - rows of 2 images",
     "supports": {
         "html": false,
         "align": ["wide", "full"]

@@ -13,7 +13,7 @@
         
         console.log('Found blocks:', blocks.length);
         
-        // Intersection Observer для запуска анимации
+        // Intersection Observer to trigger the animation
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
@@ -36,7 +36,7 @@
                         return;
                     }
                     
-                    // Очищаем и разбиваем текст на слова
+                    // Clear and split the text into words
                     textContent.innerHTML = '';
                     textContent.style.visibility = 'visible';
                     textContent.classList.add('loaded');
@@ -51,7 +51,7 @@
                         span.style.animationDelay = (index * delayStep) + 's';
                         textContent.appendChild(span);
                         
-                        // Добавляем пробел после каждого слова (кроме последнего)
+                        // Add a space after each word (except the last)
                         if (index < words.length - 1) {
                             textContent.appendChild(document.createTextNode(' '));
                         }

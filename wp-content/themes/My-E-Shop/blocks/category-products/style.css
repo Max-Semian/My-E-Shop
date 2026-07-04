@@ -6,7 +6,7 @@
     margin-top: -3px;
 }
 
-/* Content Container - ограничивает ширину контента и центрирует */
+/* Content Container - limits content width and centers it */
 .wp-block-my-e-shop-category-products .category-products-content {
     max-width: 1100px;
     margin: 0 auto;
@@ -404,12 +404,12 @@
     border: none;
 }
 
-/* Светлая тема - черная рамка */
+/* Light theme - black border */
 .wp-block-my-e-shop-category-products .product-card:hover {
     border: 1px solid #2C2C2C !important;
 }
 
-/* Темная тема - светлая рамка */
+/* Dark theme - light border */
 .page-theme-dark .wp-block-my-e-shop-category-products .product-card:hover {
     border: 1px solid #F4F0EB !important;
 }

@@ -7,17 +7,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 get_header(); ?>
 
 	<?php
-		// Проверяем выбранный шаблон для товара
+		// Check the selected template for the product
 		$product_template = get_post_meta( get_the_ID(), '_product_template', true );
-		
-		// Отключаем стандартные breadcrumbs для всех шаблонов (встроены в content-single-product.php)
+
+		// Disable the standard breadcrumbs for all templates (built into content-single-product.php)
 		remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-		
+
 		/**
 		 * woocommerce_before_main_content hook.
 		 *
 		 * @hooked woocommerce_output_content_wrapper - 10 (outputs opening divs for the content)
-		 * @hooked woocommerce_breadcrumb - 20 (отключены - встроены в шаблоны)
+		 * @hooked woocommerce_breadcrumb - 20 (disabled - built into the templates)
 		 */
 		do_action( 'woocommerce_before_main_content' );
 	?> 
@@ -25,14 +25,14 @@ get_header(); ?>
 			<?php the_post(); ?>
 			
 			<?php
-			// Проверяем выбранный шаблон для товара
+			// Check the selected template for the product
 			$product_template = get_post_meta( get_the_ID(), '_product_template', true );
-			
+
 			if ( $product_template === 'dark' ) {
-				// Используем темный шаблон
+				// Use the dark template
 				wc_get_template_part( 'content', 'single-product-dark' );
 			} else {
-				// Используем обычный шаблон
+				// Use the regular template
 				wc_get_template_part( 'content', 'single-product' );
 			}
 			?>

@@ -52,7 +52,7 @@
                 createElement(InspectorControls, { key: 'inspector' }, [
                     createElement(PanelBody, {
                         key: 'settings',
-                        title: __('Настройки заголовка', 'My-E-Shop'),
+                        title: __('Title settings', 'My-E-Shop'),
                         initialOpen: true
                     }, [
                         createElement(MediaUploadCheck, { key: 'media-check' },
@@ -71,8 +71,8 @@
                                             variant: 'secondary',
                                             style: { marginBottom: '10px' }
                                         }, backgroundImage.url ? 
-                                            __('Изменить фоновое изображение', 'My-E-Shop') : 
-                                            __('Выбрать фоновое изображение', 'My-E-Shop')
+                                            __('Change background image', 'My-E-Shop') :
+                                            __('Select background image', 'My-E-Shop')
                                         ),
                                         backgroundImage.url ? createElement('div', { key: 'image-preview' }, [
                                             createElement('img', {
@@ -91,7 +91,7 @@
                                                 onClick: removeImage,
                                                 variant: 'secondary',
                                                 isDestructive: true
-                                            }, __('Удалить изображение', 'My-E-Shop'))
+                                            }, __('Remove image', 'My-E-Shop'))
                                         ]) : null
                                     ]);
                                 }
@@ -102,7 +102,7 @@
                             key: 'color-picker-container',
                             style: { marginTop: '20px' }
                         }, [
-                            createElement('label', { key: 'color-label' }, __('Цвет текста', 'My-E-Shop')),
+                            createElement('label', { key: 'color-label' }, __('Text color', 'My-E-Shop')),
                             createElement(ColorPicker, {
                                 key: 'color-picker',
                                 color: textColor,
@@ -114,7 +114,7 @@
 
                         createElement(RangeControl, {
                             key: 'opacity-range',
-                            label: __('Прозрачность наложения', 'My-E-Shop'),
+                            label: __('Overlay opacity', 'My-E-Shop'),
                             value: overlayOpacity,
                             onChange: function(value) {
                                 setAttributes({ overlayOpacity: value });
@@ -159,7 +159,7 @@
                                 onChange: function(value) {
                                     setAttributes({ categoryTitle: value });
                                 },
-                                placeholder: __('Введите название категории...', 'My-E-Shop'),
+                                placeholder: __('Enter category name...', 'My-E-Shop'),
                                 style: {
                                     color: textColor
                                 }

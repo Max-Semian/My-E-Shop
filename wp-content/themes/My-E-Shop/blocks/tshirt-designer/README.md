@@ -1,84 +1,84 @@
-# T-Shirt Designer Block - Конструктор принтов для футболок
+# T-Shirt Designer Block - T-shirt print designer
 
-## Описание
-Полнофункциональный конструктор для создания дизайна принтов на футболках с интерактивным интерфейсом.
+## Description
+A full-featured designer for creating print designs on T-shirts with an interactive interface.
 
-## Возможности
+## Features
 
-### Инструменты:
-1. **Upload** - загрузка собственных изображений
-2. **Add text** - добавление текста с возможностью редактирования
-3. **Graphics** - библиотека готовых графических элементов
-4. **My library** - сохраненные элементы (в разработке)
-5. **My templates** - шаблоны дизайнов (в разработке)
-6. **Shutterstock** - интеграция с Shutterstock (в разработке)
-7. **Fiverr** - интеграция с Fiverr (в разработке)
+### Tools:
+1. **Upload** - upload your own images
+2. **Add text** - add editable text
+3. **Graphics** - library of ready-made graphic elements
+4. **My library** - saved elements (in development)
+5. **My templates** - design templates (in development)
+6. **Shutterstock** - Shutterstock integration (in development)
+7. **Fiverr** - Fiverr integration (in development)
 
-### Функции редактора:
-- Переключение между передней и задней стороной футболки
-- Зум (увеличение/уменьшение) рабочей области
-- Перемещение, масштабирование и поворот объектов
-- Удаление выбранных объектов (клавиша Delete/Backspace)
-- Область печати с настраиваемыми размерами
-- Изменение цвета футболки
+### Editor functions:
+- Switching between the front and back side of the T-shirt
+- Zoom (in/out) of the workspace
+- Moving, scaling and rotating objects
+- Deleting selected objects (Delete/Backspace key)
+- Print area with configurable dimensions
+- Changing the T-shirt color
 
-## Настройки блока в редакторе WordPress
+## Block settings in the WordPress editor
 
-### Цвета:
-- **Цвет фона** - фон всего блока (#F5F5F0 по умолчанию)
-- **Цвет футболки по умолчанию** - цвет модели футболки (#FFFFFF по умолчанию)
+### Colors:
+- **Background color** - background of the entire block (#F5F5F0 by default)
+- **Default T-shirt color** - color of the T-shirt model (#FFFFFF by default)
 
-### Область печати:
-- **Ширина области** - 200-400px (280px по умолчанию)
-- **Высота области** - 250-500px (350px по умолчанию)
+### Print area:
+- **Area width** - 200-400px (280px by default)
+- **Area height** - 250-500px (350px by default)
 
-### Инструменты:
-- **Инструмент текста** - включить/выключить
-- **Загрузка изображений** - включить/выключить
-- **Библиотека графики** - включить/выключить
+### Tools:
+- **Text tool** - enable/disable
+- **Image upload** - enable/disable
+- **Graphics library** - enable/disable
 
-### Графика для библиотеки:
-Добавьте изображения, которые будут доступны пользователям в библиотеке графики
+### Graphics for the library:
+Add images that will be available to users in the graphics library
 
-## Использование на фронтенде
+## Usage on the frontend
 
-### Для пользователя:
-1. Выберите инструмент на левой панели
-2. Добавьте текст или изображение
-3. Перемещайте и масштабируйте элементы
-4. Переключайтесь между передней и задней стороной
-5. Нажмите "Save product" для сохранения дизайна
+### For the user:
+1. Select a tool in the left panel
+2. Add text or an image
+3. Move and scale elements
+4. Switch between the front and back side
+5. Click "Save product" to save the design
 
-### Клавиатурные сокращения:
-- `Delete` или `Backspace` - удалить выбранный объект
+### Keyboard shortcuts:
+- `Delete` or `Backspace` - delete the selected object
 
-## Технические детали
+## Technical details
 
-### Используемые библиотеки:
-- **Fabric.js 5.3.0** - для работы с canvas и объектами
-- **jQuery** - для DOM-манипуляций
-- **SVG** - для отрисовки модели футболки
+### Libraries used:
+- **Fabric.js 5.3.0** - for working with canvas and objects
+- **jQuery** - for DOM manipulation
+- **SVG** - for rendering the T-shirt model
 
-### Структура данных дизайна:
+### Design data structure:
 ```javascript
 {
-    front: {canvas JSON},  // Дизайн передней стороны
-    back: {canvas JSON},   // Дизайн задней стороны
-    frontImage: "data:image/png;base64,...",  // PNG передней стороны
-    backImage: "data:image/png;base64,...",   // PNG задней стороны
-    tshirtColor: "#FFFFFF"  // Цвет футболки
+    front: {canvas JSON},  // Front side design
+    back: {canvas JSON},   // Back side design
+    frontImage: "data:image/png;base64,...",  // Front side PNG
+    backImage: "data:image/png;base64,...",   // Back side PNG
+    tshirtColor: "#FFFFFF"  // T-shirt color
 }
 ```
 
-## Расширение функциональности
+## Extending functionality
 
-### Добавление новых инструментов:
-1. Добавьте кнопку в `render.php`
-2. Создайте метод в классе `TShirtDesigner` в `script.js`
-3. Привяжите событие в методе `activateTool()`
+### Adding new tools:
+1. Add a button in `render.php`
+2. Create a method in the `TShirtDesigner` class in `script.js`
+3. Bind the event in the `activateTool()` method
 
-### Сохранение дизайна на сервере:
-Раскомментируйте и настройте AJAX-запрос в методе `saveDesign()`:
+### Saving the design on the server:
+Uncomment and configure the AJAX request in the `saveDesign()` method:
 ```javascript
 $.ajax({
     url: '/wp-admin/admin-ajax.php',
@@ -88,33 +88,33 @@ $.ajax({
         design: JSON.stringify(designs)
     },
     success: function(response) {
-        alert('Дизайн сохранен!');
+        alert('Design saved!');
     }
 });
 ```
 
-### Добавление обработчика в functions.php:
+### Adding a handler in functions.php:
 ```php
 add_action('wp_ajax_save_tshirt_design', 'save_tshirt_design_handler');
 add_action('wp_ajax_nopriv_save_tshirt_design', 'save_tshirt_design_handler');
 
 function save_tshirt_design_handler() {
     $design = json_decode(stripslashes($_POST['design']), true);
-    // Сохранение в базу данных или мета-поля товара
+    // Save to the database or product meta fields
     wp_send_json_success(['message' => 'Design saved']);
 }
 ```
 
-## Responsive дизайн
+## Responsive design
 
-Блок адаптируется под разные размеры экранов:
-- Desktop (> 1200px) - полная функциональность
-- Tablet (768px - 1200px) - горизонтальная панель инструментов
-- Mobile (< 768px) - вертикальный layout, упрощенная навигация
+The block adapts to different screen sizes:
+- Desktop (> 1200px) - full functionality
+- Tablet (768px - 1200px) - horizontal tools panel
+- Mobile (< 768px) - vertical layout, simplified navigation
 
-## Совместимость
+## Compatibility
 
 - WordPress 5.8+
 - PHP 7.4+
-- Современные браузеры (Chrome, Firefox, Safari, Edge)
-- Мобильные браузеры (iOS Safari, Chrome Mobile)
+- Modern browsers (Chrome, Firefox, Safari, Edge)
+- Mobile browsers (iOS Safari, Chrome Mobile)

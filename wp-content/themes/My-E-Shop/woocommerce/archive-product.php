@@ -4,14 +4,14 @@
 
 <?php do_action( 'woocommerce_before_main_content' );?>
 
-<!-- Hero Banner Section ТОЛЬКО для категорий -->
+<!-- Hero Banner Section ONLY for categories -->
 <?php if (is_product_category()): ?>
 <div class="category-hero-section">
     <?php 
     $category_image = '';
     $category_title = '';
     
-    // Получаем текущую категорию
+    // Get the current category
     $current_category = get_queried_object();
     $thumbnail_id = get_term_meta($current_category->term_id, 'thumbnail_id', true);
     $category_title = $current_category->name;
@@ -20,11 +20,11 @@
         $category_image = wp_get_attachment_image_src($thumbnail_id, 'full');
     }
     
-    // Если есть изображение категории, используем его, иначе - дефолтное
+    // If there is a category image, use it, otherwise use the default
     if (!empty($category_image)) {
         $hero_bg = $category_image[0];
     } else {
-        // Дефолтное изображение или градиент
+        // Default image or gradient
         $hero_bg = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400"><defs><linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23667eea;stop-opacity:1" /><stop offset="100%" style="stop-color:%23764ba2;stop-opacity:1" /></linearGradient></defs><rect fill="url(%23grad)" width="1200" height="400"/></svg>';
     }
     ?>
@@ -33,7 +33,7 @@
         <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <!-- Category Title в hero banner -->
+                <!-- Category Title in hero banner -->
                 <?php if (apply_filters('woocommerce_show_page_title', true)): ?>
                 <h1 class="hero-title">
                     <?php echo esc_html($category_title); ?>
@@ -53,7 +53,7 @@
     </div>
 </div>
 
-<!-- Breadcrumbs под hero banner ТОЛЬКО для категорий -->
+<!-- Breadcrumbs below hero banner ONLY for categories -->
 <div class="breadcrumbs-section">
     <div class="breadcrumbs-container">
         <nav class="breadcrumbs">
@@ -74,20 +74,20 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-4">
 		    <?php 
-		    // Подключаем сайдбар магазина
+		    // Include the shop sidebar
 		    $sidebar_path = get_template_directory() . '/woocommerce/sidebar-shop.php';
 		    
 		    if (file_exists($sidebar_path)) {
 		        include $sidebar_path;
 		    } else {
-		        // Fallback к стандартному сайдбару
+		        // Fallback to the standard sidebar
 		        get_sidebar('shop');
 		    }
 		    ?>
 		</div><!-- ./col-lg-3 col-md-4-->
 		<div class="col-lg-9 col-md-8">
 			<div class="row">
-				<!-- Заголовок страницы для Shop (если НЕ категория) -->
+				<!-- Page title for Shop (if NOT a category) -->
 				<?php if (!is_product_category()): ?>
 				<div class="col-12">
 					<?php if (apply_filters('woocommerce_show_page_title', true)): ?>

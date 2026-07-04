@@ -3,14 +3,14 @@
  */
 jQuery(document).ready(function($) {
     
-    // Инициализация галереи слайдера
+    // Initialize the gallery slider
     function initGallerySlider() {
         $('.gallery-slider-block').each(function() {
             const $block = $(this);
             const $track = $block.find('.collections-smooth-track');
             const $images = $block.find('.collections-square-image');
             
-            // Функция для плавной загрузки изображений
+            // Function for smooth image loading
             function loadImages() {
                 $images.each(function(index) {
                     const $img = $(this);
@@ -19,14 +19,14 @@ jQuery(document).ready(function($) {
                     img.onload = function() {
                         setTimeout(function() {
                             $img.addClass('loaded');
-                        }, index * 100); // Задержка для каскадного эффекта
+                        }, index * 100); // Delay for a cascading effect
                     };
                     
                     img.src = $img.attr('src');
                 });
             }
             
-            // Функция для корректировки анимации при изменении размера окна
+            // Function to adjust the animation on window resize
             function adjustAnimation() {
                 const cardWidth = parseInt($block.css('--gallery-card-width')) || 280;
                 const gap = 15;
@@ -36,7 +36,7 @@ jQuery(document).ready(function($) {
                 $track.css('--track-width', trackWidth + 'px');
             }
             
-            // Функция для паузы/возобновления анимации
+            // Function to pause/resume the animation
             function setupHoverControls() {
                 $block.find('.collections-horizontal-carousel').on('mouseenter', function() {
                     $track.css('animation-play-state', 'paused');
@@ -45,7 +45,7 @@ jQuery(document).ready(function($) {
                 });
             }
             
-            // Функция для обработки touch событий на мобильных устройствах
+            // Function to handle touch events on mobile devices
             function setupTouchControls() {
                 let startX = 0;
                 let isDragging = false;
@@ -68,9 +68,9 @@ jQuery(document).ready(function($) {
                 });
             }
             
-            // Функция для оптимизации производительности
+            // Function for performance optimization
             function setupPerformanceOptimization() {
-                // Intersection Observer для видимости блока
+                // Intersection Observer for block visibility
                 if ('IntersectionObserver' in window) {
                     const observer = new IntersectionObserver(function(entries) {
                         entries.forEach(function(entry) {
@@ -87,7 +87,7 @@ jQuery(document).ready(function($) {
                     observer.observe($block[0]);
                 }
                 
-                // Предзагрузка изображений
+                // Preload images
                 $images.each(function() {
                     const $img = $(this);
                     const src = $img.attr('src');
@@ -98,34 +98,34 @@ jQuery(document).ready(function($) {
                 });
             }
             
-            // Инициализация всех функций
+            // Initialize all functions
             loadImages();
             adjustAnimation();
             setupHoverControls();
             setupTouchControls();
             setupPerformanceOptimization();
             
-            // Переинициализация при изменении размера окна
+            // Reinitialize on window resize
             $(window).on('resize.gallerySlider', function() {
                 adjustAnimation();
             });
         });
     }
     
-    // Инициализация при загрузке DOM
+    // Initialize on DOM load
     initGallerySlider();
-    
-    // Переинициализация для динамически загруженного контента
+
+    // Reinitialize for dynamically loaded content
     $(document).on('DOMNodeInserted', '.gallery-slider-block', function() {
         setTimeout(initGallerySlider, 100);
     });
     
-    // Очистка при выгрузке страницы
+    // Cleanup on page unload
     $(window).on('beforeunload', function() {
         $(window).off('resize.gallerySlider');
     });
     
-    // CSS переменные для отзывчивого дизайна
+    // CSS variables for responsive design
     function updateResponsiveCSS() {
         const viewportWidth = $(window).width();
         const $blocks = $('.gallery-slider-block');
@@ -153,12 +153,12 @@ jQuery(document).ready(function($) {
         });
     }
     
-    // Обновление при изменении размера окна
+    // Update on window resize
     $(window).on('resize', function() {
         clearTimeout(window.gallerySliderResizeTimeout);
         window.gallerySliderResizeTimeout = setTimeout(updateResponsiveCSS, 250);
     });
     
-    // Первоначальное обновление
+    // Initial update
     updateResponsiveCSS();
 });

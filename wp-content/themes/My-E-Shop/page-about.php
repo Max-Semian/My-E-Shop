@@ -2,7 +2,7 @@
 /**
  * Template Name: About Page
  * Template Post Type: page
- * Description: Шаблон страницы "О нас" с hero блоком и хлебными крошками
+ * Description: About Us page template with a hero block and breadcrumbs
  */
 
 get_header();
@@ -14,32 +14,32 @@ get_header();
     while (have_posts()) :
         the_post();
         
-        // Получаем контент страницы
+        // Get the page content
         $content = get_the_content();
-        
-        // Разделяем контент на блоки БЕЗ применения фильтров
+
+        // Split the content into blocks WITHOUT applying filters
         $blocks = parse_blocks($content);
-        
+
         $hero_blocks = [];
         $content_blocks = [];
-        
+
         foreach ($blocks as $block) {
-            // Если это about-hero блок, сохраняем отдельно
+            // If this is an about-hero block, store it separately
             if ($block['blockName'] === 'my-e-shop/about-hero') {
                 $hero_blocks[] = $block;
             } else {
-                // Остальные блоки идут в контейнер
+                // The remaining blocks go into the container
                 $content_blocks[] = $block;
             }
         }
-        
-        // Выводим hero блоки
+
+        // Output the hero blocks
         foreach ($hero_blocks as $hero_block) {
             echo render_block($hero_block);
         }
         ?>
-        
-        <!-- Хлебные крошки после hero блока -->
+
+        <!-- Breadcrumbs after the hero block -->
         <div class="about-page-breadcrumbs-wrapper">
             <div class="container">
                 <?php if (function_exists('yoast_breadcrumb')) : ?>
@@ -70,7 +70,7 @@ get_header();
         
         <?php
         
-        // Выводим остальной контент в контейнере
+        // Output the remaining content in the container
         if (!empty($content_blocks)) :
         ?>
         <div class="about-page-content-wrapper">

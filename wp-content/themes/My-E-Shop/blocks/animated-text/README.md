@@ -1,25 +1,25 @@
-# Animated Text Block - Блок Анимированного Текста
+# Animated Text Block
 
-Кастомный Gutenberg блок для WordPress темы My-E-Shop, который позволяет создавать эффектные анимированные текстовые блоки.
+A custom Gutenberg block for the My-E-Shop WordPress theme that lets you create eye-catching animated text blocks.
 
-## Особенности
+## Features
 
-- ✅ Полностью редактируемый текст с поддержкой RichText
-- ✅ 4 типа анимаций:
-  - Печатная машинка (typewriter)
-  - Появление слов по очереди (fadeInWords)
-  - Плавное появление (fadeIn)
-  - Скольжение снизу (slideUp)
-- ✅ Настройка скорости анимации
-- ✅ 4 размера шрифта
-- ✅ Настройка выравнивания текста
-- ✅ Настройка цветов текста и фона
-- ✅ Адаптивный дизайн
-- ✅ Анимация запускается при появлении в поле зрения
+- ✅ Fully editable text with RichText support
+- ✅ 4 animation types:
+  - Typewriter (typewriter)
+  - Word appearance one by one (fadeInWords)
+  - Fade in (fadeIn)
+  - Slide up (slideUp)
+- ✅ Animation speed control
+- ✅ 4 font sizes
+- ✅ Text alignment control
+- ✅ Text and background color control
+- ✅ Responsive design
+- ✅ Animation starts when the block comes into view
 
-## Замена существующей секции
+## Replacing an existing section
 
-Этот блок создан для замены статичной секции:
+This block is designed to replace a static section:
 ```html
 <section class="animated-text-section">
     <div class="text-block" id="textBlock">
@@ -30,83 +30,83 @@
 </section>
 ```
 
-## Использование
+## Usage
 
-1. В редакторе WordPress добавьте новый блок
-2. Найдите блок "Animated Text Block" в категории "Text"
-3. Введите или отредактируйте текст
-4. Настройте в боковой панели:
-   - **Размер шрифта**: маленький, обычный, большой, очень большой
-   - **Тип анимации**: выберите подходящий эффект
-   - **Скорость анимации**: от 10 до 200 мс
-   - **Цвета**: цвет текста и фона
-5. Используйте панель инструментов для выравнивания текста
+1. In the WordPress editor, add a new block
+2. Find the "Animated Text Block" block in the "Text" category
+3. Enter or edit the text
+4. Configure it in the sidebar:
+   - **Font size**: small, normal, large, extra large
+   - **Animation type**: choose a suitable effect
+   - **Animation speed**: from 10 to 200 ms
+   - **Colors**: text and background color
+5. Use the toolbar to align the text
 
-## Настройки
+## Settings
 
-### Основные настройки
-- **Текст**: Полностью редактируемый с поддержкой жирного и курсивного текста
-- **Выравнивание**: По левому краю, по центру, по правому краю
+### Basic settings
+- **Text**: Fully editable with bold and italic support
+- **Alignment**: Left, center, right
 
-### Настройки текста
-- **Размер шрифта**: 4 предустановленных размера
-- **Цвет текста**: Выбор любого цвета с поддержкой прозрачности
-- **Цвет фона**: Настройка фона блока
+### Text settings
+- **Font size**: 4 preset sizes
+- **Text color**: Choose any color with transparency support
+- **Background color**: Configure the block background
 
-### Настройки анимации
-- **Тип анимации**:
-  - **Печатная машинка**: Имитация набора текста с курсором
-  - **Появление слов**: Слова появляются по очереди
-  - **Плавное появление**: Весь текст плавно появляется
-  - **Скольжение снизу**: Текст поднимается снизу
-- **Скорость**: Настройка времени анимации
+### Animation settings
+- **Animation type**:
+  - **Typewriter**: Simulates typing text with a cursor
+  - **Word appearance**: Words appear one by one
+  - **Fade in**: The whole text fades in smoothly
+  - **Slide up**: The text rises from below
+- **Speed**: Configure the animation timing
 
-## Структура файлов
+## File structure
 
 ```
 blocks/animated-text/
-├── block.json          # Конфигурация блока
-├── block.js           # JavaScript код блока
-├── style.css          # Стили для фронтенда
-├── editor.css         # Стили для редактора
-├── script.js          # JavaScript для анимаций
-└── README.md          # Документация
+├── block.json          # Block configuration
+├── block.js           # Block JavaScript code
+├── style.css          # Frontend styles
+├── editor.css         # Editor styles
+├── script.js          # JavaScript for animations
+└── README.md          # Documentation
 ```
 
-## CSS классы
+## CSS classes
 
-- `.animated-text-section` - Основной контейнер
-- `.text-block` - Контейнер текстового блока
-- `.text-content` - Контейнер текста
-- `.font-small`, `.font-normal`, `.font-large`, `.font-extra-large` - Размеры шрифта
-- `.align-left`, `.align-center`, `.align-right` - Выравнивание
-- `.typewriter`, `.fadeInWords`, `.fadeIn`, `.slideUp` - Классы анимаций
+- `.animated-text-section` - Main container
+- `.text-block` - Text block container
+- `.text-content` - Text container
+- `.font-small`, `.font-normal`, `.font-large`, `.font-extra-large` - Font sizes
+- `.align-left`, `.align-center`, `.align-right` - Alignment
+- `.typewriter`, `.fadeInWords`, `.fadeIn`, `.slideUp` - Animation classes
 
 ## JavaScript API
 
-### Функции
-- `restartTextAnimations()` - Перезапуск всех анимаций (для отладки)
+### Functions
+- `restartTextAnimations()` - Restart all animations (for debugging)
 
-### Атрибуты данных
-- `data-animation` - тип анимации
-- `data-speed` - скорость анимации в миллисекундах
+### Data attributes
+- `data-animation` - animation type
+- `data-speed` - animation speed in milliseconds
 
-## Адаптивность
+## Responsiveness
 
-- Автоматическое отключение анимации печатной машинки на мобильных устройствах
-- Адаптивные размеры шрифта
-- Оптимизация для разных экранов
+- Automatically disables the typewriter animation on mobile devices
+- Responsive font sizes
+- Optimized for different screens
 
-## Совместимость
+## Compatibility
 
 - WordPress 5.0+
-- Поддержка всех современных браузеров
-- Intersection Observer API для оптимизации производительности
+- Support for all modern browsers
+- Intersection Observer API for performance optimization
 
-## Миграция
+## Migration
 
-Для замены старой секции на новый блок:
-1. Удалите HTML код секции из `front-page.php`
-2. Добавьте новый блок в редакторе Gutenberg
-3. Скопируйте текст из старой секции
-4. Настройте анимацию и стили по вашему вкусу
+To replace the old section with the new block:
+1. Remove the section's HTML code from `front-page.php`
+2. Add the new block in the Gutenberg editor
+3. Copy the text from the old section
+4. Configure the animation and styles to your taste

@@ -18,7 +18,7 @@
             var cards = attributes.cards;
             var mainTitle = attributes.mainTitle;
 
-            // Добавляем уникальные ID если их нет
+            // Add unique IDs if they don't exist
             if (!cards[0] || !cards[0].id) {
                 var cardsWithIds = cards.map(function(card, idx) {
                     return {
@@ -132,7 +132,7 @@
                 setAttributes({ cards: newCards });
             }
 
-            // Создаем панели для бокового меню
+            // Create panels for the sidebar
             var inspectorPanels = cards.map(function (card, index) {
                 var cardId = card.id;
                 
@@ -140,13 +140,13 @@
                     PanelBody,
                     {
                         key: cardId,
-                        title: __('Карточка', 'My-E-Shop') + ' ' + (index + 1) + ': ' + (card.title || __('Без названия', 'My-E-Shop')),
+                        title: __('Card', 'My-E-Shop') + ' ' + (index + 1) + ': ' + (card.title || __('Untitled', 'My-E-Shop')),
                         initialOpen: false
                     },
                     el(
                         'div',
                         { style: { marginBottom: '15px' } },
-                        el('label', { style: { display: 'block', marginBottom: '8px', fontWeight: '600' } }, __('Иконка', 'My-E-Shop')),
+                        el('label', { style: { display: 'block', marginBottom: '8px', fontWeight: '600' } }, __('Icon', 'My-E-Shop')),
                         el(
                             MediaUploadCheck,
                             null,
@@ -177,7 +177,7 @@
                                                     el(
                                                         Button,
                                                         { isSecondary: true, isSmall: true, onClick: obj.open },
-                                                        __('Заменить', 'My-E-Shop')
+                                                        __('Replace', 'My-E-Shop')
                                                     ),
                                                     el(
                                                         Button,
@@ -188,14 +188,14 @@
                                                                 return function() { removeIcon(id); };
                                                             })(cardId)
                                                         },
-                                                        __('Удалить', 'My-E-Shop')
+                                                        __('Delete', 'My-E-Shop')
                                                     )
                                                 )
                                             ) :
                                             el(
                                                 Button,
                                                 { isPrimary: true, onClick: obj.open },
-                                                __('Выбрать иконку', 'My-E-Shop')
+                                                __('Select icon', 'My-E-Shop')
                                             )
                                     );
                                 }
@@ -203,24 +203,24 @@
                         )
                     ),
                     el(TextControl, {
-                        label: __('Заголовок', 'My-E-Shop'),
+                        label: __('Title', 'My-E-Shop'),
                         value: card.title || '',
                         onChange: (function(id) {
-                            return function(value) { 
-                                updateTitle(id, value); 
+                            return function(value) {
+                                updateTitle(id, value);
                             };
                         })(cardId),
-                        placeholder: __('Введите заголовок...', 'My-E-Shop')
+                        placeholder: __('Enter a title...', 'My-E-Shop')
                     }),
                     el(TextareaControl, {
-                        label: __('Описание', 'My-E-Shop'),
+                        label: __('Description', 'My-E-Shop'),
                         value: card.description || '',
                         onChange: (function(id) {
-                            return function(value) { 
-                                updateDescription(id, value); 
+                            return function(value) {
+                                updateDescription(id, value);
                             };
                         })(cardId),
-                        placeholder: __('Введите описание...', 'My-E-Shop'),
+                        placeholder: __('Enter a description...', 'My-E-Shop'),
                         rows: 4
                     }),
                     el(
@@ -233,7 +233,7 @@
                                 isSmall: true,
                                 onClick: function () { moveCardUp(index); }
                             },
-                            __('↑ Вверх', 'My-E-Shop')
+                            __('↑ Up', 'My-E-Shop')
                         ),
                         index < cards.length - 1 && el(
                             Button,
@@ -242,7 +242,7 @@
                                 isSmall: true,
                                 onClick: function () { moveCardDown(index); }
                             },
-                            __('↓ Вниз', 'My-E-Shop')
+                            __('↓ Down', 'My-E-Shop')
                         ),
                         el(
                             Button,
@@ -251,13 +251,13 @@
                                 isSmall: true,
                                 onClick: function () { removeCard(index); }
                             },
-                            __('🗑 Удалить', 'My-E-Shop')
+                            __('🗑 Delete', 'My-E-Shop')
                         )
                     )
                 );
             });
 
-            // Превью в редакторе
+            // Preview in the editor
             var previewCards = cards.map(function (card, index) {
                 return el(
                     'div',
@@ -267,8 +267,8 @@
                         alt: card.icon.alt,
                         className: 'icon-card-icon'
                     }),
-                    el('h3', { className: 'icon-card-title' }, card.title || __('Заголовок', 'My-E-Shop')),
-                    el('p', { className: 'icon-card-description' }, card.description || __('Описание не заполнено', 'My-E-Shop'))
+                    el('h3', { className: 'icon-card-title' }, card.title || __('Title', 'My-E-Shop')),
+                    el('p', { className: 'icon-card-description' }, card.description || __('Description is empty', 'My-E-Shop'))
                 );
             });
 
@@ -280,20 +280,20 @@
                     null,
                     el(
                         PanelBody,
-                        { title: __('Основные настройки', 'My-E-Shop'), initialOpen: true },
+                        { title: __('Main settings', 'My-E-Shop'), initialOpen: true },
                         el(TextControl, {
-                            label: __('Основной заголовок (H2)', 'My-E-Shop'),
+                            label: __('Main title (H2)', 'My-E-Shop'),
                             value: mainTitle || '',
-                            onChange: function(value) { 
-                                setAttributes({ mainTitle: value }); 
+                            onChange: function(value) {
+                                setAttributes({ mainTitle: value });
                             },
-                            placeholder: __('Введите заголовок блока...', 'My-E-Shop')
+                            placeholder: __('Enter the block title...', 'My-E-Shop')
                         }),
                         el('hr', { style: { margin: '20px 0' } }),
                         el(
                             'p',
                             { style: { marginBottom: '12px', fontSize: '13px', color: '#666' } },
-                            __('Всего карточек: ', 'My-E-Shop') + cards.length
+                            __('Total cards: ', 'My-E-Shop') + cards.length
                         ),
                         el(
                             Button,
@@ -302,7 +302,7 @@
                                 onClick: addCard,
                                 style: { width: '100%' }
                             },
-                            __('+ Добавить карточку', 'My-E-Shop')
+                            __('+ Add card', 'My-E-Shop')
                         )
                     ),
                     inspectorPanels
@@ -317,7 +317,7 @@
                         previewCards.length > 0 ? previewCards : el(
                             'p',
                             { style: { textAlign: 'center', padding: '40px', color: '#999' } },
-                            __('Блок пустой. Добавьте карточки в боковой панели →', 'My-E-Shop')
+                            __('Block is empty. Add cards in the sidebar →', 'My-E-Shop')
                         )
                     )
                 )

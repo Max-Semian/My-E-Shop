@@ -1,6 +1,6 @@
 <?php
 /**
- * Функции для управления страницами категорий
+ * Functions for managing category pages
  */
 
 if (!defined('ABSPATH')) {
@@ -8,14 +8,14 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Инициализация WooCommerce для правильной работы шорткодов
+ * Initialize WooCommerce so shortcodes work correctly
  */
 add_action('init', function() {
     if (class_exists('WooCommerce')) {
-        // Убеждаемся что WooCommerce инициализирован
+        // Make sure WooCommerce is initialized
         WC();
-        
-        // Подключаем шорткоды WooCommerce если они не подключены
+
+        // Load WooCommerce shortcodes if they are not loaded
         if (!shortcode_exists('woocommerce_products')) {
             WC()->frontend_includes();
         }
@@ -23,12 +23,12 @@ add_action('init', function() {
 });
 
 /**
- * Улучшенная обработка шорткодов WooCommerce на страницах категорий
+ * Improved handling of WooCommerce shortcodes on category pages
  */
 add_filter('the_content', function($content) {
-    // Проверяем что мы на странице категории или связанной странице
+    // Check that we are on a category page or a related page
     if (is_product_category() || (is_page() && strpos(get_post()->post_name, 'category-') === 0)) {
-        // Подключаем стили WooCommerce если они не подключены
+        // Load WooCommerce styles if they are not loaded
         if (function_exists('wc_enqueue_js')) {
             wp_enqueue_style('woocommerce-layout');
             wp_enqueue_style('woocommerce-smallscreen'); 
@@ -43,14 +43,14 @@ add_filter('the_content', function($content) {
             ");
         }
         
-        // Принудительно обрабатываем шорткоды
+        // Force shortcode processing
         $content = do_shortcode($content);
     }
     return $content;
 }, 20);
 
 /**
- * Добавляет метабокс в редактор категорий для быстрого доступа к странице
+ * Adds a metabox to the category editor for quick access to the page
  */
 add_action('product_cat_edit_form_fields', 'add_category_page_metabox');
 function add_category_page_metabox($term) {
@@ -61,43 +61,43 @@ function add_category_page_metabox($term) {
     ?>
     <tr class="form-field">
         <th scope="row">
-            <label for="category-template">Шаблон категории</label>
+            <label for="category-template">Category template</label>
         </th>
         <td>
             <select name="category_template" id="category-template">
-                <option value="default" <?php selected($selected_template, 'default'); ?>>Светлый шаблон</option>
-                <option value="dark" <?php selected($selected_template, 'dark'); ?>>Темный шаблон</option>
+                <option value="default" <?php selected($selected_template, 'default'); ?>>Light template</option>
+                <option value="dark" <?php selected($selected_template, 'dark'); ?>>Dark template</option>
             </select>
-            <p class="description">Выберите шаблон отображения для этой категории.</p>
+            <p class="description">Choose the display template for this category.</p>
         </td>
     </tr>
     
     <tr class="form-field">
         <th scope="row">
-            <label>Кастомная страница категории</label>
+            <label>Custom category page</label>
         </th>
         <td>
             <?php if ($category_page): ?>
                 <p>
-                    <strong>Страница создана:</strong> 
-                    <a href="<?php echo get_permalink($category_page->ID); ?>" target="_blank">Просмотреть</a> | 
-                    <a href="<?php echo admin_url('post.php?post=' . $category_page->ID . '&action=edit'); ?>">Редактировать</a>
+                    <strong>Page created:</strong>
+                    <a href="<?php echo get_permalink($category_page->ID); ?>" target="_blank">View</a> |
+                    <a href="<?php echo admin_url('post.php?post=' . $category_page->ID . '&action=edit'); ?>">Edit</a>
                 </p>
-                <p class="description">Вы можете редактировать содержимое этой категории в редакторе Gutenberg.</p>
+                <p class="description">You can edit this category's content in the Gutenberg editor.</p>
             <?php else: ?>
                 <p>
                     <button type="button" class="button" onclick="createCategoryPage(<?php echo $term->term_id; ?>, '<?php echo $term->slug; ?>', '<?php echo addslashes($term->name); ?>')">
-                        Создать кастомную страницу
+                        Create custom page
                     </button>
                 </p>
-                <p class="description">Создайте кастомную страницу для этой категории, чтобы редактировать её содержимое.</p>
+                <p class="description">Create a custom page for this category so you can edit its content.</p>
             <?php endif; ?>
         </td>
     </tr>
     
     <script>
     function createCategoryPage(termId, slug, name) {
-        if (confirm('Создать кастомную страницу для категории "' + name + '"?')) {
+        if (confirm('Create a custom page for the "' + name + '" category?')) {
             var data = {
                 action: 'create_category_page',
                 term_id: termId,
@@ -110,7 +110,7 @@ function add_category_page_metabox($term) {
                 if (response.success) {
                     location.reload();
                 } else {
-                    alert('Ошибка при создании страницы: ' + response.data);
+                    alert('Error creating the page: ' + response.data);
                 }
             });
         }
@@ -120,14 +120,14 @@ function add_category_page_metabox($term) {
 }
 
 /**
- * AJAX обработчик для создания страницы категории
+ * AJAX handler for creating a category page
  */
 add_action('wp_ajax_create_category_page', 'handle_create_category_page');
 function handle_create_category_page() {
     check_ajax_referer('create_category_page', 'nonce');
     
     if (!current_user_can('edit_pages')) {
-        wp_die('Недостаточно прав');
+        wp_die('Insufficient permissions');
     }
     
     $term_id = intval($_POST['term_id']);
@@ -136,14 +136,14 @@ function handle_create_category_page() {
     
     $term = get_term($term_id, 'product_cat');
     if (!$term) {
-        wp_send_json_error('Категория не найдена');
+        wp_send_json_error('Category not found');
     }
     
     $page_slug = 'category-' . $slug;
     $existing_page = get_page_by_path($page_slug);
     
     if ($existing_page) {
-        wp_send_json_error('Страница уже существует');
+        wp_send_json_error('Page already exists');
     }
     
     $page_content = '<!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -153,7 +153,7 @@ function handle_create_category_page() {
     <!-- /wp:heading -->
     
     <!-- wp:paragraph -->
-    <p>' . esc_html($term->description ?: 'Добро пожаловать в категорию ' . $name) . '</p>
+    <p>' . esc_html($term->description ?: 'Welcome to the ' . $name . ' category') . '</p>
     <!-- /wp:paragraph -->
     
     <!-- wp:separator -->
@@ -161,7 +161,7 @@ function handle_create_category_page() {
     <!-- /wp:separator -->
     
     <!-- wp:heading {"level":2} -->
-    <h2>Наши товары</h2>
+    <h2>Our products</h2>
     <!-- /wp:heading -->
     
     <!-- wp:paragraph -->
@@ -171,7 +171,7 @@ function handle_create_category_page() {
 <!-- /wp:group -->';
     
     $page_id = wp_insert_post([
-        'post_title'   => 'Категория: ' . $name,
+        'post_title'   => 'Category: ' . $name,
         'post_name'    => $page_slug,
         'post_status'  => 'publish',
         'post_type'    => 'page',
@@ -187,17 +187,17 @@ function handle_create_category_page() {
             'edit_url' => admin_url('post.php?post=' . $page_id . '&action=edit')
         ]);
     } else {
-        wp_send_json_error('Ошибка при создании страницы');
+        wp_send_json_error('Error creating the page');
     }
 }
 
 /**
- * Добавляет колонки в список категорий для быстрого доступа к страницам
+ * Adds columns to the category list for quick access to pages
  */
 add_filter('manage_edit-product_cat_columns', 'add_category_page_columns');
 function add_category_page_columns($columns) {
-    $columns['category_template'] = 'Шаблон';
-    $columns['category_page'] = 'Кастомная страница';
+    $columns['category_template'] = 'Template';
+    $columns['category_page'] = 'Custom page';
     return $columns;
 }
 
@@ -208,9 +208,9 @@ function display_category_page_columns($content, $column_name, $term_id) {
         $template = !empty($template) ? $template : 'default';
         
         if ($template === 'dark') {
-            echo '<span style="color: #2C2C2C; background: #F4F0EB; padding: 3px 8px; border-radius: 3px; font-size: 11px;">🌙 Темный</span>';
+            echo '<span style="color: #2C2C2C; background: #F4F0EB; padding: 3px 8px; border-radius: 3px; font-size: 11px;">🌙 Dark</span>';
         } else {
-            echo '<span style="color: #333; background: #f0f0f0; padding: 3px 8px; border-radius: 3px; font-size: 11px;">☀️ Светлый</span>';
+            echo '<span style="color: #333; background: #f0f0f0; padding: 3px 8px; border-radius: 3px; font-size: 11px;">☀️ Light</span>';
         }
     }
     
@@ -220,16 +220,16 @@ function display_category_page_columns($content, $column_name, $term_id) {
         $category_page = get_page_by_path($category_page_slug);
         
         if ($category_page) {
-            echo '<a href="' . admin_url('post.php?post=' . $category_page->ID . '&action=edit') . '" class="button button-small">Редактировать</a>';
-            echo '<br><a href="' . get_permalink($category_page->ID) . '" target="_blank" class="button button-small">Просмотр</a>';
+            echo '<a href="' . admin_url('post.php?post=' . $category_page->ID . '&action=edit') . '" class="button button-small">Edit</a>';
+            echo '<br><a href="' . get_permalink($category_page->ID) . '" target="_blank" class="button button-small">View</a>';
         } else {
-            echo '<span style="color: #999;">Не создана</span>';
+            echo '<span style="color: #999;">Not created</span>';
         }
     }
 }
 
 /**
- * Удаляет страницу категории при удалении самой категории
+ * Deletes the category page when the category itself is deleted
  */
 add_action('delete_product_cat', 'delete_category_page_on_term_delete');
 function delete_category_page_on_term_delete($term_id) {
@@ -251,7 +251,7 @@ function delete_category_page_on_term_delete($term_id) {
 }
 
 /**
- * Сохраняет выбранный шаблон категории
+ * Saves the selected category template
  */
 add_action('edited_product_cat', 'save_category_template');
 add_action('created_product_cat', 'save_category_template');
@@ -265,7 +265,7 @@ function save_category_template($term_id) {
 }
 
 /**
- * Обновляет slug страницы при изменении slug категории
+ * Updates the page slug when the category slug changes
  */
 add_action('edited_product_cat', 'update_category_page_on_term_edit');
 function update_category_page_on_term_edit($term_id) {
@@ -292,14 +292,14 @@ function update_category_page_on_term_edit($term_id) {
             wp_update_post([
                 'ID' => $page->ID,
                 'post_name' => $new_slug,
-                'post_title' => 'Категория: ' . $term->name
+                'post_title' => 'Category: ' . $term->name
             ]);
         }
     }
 }
 
 /**
- * Добавляет уведомление о возможности создания кастомных страниц
+ * Adds a notice about the option to create custom pages
  */
 add_action('admin_notices', 'category_pages_admin_notice');
 function category_pages_admin_notice() {
@@ -307,7 +307,7 @@ function category_pages_admin_notice() {
     if ($screen && $screen->id === 'edit-product_cat') {
         ?>
         <div class="notice notice-info">
-            <p><strong>Кастомные страницы категорий:</strong> Вы можете создать индивидуальные страницы для каждой категории с возможностью редактирования в Gutenberg. Выберите шаблон (светлый/темный) и используйте колонки "Шаблон" и "Кастомная страница" для управления.</p>
+            <p><strong>Custom category pages:</strong> You can create individual pages for each category that can be edited in Gutenberg. Choose a template (light/dark) and use the "Template" and "Custom page" columns to manage them.</p>
         </div>
         <?php
     }

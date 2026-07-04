@@ -24,7 +24,7 @@ if (empty($items)) {
                 if (!empty($answer)) {
                     echo nl2br(esc_html($answer));
                 } else {
-                    echo '<p style="color: #999; font-style: italic;">Ответ не заполнен</p>';
+                    echo '<p style="color: #999; font-style: italic;">Answer is empty</p>';
                 }
                 ?>
             </div>

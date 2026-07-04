@@ -47,7 +47,7 @@
     transform: translateY(-2px);
 }
 
-/* Брейкер в редакторе */
+/* Breaker in the editor */
 .wp-block-my-e-shop-product-cards .product-card-breaker {
     width: 100%;
     height: 1px;
@@ -55,7 +55,7 @@
     margin: 8px 0;
 }
 
-/* Нижняя часть карточки в редакторе */
+/* Bottom part of the card in the editor */
 .wp-block-my-e-shop-product-cards .product-card-bottom {
     display: flex;
     justify-content: space-between;
@@ -63,7 +63,7 @@
     margin-top: 0;
 }
 
-/* Ценовая секция в редакторе */
+/* Price section in the editor */
 .wp-block-my-e-shop-product-cards .product-card-price-section {
     display: flex;
     align-items: center;
@@ -90,7 +90,7 @@
     font-weight: 600;
 }
 
-/* Иконка корзины в редакторе */
+/* Cart icon in the editor */
 .wp-block-my-e-shop-product-cards .product-card-actions {
     flex-shrink: 0;
     margin-left: 6px;

@@ -1,70 +1,70 @@
 # Category Cards Block
 
-## Описание
+## Description
 
-Блок "Карточки категорий" для отображения категорий товаров в виде красивой сетки с изображениями и текстом.
+The "Category Cards" block displays product categories as a nice grid with images and text.
 
-## Функциональность
+## Features
 
-- Отображение категорий в адаптивной сетке (4 колонки на десктопе, 2 на мобиле)
-- Загрузка изображений через медиабиблиотеку WordPress
-- Настраиваемый заголовок и подзаголовок блока
-- Настраиваемый цвет фона
-- Hover-эффекты и анимации
-- Поддержка ссылок для каждой категории
+- Display categories in a responsive grid (4 columns on desktop, 2 on mobile)
+- Upload images through the WordPress media library
+- Customizable block title and subtitle
+- Customizable background color
+- Hover effects and animations
+- Link support for each category
 
-## Настройки блока
+## Block settings
 
-### Основные настройки
-- **Цвет фона**: Настраиваемый цвет фона блока
-- **Заголовок блока**: Основной заголовок (например, "Collection")
-- **Подзаголовок блока**: Дополнительный текст под заголовком
+### Main settings
+- **Background color**: Customizable block background color
+- **Block title**: Main title (for example, "Collection")
+- **Block subtitle**: Additional text below the title
 
-### Настройки категорий
-Для каждой категории можно настроить:
-- **Изображение**: Загрузка через медиабиблиотеку
-- **Название категории**: Основной текст категории
-- **Подзаголовок**: Дополнительный текст (отображается мелким шрифтом)
-- **Ссылка**: URL для перехода при клике
+### Category settings
+For each category you can configure:
+- **Image**: Upload through the media library
+- **Category name**: Main category text
+- **Subtitle**: Additional text (displayed in a small font)
+- **Link**: URL to open on click
 
-## Структура файлов
+## File structure
 
 ```
 category-cards/
-├── block.json          # Конфигурация блока
-├── index.js           # JavaScript для редактора
-├── render.php         # PHP-шаблон для фронтенда
-├── style.css          # Стили для фронтенда
-├── editor.css         # Стили для редактора
-├── script.js          # JavaScript для фронтенда
-└── README.md          # Документация
+├── block.json          # Block configuration
+├── index.js           # JavaScript for the editor
+├── render.php         # PHP template for the frontend
+├── style.css          # Styles for the frontend
+├── editor.css         # Styles for the editor
+├── script.js          # JavaScript for the frontend
+└── README.md          # Documentation
 ```
 
-## Использование
+## Usage
 
-1. В редакторе WordPress найдите блок "Category Cards Block"
-2. Добавьте блок на страницу
-3. Настройте заголовок и цвет фона в боковой панели
-4. Добавьте категории через кнопку "+ Добавить категорию"
-5. Для каждой категории загрузите изображение и заполните текстовые поля
+1. In the WordPress editor, find the "Category Cards Block"
+2. Add the block to a page
+3. Configure the title and background color in the sidebar
+4. Add categories using the "+ Add category" button
+5. For each category, upload an image and fill in the text fields
 
-## Адаптивность
+## Responsiveness
 
-- **Десктоп (>1024px)**: 4 колонки
-- **Планшет (768-1024px)**: 3 колонки  
-- **Мобиль (480-768px)**: 2 колонки
-- **Малый мобиль (<480px)**: 1 колонка
+- **Desktop (>1024px)**: 4 columns
+- **Tablet (768-1024px)**: 3 columns  
+- **Mobile (480-768px)**: 2 columns
+- **Small mobile (<480px)**: 1 column
 
-## Совместимость
+## Compatibility
 
 - WordPress 5.0+
-- Gutenberg редактор
-- Современные браузеры (Chrome, Firefox, Safari, Edge)
+- Gutenberg editor
+- Modern browsers (Chrome, Firefox, Safari, Edge)
 
-## Разработка
+## Development
 
-Блок использует:
-- ES5/ES6 JavaScript для совместимости
+The block uses:
+- ES5/ES6 JavaScript for compatibility
 - WordPress Block API
-- CSS Grid для адаптивной сетки
-- PHP для серверного рендеринга
+- CSS Grid for the responsive grid
+- PHP for server-side rendering
