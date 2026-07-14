@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// A t-shirt print position: the print image + its SEO inputs + generated copy.
+model Position {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  /// Main print name (human title).
+  title    String
+  /// SEO title (<title> tag).
+  seoTitle String   @default("")
+
+  /// Print image stored inline — avoids needing a volume/bucket.
+  imageData Bytes?
+  imageMime String?
+
+  /// ANTI-CANNIBALIZATION: one primary keyword may target exactly one position.
+  /// Enforced at the DB level so two prints can never compete for the same query.
+  primaryKeyword String @unique
+
+  /// Supporting keywords, each used at most once in the copy.
+  secondaryKeywords String[] @default([])
+
+  /// Generated output.
+  description    String @default("")
+  seoDescription String @default("")
+
+  /// Post-generation audit: what the model actually used, and what it refused to force.
+  keywordsUsed Json?
+  warnings     String[] @default([])
+
+  status PositionStatus @default(DRAFT)
+
+  @@index([status])
+}
+
+enum PositionStatus {
+  DRAFT
+  GENERATED
+  APPROVED
+}
+
+/// Reusable keyword list. Secondary keywords are picked from here.
+/// A keyword marked PRIMARY that is already claimed by a Position is blocked
+/// from being reused (cannibalization guard surfaced in the UI).
+model Keyword {
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+  text      String      @unique
+  type      KeywordType @default(SECONDARY)
+  /// Optional grouping (collection, theme).
+  topic     String?
+}
+
+enum KeywordType {
+  PRIMARY
+  SECONDARY
+}
