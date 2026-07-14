@@ -14,6 +14,7 @@
  */
 
 import { META_TITLE_MAX, META_DESCRIPTION_MAX, DESCRIPTION_SENTENCES } from './prompt';
+import { PLACEMENT, type TieredKeyword } from './keywords';
 
 export interface GeneratedCopy {
   name: string;
@@ -31,7 +32,8 @@ export interface GeneratedCopy {
 
 export interface RuleContext {
   primaryKeyword: string;
-  secondaryKeywords: string[];
+  /** Each secondary keyword carries its level; the level decides its allowed placement. */
+  secondaryKeywords: TieredKeyword[];
   reservedKeywords: string[];
   /** From the brand profile — words that must never appear in customer-facing copy. */
   bannedWords: string[];
@@ -150,20 +152,60 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
     push('meta_title_keyword_first', `"metaTitle" must start with the primary keyword "${kw}".`);
   }
 
-  // ---------- secondary keywords: at most once, description only ----------
+  // ---------- secondary keywords: placement is decided by the level ----------
+  // A flat "description only" rule would waste the whole model: a MOTIF keyword belongs in
+  // the alt texts (that is where the image is described), while a COMMERCIAL one there
+  // would just be stuffing. So each level is checked against its own placement contract.
+  const tagsText = (copy.tags || []).join(' \n ');
+  const altsText = (copy.imagesAlt || []).join(' \n ');
+  const modelWarnings = (copy.warnings || []).join(' ').toLowerCase();
+
   for (const k of ctx.secondaryKeywords) {
-    const n = countPhrase(descText, k);
-    if (n > 1) {
+    const rule = PLACEMENT[k.tier];
+    const inDesc = countPhrase(descText, k.text);
+    const inTags = countPhrase(tagsText, k.text);
+    const inAlts = countPhrase(altsText, k.text);
+
+    if (inDesc > rule.maxInDescription) {
       push(
         'secondary_keyword_repeat',
-        `Secondary keyword "${k}" appears ${n}x in the description. Max 1x — remove the extra use or drop it.`,
+        `[${k.tier}] "${k.text}" appears ${inDesc}x in the description; max ${rule.maxInDescription}x. Remove the extra use or drop the keyword.`,
       );
     }
-    if (countPhrase(metaTitle, k) + countPhrase(metaDesc, k) + countPhrase(shortText, k) > 0) {
+
+    // The meta fields and the short description belong to the primary keyword. Letting a
+    // secondary in is where two product pages start competing for the same query.
+    if (countPhrase(metaTitle, k.text) + countPhrase(metaDesc, k.text) + countPhrase(shortText, k.text) > 0) {
       push(
-        'secondary_keyword_outside_description',
-        `Secondary keyword "${k}" may only appear in the description, but was found in a meta/short field.`,
+        'secondary_keyword_in_reserved_field',
+        `[${k.tier}] "${k.text}" was found in metaTitle / metaDescription / shortDescription. Those fields belong to the primary keyword only.`,
       );
+    }
+
+    if (!rule.allowInTags && inTags > 0) {
+      push(
+        'secondary_keyword_wrong_field',
+        `[${k.tier}] "${k.text}" is a commercial query, not a topical signal — it must not be used as a tag.`,
+      );
+    }
+    if (!rule.allowInAlts && inAlts > 0) {
+      push(
+        'secondary_keyword_wrong_field',
+        `[${k.tier}] "${k.text}" must not be pushed into the alt texts. Alt texts describe the image, not the search query.`,
+      );
+    }
+
+    // A motif is the thing in the picture. If it is never used to describe the picture, it
+    // is doing no work at all — so it must either land somewhere, or be consciously
+    // dropped with a reason (the image genuinely does not show it).
+    if (rule.requirePlacement && inDesc + inTags + inAlts === 0) {
+      const dropped = modelWarnings.includes(k.text.toLowerCase());
+      if (!dropped) {
+        push(
+          'motif_keyword_unused',
+          `[MOTIF] "${k.text}" is the object shown on the print, so it must appear in at least one alt text or tag. If the image does not actually show it, drop it and say so in "warnings".`,
+        );
+      }
     }
   }
 

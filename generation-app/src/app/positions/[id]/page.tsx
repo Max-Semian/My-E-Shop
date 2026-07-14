@@ -44,8 +44,33 @@ interface Translation {
   imagesAlt: string[];
 }
 
+type Tier = 'COMMERCIAL' | 'SEMANTIC' | 'MOTIF';
+
+interface Suggestion {
+  text: string;
+  tier: Tier;
+  rationale: string;
+  /** Set when accepting it would cannibalize or echo another position. */
+  conflict?: string;
+}
+
+interface KeywordSuggestions {
+  /** What the model concluded the product IS, after reading the print. */
+  entity: string;
+  /** Objects it can actually see in the image — the ground truth for motif keywords. */
+  visibleMotifs: string[];
+  suggestions: Suggestion[];
+  rejected: { text: string; reason: string }[];
+}
+
 const META_TITLE_MAX = 70;
 const META_DESC_MAX = 165;
+
+const TIER_JOB: Record<Tier, string> = {
+  COMMERCIAL: 'Buying intent — placed in the description, once.',
+  SEMANTIC: 'Topical context for search engines and AI — description or tags.',
+  MOTIF: 'The object on the print — must land in an alt text or a tag.',
+};
 
 function Counter({ value, max }: { value: string; max: number }) {
   return (
@@ -68,6 +93,11 @@ export default function PositionCard({ params }: { params: { id: string } }) {
   // is English, so the English copy stays the single source of truth.
   const [ru, setRu] = useState<Translation | null>(null);
   const [translating, setTranslating] = useState(false);
+  // Secondary keywords derived from the print itself. The textarea is controlled from here
+  // so that accepting a suggestion actually lands in the field the user then saves.
+  const [secondary, setSecondary] = useState('');
+  const [sugg, setSugg] = useState<KeywordSuggestions | null>(null);
+  const [suggesting, setSuggesting] = useState(false);
 
   async function load() {
     const res = await fetch(`/api/positions/${params.id}`);
@@ -76,7 +106,48 @@ export default function PositionCard({ params }: { params: { id: string } }) {
       setP(data);
       setMetaTitle(data.metaTitle);
       setMetaDesc(data.seoDescription);
+      setSecondary(data.secondaryKeywords.join('\n'));
     }
+  }
+
+  /**
+   * Derive the secondary keyword set from the print itself — the image, the title and the
+   * primary keyword. Motif keywords in particular can only be read off the image: a print
+   * named "Poison Garden" does not say whether it shows belladonna or foxglove.
+   * Nothing is saved here; the editor accepts what is worth keeping.
+   */
+  async function suggest() {
+    setSuggesting(true);
+    setError('');
+    setSugg(null);
+    const res = await fetch(`/api/positions/${params.id}/suggest-keywords`, { method: 'POST' });
+    setSuggesting(false);
+    if (res.ok) setSugg(await res.json());
+    else setError((await res.json().catch(() => ({}))).error || 'Could not read the print.');
+  }
+
+  /** Accept a suggestion: into the textarea, and into the keyword list with its level. */
+  async function accept(s: Suggestion) {
+    const already = secondary
+      .split(/[\n,]/)
+      .map((x) => x.trim().toLowerCase())
+      .filter(Boolean);
+    if (!already.includes(s.text.toLowerCase())) {
+      setSecondary((prev) => (prev.trim() ? `${prev.trim()}\n${s.text}` : s.text));
+    }
+    // Register the level, otherwise the generator would fall back to COMMERCIAL and a
+    // motif keyword would never be allowed into the alt texts where it belongs.
+    await fetch('/api/keywords', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: s.text,
+        type: 'SECONDARY',
+        tier: s.tier,
+        topic: p?.category || null,
+      }),
+    });
+    setOk('Added to the set — press Save to keep it.');
   }
   useEffect(() => {
     load();
@@ -239,13 +310,97 @@ export default function PositionCard({ params }: { params: { id: string } }) {
               <textarea
                 id="secondaryRaw"
                 name="secondaryRaw"
-                defaultValue={p.secondaryKeywords.join('\n')}
+                value={secondary}
+                onChange={(e) => setSecondary(e.target.value)}
                 style={{ minHeight: 80 }}
               />
-              <p className="hint">Each at most once, description only. Any that do not fit are dropped, not forced.</p>
+              <p className="hint">
+                One per line. Each keyword&apos;s <strong>level</strong> — set on the{' '}
+                <a href="/keywords">keyword list</a> — decides where it may be placed:
+                commercial in the description, semantic in the description or tags, motif in
+                the alt texts. None of them may ever enter the meta fields. Any that do not
+                fit are dropped, not forced.
+              </p>
+
+              <div className="row" style={{ marginTop: 12 }}>
+                <button type="button" className="ghost" onClick={suggest} disabled={suggesting}>
+                  {suggesting ? 'Reading the print…' : 'Build keywords from the print'}
+                </button>
+              </div>
+              <p className="hint">
+                Reads the <strong>image</strong>, the <strong>title</strong> and the{' '}
+                <strong>primary keyword</strong> together, and proposes the three levels.
+                Motifs are taken from what is actually visible — never guessed from the name.
+                Anything that would cannibalize another product is blocked here, not later.
+              </p>
             </div>
           </div>
         </div>
+
+        {/* ---------- keywords derived from the print ---------- */}
+        {sugg && (
+          <div className="card">
+            <h2 style={{ marginTop: 0 }}>Secondary keywords from the print</h2>
+
+            {sugg.entity && (
+              <p className="hint" style={{ marginTop: 0 }}>
+                <strong>What this product is:</strong> {sugg.entity}
+              </p>
+            )}
+
+            {sugg.visibleMotifs.length > 0 && (
+              <p className="hint">
+                <strong>Visible in the image:</strong>{' '}
+                {sugg.visibleMotifs.map((m) => (
+                  <span className="kw sec" key={m}>
+                    {m}
+                  </span>
+                ))}
+              </p>
+            )}
+
+            <div style={{ marginTop: 16 }}>
+              {sugg.suggestions.map((s) => (
+                <div className={`suggestion ${s.conflict ? 'blocked' : ''}`} key={s.text}>
+                  <span className={`tier ${s.tier}`} title={TIER_JOB[s.tier]}>
+                    {s.tier}
+                  </span>
+                  <div className="grow">
+                    <strong>{s.text}</strong>
+                    <p className="hint" style={{ margin: '2px 0 0' }}>
+                      {s.conflict ? (
+                        <span style={{ color: 'var(--bad)' }}>{s.conflict}</span>
+                      ) : (
+                        s.rationale
+                      )}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className="ghost"
+                    disabled={!!s.conflict}
+                    onClick={() => accept(s)}
+                  >
+                    {s.conflict ? 'Blocked' : 'Add'}
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {sugg.rejected.length > 0 && (
+              <>
+                <label>Considered and thrown away</label>
+                <ul className="hint" style={{ margin: 0, paddingLeft: 18 }}>
+                  {sugg.rejected.map((r) => (
+                    <li key={r.text}>
+                      <strong>{r.text}</strong> — {r.reason}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+        )}
 
         {/* ---------- product facts ---------- */}
         <div className="card">

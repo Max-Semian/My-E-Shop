@@ -3,6 +3,7 @@ import { prisma, reservedKeywordsExcept } from '@/lib/db';
 import { isAuthenticated } from '@/lib/auth';
 import { generateCopy } from '@/lib/gemini';
 import { getBrandProfile } from '@/lib/brand';
+import { resolveSecondaryTiers } from '@/lib/keywords';
 
 export const maxDuration = 60;
 
@@ -20,10 +21,13 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     );
   }
 
-  // Every other position's primary keyword is off-limits for this one.
-  const [reservedKeywords, brand] = await Promise.all([
+  // Every other position's primary keyword is off-limits for this one. The secondary
+  // keywords are looked up in the keyword list to recover their level, because the level —
+  // commercial / semantic / motif — is what decides where each one may be placed.
+  const [reservedKeywords, brand, secondaryKeywords] = await Promise.all([
     reservedKeywordsExcept(position.id),
     getBrandProfile(),
+    resolveSecondaryTiers(position.secondaryKeywords),
   ]);
 
   const { copy, violations, attempts } = await generateCopy(
@@ -31,7 +35,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       title: position.title,
       seoTitle: position.seoTitle,
       primaryKeyword: position.primaryKeyword,
-      secondaryKeywords: position.secondaryKeywords,
+      secondaryKeywords,
       reservedKeywords,
       category: position.category,
       materials: position.materials,

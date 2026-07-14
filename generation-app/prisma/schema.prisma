@@ -114,6 +114,11 @@ model Keyword {
   createdAt DateTime    @default(now())
   text      String      @unique
   type      KeywordType @default(SECONDARY)
+
+  /// Which of the three levels this secondary keyword serves. The tier is not a label —
+  /// it decides WHERE the keyword is allowed to be placed (see lib/keywords.ts).
+  tier KeywordTier @default(COMMERCIAL)
+
   /// Optional grouping (collection, theme).
   topic String?
 }
@@ -121,4 +126,16 @@ model Keyword {
 enum KeywordType {
   PRIMARY
   SECONDARY
+}
+
+/// The three levels a secondary keyword can serve. A well-built secondary set has all
+/// three: together they define the product as an entity, which is what semantic search,
+/// Google's product understanding and LLM retrieval actually consume.
+enum KeywordTier {
+  /// Real purchase intent — a query a buyer types. Lives in the description.
+  COMMERCIAL
+  /// Topical support — tells a search engine and an AI what world this belongs to.
+  SEMANTIC
+  /// The concrete object visible on the print. Must show up where the image is described.
+  MOTIF
 }

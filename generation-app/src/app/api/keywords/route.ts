@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { isAuthenticated } from '@/lib/auth';
+import { TIERS } from '@/lib/keywords';
 
 function guard() {
   return isAuthenticated() ? null : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -30,12 +31,21 @@ export async function GET() {
   );
 }
 
-/** Bulk-add keywords: one per line, or a comma-separated list. */
+/**
+ * Bulk-add keywords: one per line, or a comma-separated list.
+ *
+ * `tier` is not cosmetic — it decides where the keyword may be placed in the copy
+ * (see lib/keywords.ts), so an untiered keyword defaults to COMMERCIAL, the most
+ * restrictive placement. Upserting rather than skipping duplicates means re-adding a
+ * keyword with a corrected tier actually corrects it.
+ */
 export async function POST(req: Request) {
   const denied = guard();
   if (denied) return denied;
 
-  const { text, type = 'SECONDARY', topic } = await req.json().catch(() => ({ text: '' }));
+  const body = await req.json().catch(() => ({ text: '' }));
+  const { text, type = 'SECONDARY', tier = 'COMMERCIAL', topic } = body;
+
   const items = String(text || '')
     .split(/[\n,]/)
     .map((s) => s.trim())
@@ -43,14 +53,18 @@ export async function POST(req: Request) {
 
   if (!items.length) return NextResponse.json({ error: 'No keywords supplied' }, { status: 400 });
 
-  await prisma.keyword.createMany({
-    data: items.map((t) => ({
-      text: t,
-      type: type === 'PRIMARY' ? 'PRIMARY' : 'SECONDARY',
-      topic: topic || null,
-    })),
-    skipDuplicates: true,
-  });
+  const kwType = type === 'PRIMARY' ? 'PRIMARY' : 'SECONDARY';
+  const kwTier = TIERS.includes(tier) ? tier : 'COMMERCIAL';
+
+  await Promise.all(
+    items.map((t) =>
+      prisma.keyword.upsert({
+        where: { text: t },
+        create: { text: t, type: kwType, tier: kwTier, topic: topic || null },
+        update: { type: kwType, tier: kwTier, ...(topic ? { topic } : {}) },
+      }),
+    ),
+  );
 
   return NextResponse.json({ added: items.length });
 }

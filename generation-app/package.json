@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "prisma migrate deploy && next start -p ${PORT:-3000}",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "seed:witchcore": "node scripts/seed-witchcore.mjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",

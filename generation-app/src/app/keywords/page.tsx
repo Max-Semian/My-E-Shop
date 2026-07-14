@@ -2,14 +2,24 @@
 
 import { useEffect, useState } from 'react';
 
+type Tier = 'COMMERCIAL' | 'SEMANTIC' | 'MOTIF';
+
 interface Kw {
   id: string;
   text: string;
   type: 'PRIMARY' | 'SECONDARY';
+  tier: Tier;
   topic: string | null;
   /** Title of the position that already owns this keyword as its PRIMARY. */
   claimedBy: string | null;
 }
+
+/** The level is not a label — it decides where the keyword is allowed to be placed. */
+const TIER_JOB: Record<Tier, string> = {
+  COMMERCIAL: 'Real buying intent — goes in the description, once.',
+  SEMANTIC: 'Topical context for search engines and AI — description or tags.',
+  MOTIF: 'The object visible on the print — must land in an alt text or a tag.',
+};
 
 export default function KeywordsPage() {
   const [rows, setRows] = useState<Kw[]>([]);
@@ -33,6 +43,7 @@ export default function KeywordsPage() {
       body: JSON.stringify({
         text: form.get('text'),
         type: form.get('type'),
+        tier: form.get('tier'),
         topic: form.get('topic'),
       }),
     });
@@ -54,16 +65,34 @@ export default function KeywordsPage() {
     <>
       <h1>Keyword list</h1>
 
+      <div className="alert warn">
+        A secondary keyword&apos;s <strong>level</strong> decides where it is allowed to be
+        placed — it is enforced in code, not suggested. <strong>Commercial</strong> keywords
+        live in the description; <strong>semantic</strong> ones give the product its topical
+        world; <strong>motif</strong> ones name what is actually drawn on the print and must
+        land where the image is described. A set with all three defines the product as an
+        entity, which is what semantic search, Google&apos;s product understanding and LLM
+        retrieval actually read.
+      </div>
+
       <div className="card">
         <form onSubmit={add}>
           <label htmlFor="text">Add keywords</label>
           <textarea id="text" name="text" placeholder="One per line, or comma separated" />
-          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr 1fr' }}>
             <div>
               <label htmlFor="type">Type</label>
               <select id="type" name="type" defaultValue="SECONDARY">
                 <option value="SECONDARY">Secondary</option>
                 <option value="PRIMARY">Primary</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="tier">Level (secondary only)</label>
+              <select id="tier" name="tier" defaultValue="COMMERCIAL">
+                <option value="COMMERCIAL">Commercial — buying intent</option>
+                <option value="SEMANTIC">Semantic — topical support</option>
+                <option value="MOTIF">Motif — object on the print</option>
               </select>
             </div>
             <div>
@@ -74,6 +103,10 @@ export default function KeywordsPage() {
           <div className="row">
             <button disabled={busy}>{busy ? 'Adding…' : 'Add'}</button>
           </div>
+          <p className="hint">
+            Adding an existing keyword updates its level, so a mistiered keyword can be
+            corrected by re-adding it.
+          </p>
         </form>
       </div>
 
@@ -85,6 +118,7 @@ export default function KeywordsPage() {
             <tr>
               <th>Keyword</th>
               <th>Type</th>
+              <th>Level</th>
               <th>Topic</th>
               <th>Availability</th>
               <th />
@@ -97,6 +131,15 @@ export default function KeywordsPage() {
                   <span className={`kw ${k.type === 'SECONDARY' ? 'sec' : ''}`}>{k.text}</span>
                 </td>
                 <td className="hint">{k.type}</td>
+                <td>
+                  {k.type === 'SECONDARY' ? (
+                    <span className={`tier ${k.tier}`} title={TIER_JOB[k.tier]}>
+                      {k.tier}
+                    </span>
+                  ) : (
+                    <span className="hint">—</span>
+                  )}
+                </td>
                 <td className="hint">{k.topic || '—'}</td>
                 <td>
                   {k.claimedBy ? (

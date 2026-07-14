@@ -57,6 +57,18 @@ h2 { font-size: 18px; margin: 28px 0 12px; }
 .kw { display: inline-block; background: #f1e9fb; color: #6b21a8; border-radius: 20px; padding: 2px 10px; font-size: 12px; margin: 2px 4px 2px 0; }
 .kw.sec { background: #eef1f5; color: #475569; }
 
+/* The three secondary levels. Colour-coded because the level, not the word, is what
+   decides where a keyword may be placed — so it has to be readable at a glance. */
+.tier { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; padding: 2px 7px; }
+.tier.COMMERCIAL { background: #e8f0fe; color: #1d4ed8; }
+.tier.SEMANTIC { background: #eef7ec; color: #15803d; }
+.tier.MOTIF { background: #fdf0e6; color: #b45309; }
+
+.suggestion { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.suggestion:last-child { border-bottom: none; }
+.suggestion.blocked { opacity: 0.55; }
+.suggestion .grow { flex: 1; min-width: 0; }
+
 .badge { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
 .badge.DRAFT { background: #fdeee0; color: var(--warn); }
 .badge.GENERATED { background: #e6f4ec; color: var(--ok); }

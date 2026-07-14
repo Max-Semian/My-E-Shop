@@ -15,12 +15,14 @@
  */
 
 import type { BrandProfile } from '@prisma/client';
+import { PLACEMENT, TIERS, type TieredKeyword } from './keywords';
 
 export interface GenerationInput {
   title: string;
   seoTitle: string;
   primaryKeyword: string;
-  secondaryKeywords: string[];
+  /** Secondary keywords carry their level — the level decides where they may be placed. */
+  secondaryKeywords: TieredKeyword[];
   /** Primary keywords already claimed by OTHER positions — must not be targeted here. */
   reservedKeywords: string[];
   // Product facts — supplied so the model states them instead of inventing them.
@@ -113,12 +115,37 @@ placement. Repeating it INSIDE one field is stuffing, and is forbidden.
 - PRIMARY keyword — EXACTLY ONCE in each of: "name", "description", "metaTitle" (as the
   first words), "metaDescription". In "shortDescription": zero or one time, never more.
   Never twice within a single field. Never in a list.
-- SECONDARY keywords — each AT MOST ONCE, and ONLY inside "description". Given that the
-  description is just ${DESCRIPTION_SENTENCES} sentences, most of them will not fit.
-  Using ZERO secondary keywords is a perfectly good answer.
-- If a secondary keyword cannot sit in a sentence a human would actually write, DO NOT USE
-  IT. Leave it out and record it in "warnings". Omitting a keyword is always better than
-  forcing it. That is the correct behaviour, not a failure.
+
+## Secondary keywords come in THREE LEVELS
+Each level does a different job, so each level has a DIFFERENT allowed placement. Every
+secondary keyword you are given is tagged with its level. Read the level before you place
+the keyword. A keyword in the wrong field either does nothing or reads as spam.
+
+  [COMMERCIAL] A query a buyer really types; it has its own search intent.
+               PLACE IT: in "description", at most ONCE. Nowhere else.
+
+  [SEMANTIC]   Topical support. It carries no purchase intent — it tells a search engine
+               and an AI system what world this product belongs to.
+               PLACE IT: in "description" at most ONCE, and/or as one of the "tags".
+
+  [MOTIF]      The concrete object visible on the print — a plant, a hand, a sigil.
+               This is what makes the product findable by someone (or some AI) looking for
+               "a tee with a moth on it".
+               PLACE IT: it MUST appear at least once across "imagesAlt" or "tags" — that
+               is where the image is described. It may ALSO sit once in "description".
+               IF THE MOTIF IS NOT ACTUALLY VISIBLE IN THE IMAGE, DO NOT USE IT. Drop it
+               and say so in "warnings". The image outranks the keyword, always.
+
+- NO secondary keyword of ANY level may appear in "metaTitle", "metaDescription" or
+  "shortDescription". Those fields belong to the primary keyword. Sharing them is how two
+  pages start competing for the same query.
+- Each secondary keyword AT MOST ONCE per field. Never twice in the same field.
+- The description is only ${DESCRIPTION_SENTENCES} sentences: most COMMERCIAL and SEMANTIC
+  keywords will not fit there. Using ZERO of them in the description is a perfectly good
+  answer. Forcing them in is not.
+- If a keyword cannot sit in a sentence a human would actually write, DO NOT USE IT. Leave
+  it out and record it in "warnings". Omitting a keyword is always better than forcing it.
+  That is the correct behaviour, not a failure.
 - NEVER chain keywords together. NEVER add keywords you were not given.
 
 # ===== CANNIBALIZATION =====
@@ -137,7 +164,10 @@ or build this copy around any of them. This page must not compete with them.
  1. Is "description" EXACTLY ${DESCRIPTION_SENTENCES} sentences, with no headings or HTML?
  2. Primary keyword: exactly 1 in "name", 1 in "description", 1 in "metaTitle" (first),
     1 in "metaDescription", 0–1 in "shortDescription"?
- 3. Every secondary keyword: 0 or 1 in "description", absent everywhere else?
+ 3. Every secondary keyword: at most 1x in "description", and ZERO times in "metaTitle",
+    "metaDescription" and "shortDescription"?
+ 3b. Every [MOTIF] keyword: either visible in the image AND placed in an alt text or a tag,
+    or explicitly dropped in "warnings" because the image does not show it?
  4. metaTitle <= ${META_TITLE_MAX} chars, metaDescription <= ${META_DESCRIPTION_MAX} chars?
  5. Does "shortDescription" reuse a sentence from "description"? Rewrite if so.
  6. Exactly 5 imagesAlt and 5 imageFilenames, all distinct, filenames start with the slug?
@@ -156,6 +186,16 @@ export function buildUserPrompt(input: GenerationInput): string {
   const list = (arr: string[]) => (arr.length ? arr.map((k) => `  - ${k}`).join('\n') : '  (none)');
   const fact = (label: string, v?: string) => (v && v.trim() ? `${label}: ${v.trim()}` : null);
 
+  // Grouped by level, because the level is what decides the placement. A flat list would
+  // invite the model to treat them all the same — which is exactly the mistake.
+  const tiered = TIERS.map((tier) => {
+    const items = input.secondaryKeywords.filter((k) => k.tier === tier);
+    if (!items.length) return null;
+    return `[${tier}] — ${PLACEMENT[tier].job}\n${list(items.map((k) => k.text))}`;
+  })
+    .filter(Boolean)
+    .join('\n\n');
+
   const facts = [
     fact('Category', input.category),
     fact('Materials', input.materials),
@@ -170,7 +210,9 @@ export function buildUserPrompt(input: GenerationInput): string {
     .join('\n');
 
   return `
-PRINT TITLE (the main name of the print)
+PRINT TITLE — the name of the print. This is a SOURCE, not decoration: it carries the
+concept behind the artwork. Read it together with the image; the image says what is drawn,
+the title says what it means.
 ${input.title}
 
 PRODUCT FACTS — state only these, invent nothing
@@ -182,8 +224,9 @@ ${input.seoTitle || '(not set — write one)'}
 PRIMARY KEYWORD — exactly once in each of: name, description, metaTitle (first), metaDescription
 ${input.primaryKeyword}
 
-SECONDARY KEYWORDS — at most once each, description only; skip any that do not fit
-${list(input.secondaryKeywords)}
+SECONDARY KEYWORDS — grouped by level. The level decides where each one may be placed.
+Never in metaTitle, metaDescription or shortDescription. Skip any that do not fit.
+${tiered || '  (none)'}
 
 RESERVED KEYWORDS — owned by other product pages, do NOT target these here
 ${list(input.reservedKeywords)}
