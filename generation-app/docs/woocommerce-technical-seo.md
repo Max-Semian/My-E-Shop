@@ -1,6 +1,8 @@
 # WooCommerce Technical SEO Checklist
 
-Adapted from the Shopify version of this framework for a WooCommerce / WordPress store (t-shirt / apparel, Printful fulfillment).
+Technical SEO for this stack: WooCommerce / WordPress, t-shirt / apparel catalogue,
+print-on-demand fulfilment. The platform-agnostic SEO method comes from the MIT-licensed
+framework credited in `ATTRIBUTION.md`; everything below is written for WooCommerce.
 
 ## SEO Plugin Setup
 
