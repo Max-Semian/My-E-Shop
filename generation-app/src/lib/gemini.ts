@@ -1,13 +1,9 @@
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
-import {
-  buildSystemInstruction,
-  buildUserPrompt,
-  type GenerationInput,
-} from './prompt';
+import { buildSystemInstruction, buildUserPrompt, type GenerationInput } from './prompt';
 import { validateCopy, type GeneratedCopy, type Violation } from './validate';
 
 const MODEL = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
-/** How many times we hand the violations back and ask for a rewrite. */
+/** How many times we hand the violations back and demand a rewrite. */
 const MAX_ATTEMPTS = 3;
 
 function client() {
@@ -16,11 +12,19 @@ function client() {
   return new GoogleGenerativeAI(key);
 }
 
+/** Structured output — the model cannot return anything but this shape. */
 const responseSchema = {
   type: SchemaType.OBJECT,
   properties: {
+    name: { type: SchemaType.STRING },
+    slug: { type: SchemaType.STRING },
     description: { type: SchemaType.STRING },
-    seoDescription: { type: SchemaType.STRING },
+    shortDescription: { type: SchemaType.STRING },
+    metaTitle: { type: SchemaType.STRING },
+    metaDescription: { type: SchemaType.STRING },
+    tags: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+    imagesAlt: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
+    imageFilenames: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
     keywordsUsed: {
       type: SchemaType.OBJECT,
       properties: {
@@ -30,7 +34,19 @@ const responseSchema = {
     },
     warnings: { type: SchemaType.ARRAY, items: { type: SchemaType.STRING } },
   },
-  required: ['description', 'seoDescription', 'keywordsUsed', 'warnings'],
+  required: [
+    'name',
+    'slug',
+    'description',
+    'shortDescription',
+    'metaTitle',
+    'metaDescription',
+    'tags',
+    'imagesAlt',
+    'imageFilenames',
+    'keywordsUsed',
+    'warnings',
+  ],
 } as const;
 
 export interface GenerateResult {
@@ -65,18 +81,18 @@ export async function generateCopy(
     inlineData: { data: image.data.toString('base64'), mimeType: image.mimeType },
   };
 
-  let lastCopy: GeneratedCopy = { description: '', seoDescription: '' };
+  let lastCopy = {} as GeneratedCopy;
   let violations: Violation[] = [];
 
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-    // On a retry, show the model exactly which counts it broke. Generic "try again"
-    // prompts do not fix stuffing — naming the violated rule does.
+    // On a retry, name the exact counts it broke. A generic "try again" does not fix
+    // stuffing — quoting the violated rule does.
     const correction =
       violations.length > 0
         ? `\n\nYOUR PREVIOUS ANSWER WAS REJECTED. It broke these hard rules:\n` +
-          violations.map((v) => `  - [${v.rule}] ${v.detail}`).join('\n') +
-          `\n\nRewrite from scratch. Obey every count exactly. If a keyword cannot be` +
-          ` placed naturally, drop it and say so in "warnings" — do not force it in.`
+          violations.map((x) => `  - [${x.rule}] ${x.detail}`).join('\n') +
+          `\n\nRewrite from scratch. Obey every count and length exactly. If a keyword` +
+          ` cannot be placed naturally, drop it and say so in "warnings" — never force it in.`
         : '';
 
     const result = await model.generateContent([
@@ -84,9 +100,8 @@ export async function generateCopy(
       imagePart,
     ]);
 
-    const raw = result.response.text();
     try {
-      lastCopy = JSON.parse(raw) as GeneratedCopy;
+      lastCopy = JSON.parse(result.response.text()) as GeneratedCopy;
     } catch {
       violations = [{ rule: 'invalid_json', detail: 'Model did not return valid JSON.' }];
       continue;
@@ -98,6 +113,6 @@ export async function generateCopy(
     }
   }
 
-  // Still dirty after retries: hand it back flagged rather than silently saving spam.
+  // Still dirty after the retries: hand it back flagged rather than silently saving spam.
   return { copy: lastCopy, violations, attempts: MAX_ATTEMPTS };
 }

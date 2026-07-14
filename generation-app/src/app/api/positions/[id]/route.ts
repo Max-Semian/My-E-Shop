@@ -12,14 +12,29 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
 
   const p = await prisma.position.findUnique({
     where: { id: params.id },
+    // Everything except the image bytes, which are served by the /image route.
     select: {
       id: true,
       title: true,
       seoTitle: true,
       primaryKeyword: true,
       secondaryKeywords: true,
+      category: true,
+      materials: true,
+      fit: true,
+      printMethod: true,
+      sizes: true,
+      colors: true,
+      price: true,
+      extraNotes: true,
+      slug: true,
       description: true,
+      shortDescription: true,
+      metaTitle: true,
       seoDescription: true,
+      tags: true,
+      imagesAlt: true,
+      imageFilenames: true,
       keywordsUsed: true,
       warnings: true,
       status: true,
@@ -38,16 +53,36 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
   const form = await req.formData();
   const data: Record<string, unknown> = {};
 
-  for (const field of ['title', 'seoTitle', 'description', 'seoDescription'] as const) {
+  const TEXT_FIELDS = [
+    'title',
+    'seoTitle',
+    'category',
+    'materials',
+    'fit',
+    'printMethod',
+    'sizes',
+    'colors',
+    'price',
+    'extraNotes',
+    'slug',
+    'description',
+    'shortDescription',
+    'metaTitle',
+    'seoDescription',
+  ] as const;
+  for (const field of TEXT_FIELDS) {
     if (form.has(field)) data[field] = String(form.get(field) || '').trim();
   }
   if (form.has('status')) data.status = String(form.get('status'));
 
-  if (form.has('secondaryKeywords')) {
-    data.secondaryKeywords = form
-      .getAll('secondaryKeywords')
-      .map((k) => String(k).trim())
-      .filter(Boolean);
+  const LIST_FIELDS = ['secondaryKeywords', 'tags', 'imagesAlt', 'imageFilenames'] as const;
+  for (const field of LIST_FIELDS) {
+    if (form.has(field)) {
+      data[field] = form
+        .getAll(field)
+        .map((k) => String(k).trim())
+        .filter(Boolean);
+    }
   }
 
   if (form.has('primaryKeyword')) {

@@ -29,19 +29,33 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       primaryKeyword: position.primaryKeyword,
       secondaryKeywords: position.secondaryKeywords,
       reservedKeywords,
+      category: position.category,
+      materials: position.materials,
+      fit: position.fit,
+      printMethod: position.printMethod,
+      sizes: position.sizes,
+      colors: position.colors,
+      price: position.price,
+      extraNotes: position.extraNotes,
     },
     { data: Buffer.from(position.imageData), mimeType: position.imageMime },
   );
 
-  // Copy that still breaks a hard rule after the retries is NOT saved as final — it is
-  // stored as a draft with the violations attached so a human decides what to do.
+  // Copy that still breaks a hard rule after the retries is NOT marked as final — it is
+  // kept as a draft with the violations attached so a human decides what to do.
   const clean = violations.length === 0;
 
   const saved = await prisma.position.update({
     where: { id: position.id },
     data: {
-      description: copy.description,
-      seoDescription: copy.seoDescription,
+      slug: copy.slug ?? '',
+      description: copy.description ?? '',
+      shortDescription: copy.shortDescription ?? '',
+      metaTitle: copy.metaTitle ?? '',
+      seoDescription: copy.metaDescription ?? '',
+      tags: copy.tags ?? [],
+      imagesAlt: copy.imagesAlt ?? [],
+      imageFilenames: copy.imageFilenames ?? [],
       keywordsUsed: (copy.keywordsUsed ?? {}) as any,
       warnings: [
         ...(copy.warnings ?? []),
@@ -55,12 +69,6 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
     ok: clean,
     attempts,
     violations,
-    position: {
-      id: saved.id,
-      description: saved.description,
-      seoDescription: saved.seoDescription,
-      warnings: saved.warnings,
-      status: saved.status,
-    },
+    position: { id: saved.id, status: saved.status },
   });
 }

@@ -8,8 +8,22 @@ interface Position {
   seoTitle: string;
   primaryKeyword: string;
   secondaryKeywords: string[];
+  category: string;
+  materials: string;
+  fit: string;
+  printMethod: string;
+  sizes: string;
+  colors: string;
+  price: string;
+  extraNotes: string;
+  slug: string;
   description: string;
+  shortDescription: string;
+  metaTitle: string;
   seoDescription: string;
+  tags: string[];
+  imagesAlt: string[];
+  imageFilenames: string[];
   keywordsUsed: { primary?: string; secondary?: string[] } | null;
   warnings: string[];
   status: 'DRAFT' | 'GENERATED' | 'APPROVED';
@@ -21,7 +35,16 @@ interface Violation {
   detail: string;
 }
 
-const META_MAX = 155;
+const META_TITLE_MAX = 70;
+const META_DESC_MAX = 165;
+
+function Counter({ value, max }: { value: string; max: number }) {
+  return (
+    <span className={`counter ${value.length > max ? 'over' : ''}`}>
+      {value.length} / {max} characters
+    </span>
+  );
+}
 
 export default function PositionCard({ params }: { params: { id: string } }) {
   const [p, setP] = useState<Position | null>(null);
@@ -30,10 +53,17 @@ export default function PositionCard({ params }: { params: { id: string } }) {
   const [error, setError] = useState('');
   const [violations, setViolations] = useState<Violation[]>([]);
   const [ok, setOk] = useState('');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaDesc, setMetaDesc] = useState('');
 
   async function load() {
     const res = await fetch(`/api/positions/${params.id}`);
-    if (res.ok) setP(await res.json());
+    if (res.ok) {
+      const data: Position = await res.json();
+      setP(data);
+      setMetaTitle(data.metaTitle);
+      setMetaDesc(data.seoDescription);
+    }
   }
   useEffect(() => {
     load();
@@ -45,13 +75,21 @@ export default function PositionCard({ params }: { params: { id: string } }) {
     setError('');
     setOk('');
     const form = new FormData(e.currentTarget);
-    const raw = String(form.get('secondaryRaw') || '');
-    form.delete('secondaryRaw');
-    raw
-      .split(/[\n,]/)
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .forEach((k) => form.append('secondaryKeywords', k));
+    // Multi-value fields arrive as one textarea each (newline / comma separated).
+    for (const [raw, field] of [
+      ['secondaryRaw', 'secondaryKeywords'],
+      ['tagsRaw', 'tags'],
+      ['altRaw', 'imagesAlt'],
+      ['filesRaw', 'imageFilenames'],
+    ] as const) {
+      const value = String(form.get(raw) || '');
+      form.delete(raw);
+      value
+        .split(/[\n,]/)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .forEach((k) => form.append(field, k));
+    }
 
     const res = await fetch(`/api/positions/${params.id}`, { method: 'PATCH', body: form });
     setBusy(false);
@@ -77,8 +115,19 @@ export default function PositionCard({ params }: { params: { id: string } }) {
       return;
     }
     setViolations(data.violations || []);
-    if (data.ok) setOk(`Generated cleanly in ${data.attempts} attempt(s) — all keyword rules passed.`);
+    if (data.ok) setOk(`Generated cleanly in ${data.attempts} attempt(s) — every rule passed.`);
     load();
+  }
+
+  async function exportWc() {
+    const res = await fetch(`/api/positions/${params.id}/woocommerce`);
+    const data = await res.json();
+    if (!res.ok) {
+      setError(data.error);
+      return;
+    }
+    await navigator.clipboard.writeText(JSON.stringify(data.payload, null, 2));
+    setOk('WooCommerce payload copied to clipboard.');
   }
 
   async function remove() {
@@ -88,8 +137,6 @@ export default function PositionCard({ params }: { params: { id: string } }) {
   }
 
   if (!p) return <div className="empty">Loading…</div>;
-
-  const metaLen = p.seoDescription.length;
 
   return (
     <>
@@ -105,7 +152,7 @@ export default function PositionCard({ params }: { params: { id: string } }) {
 
       {violations.length > 0 && (
         <div className="alert err">
-          <strong>Rejected — the copy still breaks hard keyword rules after retries.</strong>
+          <strong>Rejected — the copy still breaks hard rules after 3 attempts.</strong>
           <ul>
             {violations.map((v, i) => (
               <li key={i}>
@@ -113,7 +160,7 @@ export default function PositionCard({ params }: { params: { id: string } }) {
               </li>
             ))}
           </ul>
-          It was saved as a DRAFT, not published. Adjust the keywords and generate again.
+          Kept as a DRAFT, not published. Adjust the inputs and generate again.
         </div>
       )}
 
@@ -129,14 +176,16 @@ export default function PositionCard({ params }: { params: { id: string } }) {
       )}
 
       <form onSubmit={save}>
+        {/* ---------- inputs ---------- */}
         <div className="card">
+          <h2 style={{ marginTop: 0 }}>Inputs</h2>
           <div className="grid">
             <div>
               <label>Print image</label>
               {p.imageMime ? (
                 <img className="preview" src={`/api/positions/${p.id}/image`} alt="" />
               ) : (
-                <div className="alert warn">No image yet — upload one, the copy is written from it.</div>
+                <div className="alert warn">No image — the copy is written from it.</div>
               )}
               <label htmlFor="image">Replace image</label>
               <input id="image" type="file" name="image" accept="image/*" />
@@ -146,46 +195,110 @@ export default function PositionCard({ params }: { params: { id: string } }) {
               <label htmlFor="title">Title — main print name</label>
               <input id="title" type="text" name="title" defaultValue={p.title} />
 
-              <label htmlFor="seoTitle">SEO title</label>
+              <label htmlFor="seoTitle">SEO title (desired)</label>
               <input id="seoTitle" type="text" name="seoTitle" defaultValue={p.seoTitle} />
 
               <label htmlFor="primaryKeyword">Primary keyword</label>
-              <input
-                id="primaryKeyword"
-                type="text"
-                name="primaryKeyword"
-                defaultValue={p.primaryKeyword}
-              />
-              <p className="hint">Used exactly once in the description and once in the meta.</p>
+              <input id="primaryKeyword" type="text" name="primaryKeyword" defaultValue={p.primaryKeyword} />
+              <p className="hint">
+                Used exactly once in each of: product name, first paragraph, meta title, meta
+                description. Unique across all positions — no cannibalization.
+              </p>
 
               <label htmlFor="secondaryRaw">Secondary keywords</label>
               <textarea
                 id="secondaryRaw"
                 name="secondaryRaw"
                 defaultValue={p.secondaryKeywords.join('\n')}
-                style={{ minHeight: 90 }}
+                style={{ minHeight: 80 }}
               />
-              <p className="hint">Each used at most once — any that do not fit are dropped, not forced.</p>
+              <p className="hint">Each at most once, description only. Any that do not fit are dropped, not forced.</p>
             </div>
           </div>
         </div>
 
+        {/* ---------- product facts ---------- */}
+        <div className="card">
+          <h2 style={{ marginTop: 0 }}>Product facts</h2>
+          <p className="hint" style={{ marginTop: 0 }}>
+            Supplied to the model so it states these instead of inventing specs. Leave blank
+            and it stays silent about them.
+          </p>
+          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <div>
+              <label htmlFor="category">Category</label>
+              <input id="category" type="text" name="category" defaultValue={p.category} placeholder="Graphic Tees" />
+              <label htmlFor="materials">Materials</label>
+              <input id="materials" type="text" name="materials" defaultValue={p.materials} placeholder="100% combed cotton, 180gsm" />
+              <label htmlFor="fit">Fit</label>
+              <input id="fit" type="text" name="fit" defaultValue={p.fit} placeholder="unisex, oversized" />
+              <label htmlFor="printMethod">Print method</label>
+              <input id="printMethod" type="text" name="printMethod" defaultValue={p.printMethod} placeholder="DTG" />
+            </div>
+            <div>
+              <label htmlFor="sizes">Sizes</label>
+              <input id="sizes" type="text" name="sizes" defaultValue={p.sizes} placeholder="S–XXL" />
+              <label htmlFor="colors">Colors</label>
+              <input id="colors" type="text" name="colors" defaultValue={p.colors} placeholder="black, bone" />
+              <label htmlFor="price">Price</label>
+              <input id="price" type="text" name="price" defaultValue={p.price} placeholder="30.00 $" />
+              <label htmlFor="extraNotes">Other details</label>
+              <input id="extraNotes" type="text" name="extraNotes" defaultValue={p.extraNotes} placeholder="care, print placement…" />
+            </div>
+          </div>
+        </div>
+
+        {/* ---------- generated ---------- */}
         <div className="card">
           <h2 style={{ marginTop: 0 }}>Generated copy</h2>
 
-          <label htmlFor="description">Description</label>
-          <textarea id="description" name="description" defaultValue={p.description} />
+          <label htmlFor="slug">Slug (URL handle)</label>
+          <input id="slug" type="text" name="slug" defaultValue={p.slug} />
 
-          <label htmlFor="seoDescription">SEO / meta description</label>
+          <label htmlFor="metaTitle">Meta title</label>
+          <input
+            id="metaTitle"
+            type="text"
+            name="metaTitle"
+            value={metaTitle}
+            onChange={(e) => setMetaTitle(e.target.value)}
+          />
+          <Counter value={metaTitle} max={META_TITLE_MAX} />
+
+          <label htmlFor="seoDescription">Meta description</label>
           <textarea
             id="seoDescription"
             name="seoDescription"
-            defaultValue={p.seoDescription}
+            value={metaDesc}
+            onChange={(e) => setMetaDesc(e.target.value)}
             style={{ minHeight: 70 }}
           />
-          <span className={`counter ${metaLen > META_MAX ? 'over' : ''}`}>
-            {metaLen} / {META_MAX} characters
-          </span>
+          <Counter value={metaDesc} max={META_DESC_MAX} />
+
+          <label htmlFor="shortDescription">Short description (next to Add to Cart)</label>
+          <textarea
+            id="shortDescription"
+            name="shortDescription"
+            defaultValue={p.shortDescription}
+            style={{ minHeight: 70 }}
+          />
+
+          <label htmlFor="description">Long description (HTML)</label>
+          <textarea id="description" name="description" defaultValue={p.description} style={{ minHeight: 200 }} />
+
+          <label htmlFor="tagsRaw">Tags (3–5)</label>
+          <textarea id="tagsRaw" name="tagsRaw" defaultValue={p.tags.join('\n')} style={{ minHeight: 70 }} />
+
+          <div className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
+            <div>
+              <label htmlFor="altRaw">Image alt texts (5: front, back, detail, worn, flat lay)</label>
+              <textarea id="altRaw" name="altRaw" defaultValue={p.imagesAlt.join('\n')} style={{ minHeight: 110 }} />
+            </div>
+            <div>
+              <label htmlFor="filesRaw">Image filenames (5)</label>
+              <textarea id="filesRaw" name="filesRaw" defaultValue={p.imageFilenames.join('\n')} style={{ minHeight: 110 }} />
+            </div>
+          </div>
 
           {p.keywordsUsed && (
             <>
@@ -214,6 +327,9 @@ export default function PositionCard({ params }: { params: { id: string } }) {
             </button>
             <button className="ghost" disabled={busy}>
               {busy ? 'Saving…' : 'Save'}
+            </button>
+            <button type="button" className="ghost" onClick={exportWc}>
+              Copy WooCommerce JSON
             </button>
             <button type="button" className="danger" onClick={remove}>
               Delete

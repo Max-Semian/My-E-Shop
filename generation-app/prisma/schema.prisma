@@ -7,31 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// A t-shirt print position: the print image + its SEO inputs + generated copy.
+/// A t-shirt print position: the print image + product facts + SEO inputs, and the
+/// generated copy in a shape that maps straight onto the WooCommerce REST API payload
+/// (see docs/woocommerce-prompt-template.md).
 model Position {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  // ---------- inputs: the print ----------
   /// Main print name (human title).
-  title    String
-  /// SEO title (<title> tag).
-  seoTitle String   @default("")
-
+  title     String
   /// Print image stored inline — avoids needing a volume/bucket.
   imageData Bytes?
   imageMime String?
+
+  // ---------- inputs: product facts (fed to the model so it stops inventing them) ----------
+  category    String @default("")
+  materials   String @default("")
+  fit         String @default("")
+  printMethod String @default("")
+  sizes       String @default("")
+  colors      String @default("")
+  price       String @default("")
+  extraNotes  String @default("")
+
+  // ---------- inputs: SEO ----------
+  /// The SEO title you want (the model may refine it, but must keep the primary keyword first).
+  seoTitle String @default("")
 
   /// ANTI-CANNIBALIZATION: one primary keyword may target exactly one position.
   /// Enforced at the DB level so two prints can never compete for the same query.
   primaryKeyword String @unique
 
-  /// Supporting keywords, each used at most once in the copy.
+  /// Supporting keywords, each used at most once in the long description.
   secondaryKeywords String[] @default([])
 
-  /// Generated output.
-  description    String @default("")
+  // ---------- generated: the WooCommerce payload ----------
+  /// URL handle — lowercase, hyphens, no diacritics.
+  slug String @default("")
+  /// Long description, HTML (<h3>/<p>/<strong>).
+  description String @default("")
+  /// 1–2 punchy sentences shown near Add to Cart. Must NOT restate the long description.
+  shortDescription String @default("")
+  /// <title> / rank_math_title — max 70 chars, primary keyword first.
+  metaTitle String @default("")
+  /// meta description — max 165 chars.
   seoDescription String @default("")
+  /// 3–5 tags (style, fit, occasion — not category repeats).
+  tags String[] @default([])
+  /// 5 distinct alt texts: front, back, detail, worn/lifestyle, flat lay.
+  imagesAlt String[] @default([])
+  /// Matching filenames: [slug]_[view].jpg
+  imageFilenames String[] @default([])
 
   /// Post-generation audit: what the model actually used, and what it refused to force.
   keywordsUsed Json?
@@ -49,15 +77,15 @@ enum PositionStatus {
 }
 
 /// Reusable keyword list. Secondary keywords are picked from here.
-/// A keyword marked PRIMARY that is already claimed by a Position is blocked
-/// from being reused (cannibalization guard surfaced in the UI).
+/// A keyword already claimed by a Position as its PRIMARY is flagged in the UI so it
+/// cannot be reused and cause cannibalization.
 model Keyword {
   id        String      @id @default(cuid())
   createdAt DateTime    @default(now())
   text      String      @unique
   type      KeywordType @default(SECONDARY)
   /// Optional grouping (collection, theme).
-  topic     String?
+  topic String?
 }
 
 enum KeywordType {

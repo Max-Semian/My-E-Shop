@@ -33,13 +33,27 @@ export async function POST(req: Request) {
   if (denied) return denied;
 
   const form = await req.formData();
-  const title = String(form.get('title') || '').trim();
-  const seoTitle = String(form.get('seoTitle') || '').trim();
-  const primaryKeyword = String(form.get('primaryKeyword') || '').trim();
+  const str = (k: string) => String(form.get(k) || '').trim();
+
+  const title = str('title');
+  const seoTitle = str('seoTitle');
+  const primaryKeyword = str('primaryKeyword');
   const secondaryKeywords = form
     .getAll('secondaryKeywords')
     .map((k) => String(k).trim())
     .filter(Boolean);
+
+  // Product facts — supplied so the model states them instead of inventing specs.
+  const facts = {
+    category: str('category'),
+    materials: str('materials'),
+    fit: str('fit'),
+    printMethod: str('printMethod'),
+    sizes: str('sizes'),
+    colors: str('colors'),
+    price: str('price'),
+    extraNotes: str('extraNotes'),
+  };
 
   if (!title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
   if (!primaryKeyword)
@@ -65,7 +79,7 @@ export async function POST(req: Request) {
   }
 
   const created = await prisma.position.create({
-    data: { title, seoTitle, primaryKeyword, secondaryKeywords, imageData, imageMime },
+    data: { title, seoTitle, primaryKeyword, secondaryKeywords, imageData, imageMime, ...facts },
     select: { id: true },
   });
   return NextResponse.json(created, { status: 201 });
