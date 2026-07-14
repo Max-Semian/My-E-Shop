@@ -21,7 +21,12 @@ export async function GET() {
     prisma.position.findMany({ select: { primaryKeyword: true, title: true } }),
   ]);
 
-  const claimedBy = new Map(positions.map((p) => [p.primaryKeyword.toLowerCase(), p.title]));
+  // Positions whose primary has not been derived from the artwork yet claim nothing.
+  const claimedBy = new Map(
+    positions
+      .filter((p) => p.primaryKeyword)
+      .map((p) => [p.primaryKeyword!.toLowerCase(), p.title]),
+  );
 
   return NextResponse.json(
     keywords.map((k) => ({
@@ -44,7 +49,7 @@ export async function POST(req: Request) {
   if (denied) return denied;
 
   const body = await req.json().catch(() => ({ text: '' }));
-  const { text, type = 'SECONDARY', tier = 'COMMERCIAL', topic } = body;
+  const { text, type = 'SECONDARY', tier = 'COMMERCIAL', topic, reservedFor } = body;
 
   const items = String(text || '')
     .split(/[\n,]/)
@@ -55,13 +60,20 @@ export async function POST(req: Request) {
 
   const kwType = type === 'PRIMARY' ? 'PRIMARY' : 'SECONDARY';
   const kwTier = TIERS.includes(tier) ? tier : 'COMMERCIAL';
+  // Naming an owner puts the keyword in layer 1: it becomes a head term that belongs to a
+  // listing page, and every product page is then forbidden from targeting it.
+  const owner = String(reservedFor || '').trim() || null;
+  // Only touch the owner when the caller actually said something about it. Accepting a
+  // suggested secondary from a position card posts no `reservedFor`, and that must not
+  // silently strip a head term of the page that owns it.
+  const ownerUpdate = reservedFor === undefined ? {} : { reservedFor: owner };
 
   await Promise.all(
     items.map((t) =>
       prisma.keyword.upsert({
         where: { text: t },
-        create: { text: t, type: kwType, tier: kwTier, topic: topic || null },
-        update: { type: kwType, tier: kwTier, ...(topic ? { topic } : {}) },
+        create: { text: t, type: kwType, tier: kwTier, topic: topic || null, reservedFor: owner },
+        update: { type: kwType, tier: kwTier, ...ownerUpdate, ...(topic ? { topic } : {}) },
       }),
     ),
   );

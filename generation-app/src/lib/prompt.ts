@@ -25,8 +25,12 @@ export interface GenerationInput {
   secondaryKeywords: TieredKeyword[];
   /** Primary keywords already claimed by OTHER positions — must not be targeted here. */
   reservedKeywords: string[];
-  // Product facts — supplied so the model states them instead of inventing them.
+  /** The concept category — the brand lane this print speaks in. Shapes meaning, not SEO. */
   category?: string;
+  /** The listing page this product supports, and the head terms that page owns. */
+  cluster?: string;
+  laneKeywords?: string[];
+  // Product facts — supplied so the model states them instead of inventing them.
   materials?: string;
   fit?: string;
   printMethod?: string;
@@ -197,7 +201,6 @@ export function buildUserPrompt(input: GenerationInput): string {
     .join('\n\n');
 
   const facts = [
-    fact('Category', input.category),
     fact('Materials', input.materials),
     fact('Fit', input.fit),
     fact('Print method', input.printMethod),
@@ -210,6 +213,18 @@ export function buildUserPrompt(input: GenerationInput): string {
     .join('\n');
 
   return `
+WHERE THIS PRODUCT SITS — read this first; it fixes the lane before you write a word.
+Concept category: ${input.category || '(not set)'}
+  The brand's own taxonomy. It decides what this print MEANS and how it sounds. It is not a
+  search term and must not be written as one.
+Listing page it supports: ${input.cluster || '(not set)'}
+  Head terms that page owns — you support them, you never target them:
+${
+  input.laneKeywords?.length
+    ? input.laneKeywords.map((k) => `    - ${k}`).join('\n')
+    : '    (none registered)'
+}
+
 PRINT TITLE — the name of the print. This is a SOURCE, not decoration: it carries the
 concept behind the artwork. Read it together with the image; the image says what is drawn,
 the title says what it means.

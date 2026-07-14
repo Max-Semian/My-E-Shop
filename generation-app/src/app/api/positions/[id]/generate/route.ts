@@ -20,14 +20,29 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       { status: 400 },
     );
   }
+  if (!position.primaryKeyword) {
+    return NextResponse.json(
+      {
+        error:
+          'This position has no primary keyword yet. Run "Build keywords from the print" — a product primary is a long-tail query anchored on the motif, so it can only be derived once the artwork has been read.',
+      },
+      { status: 400 },
+    );
+  }
 
   // Every other position's primary keyword is off-limits for this one. The secondary
   // keywords are looked up in the keyword list to recover their level, because the level —
   // commercial / semantic / motif — is what decides where each one may be placed.
-  const [reservedKeywords, brand, secondaryKeywords] = await Promise.all([
+  const [reservedKeywords, brand, secondaryKeywords, lane] = await Promise.all([
     reservedKeywordsExcept(position.id),
     getBrandProfile(),
     resolveSecondaryTiers(position.secondaryKeywords),
+    // The head terms owned by this product's listing page. Passing them in as "support, do
+    // not target" is what keeps the copy inside its lane instead of drifting into the
+    // category's own query.
+    position.cluster
+      ? prisma.keyword.findMany({ where: { reservedFor: position.cluster }, select: { text: true } })
+      : Promise.resolve([]),
   ]);
 
   const { copy, violations, attempts } = await generateCopy(
@@ -38,6 +53,8 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       secondaryKeywords,
       reservedKeywords,
       category: position.category,
+      cluster: position.cluster,
+      laneKeywords: lane.map((k) => k.text),
       materials: position.materials,
       fit: position.fit,
       printMethod: position.printMethod,

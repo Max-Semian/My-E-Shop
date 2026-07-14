@@ -19,6 +19,8 @@ export async function GET() {
       seoTitle: true,
       primaryKeyword: true,
       secondaryKeywords: true,
+      category: true,
+      cluster: true,
       status: true,
       warnings: true,
       updatedAt: true,
@@ -46,6 +48,7 @@ export async function POST(req: Request) {
   // Product facts — supplied so the model states them instead of inventing specs.
   const facts = {
     category: str('category'),
+    cluster: str('cluster'),
     materials: str('materials'),
     fit: str('fit'),
     printMethod: str('printMethod'),
@@ -56,18 +59,34 @@ export async function POST(req: Request) {
   };
 
   if (!title) return NextResponse.json({ error: 'Title is required' }, { status: 400 });
-  if (!primaryKeyword)
-    return NextResponse.json({ error: 'Primary keyword is required' }, { status: 400 });
 
-  // Cannibalization guard, surfaced as a friendly error before we ever hit the DB constraint.
-  const clash = await prisma.position.findUnique({ where: { primaryKeyword } });
-  if (clash) {
-    return NextResponse.json(
-      {
-        error: `Primary keyword "${primaryKeyword}" is already used by "${clash.title}". One primary keyword may target only one position (no cannibalization).`,
-      },
-      { status: 409 },
-    );
+  // The primary keyword is OPTIONAL here on purpose. A product primary is a long-tail query
+  // anchored on the motif that is actually printed on the shirt, so it cannot honestly be
+  // typed in before the artwork has been read — it is derived by "Build keywords from the
+  // print". Demanding one up front is what produces invented head terms.
+  if (primaryKeyword) {
+    const clash = await prisma.position.findUnique({ where: { primaryKeyword } });
+    if (clash) {
+      return NextResponse.json(
+        {
+          error: `Primary keyword "${primaryKeyword}" is already used by "${clash.title}". One primary keyword may target only one position (no cannibalization).`,
+        },
+        { status: 409 },
+      );
+    }
+
+    const owned = await prisma.keyword.findFirst({
+      where: { text: primaryKeyword, NOT: { reservedFor: null } },
+      select: { reservedFor: true },
+    });
+    if (owned) {
+      return NextResponse.json(
+        {
+          error: `"${primaryKeyword}" is a head term owned by ${owned.reservedFor}. Head terms carry browsing intent and belong on a listing page — a product cannot target one.`,
+        },
+        { status: 409 },
+      );
+    }
   }
 
   const file = form.get('image');
@@ -79,7 +98,17 @@ export async function POST(req: Request) {
   }
 
   const created = await prisma.position.create({
-    data: { title, seoTitle, primaryKeyword, secondaryKeywords, imageData, imageMime, ...facts },
+    data: {
+      title,
+      seoTitle,
+      // null, not '' — many positions can legitimately be "not derived yet", and Postgres
+      // allows many NULLs under a unique index but only one empty string.
+      primaryKeyword: primaryKeyword || null,
+      secondaryKeywords,
+      imageData,
+      imageMime,
+      ...facts,
+    },
     select: { id: true },
   });
   return NextResponse.json(created, { status: 201 });

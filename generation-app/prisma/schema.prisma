@@ -32,7 +32,17 @@ model Position {
   imageMime String?
 
   // ---------- inputs: product facts (fed to the model so it stops inventing them) ----------
+  /// The CONCEPT CATEGORY — the brand's own taxonomy (one of the four). This is the lane the
+  /// print speaks in: it decides meaning and voice, not search volume. Nobody types
+  /// "tender thoughts t-shirt", and that is fine — that is not what a concept category is for.
   category    String @default("")
+
+  /// The LISTING PAGE this product supports, inside its category — e.g. "Dark Botanical".
+  /// Fixed BEFORE generation on purpose. It pins the trajectory: it tells the model which
+  /// head terms are off-limits (the listing page owns them), and which siblings this print
+  /// must stay distinguishable from. Without it the model re-guesses its lane every run, and
+  /// sooner or later guesses its way into a neighbour's.
+  cluster     String @default("")
   materials   String @default("")
   fit         String @default("")
   printMethod String @default("")
@@ -47,7 +57,14 @@ model Position {
 
   /// ANTI-CANNIBALIZATION: one primary keyword may target exactly one position.
   /// Enforced at the DB level so two prints can never compete for the same query.
-  primaryKeyword String @unique
+  ///
+  /// Nullable on purpose. A product's primary keyword is a long-tail phrase anchored on the
+  /// motif that is actually printed on it — so it cannot honestly exist before the artwork
+  /// has been imported and read. An empty primary means "not derived yet", which is a true
+  /// statement; a placeholder head term would be a false one, and false head terms on
+  /// product pages are exactly what this whole model exists to prevent.
+  /// (Postgres allows many NULLs under a unique index, so unassigned positions coexist.)
+  primaryKeyword String? @unique
 
   /// Supporting keywords, each used at most once in the long description.
   secondaryKeywords String[] @default([])
@@ -127,6 +144,20 @@ model Keyword {
   /// Which of the three levels this secondary keyword serves. The tier is not a label —
   /// it decides WHERE the keyword is allowed to be placed (see lib/keywords.ts).
   tier KeywordTier @default(COMMERCIAL)
+
+  /// THE TWO-LAYER RULE. When set, this keyword is owned by a listing page — a category or
+  /// a collection — and is therefore OFF-LIMITS to every product page. Example:
+  /// "Category: Gothic".
+  ///
+  /// Head terms like "gothic t-shirt" carry browsing intent: the searcher wants to pick from
+  /// a range, not to buy one specific print. They belong on a page that shows a range. Park
+  /// one on a product and you both disappoint the searcher and set that product against the
+  /// category page for the same query. Products get long-tail, motif-anchored primaries
+  /// instead — queries nothing else in the catalogue can claim.
+  ///
+  /// Anything with this set is merged into the reserved list that every generation is
+  /// checked against, so the rule is enforced, not merely documented.
+  reservedFor String?
 
   /// Optional grouping (collection, theme).
   topic String?

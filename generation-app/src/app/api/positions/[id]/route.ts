@@ -20,6 +20,7 @@ export async function GET(_req: Request, { params }: { params: { id: string } })
       primaryKeyword: true,
       secondaryKeywords: true,
       category: true,
+      cluster: true,
       materials: true,
       fit: true,
       printMethod: true,
@@ -57,6 +58,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     'title',
     'seoTitle',
     'category',
+    'cluster',
     'materials',
     'fit',
     'printMethod',
@@ -87,19 +89,38 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 
   if (form.has('primaryKeyword')) {
     const primaryKeyword = String(form.get('primaryKeyword') || '').trim();
-    if (!primaryKeyword)
-      return NextResponse.json({ error: 'Primary keyword is required' }, { status: 400 });
 
-    const clash = await prisma.position.findUnique({ where: { primaryKeyword } });
-    if (clash && clash.id !== params.id) {
-      return NextResponse.json(
-        {
-          error: `Primary keyword "${primaryKeyword}" already targets "${clash.title}". One primary keyword may target only one position.`,
-        },
-        { status: 409 },
-      );
+    if (!primaryKeyword) {
+      // Clearing it is allowed: "not derived yet" is a legitimate state, and null (not '')
+      // is what lets several positions sit in it at once under the unique index.
+      data.primaryKeyword = null;
+    } else {
+      const clash = await prisma.position.findUnique({ where: { primaryKeyword } });
+      if (clash && clash.id !== params.id) {
+        return NextResponse.json(
+          {
+            error: `Primary keyword "${primaryKeyword}" already targets "${clash.title}". One primary keyword may target only one position.`,
+          },
+          { status: 409 },
+        );
+      }
+
+      // The two-layer rule: head terms belong to listing pages, never to a product.
+      const owned = await prisma.keyword.findFirst({
+        where: { text: primaryKeyword, NOT: { reservedFor: null } },
+        select: { reservedFor: true },
+      });
+      if (owned) {
+        return NextResponse.json(
+          {
+            error: `"${primaryKeyword}" is a head term owned by ${owned.reservedFor}. Head terms carry browsing intent and belong on a listing page — a product page cannot target one. Give this print a long-tail primary anchored on its motif.`,
+          },
+          { status: 409 },
+        );
+      }
+
+      data.primaryKeyword = primaryKeyword;
     }
-    data.primaryKeyword = primaryKeyword;
   }
 
   const file = form.get('image');

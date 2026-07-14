@@ -6,7 +6,8 @@ interface Row {
   id: string;
   title: string;
   seoTitle: string;
-  primaryKeyword: string;
+  /** Null until the artwork has been read — a product primary is derived, not typed in. */
+  primaryKeyword: string | null;
   secondaryKeywords: string[];
   status: 'DRAFT' | 'GENERATED' | 'APPROVED';
   warnings: string[];
@@ -74,11 +75,14 @@ export default function PositionsPage() {
               <label htmlFor="seoTitle">SEO title</label>
               <input id="seoTitle" type="text" name="seoTitle" />
 
-              <label htmlFor="primaryKeyword">Primary keyword</label>
-              <input id="primaryKeyword" type="text" name="primaryKeyword" required />
+              <label htmlFor="primaryKeyword">Primary keyword (optional)</label>
+              <input id="primaryKeyword" type="text" name="primaryKeyword" />
               <p className="hint">
-                Must be unique across all positions — one primary keyword targets exactly one
-                print, so pages never cannibalize each other.
+                Leave it empty and derive it from the print instead. A product&apos;s primary is
+                a long-tail query anchored on the motif that is actually drawn on the shirt —
+                it cannot honestly be typed in before the artwork has been read. Head terms
+                like <em>gothic t-shirt</em> are owned by the category pages and are refused
+                here: they carry browsing intent, so they belong on a page that shows a range.
               </p>
 
               <label htmlFor="secondaryRaw">Secondary keywords</label>
@@ -133,7 +137,13 @@ export default function PositionsPage() {
                   )}
                 </td>
                 <td>
-                  <span className="kw">{r.primaryKeyword}</span>
+                  {r.primaryKeyword ? (
+                    <span className="kw">{r.primaryKeyword}</span>
+                  ) : (
+                    <span className="hint" style={{ color: 'var(--warn)' }}>
+                      not derived yet
+                    </span>
+                  )}
                 </td>
                 <td>
                   {r.secondaryKeywords.slice(0, 3).map((k) => (

@@ -9,6 +9,8 @@ interface Kw {
   text: string;
   type: 'PRIMARY' | 'SECONDARY';
   tier: Tier;
+  /** Set when a listing page owns this head term — products may then never target it. */
+  reservedFor: string | null;
   topic: string | null;
   /** Title of the position that already owns this keyword as its PRIMARY. */
   claimedBy: string | null;
@@ -44,6 +46,7 @@ export default function KeywordsPage() {
         text: form.get('text'),
         type: form.get('type'),
         tier: form.get('tier'),
+        reservedFor: form.get('reservedFor'),
         topic: form.get('topic'),
       }),
     });
@@ -100,6 +103,22 @@ export default function KeywordsPage() {
               <input id="topic" type="text" name="topic" placeholder="e.g. Witch Core" />
             </div>
           </div>
+
+          <label htmlFor="reservedFor">Owned by a listing page (optional)</label>
+          <input
+            id="reservedFor"
+            type="text"
+            name="reservedFor"
+            placeholder="e.g. Category: Gothic — leave empty for a normal keyword"
+          />
+          <p className="hint">
+            Name a page here and this becomes a <strong>head term</strong>: every product page
+            is then forbidden from targeting it, in the database and in the generated copy.
+            Head terms like <em>gothic t-shirt</em> carry browsing intent — the searcher wants
+            to pick from a range — so they belong on a page that shows a range. A product
+            parked on one both disappoints the searcher and fights its own category for the
+            query.
+          </p>
           <div className="row">
             <button disabled={busy}>{busy ? 'Adding…' : 'Add'}</button>
           </div>
@@ -119,7 +138,7 @@ export default function KeywordsPage() {
               <th>Keyword</th>
               <th>Type</th>
               <th>Level</th>
-              <th>Topic</th>
+              <th>Owner</th>
               <th>Availability</th>
               <th />
             </tr>
@@ -140,9 +159,19 @@ export default function KeywordsPage() {
                     <span className="hint">—</span>
                   )}
                 </td>
-                <td className="hint">{k.topic || '—'}</td>
                 <td>
-                  {k.claimedBy ? (
+                  {k.reservedFor ? (
+                    <span className="kw">{k.reservedFor}</span>
+                  ) : (
+                    <span className="hint">{k.topic || '—'}</span>
+                  )}
+                </td>
+                <td>
+                  {k.reservedFor ? (
+                    <span className="hint" style={{ color: 'var(--bad)' }}>
+                      Head term — off-limits to every product page
+                    </span>
+                  ) : k.claimedBy ? (
                     <span className="hint" style={{ color: 'var(--bad)' }}>
                       Taken as primary by “{k.claimedBy}” — do not target again
                     </span>

@@ -36,49 +36,77 @@ describing something that is not in the picture. That is a lie to the customer a
 crawler, and it is the one failure mode the code refuses to allow: the endpoint returns
 `400` if the image has not been imported yet.
 
-## 3. Collection DNA
+## 3. The hierarchy — three things that must never be confused
 
-    aesthetic + product type + visual motif
-    (witchcore  +  graphic tee  +  botanical gothic)
+**Layer 0 — the concept category.** The brand's own taxonomy; *Witchcore* is one of the four.
+It decides what a print **means** and how it sounds. It carries no search demand by design,
+and that is not a defect: nobody types "tender thoughts t-shirt". Forcing a head term onto a
+concept category would kill the concept for a query it would not win anyway.
 
-The primary keyword usually carries **aesthetic + product type**. The secondary set must
-therefore supply the part the primary does not: the **visual motif** — plus the commercial
-and semantic reinforcement around it.
+**Layer 1 — the listing pages.** The category page is the hub and owns `witchcore t-shirt`.
+Beneath it sit four listing pages, each owning its own head term:
 
-## 4. Anti-cannibalization — enforced in three places
+| Listing page | Head term | Synonyms (same page — never a neighbouring one) |
+|---|---|---|
+| **Witchcore** (hub) | witchcore t-shirt | witch graphic tee, witch aesthetic shirt |
+| Gothic | gothic t-shirt | gothic graphic tee |
+| Occult | occult t-shirt | occult graphic tee |
+| Dark Botanical | dark botanical t-shirt | gothic floral t-shirt, occult botanical, botanical gothic |
+| Dark Romantic | dark romantic clothing | — |
 
-1. **Database** — `Position.primaryKeyword` is `@unique`. Two prints cannot target one query.
-2. **Suggestion time** — a suggested keyword that contains, or is contained by, another
-   position's primary is returned **blocked**, with the colliding product named. Same for a
-   keyword already used as a secondary elsewhere (mass repeats blur both pages), and for a
-   restatement of this page's own primary.
-3. **Generation time** — every other position's primary is passed to the model as a reserved
-   list, and `validate.ts` re-checks the finished copy for each one. A violation rejects the
-   copy and regenerates it (×3), then leaves it as `DRAFT` with the rule named.
+`/collection/…` is a page template, not a taxonomy, so these pages cost nothing to add and
+can be titled freely. Head terms carry **browsing** intent — the searcher wants to choose
+from a range — so they belong on a page that shows a range. All 12 supplied keywords are head
+terms or synonyms of one, so all 12 live here and **none is left on a product**.
+
+**Layer 2 — the products.** Each supports exactly one listing page (its `cluster`) and owns a
+long-tail primary anchored on the motif actually printed on it.
+
+## 4. The lane is fixed before generation, not during it
+
+A position carries `category` (the brand lane) and `cluster` (the listing page it supports).
+Both are set **before** the model runs, and both are fed to it. Together they decide:
+
+- which head terms are **off-limits** — the ones its own listing page owns;
+- which siblings it must stay **distinguishable** from — the ones in the same lane;
+- the **voice** — which of the four concepts this print speaks in.
+
+Without them the model re-guesses its lane on every run, and sooner or later guesses its way
+into a neighbour's. `Collection DNA` — *aesthetic + product type + visual motif* — then
+divides cleanly: the listing page already carries the aesthetic and the product type, so the
+product's job is the **motif**, the part nothing else in the catalogue can claim.
 
 ## 5. The 14 positions
 
-`title` = print name (a generation source, not a label). `H1` = unified SEO title.
+All fourteen sit in the **Witchcore** concept category. `title` is the print name — a
+generation *source*, not a label. `cluster` is the listing page each one supports, and it is
+fixed **before** generation. The primary is blank on purpose: it is a long-tail query anchored
+on the motif, so it can only be read off the artwork.
 
-| ID | Print | Primary keyword | H1 | Capsule |
+| ID | Print | Cluster | Primary | Provisional primary it replaced |
 |---|---|---|---|---|
-| WC-01 | Read My Aura | witch graphic tee | Witch Graphic T-Shirt — Read My Aura | stand-alone |
-| WC-02 | We Gather Under No God | witchcore t-shirt | Witchcore T-Shirt — We Gather Under No God | stand-alone |
-| WC-03 | Fortune Teller's Hands | occult graphic tee | Occult Graphic T-Shirt — Fortune Teller's Hands | stand-alone |
-| WC-04 | Beauty with Bite | gothic floral t-shirt | Gothic Floral T-Shirt — Beauty with Bite | stand-alone |
-| WC-05 | Hex and Bloom | gothic graphic tee | Gothic Graphic T-Shirt — Hex and Bloom | Hex and Bloom |
-| WC-06 | Hex and Bloom | dark botanical t-shirt | Dark Botanical T-Shirt — Hex and Bloom | Hex and Bloom |
-| WC-07 | Hex and Bloom | occult botanical | Occult Botanical T-Shirt — Hex and Bloom | Hex and Bloom |
-| WC-08 | Witch | witch aesthetic shirt | Witch Aesthetic T-Shirt — Witch | Witch |
-| WC-09 | Witch | botanical gothic | Botanical Gothic T-Shirt — Witch | Witch |
-| WC-10 | Blessed | dark romantic tee | Dark Romantic T-Shirt — Blessed | stand-alone |
-| WC-11 | Poison Garden | dark aesthetic shirt | Dark Aesthetic T-Shirt — Poison Garden | Poison Garden |
-| WC-12 | Poison Garden | gothic t-shirt | Gothic T-Shirt — Poison Garden | Poison Garden |
-| WC-13 | Poison Garden | occult t-shirt | Occult T-Shirt — Poison Garden | Poison Garden |
-| WC-14 | Poison Garden | dark symbolic tee | Dark Symbolic T-Shirt — Poison Garden | Poison Garden |
+| WC-01 | Read My Aura | Witchcore | *from the print* | witch graphic tee |
+| WC-02 | We Gather Under No God | Witchcore | *from the print* | witchcore t-shirt |
+| WC-03 | Fortune Teller's Hands | Occult | *from the print* | occult graphic tee |
+| WC-04 | Beauty with Bite | Dark Botanical | *from the print* | gothic floral t-shirt |
+| WC-05 | Hex and Bloom | Gothic | *from the print* | gothic graphic tee |
+| WC-06 | Hex and Bloom | Dark Botanical | *from the print* | dark botanical t-shirt |
+| WC-07 | Hex and Bloom | Dark Botanical | *from the print* | occult botanical |
+| WC-08 | Witch | Witchcore | *from the print* | witch aesthetic shirt |
+| WC-09 | Witch | Dark Botanical | *from the print* | botanical gothic |
+| WC-10 | Blessed | Dark Romantic | *from the print* | dark romantic tee |
+| WC-11 | Poison Garden | Dark Botanical ⚠ | *from the print* | dark aesthetic shirt |
+| WC-12 | Poison Garden | Gothic | *from the print* | gothic t-shirt |
+| WC-13 | Poison Garden | Occult | *from the print* | occult t-shirt |
+| WC-14 | Poison Garden | Occult ⚠ | *from the print* | dark symbolic tee |
 
-Secondary sets are built per position from the imported artwork. They are deliberately not
-seeded here.
+Each cluster is taken from the provisional primary the original table gave that print — that
+phrase is the table's own statement of what the product is about, so it is evidence rather
+than invention. ⚠ marks the two whose provisional primary belonged to no cluster at all
+("dark aesthetic shirt", "dark symbolic tee"); their lane is inferred from the Poison Garden
+capsule and must be confirmed against the artwork.
+
+Neither the primaries nor the secondary sets are seeded. Both come from the prints.
 
 ## 6. Audit of the primary layer
 

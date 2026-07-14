@@ -6,7 +6,8 @@ interface Position {
   id: string;
   title: string;
   seoTitle: string;
-  primaryKeyword: string;
+  /** Null until the artwork has been read — a product primary is derived, not typed in. */
+  primaryKeyword: string | null;
   secondaryKeywords: string[];
   category: string;
   materials: string;
@@ -15,6 +16,7 @@ interface Position {
   sizes: string;
   colors: string;
   price: string;
+  cluster: string;
   extraNotes: string;
   slug: string;
   description: string;
@@ -55,6 +57,8 @@ interface Suggestion {
 }
 
 interface KeywordSuggestions {
+  /** The long-tail, motif-anchored primary derived from the print. */
+  primary: { text: string; rationale: string; conflict?: string; alreadySet: boolean };
   /** What the model concluded the product IS, after reading the print. */
   entity: string;
   /** Objects it can actually see in the image — the ground truth for motif keywords. */
@@ -95,6 +99,7 @@ export default function PositionCard({ params }: { params: { id: string } }) {
   const [translating, setTranslating] = useState(false);
   // Secondary keywords derived from the print itself. The textarea is controlled from here
   // so that accepting a suggestion actually lands in the field the user then saves.
+  const [primary, setPrimary] = useState('');
   const [secondary, setSecondary] = useState('');
   const [sugg, setSugg] = useState<KeywordSuggestions | null>(null);
   const [suggesting, setSuggesting] = useState(false);
@@ -106,6 +111,7 @@ export default function PositionCard({ params }: { params: { id: string } }) {
       setP(data);
       setMetaTitle(data.metaTitle);
       setMetaDesc(data.seoDescription);
+      setPrimary(data.primaryKeyword || '');
       setSecondary(data.secondaryKeywords.join('\n'));
     }
   }
@@ -300,10 +306,20 @@ export default function PositionCard({ params }: { params: { id: string } }) {
               <input id="seoTitle" type="text" name="seoTitle" defaultValue={p.seoTitle} />
 
               <label htmlFor="primaryKeyword">Primary keyword</label>
-              <input id="primaryKeyword" type="text" name="primaryKeyword" defaultValue={p.primaryKeyword} />
+              <input
+                id="primaryKeyword"
+                type="text"
+                name="primaryKeyword"
+                value={primary}
+                onChange={(e) => setPrimary(e.target.value)}
+                placeholder="Not derived yet — build it from the print"
+              />
               <p className="hint">
-                Used exactly once in each of: product name, first paragraph, meta title, meta
-                description. Unique across all positions — no cannibalization.
+                A <strong>long-tail query anchored on the motif</strong> that is actually drawn
+                on this shirt. Used exactly once in each of: product name, description, meta
+                title, meta description. Head terms such as <em>gothic t-shirt</em> belong to
+                the category pages and are refused here — they carry browsing intent, so a
+                product page cannot win them and should not fight for them.
               </p>
 
               <label htmlFor="secondaryRaw">Secondary keywords</label>
@@ -340,7 +356,37 @@ export default function PositionCard({ params }: { params: { id: string } }) {
         {/* ---------- keywords derived from the print ---------- */}
         {sugg && (
           <div className="card">
-            <h2 style={{ marginTop: 0 }}>Secondary keywords from the print</h2>
+            <h2 style={{ marginTop: 0 }}>Keywords from the print</h2>
+
+            {/* The primary is the load-bearing decision — it says which query this page owns. */}
+            {sugg.primary?.text && (
+              <div className={`suggestion ${sugg.primary.conflict ? 'blocked' : ''}`}>
+                <span className="tier COMMERCIAL">PRIMARY</span>
+                <div className="grow">
+                  <strong>{sugg.primary.text}</strong>
+                  <p className="hint" style={{ margin: '2px 0 0' }}>
+                    {sugg.primary.conflict ? (
+                      <span style={{ color: 'var(--bad)' }}>{sugg.primary.conflict}</span>
+                    ) : sugg.primary.alreadySet ? (
+                      'Already set on this position — left untouched.'
+                    ) : (
+                      sugg.primary.rationale
+                    )}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="ghost"
+                  disabled={!!sugg.primary.conflict || sugg.primary.alreadySet}
+                  onClick={() => {
+                    setPrimary(sugg.primary.text);
+                    setOk('Primary keyword set — press Save to keep it.');
+                  }}
+                >
+                  {sugg.primary.conflict ? 'Blocked' : sugg.primary.alreadySet ? 'Kept' : 'Use'}
+                </button>
+              </div>
+            )}
 
             {sugg.entity && (
               <p className="hint" style={{ marginTop: 0 }}>
@@ -411,8 +457,21 @@ export default function PositionCard({ params }: { params: { id: string } }) {
           </p>
           <div className="grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
             <div>
-              <label htmlFor="category">Category</label>
-              <input id="category" type="text" name="category" defaultValue={p.category} placeholder="Graphic Tees" />
+              <label htmlFor="category">Concept category — the brand lane</label>
+              <input id="category" type="text" name="category" defaultValue={p.category} placeholder="Witchcore" />
+              <p className="hint">
+                One of the brand&apos;s four concepts. It decides what this print MEANS and how
+                it sounds — it is not a search term and is not meant to be one.
+              </p>
+
+              <label htmlFor="cluster">Listing page it supports</label>
+              <input id="cluster" type="text" name="cluster" defaultValue={p.cluster} placeholder="Dark Botanical" />
+              <p className="hint">
+                Set this <strong>before</strong> generating. It pins the trajectory: the head
+                terms that page owns become off-limits, and the siblings in the same lane
+                become the products this print must stay distinguishable from. Leave it blank
+                and the model re-guesses its lane every run.
+              </p>
               <label htmlFor="materials">Materials</label>
               <input id="materials" type="text" name="materials" defaultValue={p.materials} placeholder="100% combed cotton, 180gsm" />
               <label htmlFor="fit">Fit</label>
