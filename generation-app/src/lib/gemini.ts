@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI, SchemaType } from '@google/generative-ai';
+import type { BrandProfile } from '@prisma/client';
 import { buildSystemInstruction, buildUserPrompt, type GenerationInput } from './prompt';
 import { validateCopy, type GeneratedCopy, type Violation } from './validate';
 
@@ -59,10 +60,13 @@ export interface GenerateResult {
 export async function generateCopy(
   input: GenerationInput,
   image: { data: Buffer; mimeType: string },
+  brand: BrandProfile,
 ): Promise<GenerateResult> {
   const model = client().getGenerativeModel({
     model: MODEL,
-    systemInstruction: buildSystemInstruction(),
+    // The brand foundation is the system instruction: it is the ground the copy stands on,
+    // not an afterthought appended to the request.
+    systemInstruction: buildSystemInstruction(brand),
     generationConfig: {
       // Low temperature: this is a rules-following task, not a creative free-for-all.
       temperature: 0.4,
@@ -75,6 +79,7 @@ export async function generateCopy(
     primaryKeyword: input.primaryKeyword,
     secondaryKeywords: input.secondaryKeywords,
     reservedKeywords: input.reservedKeywords,
+    bannedWords: brand.bannedWords,
   };
 
   const imagePart = {

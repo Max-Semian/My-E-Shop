@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma, reservedKeywordsExcept } from '@/lib/db';
 import { isAuthenticated } from '@/lib/auth';
 import { generateCopy } from '@/lib/gemini';
+import { getBrandProfile } from '@/lib/brand';
 
 export const maxDuration = 60;
 
@@ -20,7 +21,10 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
   }
 
   // Every other position's primary keyword is off-limits for this one.
-  const reservedKeywords = await reservedKeywordsExcept(position.id);
+  const [reservedKeywords, brand] = await Promise.all([
+    reservedKeywordsExcept(position.id),
+    getBrandProfile(),
+  ]);
 
   const { copy, violations, attempts } = await generateCopy(
     {
@@ -39,6 +43,7 @@ export async function POST(_req: Request, { params }: { params: { id: string } }
       extraNotes: position.extraNotes,
     },
     { data: Buffer.from(position.imageData), mimeType: position.imageMime },
+    brand,
   );
 
   // Copy that still breaks a hard rule after the retries is NOT marked as final — it is

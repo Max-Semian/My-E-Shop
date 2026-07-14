@@ -1,14 +1,19 @@
 /**
- * Code-level enforcement of the SEO field rules (docs/woocommerce-prompt-template.md).
+ * Code-level enforcement of the field rules.
  *
- * The prompt asks the model to respect hard counts and lengths. This file assumes it did
- * NOT. Every count and length is re-derived from the generated output, so a model that
- * stuffs keywords, writes a 200-char meta description, or duplicates alt texts cannot get
- * its output saved — it is rejected and regenerated with the violations fed back.
- * This, not the prompt, is what actually guarantees the rules hold.
+ * The prompt states hard counts and lengths. This file assumes the model ignored them.
+ * Every count is re-derived from the generated output, so copy that stuffs keywords,
+ * overruns the meta description, or pads the description past two sentences cannot be
+ * saved — it is rejected and regenerated with the violations fed back. This, not the
+ * prompt, is what actually guarantees the rules hold.
+ *
+ * Note on keyword density: the old 2% density ceiling was removed on purpose. With a
+ * two-sentence description (~40 words) a single three-word keyword is already ~7%, so the
+ * metric is meaningless at this length and would reject every valid answer. The hard
+ * per-field counts ("exactly once") do the work instead.
  */
 
-import { META_TITLE_MAX, META_DESCRIPTION_MAX } from './prompt';
+import { META_TITLE_MAX, META_DESCRIPTION_MAX, DESCRIPTION_SENTENCES } from './prompt';
 
 export interface GeneratedCopy {
   name: string;
@@ -28,12 +33,13 @@ export interface RuleContext {
   primaryKeyword: string;
   secondaryKeywords: string[];
   reservedKeywords: string[];
+  /** From the brand profile — words that must never appear in customer-facing copy. */
+  bannedWords: string[];
 }
 
-export const MAX_KEYWORD_DENSITY = 0.02;
 const IMAGE_VIEWS = 5;
 
-/** Cliché openers the framework bans outright. */
+/** Cliché openers banned outright. */
 const CLICHE_OPENERS = [
   'discover',
   'introducing',
@@ -44,9 +50,6 @@ const CLICHE_OPENERS = [
   'say hello to',
   'welcome to',
 ];
-
-/** Fulfilment partners that must never surface in customer-facing copy. */
-const SUPPLIER_NAMES = ['printful', 'printify', 'gelato', 'gooten'];
 
 /** Count non-overlapping, case-insensitive occurrences of a phrase, on word boundaries. */
 export function countPhrase(haystack: string, phrase: string): number {
@@ -65,17 +68,12 @@ function wordCount(text: string): number {
   return (text.trim().match(/[\p{L}\p{N}'-]+/gu) || []).length;
 }
 
-/** First <p> of the HTML description, or the first sentence if there is no markup. */
-function firstParagraph(html: string): string {
-  const m = html.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
-  return stripHtml(m ? m[1] : html.split(/\n\n/)[0] || '');
-}
-
-function sentences(text: string): string[] {
+/** Split into sentences. Abbreviations are rare in this copy, so the naive split is fine. */
+function splitSentences(text: string): string[] {
   return stripHtml(text)
     .split(/(?<=[.!?])\s+/)
-    .map((s) => s.trim().toLowerCase())
-    .filter((s) => s.length > 25);
+    .map((s) => s.trim())
+    .filter(Boolean);
 }
 
 export interface Violation {
@@ -87,21 +85,56 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
   const v: Violation[] = [];
   const push = (rule: string, detail: string) => v.push({ rule, detail });
 
-  const descText = stripHtml(copy.description || '');
+  const rawDesc = copy.description || '';
+  const descText = stripHtml(rawDesc);
   const shortText = stripHtml(copy.shortDescription || '');
   const name = copy.name || '';
   const metaTitle = copy.metaTitle || '';
   const metaDesc = copy.metaDescription || '';
   const kw = ctx.primaryKeyword;
 
+  // ---------- description: exactly two sentences, plain prose ----------
+  const descSentences = splitSentences(rawDesc);
+  if (descSentences.length !== DESCRIPTION_SENTENCES) {
+    push(
+      'description_sentence_count',
+      `Description must be exactly ${DESCRIPTION_SENTENCES} sentences; got ${descSentences.length}. This brand does not want long copy.`,
+    );
+  }
+  if (/<(h[1-6]|ul|ol|li)\b/i.test(rawDesc)) {
+    push(
+      'description_has_sections',
+      'Description must be plain prose — no headings, lists or HTML sections.',
+    );
+  }
+  const descWords = wordCount(descText);
+  if (descWords > 0 && (descWords < 20 || descWords > 80)) {
+    push('description_length', `Description is ${descWords} words; two sentences should land around 30–60.`);
+  }
+
+  // ---------- shortDescription: one line, not a restatement ----------
+  const shortSentences = splitSentences(copy.shortDescription || '');
+  if (shortSentences.length > 2) {
+    push('short_description_too_long', `shortDescription should be one short line; got ${shortSentences.length} sentences.`);
+  }
+  const longNormalized = new Set(descSentences.map((s) => s.toLowerCase()));
+  for (const s of shortSentences) {
+    if (longNormalized.has(s.toLowerCase())) {
+      push(
+        'short_description_duplicates',
+        'shortDescription reuses a sentence from the description. It must be a different angle.',
+      );
+      break;
+    }
+  }
+
   // ---------- primary keyword: exactly once per field ----------
-  const exactlyOnce: Array<[string, string]> = [
+  for (const [field, text] of [
     ['name', name],
     ['description', descText],
     ['metaTitle', metaTitle],
     ['metaDescription', metaDesc],
-  ];
-  for (const [field, text] of exactlyOnce) {
+  ] as Array<[string, string]>) {
     const n = countPhrase(text, kw);
     if (n !== 1) {
       push(
@@ -111,19 +144,8 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
     }
   }
   if (countPhrase(shortText, kw) > 1) {
-    push(
-      'primary_keyword_short',
-      `Primary keyword "${kw}" appears more than once in "shortDescription". Max is 1x.`,
-    );
+    push('primary_keyword_short', `Primary keyword "${kw}" appears more than once in "shortDescription". Max 1x.`);
   }
-  // Placement: it has to be in the opening paragraph, not buried at the end.
-  if (countPhrase(firstParagraph(copy.description || ''), kw) !== 1) {
-    push(
-      'primary_keyword_placement',
-      `Primary keyword "${kw}" must sit in the FIRST paragraph of the description, exactly once.`,
-    );
-  }
-  // metaTitle must lead with it.
   if (metaTitle && !metaTitle.toLowerCase().trim().startsWith(kw.toLowerCase().trim())) {
     push('meta_title_keyword_first', `"metaTitle" must start with the primary keyword "${kw}".`);
   }
@@ -134,15 +156,13 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
     if (n > 1) {
       push(
         'secondary_keyword_repeat',
-        `Secondary keyword "${k}" appears ${n}x in the description. Max is 1x — remove the extra uses or drop it.`,
+        `Secondary keyword "${k}" appears ${n}x in the description. Max 1x — remove the extra use or drop it.`,
       );
     }
-    const elsewhere =
-      countPhrase(metaTitle, k) + countPhrase(metaDesc, k) + countPhrase(shortText, k);
-    if (elsewhere > 0) {
+    if (countPhrase(metaTitle, k) + countPhrase(metaDesc, k) + countPhrase(shortText, k) > 0) {
       push(
         'secondary_keyword_outside_description',
-        `Secondary keyword "${k}" may only appear in the description, but was found in the meta/short fields.`,
+        `Secondary keyword "${k}" may only appear in the description, but was found in a meta/short field.`,
       );
     }
   }
@@ -150,10 +170,7 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
   // ---------- cannibalization ----------
   for (const k of ctx.reservedKeywords) {
     const n =
-      countPhrase(descText, k) +
-      countPhrase(metaDesc, k) +
-      countPhrase(metaTitle, k) +
-      countPhrase(name, k);
+      countPhrase(descText, k) + countPhrase(metaDesc, k) + countPhrase(metaTitle, k) + countPhrase(name, k);
     if (n > 0) {
       push(
         'cannibalization',
@@ -167,56 +184,25 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
     push('meta_title_too_long', `metaTitle is ${metaTitle.length} chars, max ${META_TITLE_MAX}.`);
   }
   if (metaDesc.length > META_DESCRIPTION_MAX) {
-    push(
-      'meta_description_too_long',
-      `metaDescription is ${metaDesc.length} chars, max ${META_DESCRIPTION_MAX}.`,
-    );
+    push('meta_description_too_long', `metaDescription is ${metaDesc.length} chars, max ${META_DESCRIPTION_MAX}.`);
   }
   if (metaDesc.length < 70) {
     push('meta_description_too_short', `metaDescription is only ${metaDesc.length} chars.`);
   }
-  const descWords = wordCount(descText);
-  if (descWords < 110) {
-    push('description_too_short', `Description is ${descWords} words; aim for 130–200.`);
-  }
 
-  // ---------- shortDescription must not restate the long one ----------
-  const longSentences = new Set(sentences(copy.description || ''));
-  for (const s of sentences(copy.shortDescription || '')) {
-    if (longSentences.has(s)) {
-      push(
-        'short_description_duplicates',
-        'shortDescription reuses a sentence from the long description. It must add a distinct angle.',
-      );
-      break;
+  // ---------- brand: banned words and cliché openers ----------
+  const haystack = [name, descText, shortText, metaTitle, metaDesc].join(' ').toLowerCase();
+  for (const w of ctx.bannedWords) {
+    const t = w.trim().toLowerCase();
+    if (t && haystack.includes(t)) {
+      push('banned_word', `"${w}" is on the brand's banned list and must never appear in copy.`);
     }
   }
-
-  // ---------- keyword density ----------
-  if (descWords > 0) {
-    const all = [kw, ...ctx.secondaryKeywords];
-    const kwWords = all.reduce((sum, k) => sum + countPhrase(descText, k) * wordCount(k), 0);
-    const density = kwWords / descWords;
-    if (density > MAX_KEYWORD_DENSITY) {
-      push(
-        'keyword_density',
-        `Keyword density is ${(density * 100).toFixed(1)}% (max ${(MAX_KEYWORD_DENSITY * 100).toFixed(0)}%). Rewrite with fewer keyword mentions.`,
-      );
-    }
-  }
-
-  // ---------- style: cliché openers and supplier names ----------
-  const opener = (descText + ' ').trim().toLowerCase();
+  const opener = descText.toLowerCase();
   for (const c of CLICHE_OPENERS) {
     if (opener.startsWith(c)) {
       push('cliche_opener', `The description opens with the banned cliché "${c}…". Rewrite the opening.`);
       break;
-    }
-  }
-  const haystack = [name, descText, shortText, metaTitle, metaDesc].join(' ').toLowerCase();
-  for (const s of SUPPLIER_NAMES) {
-    if (haystack.includes(s)) {
-      push('supplier_mentioned', `The fulfilment partner "${s}" must never appear in customer-facing copy.`);
     }
   }
 
@@ -227,7 +213,7 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
   } else {
     const parts = slug.split('-').length;
     if (parts < 3 || parts > 8) {
-      push('slug_length', `slug has ${parts} words; it should be 4–8 (3 accepted at a push).`);
+      push('slug_length', `slug has ${parts} words; aim for 4–8.`);
     }
   }
 
@@ -246,8 +232,8 @@ export function validateCopy(copy: GeneratedCopy, ctx: RuleContext): Violation[]
   if (files.length !== IMAGE_VIEWS) {
     push('image_filenames_count', `Expected exactly ${IMAGE_VIEWS} filenames, got ${files.length}.`);
   }
-  const normalized = alts.map((a) => a.trim().toLowerCase());
-  if (new Set(normalized).size !== normalized.length) {
+  const normalizedAlts = alts.map((a) => a.trim().toLowerCase());
+  if (new Set(normalizedAlts).size !== normalizedAlts.length) {
     push('images_alt_duplicate', 'Alt texts must all be distinct — duplicates found.');
   }
   for (const f of files) {

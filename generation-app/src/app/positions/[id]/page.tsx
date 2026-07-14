@@ -35,6 +35,15 @@ interface Violation {
   detail: string;
 }
 
+interface Translation {
+  description: string;
+  shortDescription: string;
+  metaTitle: string;
+  metaDescription: string;
+  tags: string[];
+  imagesAlt: string[];
+}
+
 const META_TITLE_MAX = 70;
 const META_DESC_MAX = 165;
 
@@ -55,6 +64,10 @@ export default function PositionCard({ params }: { params: { id: string } }) {
   const [ok, setOk] = useState('');
   const [metaTitle, setMetaTitle] = useState('');
   const [metaDesc, setMetaDesc] = useState('');
+  // Russian preview: a reading aid only. Never saved, never exported — the storefront
+  // is English, so the English copy stays the single source of truth.
+  const [ru, setRu] = useState<Translation | null>(null);
+  const [translating, setTranslating] = useState(false);
 
   async function load() {
     const res = await fetch(`/api/positions/${params.id}`);
@@ -128,6 +141,23 @@ export default function PositionCard({ params }: { params: { id: string } }) {
     }
     await navigator.clipboard.writeText(JSON.stringify(data.payload, null, 2));
     setOk('WooCommerce payload copied to clipboard.');
+  }
+
+  async function translate() {
+    if (ru) {
+      setRu(null); // toggle the panel off
+      return;
+    }
+    setTranslating(true);
+    setError('');
+    const res = await fetch(`/api/positions/${params.id}/translate`, { method: 'POST' });
+    setTranslating(false);
+    const data = await res.json().catch(() => null);
+    if (!res.ok || !data) {
+      setError(data?.error || 'Translation failed');
+      return;
+    }
+    setRu(data);
   }
 
   async function remove() {
@@ -283,8 +313,12 @@ export default function PositionCard({ params }: { params: { id: string } }) {
             style={{ minHeight: 70 }}
           />
 
-          <label htmlFor="description">Long description (HTML)</label>
-          <textarea id="description" name="description" defaultValue={p.description} style={{ minHeight: 200 }} />
+          <label htmlFor="description">Description — two sentences</label>
+          <textarea id="description" name="description" defaultValue={p.description} style={{ minHeight: 110 }} />
+          <p className="hint">
+            Exactly two sentences — this brand does not want long copy. Anything longer is
+            rejected and regenerated.
+          </p>
 
           <label htmlFor="tagsRaw">Tags (3–5)</label>
           <textarea id="tagsRaw" name="tagsRaw" defaultValue={p.tags.join('\n')} style={{ minHeight: 70 }} />
@@ -331,12 +365,54 @@ export default function PositionCard({ params }: { params: { id: string } }) {
             <button type="button" className="ghost" onClick={exportWc}>
               Copy WooCommerce JSON
             </button>
+            <button type="button" className="ghost" onClick={translate} disabled={translating}>
+              {translating ? 'Translating…' : ru ? 'Hide Russian' : 'View in Russian'}
+            </button>
             <button type="button" className="danger" onClick={remove}>
               Delete
             </button>
           </div>
         </div>
       </form>
+
+      {ru && (
+        <div className="card" style={{ background: '#faf6ff', borderColor: '#e3d3f7' }}>
+          <h2 style={{ marginTop: 0 }}>Russian preview</h2>
+          <div className="alert warn" style={{ marginTop: 0 }}>
+            Reading aid only. This translation is <strong>not saved</strong> and is
+            <strong> never exported</strong> — the storefront is English, so the English copy
+            above stays the source of truth.
+          </div>
+
+          <label>Description</label>
+          <p>{ru.description}</p>
+
+          <label>Short description</label>
+          <p>{ru.shortDescription}</p>
+
+          <label>Meta title</label>
+          <p>{ru.metaTitle}</p>
+
+          <label>Meta description</label>
+          <p>{ru.metaDescription}</p>
+
+          <label>Tags</label>
+          <div>
+            {ru.tags.map((t) => (
+              <span className="kw sec" key={t}>
+                {t}
+              </span>
+            ))}
+          </div>
+
+          <label>Image alt texts</label>
+          <ol className="hint" style={{ paddingLeft: 18 }}>
+            {ru.imagesAlt.map((a, i) => (
+              <li key={i}>{a}</li>
+            ))}
+          </ol>
+        </div>
+      )}
     </>
   );
 }

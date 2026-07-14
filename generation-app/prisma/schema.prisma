@@ -76,6 +76,36 @@ enum PositionStatus {
   APPROVED
 }
 
+/// The brand foundation. A single row (id = "default") that every generation is built on:
+/// the concept and archetype come FIRST in the prompt, before the print and the keywords,
+/// because they decide the voice. Change this and every future generation changes with it.
+model BrandProfile {
+  id        String   @id @default("default")
+  updatedAt DateTime @updatedAt
+
+  brandName String @default("Cretho")
+
+  /// The core idea of the brand — its manifesto in a few sentences.
+  concept String @default("")
+
+  /// Brand archetype (e.g. The Magician, The Rebel, The Creator) — drives the voice.
+  archetype String @default("")
+  /// How that archetype actually shows up in copy: what it does and does not sound like.
+  archetypeNotes String @default("")
+
+  /// Who we are speaking to.
+  audience String @default("")
+  /// Tone rules, in plain language.
+  toneOfVoice String @default("")
+  /// What the brand actually promises the customer.
+  valueProps String @default("")
+
+  /// Preferred terminology ("tee" not "shirt", etc.).
+  vocabulary String @default("")
+  /// Words and phrases that must never appear in generated copy.
+  bannedWords String[] @default([])
+}
+
 /// Reusable keyword list. Secondary keywords are picked from here.
 /// A keyword already claimed by a Position as its PRIMARY is flagged in the UI so it
 /// cannot be reused and cause cannibalization.
