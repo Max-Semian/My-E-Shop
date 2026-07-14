@@ -18,7 +18,16 @@ model Position {
   // ---------- inputs: the print ----------
   /// Main print name (human title).
   title     String
-  /// Print image stored inline — avoids needing a volume/bucket.
+  /// The print image, stored inline in Postgres — deliberately NOT on a Railway volume.
+  ///
+  /// Postgres is a separate service with its own storage, so these bytes already survive a
+  /// redeploy of the app. A volume would be a step backwards, not forwards: volume contents
+  /// are not included in Railway's database backups, and the volume would pin the service to
+  /// one region and one replica. Lose the volume and the prints are gone; lose the container
+  /// and nothing happens at all.
+  ///
+  /// Revisit only if the catalogue grows to thousands of heavy prints, at which point the
+  /// right move is object storage (S3/R2) with a URL here — not a disk.
   imageData Bytes?
   imageMime String?
 
