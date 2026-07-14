@@ -93,17 +93,11 @@ Still return it in "primary", unchanged, with a one-line rationale.
 # YOUR FIRST JOB: THE PRIMARY KEYWORD
 This page has no primary keyword yet. Derive one FROM THE PRINT.
 
-This catalogue is built in TWO LAYERS:
-  - Category and collection pages own the HEAD TERMS ("gothic t-shirt", "occult t-shirt").
-    Those queries carry BROWSING intent: the searcher wants to choose from a range. They are
-    RESERVED. You may never propose one, or a synonym of one, for a product.
-  - A PRODUCT page owns a LONG-TAIL query anchored on THE MOTIF ACTUALLY PRINTED ON IT.
-    That is a query no other product in the catalogue can claim, so cannibalization does not
-    arise — the queries are simply different things.
+Every other position in this category already owns its own query. Yours must be a query
+NOTHING ELSE can claim, or you are simply taking a share of a page that already exists.
 
 Shape it as:  [motif] (+ aesthetic) + [product noun]
   good:  "tarot hands t-shirt", "moth graphic tee", "belladonna print shirt"
-  bad:   "gothic t-shirt"      (a head term — reserved for the category)
   bad:   "dark symbolic tee"   (nobody types this; it names nothing)
   bad:   "beautiful witchy top" (not a query, just adjectives)
 
@@ -239,21 +233,17 @@ CONCEPT CATEGORY — the brand's own lane. It decides what this print MEANS and 
 It is not a search term and is not meant to be one.
 ${category}
 
-LISTING PAGE THIS PRODUCT SUPPORTS — its cluster inside the category
+THEMATIC LANE inside the category
 ${cluster}
+Not a page and it owns no keyword. It exists to tell you WHICH siblings you can actually
+collide with, so you do not have to weigh all thirteen equally.
 
-THE HEAD TERMS OWNED BY THAT LISTING PAGE
-${laneKeywords.length ? laneKeywords.map((k) => `  - ${k.text}`).join('\n') : '  (none registered)'}
-This is the topic you are inside. Your keywords must sit CLOSE to these — and must never BE
-one of them. The listing page ranks for them; this product page supports it from underneath
-with a query of its own that no listing page would ever target.
-
-COLLECTION DNA — how a product here is identified:
+COLLECTION DNA — how a position here is identified:
   aesthetic + product type + visual motif  (e.g. witchcore + graphic tee + botanical gothic)
-The listing page already carries the aesthetic and the product type. Your job is the MOTIF —
-the part nothing else in the catalogue can claim.
+The primary keyword already carries the aesthetic and the product type. Your job is the
+MOTIF — the part nothing else in the catalogue can claim.
 
-THE PRODUCTS IN THE SAME LANE — these are the ones you can actually collide with
+THE POSITIONS IN THE SAME LANE — these are the ones you can actually collide with
 ${cousins || '  (none yet)'}
 
 RESERVED KEYWORDS — owned by a category/collection page, or by another product. These are
@@ -298,7 +288,7 @@ The print image is attached. Read the motifs off the image, not off the title.
     if (!primaryText) {
       primaryConflict = 'No primary was proposed.';
     } else if (head) {
-      primaryConflict = `"${head}" is a head term owned by a listing page (or another product). A product page cannot target it.`;
+      primaryConflict = `Collides with "${head}", which another position already owns.`;
     } else if (!/\b(t-?shirt|tee|shirt|top)\b/i.test(primaryText)) {
       // Without a product noun it is not a purchase query, it is a mood.
       primaryConflict = 'A product primary must contain a product noun (t-shirt / tee / shirt).';

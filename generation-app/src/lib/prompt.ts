@@ -27,7 +27,7 @@ export interface GenerationInput {
   reservedKeywords: string[];
   /** The concept category — the brand lane this print speaks in. Shapes meaning, not SEO. */
   category?: string;
-  /** The listing page this product supports, and the head terms that page owns. */
+  /** The thematic lane inside the category. Not a page; it owns no keyword. */
   cluster?: string;
   laneKeywords?: string[];
   // Product facts — supplied so the model states them instead of inventing them.
@@ -217,13 +217,9 @@ WHERE THIS PRODUCT SITS — read this first; it fixes the lane before you write 
 Concept category: ${input.category || '(not set)'}
   The brand's own taxonomy. It decides what this print MEANS and how it sounds. It is not a
   search term and must not be written as one.
-Listing page it supports: ${input.cluster || '(not set)'}
-  Head terms that page owns — you support them, you never target them:
-${
-  input.laneKeywords?.length
-    ? input.laneKeywords.map((k) => `    - ${k}`).join('\n')
-    : '    (none registered)'
-}
+Thematic lane: ${input.cluster || '(not set)'}
+  Not a page. It marks the neighbours this print is closest to, and therefore the ones it
+  must not blur into.
 
 PRINT TITLE — the name of the print. This is a SOURCE, not decoration: it carries the
 concept behind the artwork. Read it together with the image; the image says what is drawn,

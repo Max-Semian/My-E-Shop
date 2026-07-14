@@ -37,11 +37,15 @@ model Position {
   /// "tender thoughts t-shirt", and that is fine — that is not what a concept category is for.
   category    String @default("")
 
-  /// The LISTING PAGE this product supports, inside its category — e.g. "Dark Botanical".
-  /// Fixed BEFORE generation on purpose. It pins the trajectory: it tells the model which
-  /// head terms are off-limits (the listing page owns them), and which siblings this print
-  /// must stay distinguishable from. Without it the model re-guesses its lane every run, and
-  /// sooner or later guesses its way into a neighbour's.
+  /// The THEMATIC LANE inside the category — e.g. "Dark Botanical", "Occult".
+  ///
+  /// It is NOT a page and owns no keyword: the category page owns all of those. Its only job
+  /// is separation between the prints. Fourteen prints in one category are close cousins, and
+  /// the ones that can actually collide are the ones in the same lane — so this is what tells
+  /// the model which siblings it must stay distinguishable from, out of thirteen it would
+  /// otherwise have to weigh equally.
+  ///
+  /// Fixed BEFORE generation on purpose. Without it the model re-derives its theme every run.
   cluster     String @default("")
   materials   String @default("")
   fit         String @default("")

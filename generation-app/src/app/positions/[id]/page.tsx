@@ -464,13 +464,14 @@ export default function PositionCard({ params }: { params: { id: string } }) {
                 it sounds — it is not a search term and is not meant to be one.
               </p>
 
-              <label htmlFor="cluster">Listing page it supports</label>
+              <label htmlFor="cluster">Thematic lane</label>
               <input id="cluster" type="text" name="cluster" defaultValue={p.cluster} placeholder="Dark Botanical" />
               <p className="hint">
-                Set this <strong>before</strong> generating. It pins the trajectory: the head
-                terms that page owns become off-limits, and the siblings in the same lane
-                become the products this print must stay distinguishable from. Leave it blank
-                and the model re-guesses its lane every run.
+                Set this <strong>before</strong> generating. It is not a page and owns no
+                keyword — its job is separation. Fourteen positions in one category are close
+                cousins, and the ones that can actually collide are the ones in the same lane.
+                This tells the model which siblings it must stay distinguishable from, instead
+                of weighing all thirteen equally.
               </p>
               <label htmlFor="materials">Materials</label>
               <input id="materials" type="text" name="materials" defaultValue={p.materials} placeholder="100% combed cotton, 180gsm" />
